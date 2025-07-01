@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bản Tin Nội Bộ</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            /* Light gray background */
+        }
+    </style>
+</head>
+
+<body class="flex min-h-screen">
+
+    <!-- Sidebar -->
+    <aside class="w-16 bg-blue-900 shadow-lg flex flex-col items-center py-4">
+        <div class="mb-8">
+            <!-- Placeholder for logo (matching the screenshot's gold/blue icon) -->
+            <div
+                class="h-10 w-10 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg flex items-center justify-center text-blue-900 text-xl font-bold">
+                <i class="fas fa-home"></i> <!-- Placeholder icon, adjust as needed -->
+            </div>
+        </div>
+        <nav class="flex flex-col space-y-6">
+            <a href="#" class="text-blue-200 hover:text-white transition-colors duration-200" title="Dashboard">
+                <i class="fas fa-th-large text-xl"></i>
+            </a>
+            <a href="#" class="p-2 bg-blue-700 rounded-md text-white shadow-md" title="News">
+                <i class="fas fa-newspaper text-xl"></i>
+            </a>
+            <a href="#" class="text-blue-200 hover:text-white transition-colors duration-200" title="Home">
+                <i class="fas fa-home text-xl"></i>
+            </a>
+            <a href="#" class="text-blue-200 hover:text-white transition-colors duration-200" title="Settings">
+                <i class="fas fa-pencil-alt text-xl"></i>
+            </a>
+        </nav>
+        <div class="mt-auto">
+            <a href="#" class="text-blue-200 hover:text-white transition-colors duration-200" title="Notifications">
+                <i class="fas fa-bell text-xl"></i>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col">
+        <!-- Top Header / Navbar -->
+        <header class="bg-white shadow-md p-4 flex items-center justify-between">
+            <div class="flex items-center">
+                <button class="md:hidden text-gray-500 mr-4 focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <span class="text-xl font-semibold text-gray-800">Bản Tin Nội Bộ</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="text-gray-600">Tìm</span>
+                <div
+                    class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold shadow-md">
+                    T</div>
+            </div>
+        </header>
+
+        <!-- Content Body -->
+        <main class="flex-1 p-6 overflow-auto">
+            <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <p class="text-sm text-gray-500 mb-2">Màn hình chính / Xem Bản Tin Nội Bộ</p>
+                <div class="flex flex-col sm:flex-row justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4 sm:mb-0">Nhóm Bản Tin</h2>
+                    <button
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md shadow-md flex items-center transition-colors duration-200">
+                        <i class="fas fa-plus mr-2"></i> Tạo Bài Viết Mới
+                    </button>
+                </div>
+
+
+                <!-- Search and Filter Section -->
+                <div class="flex flex-col md:flex-row gap-4 mb-8 items-center">
+                    <div class="relative w-full md:w-auto flex-grow">
+                        <select
+                            class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            <option>Chọn Nhóm Bản Tin</option>
+                            <option>Thông báo</option>
+                            <option>Tin tức nội bộ</option>
+                            <option>Sự kiện</option>
+                        </select>
+                        <div
+                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <i class="fas fa-chevron-down text-sm"></i>
+                        </div>
+                    </div>
+                    <input type="text" placeholder="Tên Bài Viết"
+                        class="flex-1 w-full md:w-auto px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    <button
+                        class="w-full md:w-auto bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-md shadow-md flex items-center justify-center transition-colors duration-200">
+                        <i class="fas fa-search mr-2"></i> TÌM KIẾM
+                    </button>
+                </div>
+
+                <!-- News Article List -->
+                <div class="space-y-4">
+                    <!-- Sample News Article 1 (Highlight for example) -->
+                    <div
+                        class="bg-blue-50 rounded-lg p-4 flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 shadow-sm">
+                        <div class="flex-shrink-0">
+                            <img src="https://placehold.co/80x80/E0F2FE/004085?text=DOC" alt="Document icon"
+                                class="rounded-md">
+                        </div>
+                        <div class="flex-grow">
+                            <div class="text-sm text-gray-500 mb-1 flex items-center">
+                                <i class="fas fa-calendar-alt mr-2"></i> 02-04-2024
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800">THÔNG BÁO THAY ĐỔI THỜI GIAN LÀM VIỆC</h3>
+                        </div>
+                        <div class="flex-shrink-0 flex space-x-3 mt-3 sm:mt-0">
+                            <button class="text-blue-600 hover:text-blue-800" title="Chỉnh sửa">
+                                <i class="fas fa-edit text-lg"></i>
+                            </button>
+                            <button class="text-red-600 hover:text-red-800" title="Xóa">
+                                <i class="fas fa-trash-alt text-lg"></i>
+                            </button>
+                            <!-- View button is implied by clicking the article, but can be explicit -->
+                            <button class="text-gray-600 hover:text-gray-800" title="Xem chi tiết">
+                                <i class="fas fa-eye text-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Sample News Article 2 -->
+                    <div
+                        class="bg-white rounded-lg p-4 flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 shadow-md">
+                        <div class="flex-shrink-0">
+                            <img src="https://placehold.co/80x80/F0F0F0/888888?text=NEWS" alt="News icon"
+                                class="rounded-md">
+                        </div>
+                        <div class="flex-grow">
+                            <div class="text-sm text-gray-500 mb-1 flex items-center">
+                                <i class="fas fa-calendar-alt mr-2"></i> 28-03-2024
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800">CẬP NHẬT CHÍNH SÁCH HOA HỒNG MỚI NĂM 2024
+                            </h3>
+                        </div>
+                        <div class="flex-shrink-0 flex space-x-3 mt-3 sm:mt-0">
+                            <button class="text-blue-600 hover:text-blue-800" title="Chỉnh sửa">
+                                <i class="fas fa-edit text-lg"></i>
+                            </button>
+                            <button class="text-red-600 hover:text-red-800" title="Xóa">
+                                <i class="fas fa-trash-alt text-lg"></i>
+                            </button>
+                            <button class="text-gray-600 hover:text-gray-800" title="Xem chi tiết">
+                                <i class="fas fa-eye text-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Sample News Article 3 -->
+                    <div
+                        class="bg-white rounded-lg p-4 flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 shadow-md">
+                        <div class="flex-shrink-0">
+                            <img src="https://placehold.co/80x80/F0F0F0/888888?text=EVENT" alt="Event icon"
+                                class="rounded-md">
+                        </div>
+                        <div class="flex-grow">
+                            <div class="text-sm text-gray-500 mb-1 flex items-center">
+                                <i class="fas fa-calendar-alt mr-2"></i> 15-03-2024
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800">THÔNG BÁO TỔ CHỨC TIỆC TẤT NIÊN CÔNG TY</h3>
+                        </div>
+                        <div class="flex-shrink-0 flex space-x-3 mt-3 sm:mt-0">
+                            <button class="text-blue-600 hover:text-blue-800" title="Chỉnh sửa">
+                                <i class="fas fa-edit text-lg"></i>
+                            </button>
+                            <button class="text-red-600 hover:text-red-800" title="Xóa">
+                                <i class="fas fa-trash-alt text-lg"></i>
+                            </button>
+                            <button class="text-gray-600 hover:text-gray-800" title="Xem chi tiết">
+                                <i class="fas fa-eye text-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Add more news articles as needed -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+
+</html>

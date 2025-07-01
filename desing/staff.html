@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Quản lý nhân viên & Hoạt động</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+        }
+
+        /* Custom scrollbar for the table */
+        .overflow-x-auto::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .overflow-x-auto::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .overflow-x-auto::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            /* Fixed height for the chart */
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 450px;
+                /* Slightly taller on larger screens */
+            }
+        }
+    </style>
+</head>
+
+<body class="flex min-h-screen">
+
+    <!-- Sidebar -->
+    <aside class="w-16 bg-white shadow-lg flex flex-col items-center py-4">
+        <div class="mb-8">
+            <!-- Placeholder for logo -->
+            <div
+                class="h-10 w-10 bg-blue-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
+                A</div>
+        </div>
+        <nav class="flex flex-col space-y-6">
+            <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors duration-200" title="Dashboard">
+                <i class="fas fa-th-large text-xl"></i>
+            </a>
+            <a href="#" class="p-2 bg-blue-100 rounded-md text-blue-600" title="Staff Management">
+                <i class="fas fa-users text-xl"></i>
+            </a>
+            <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors duration-200" title="Settings">
+                <i class="fas fa-cog text-xl"></i>
+            </a>
+        </nav>
+        <div class="mt-auto">
+            <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors duration-200" title="User Profile">
+                <i class="fas fa-user-circle text-xl"></i>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col">
+        <!-- Top Header / Navbar -->
+        <header class="bg-white shadow-md p-4 flex items-center justify-between">
+            <div class="text-lg font-semibold text-gray-800">Quản lý nhân viên</div>
+            <div class="flex items-center space-x-4">
+                <span class="text-gray-600">Tìm kiếm...</span>
+                <div
+                    class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-gray-700 font-semibold">
+                    T</div>
+                <button
+                    class="w-10 h-10 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center shadow-md transition-colors duration-200"
+                    title="Notifications">
+                    <i class="fas fa-bell"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Content Body -->
+        <main class="flex-1 p-6 overflow-auto">
+
+            <!-- Chart Section: Top Hoạt Động Trong 7 ngày qua -->
+            <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Top Hoạt Động Trong 7 ngày qua</h2>
+                <div class="chart-container">
+                    <canvas id="activityChart"></canvas>
+                </div>
+                <div class="flex flex-wrap justify-center gap-4 mt-6 text-sm text-gray-600">
+                    <div class="flex items-center">
+                        <span class="inline-block w-4 h-4 rounded-full bg-blue-500 mr-2"></span> Thêm mới
+                    </div>
+                    <div class="flex items-center">
+                        <span class="inline-block w-4 h-4 rounded-full bg-green-500 mr-2"></span> Xem số điện thoại
+                    </div>
+                    <div class="flex items-center">
+                        <span class="inline-block w-4 h-4 rounded-full bg-orange-500 mr-2"></span> Bổ sung thông tin nhà
+                    </div>
+                    <div class="flex items-center">
+                        <span class="inline-block w-4 h-4 rounded-full bg-gray-500 mr-2"></span> Tải File
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <div class="flex flex-col sm:flex-row justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4 sm:mb-0">Danh sách nhân viên</h2>
+                    <a href="create-staff.html"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md shadow-md flex items-center transition-colors duration-200">
+                        <i class="fas fa-plus mr-2"></i> Thêm nhân viên mới
+                    </a>
+                </div>
+
+                <!-- Search and Filter Section -->
+                <div class="mb-6 flex flex-col md:flex-row gap-4">
+                    <input type="text" placeholder="Tìm kiếm theo tên, email, mã nhân viên..."
+                        class="flex-1 form-input border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500">
+                    <select
+                        class="form-select border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option>Tất cả chức vụ</option>
+                        <option>Quản lý</option>
+                        <option>Nhân viên kinh doanh</option>
+                        <option>Hỗ trợ kỹ thuật</option>
+                    </select>
+                    <select
+                        class="form-select border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option>Tất cả trạng thái</option>
+                        <option>Hoạt động</option>
+                        <option>Nghỉ việc</option>
+                    </select>
+                </div>
+
+                <!-- Staff Table -->
+                <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Mã nhân viên</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Họ tên</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Email</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Chức vụ</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Trạng thái</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <!-- Sample Staff Row 1 -->
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">NV001</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Lê Tuấn Kiên KHV0220</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">tuan.kien@example.com</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Nhân viên kinh doanh</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Hoạt
+                                        động</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="#" class="text-blue-600 hover:text-blue-900 mr-3" title="Chỉnh sửa"><i
+                                            class="fas fa-edit"></i></a>
+                                    <a href="#" class="text-red-600 hover:text-red-900" title="Xóa"><i
+                                            class="fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                            <!-- Sample Staff Row 2 -->
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">NV002</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Phạm Công Minh NV0183</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">cong.minh@example.com</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Nhân viên kinh doanh</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Hoạt
+                                        động</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="#" class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                            class="fas fa-edit"></i></a>
+                                    <a href="#" class="text-red-600 hover:text-red-900"><i
+                                            class="fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                            <!-- Sample Staff Row 3 -->
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">NV003</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Lý Vũ Khôi NV0227</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">vu.khoi@example.com</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Hỗ trợ kỹ thuật</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Hoạt
+                                        động</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="#" class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                            class="fas fa-edit"></i></a>
+                                    <a href="#" class="text-red-600 hover:text-red-900"><i
+                                            class="fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                            <!-- Sample Staff Row 4 -->
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">NV004</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Phạm Xuân Hoàng NV0227
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">xuan.hoang@example.com
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Nhân viên kinh doanh</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Hoạt
+                                        động</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="#" class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                            class="fas fa-edit"></i></a>
+                                    <a href="#" class="text-red-600 hover:text-red-900"><i
+                                            class="fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                            <!-- Sample Staff Row 5 -->
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">NV005</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Đinh Phương Chính KHV023
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">phuong.chinh@example.com
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Quản lý</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Hoạt
+                                        động</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="#" class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                            class="fas fa-edit"></i></a>
+                                    <a href="#" class="text-red-600 hover:text-red-900"><i
+                                            class="fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                            <!-- Sample Staff Row 6 -->
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">NV006</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Đậu Thị Thùy Dương KHV023
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">thuy.duong@example.com
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Nhân viên kinh doanh</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Hoạt
+                                        động</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="#" class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                            class="fas fa-edit"></i></a>
+                                    <a href="#" class="text-red-600 hover:text-red-900"><i
+                                            class="fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                            <!-- Sample Staff Row 7 -->
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">NV007</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Nguyễn Văn Tuyển NV0230
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">van.tuyen@example.com</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Hỗ trợ kỹ thuật</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Hoạt
+                                        động</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="#" class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                            class="fas fa-edit"></i></a>
+                                    <a href="#" class="text-red-600 hover:text-red-900"><i
+                                            class="fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                            <!-- Sample Staff Row 8 -->
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">NV008</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Kiều Anh Sơn KH013</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">anh.son@example.com</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Nhân viên kinh doanh</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Hoạt
+                                        động</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="#" class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                            class="fas fa-edit"></i></a>
+                                    <a href="#" class="text-red-600 hover:text-red-900"><i
+                                            class="fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                            <!-- Sample Staff Row 9 -->
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">NV009</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">admin3 KHV0186</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">admin3@example.com</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Quản lý</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Hoạt
+                                        động</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="#" class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                            class="fas fa-edit"></i></a>
+                                    <a href="#" class="text-red-600 hover:text-red-900"><i
+                                            class="fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                            <!-- Add more staff rows as needed -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div
+                    class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 mt-6 rounded-lg shadow-sm">
+                    <div class="flex flex-1 justify-between sm:hidden">
+                        <a href="#"
+                            class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Trước</a>
+                        <a href="#"
+                            class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Sau</a>
+                    </div>
+                    <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                        <div>
+                            <p class="text-sm text-gray-700">
+                                Hiển thị <span class="font-medium">1</span> đến <span class="font-medium">10</span> của
+                                <span class="font-medium">Tổng số X</span> kết quả
+                            </p>
+                        </div>
+                        <div>
+                            <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                                <a href="#"
+                                    class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                                    <span class="sr-only">Trước</span>
+                                    <i class="fas fa-chevron-left"></i>
+                                </a>
+                                <a href="#" aria-current="page"
+                                    class="relative z-10 inline-flex items-center bg-blue-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">1</a>
+                                <a href="#"
+                                    class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">2</a>
+                                <a href="#"
+                                    class="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex">3</a>
+                                <span
+                                    class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">...</span>
+                                <a href="#"
+                                    class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                                    <span class="sr-only">Sau</span>
+                                    <i class="fas fa-chevron-right"></i>
+                                </a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const wrapLabels = (label, maxWidth) => {
+            if (label.length <= maxWidth) {
+                return label;
+            }
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + ' ' + word).length > maxWidth && currentLine !== '') {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine += (currentLine === '' ? '' : ' ') + word;
+                }
+            });
+            lines.push(currentLine.trim());
+            return lines;
+        };
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+
+        const ctx = document.getElementById('activityChart').getContext('2d');
+
+        const labels = [
+            'Lê Tuấn Kiên KHV0220',
+            'Phạm Công Minh NV0183',
+            'Yanlen Yến NV0232',
+            'Lý Vũ Khôi KH024',
+            'Phạm Xuân Hoàng NV0227',
+            'Đinh Phương Chính NV0135',
+            'Đậu Thị Thùy Dương KHV023',
+            'Nguyễn Văn Tuyển NV0230',
+            'Kiều Anh Sơn KH013',
+            'admin3 KHV0186'
+        ].map(label => wrapLabels(label, 16)); // Wrap labels at ~16 characters
+
+        const activityChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Thêm mới',
+                        data: [591, 480, 322, 280, 166, 319, 236, 197, 179, 191],
+                        backgroundColor: '#6EE7B7' // Light green, similar to screenshot
+                    },
+                    {
+                        label: 'Xem số điện thoại',
+                        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // Assuming these are base values
+                        backgroundColor: '#3B82F6' // Blue
+                    },
+                    {
+                        label: 'Bổ sung thông tin nhà',
+                        data: [0, 0, 0, 0, 0, 200, 0, 0, 0, 100], // Example data for stack
+                        backgroundColor: '#F59E0B' // Orange
+                    },
+                    {
+                        label: 'Tải File',
+                        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 40], // Example data for stack
+                        backgroundColor: '#6B7280' // Gray
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                size: 14,
+                                family: 'Inter, sans-serif'
+                            },
+                            padding: 20
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: tooltipTitleCallback,
+                            label: function (context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += context.raw; // Display raw value
+                                return label;
+                            }
+                        },
+                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                        titleFont: { size: 16 },
+                        bodyFont: { size: 14 },
+                        padding: 12,
+                        cornerRadius: 8
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: true, // For stacked bar chart
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: {
+                                family: 'Inter, sans-serif'
+                            }
+                        }
+                    },
+                    y: {
+                        stacked: true, // For stacked bar chart
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Số lượng hoạt động',
+                            font: {
+                                size: 14,
+                                family: 'Inter, sans-serif'
+                            }
+                        },
+                        ticks: {
+                            font: {
+                                family: 'Inter, sans-serif'
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

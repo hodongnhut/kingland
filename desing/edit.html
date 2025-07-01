@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Edit Additional</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            /* Light gray background */
+        }
+
+        .form-label {
+            @apply text-sm font-medium text-gray-700 mb-1;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            @apply block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm;
+        }
+
+        .radio-group label {
+            @apply inline-flex items-center;
+        }
+
+        .radio-group input[type="radio"] {
+            @apply h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500;
+        }
+
+        .checkbox-group label {
+            @apply inline-flex items-center text-sm text-gray-700;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            @apply h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500;
+        }
+    </style>
+</head>
+
+<body class="flex min-h-screen">
+
+    <!-- Sidebar -->
+    <aside class="w-16 bg-white shadow-lg flex flex-col items-center py-4">
+        <div class="mb-8">
+            <!-- Placeholder for logo -->
+            <div
+                class="h-10 w-10 bg-yellow-500 rounded-lg flex items-center justify-center text-white text-xl font-bold">
+                L</div>
+        </div>
+        <nav class="flex flex-col space-y-6">
+            <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors duration-200">
+                <i class="fas fa-th-large text-xl"></i>
+            </a>
+            <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors duration-200">
+                <i class="fas fa-copy text-xl"></i>
+            </a>
+            <a href="#" class="p-2 bg-blue-100 rounded-md text-blue-600">
+                <i class="fas fa-pencil-alt text-xl"></i>
+            </a>
+            <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors duration-200">
+                <i class="fas fa-chart-bar text-xl"></i>
+            </a>
+            <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors duration-200">
+                <i class="fas fa-cog text-xl"></i>
+            </a>
+        </nav>
+        <div class="mt-auto">
+            <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors duration-200">
+                <i class="fas fa-user-circle text-xl"></i>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col">
+        <!-- Top Header / Navbar -->
+        <header class="bg-white shadow-md p-4 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-database text-blue-600"></i>
+                <span class="text-lg font-semibold text-gray-800">Dữ Liệu Nhà Đất</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="text-gray-600">Tìm...</span>
+                <button
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-md flex items-center transition-colors duration-200">
+                    <i class="fas fa-save mr-2"></i> LƯU
+                </button>
+                <button
+                    class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-md shadow-md flex items-center transition-colors duration-200">
+                    <i class="fas fa-arrow-left mr-2"></i> QUAY LẠI
+                </button>
+                <div
+                    class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-gray-700 font-semibold">
+                    T</div>
+                <button class="text-gray-600 hover:text-gray-800">
+                    <i class="fas fa-bell"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Content Body -->
+        <main class="flex-1 p-6 overflow-auto bg-gray-100">
+            <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <div class="text-lg font-semibold text-gray-800 mb-2">Màn hình chính / Thêm Dữ liệu Nhà Đất | 126538
+                </div>
+                <div class="flex space-x-4 text-sm text-gray-600 mb-4">
+                    <a href="#" class="flex items-center hover:text-blue-600">
+                        <i class="fas fa-copy mr-1"></i> Số hồng & Hình ảnh
+                    </a>
+                    <a href="#" class="flex items-center text-blue-600 font-semibold">
+                        <i class="fas fa-info-circle mr-1"></i> Số tờ & Hình ảnh
+                    </a>
+                </div>
+
+                <div class="text-blue-600 text-lg font-semibold mb-4">Bán nhà phố <i
+                        class="fas fa-arrow-right mx-2"></i> Số 291A Võ Văn Tần, 5.3, TPHCM</div>
+
+                <!-- Main Form Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                    <!-- Left Column -->
+                    <div class="lg:col-span-2 space-y-6">
+
+                        <!-- Thông tin vị trí -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="form-label">Vị trí</label>
+                                <select class="form-select">
+                                    <option>Đường Nội Bộ</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label">Hẻm</label>
+                                <input type="text" class="form-input" placeholder="Hẻm">
+                            </div>
+                            <div>
+                                <label class="form-label">Compound</label>
+                                <input type="text" class="form-input" placeholder="Compound">
+                            </div>
+                        </div>
+
+                        <!-- Giá Bán -->
+                        <div>
+                            <label class="form-label">Giá Bán</label>
+                            <div class="flex space-x-2">
+                                <input type="text" class="form-input w-2/3" placeholder="69.000.000.000">
+                                <span class="form-input flex items-center justify-center bg-gray-100 w-1/3">Tỷ</span>
+                            </div>
+                            <div class="flex items-center mt-2">
+                                <input type="checkbox" id="vat" class="form-checkbox h-4 w-4 text-blue-600 rounded">
+                                <label for="vat" class="ml-2 text-sm text-gray-700">Có hóa đơn thuế</label>
+                            </div>
+                        </div>
+
+                        <!-- Phường / Xã -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="form-label">Phường / Xã</label>
+                                <input type="text" class="form-input" placeholder="Phường 5">
+                            </div>
+                            <div>
+                                <label class="form-label">Số nhà</label>
+                                <input type="text" class="form-input" placeholder="51/6">
+                            </div>
+                        </div>
+
+                        <!-- Quận / Huyện -->
+                        <div>
+                            <label class="form-label">Quận / Huyện</label>
+                            <input type="text" class="form-input" placeholder="ví dụ: Capitaland, Trung tiết">
+                        </div>
+
+                        <!-- Diện Tích -->
+                        <div>
+                            <label class="form-label">Diện Tích</label>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="flex items-center space-x-2">
+                                    <input type="text" class="form-input" placeholder="7.40">
+                                    <span>m</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <input type="text" class="form-input" placeholder="10.00">
+                                    <span>m</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <input type="text" class="form-input" placeholder="74.00">
+                                    <span>m2</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Diện Tích Quy Hoạch -->
+                        <div>
+                            <label class="form-label">Diện Tích Quy Hoạch</label>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="flex items-center space-x-2">
+                                    <span class="form-label">Ngang</span>
+                                    <input type="text" class="form-input">
+                                    <span>m</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="form-label">Dài</span>
+                                    <input type="text" class="form-input">
+                                    <span>m</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="form-label">DT Xây Dựng</span>
+                                    <input type="text" class="form-input">
+                                    <span>m2</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Thông tin khác -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="form-label">Thông tin khác</label>
+                                <select class="form-select">
+                                    <option>Chọn hướng</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label">Loại đất</label>
+                                <select class="form-select">
+                                    <option>Chọn Loại đất</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label">Số WC</label>
+                                <input type="text" class="form-input">
+                            </div>
+                            <div>
+                                <label class="form-label">DT Sử dụng</label>
+                                <input type="text" class="form-input">
+                            </div>
+                            <div>
+                                <label class="form-label">Số Phòng ngủ</label>
+                                <input type="text" class="form-input">
+                            </div>
+                            <div>
+                                <label class="form-label">Số Tầng Hầm</label>
+                                <input type="text" class="form-input">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="lg:col-span-1 space-y-6">
+
+                        <!-- Loại Tài Sản -->
+                        <div class="bg-white p-4 rounded-md shadow-sm">
+                            <label class="form-label mb-2 block">Loại Tài Sản</label>
+                            <div class="grid grid-cols-2 gap-2 text-sm radio-group">
+                                <label><input type="radio" name="asset_type" class="mr-2">Cá nhân</label>
+                                <label><input type="radio" name="asset_type" class="mr-2">Công ty</label>
+                                <label><input type="radio" name="asset_type" class="mr-2">Thừa kế</label>
+                                <label><input type="radio" name="asset_type" class="mr-2">Vợ Chồng Ly Hôn</label>
+                                <label><input type="radio" name="asset_type" class="mr-2">Phát mãi</label>
+                                <label><input type="radio" name="asset_type" class="mr-2">Đấu giá</label>
+                                <label><input type="radio" name="asset_type" class="mr-2">Thế Chấp</label>
+                            </div>
+                        </div>
+
+                        <!-- Thông tin mô tả -->
+                        <div class="bg-white p-4 rounded-md shadow-sm">
+                            <label class="form-label mb-2 block">Thông tin mô tả</label>
+                            <textarea class="form-textarea" rows="3"
+                                placeholder="Điều này bao gồm thông tin chi tiết về nhà cho thuê thì hãy đảm bảo điều +"></textarea>
+                        </div>
+
+                        <!-- HÓA HỒNG -->
+                        <div class="bg-white p-4 rounded-md shadow-sm">
+                            <label class="form-label mb-2 block">HÓA HỒNG</label>
+                            <div class="flex items-center space-x-2 mb-2">
+                                <label class="radio-group"><input type="radio" name="commission_type" class="mr-2">Loại
+                                    Hoa Hồng</label>
+                            </div>
+                            <div class="flex space-x-2">
+                                <input type="text" class="form-input w-2/3" placeholder="Tiền mặt">
+                                <input type="text" class="form-input w-1/3" placeholder="Tháng">
+                            </div>
+                            <div class="flex items-center space-x-2 mt-2">
+                                <label class="radio-group"><input type="radio" name="commission_type" class="mr-2">Phần
+                                    trăm %</label>
+                                <input type="text" class="form-input w-full" placeholder="Tháng">
+                            </div>
+                        </div>
+
+                        <!-- ĐẶT CỌC -->
+                        <div class="bg-white p-4 rounded-md shadow-sm">
+                            <label class="form-label mb-2 block">ĐẶT CỌC</label>
+                            <div class="flex items-center space-x-4 radio-group">
+                                <label><input type="radio" name="deposit_status" class="mr-2">Có</label>
+                                <label><input type="radio" name="deposit_status" class="mr-2">Không</label>
+                            </div>
+                        </div>
+
+                        <!-- GIAO DỊCH KHÁC -->
+                        <div class="bg-white p-4 rounded-md shadow-sm">
+                            <label class="form-label mb-2 block">GIAO DỊCH KHÁC</label>
+                            <label class="form-label mb-2 block">Trạng Thái</label>
+                            <div class="grid grid-cols-2 gap-2 text-sm radio-group">
+                                <label
+                                    class="inline-flex items-center bg-blue-100 text-blue-800 px-3 py-1 rounded-full"><input
+                                        type="radio" name="transaction_status" class="mr-2">Đang Giao Dịch</label>
+                                <label
+                                    class="inline-flex items-center bg-gray-200 text-gray-700 px-3 py-1 rounded-full"><input
+                                        type="radio" name="transaction_status" class="mr-2">Ngừng Giao Dịch</label>
+                                <label
+                                    class="inline-flex items-center bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full"><input
+                                        type="radio" name="transaction_status" class="mr-2">Đã Giao Dịch</label>
+                                <label
+                                    class="inline-flex items-center bg-red-100 text-red-800 px-3 py-1 rounded-full"><input
+                                        type="radio" name="transaction_status" class="mr-2">Đã Cọc</label>
+                            </div>
+                            <div class="mt-4">
+                                <label class="form-label">Nhập Thông Tin Mô Tả</label>
+                                <input type="text" class="form-input" placeholder="">
+                            </div>
+                        </div>
+
+                        <!-- Ưu Điểm -->
+                        <div class="bg-white p-4 rounded-md shadow-sm">
+                            <label class="form-label mb-2 block">Ưu Điểm</label>
+                            <div class="grid grid-cols-2 gap-2 checkbox-group text-xs">
+                                <label><input type="checkbox" class="mr-2">Nhà Mới Xây</label>
+                                <label><input type="checkbox" class="mr-2">Gần Chợ</label>
+                                <label><input type="checkbox" class="mr-2">Ba Mở Lớn</label>
+                                <label><input type="checkbox" class="mr-2">Nhà Kế Bên Có Biệt Thự</label>
+                                <label><input type="checkbox" class="mr-2">Vị Trí Đẹp Nhất</label>
+                                <label><input type="checkbox" class="mr-2">Lô Góc</label>
+                                <label><input type="checkbox" class="mr-2">Gần Lộ Giới</label>
+                                <label><input type="checkbox" class="mr-2">Nhà 2 Mặt Đường Trước và Sau</label>
+                                <label><input type="checkbox" class="mr-2">Có Hẻm Sau Nhà</label>
+                                <label><input type="checkbox" class="mr-2">Hẻm Thông</label>
+                                <label><input type="checkbox" class="mr-2">Gần Công Viên</label>
+                                <label><input type="checkbox" class="mr-2">Nhà Thờ Cấp Ba</label>
+                                <label><input type="checkbox" class="mr-2">Nhà Thiết Kế Đẹp</label>
+                                <label><input type="checkbox" class="mr-2">Quy Hoạch Mở Đường</label>
+                                <label><input type="checkbox" class="mr-2">Quy Hoạch Đất Ở</label>
+                                <label><input type="checkbox" class="mr-2">Dân Cư Đông Đúc</label>
+                                <label><input type="checkbox" class="mr-2">Gần Trường Học</label>
+                                <label><input type="checkbox" class="mr-2">Chợ Lớn</label>
+                                <label><input type="checkbox" class="mr-2">Đường Lớn</label>
+                                <label><input type="checkbox" class="mr-2">Gần Công Viên</label>
+                                <label><input type="checkbox" class="mr-2">Nhà Đẹp</label>
+                                <label><input type="checkbox" class="mr-2">Gần Biển</label>
+                                <label><input type="checkbox" class="mr-2">Nhà Bề Thế</label>
+                                <label><input type="checkbox" class="mr-2">Nhà Cho Thuê</label>
+                            </div>
+                        </div>
+
+                        <!-- Nhược Điểm -->
+                        <div class="bg-white p-4 rounded-md shadow-sm">
+                            <label class="form-label mb-2 block">Nhược Điểm</label>
+                            <div class="grid grid-cols-2 gap-2 checkbox-group text-xs">
+                                <label><input type="checkbox" class="mr-2">Đất Bị Quy Hoạch</label>
+                                <label><input type="checkbox" class="mr-2">Đất Không Được Vườn</label>
+                                <label><input type="checkbox" class="mr-2">Có Công Trình</label>
+                                <label><input type="checkbox" class="mr-2">Có Trụ Điện</label>
+                                <label><input type="checkbox" class="mr-2">Có Cây To</label>
+                                <label><input type="checkbox" class="mr-2">Đất Cho Hẻm Thông</label>
+                                <label><input type="checkbox" class="mr-2">Quy Hoạch Giao Thông</label>
+                                <label><input type="checkbox" class="mr-2">Quy Hoạch Lô Giới Hạn</label>
+                                <label><input type="checkbox" class="mr-2">Pháp Lý Không Rõ Ràng</label>
+                                <label><input type="checkbox" class="mr-2">Đất Dính Quy Hoạch</label>
+                                <label><input type="checkbox" class="mr-2">Quy Hoạch Giao Thông</label>
+                                <label><input type="checkbox" class="mr-2">Gần Nghĩa Trang</label>
+                                <label><input type="checkbox" class="mr-2">Gần Nhà Táng</label>
+                                <label><input type="checkbox" class="mr-2">Đất Khó Kiếm</label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="text-center text-gray-500 text-xs mt-6">
+                Rocket VN © 2008-2025, All Rights Reserved
+            </div>
+        </main>
+    </div>
+
+</body>
+
+</html>
