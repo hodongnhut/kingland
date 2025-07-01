@@ -9,24 +9,29 @@ use yii\bootstrap5\Html;
 
 $this->title = 'Login';
 ?>
-<div class="site-login">
-    <div class="mt-5 offset-lg-3 col-lg-6">
-        <h1><?= Html::encode($this->title) ?></h1>
-
-        <p>Please fill out the following fields to login:</p>
-
-        <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-
-            <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
-
-            <?= $form->field($model, 'password')->passwordInput() ?>
-
-            <?= $form->field($model, 'rememberMe')->checkbox() ?>
-
-            <div class="form-group">
-                <?= Html::submitButton('Login', ['class' => 'btn btn-primary btn-block', 'name' => 'login-button']) ?>
-            </div>
-
-        <?php ActiveForm::end(); ?>
+<div class="w-full max-w-md bg-white rounded-lg shadow-xl p-8 space-y-6 md:p-10">
+    <div class="text-center">
+        <div
+            class="mx-auto h-16 w-16 bg-blue-600 rounded-full flex items-center justify-center text-white mb-4 shadow-md">
+            <i class="fas fa-lock text-3xl"></i>
+        </div>
+        <h2 class="text-3xl font-extrabold text-gray-900 mb-2"><?= Html::encode($this->title) ?></h2>
+        <p class="text-sm text-gray-500">Truy cập vào tài khoản của bạn</p>
     </div>
+
+
+    <?php $form = ActiveForm::begin(['id' => 'login-form', 'class' => 'space-y-6']); ?>
+
+        <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+
+        <?= $form->field($model, 'password')->passwordInput() ?>
+
+        <?= $form->field($model, 'rememberMe')->checkbox() ?>
+
+        <div class="form-group">
+            <?= Html::submitButton('Login', ['class' => 'btn btn-primary btn-block', 'name' => 'login-button']) ?>
+        </div>
+
+    <?php ActiveForm::end(); ?>
+
 </div>
