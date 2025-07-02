@@ -1,10 +1,11 @@
 <?php
 use Yii;
 use yii\helpers\Html;
+$this->title = "Xem Bản Tin Nội Bộ";
 ?>
 <!-- Header -->
 <header class="bg-white shadow-md p-2 flex items-center justify-between rounded-bl-lg">
-    <div class="text-lg font-semibold text-gray-800">Xem Dữ Liệu Nhà Đất</div>
+    <div class="text-lg font-semibold text-gray-800">Xem Bản Tin Nội Bộ</div>
     <div class="relative flex items-center space-x-4">
         <button
             id="userMenuButton"
@@ -21,8 +22,8 @@ use yii\helpers\Html;
             aria-orientation="vertical"
             aria-labelledby="userMenuButton"
         >
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Phiên Đăng Nhập</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Đổi Mật Khẩu</a>
+        <a href="<?= \yii\helpers\Url::to(['/login-version']) ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Phiên Đăng Nhập</a>
+            <a href="<?= \yii\helpers\Url::to(['/change-password']) ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Đổi Mật Khẩu</a>
             <?= Html::a('Đăng Xuất', ['/site/logout'], [
                 'data-method' => 'post',
                 'class' => 'block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100',

@@ -225,3 +225,61 @@ th {
     box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #3b82f6;
     /* focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 */
 }
+
+
+#map {
+    height: 500px;
+    /* Chiều cao cố định cho bản đồ */
+    width: 100%;
+    border-radius: 0.5rem;
+    /* rounded-lg */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    /* shadow-md */
+}
+
+/* Custom styles for alert box, replacing alert() */
+.custom-alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    display: none;
+    /* Hidden by default */
+    font-size: 0.9rem;
+    border: 1px solid #f5c6cb;
+    animation: fadeOut 0.5s ease-out 2.5s forwards;
+    /* Fade out after 2.5s */
+}
+
+.custom-alert.show {
+    display: block;
+    animation: fadeIn 0.3s ease-in forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}

@@ -343,3 +343,20 @@ property_access_logs (
     property_id INT,
     accessed_at DATETIME
 )
+
+CREATE TABLE IF NOT EXISTS `devices` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Unique identifier for the device',
+    `device_name` VARCHAR(255) NOT NULL COMMENT 'Name of the device (e.g., Máy Tính, Điện thoại)',
+    `os` VARCHAR(100) NULL COMMENT 'Operating System (e.g., Linux, Android)',
+    `device_unique_id` VARCHAR(255) UNIQUE NULL COMMENT 'Unique hardware ID or identifier for the device',
+    `browser` VARCHAR(100) NULL COMMENT 'Browser used (e.g., Chrome, Firefox)',
+    `last_activity_at` INT(11) NULL COMMENT 'Unix timestamp of the last activity on this device',
+    `last_action_type` VARCHAR(100) NULL COMMENT 'Type of the last action (e.g., Login, View, Search)',
+    `first_login_at` INT(11) NULL COMMENT 'Unix timestamp of the first login from this device',
+    `session_info` VARCHAR(255) NULL COMMENT 'Information about the current session (e.g., session ID, specific data)',
+    `user_id` INT NOT NULL COMMENT 'Foreign key to the user table, indicating who logged in from this device',
+    `is_current_device` TINYINT(1) DEFAULT 0 COMMENT 'Flag to indicate if this is the currently active device for the user',
+    `created_at` INT(11) NOT NULL COMMENT 'Unix timestamp when the device record was created',
+    `updated_at` INT(11) NOT NULL COMMENT 'Unix timestamp of the last update to the record',
+    CONSTRAINT `fk_device_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT 'Table to store user device information';

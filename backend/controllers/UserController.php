@@ -63,6 +63,19 @@ class UserController extends Controller
     }
 
     /**
+     * Displays a single User model.
+     * @param int $id
+     * @return string
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionMap($id)
+    {
+        return $this->render('map', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
+    /**
      * Creates a new User model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response

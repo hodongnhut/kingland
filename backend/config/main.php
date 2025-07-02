@@ -48,7 +48,11 @@ return [
             'rules' => [
                 'property' => 'site/property',
                 'property-folder' => 'site/property-folder',
-                'news' => 'news/index'
+                'property-user' => 'site/property-user',
+                'login-version' => 'site/login-version',
+                'change-password' => 'site/change-password',
+                'news' => 'news/index',
+                'user/map' => 'user/map'
             ],
         ],
     ],

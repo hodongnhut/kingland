@@ -24,13 +24,13 @@ $this->title = 'King Land Group';
             aria-orientation="vertical"
             aria-labelledby="userMenuButton"
         >
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Phiên Đăng Nhập</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Đổi Mật Khẩu</a>
+        <a href="<?= \yii\helpers\Url::to(['/login-version']) ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Phiên Đăng Nhập</a>
+            <a href="<?= \yii\helpers\Url::to(['/change-password']) ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Đổi Mật Khẩu</a>
             <?= Html::a('Đăng Xuất', ['/site/logout'], [
-                'data-method' => 'post', 
+                'data-method' => 'post',
                 'class' => 'block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100',
                 'role' => 'menuitem'
-                ]) ?>
+            ]) ?>
         </div>
     </div>
 </header>

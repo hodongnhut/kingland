@@ -13,8 +13,9 @@ use yii\web\BadRequestHttpException;
 use frontend\models\ResetPasswordForm;
 use yii\base\InvalidArgumentException;
 use frontend\models\PasswordResetRequestForm;
-use common\models\User;
+use common\models\ChangePasswordForm;
 use common\models\UserSearch;
+
 
 /**
  * Site controller
@@ -31,7 +32,17 @@ class SiteController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['login', 'error', 'reset-password', 'request-password-reset', 'property', 'property-folder'],
+                        'actions' => [
+                            'login', 
+                            'error', 
+                            'reset-password', 
+                            'request-password-reset', 
+                            'property', 
+                            'property-folder',
+                            'property-user',
+                            'login-version',
+                            'change-password'
+                        ],
                         'allow' => true,
                     ],
                     [
@@ -178,6 +189,25 @@ class SiteController extends Controller
      *
      * @return mixed
      */
+    public function actionPropertyUser() {
+        return $this->render('property-user');
+    }
+
+    /**
+     * Property user up.
+     *
+     * @return mixed
+     */
+    public function actionLoginVersion() {
+        return $this->render('login-version');
+    }
+
+
+    /**
+     * Property user up.
+     *
+     * @return mixed
+     */
     public function actionPropertyFolder() {
         return $this->render('property-folder');
     }
@@ -201,4 +231,29 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+
+    /**
+     * Action to change the logged-in user's password.
+     * @return string|\yii\web\Response
+     */
+    public function actionChangePassword()
+    {
+        $model = new ChangePasswordForm();
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            if ($model->changePassword()) {
+                Yii::$app->session->setFlash('success', 'Mật khẩu của bạn đã được thay đổi thành công.');
+                // Optional: Log out the user after password change for security
+                // Yii::$app->user->logout();
+                return $this->redirect(['site/index']); // Redirect to dashboard or login page
+            } else {
+                Yii::$app->session->setFlash('error', 'Có lỗi xảy ra khi thay đổi mật khẩu.');
+            }
+        }
+
+        return $this->render('change-password', [
+            'model' => $model,
+        ]);
+    }
+
 }
