@@ -7,7 +7,7 @@
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 
-$this->title = 'Login';
+$this->title = 'Đăng Nhập';
 ?>
 <div class="w-full max-w-md bg-white rounded-lg shadow-xl p-8 space-y-6 md:p-10">
     <div class="text-center">
@@ -20,18 +20,54 @@ $this->title = 'Login';
     </div>
 
 
-    <?php $form = ActiveForm::begin(['id' => 'login-form', 'class' => 'space-y-6']); ?>
+    <?php $form = ActiveForm::begin([
+            'id' => 'login-form',
+            'options' => ['class' => 'space-y-6'],
+            'fieldConfig' => [
+                'options' => ['class' => 'mb-3'], 
+                'inputOptions' => ['class' => 'form-control'], 
+                'labelOptions' => ['class' => 'form-label'],
+            ],
+        ]); ?>
 
-        <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+        <?= $form->field($model, 'usernameOrEmail', [
+            'template' => "{label}\n<div class=\"input-group\">"
+                          . "<span class=\"input-group-text\"><i class=\"fas fa-envelope\"></i></span>"
+                          . "{input}</div>\n{hint}\n{error}",
+            'inputOptions' => [
+                'autofocus' => true,
+                'placeholder' => 'your.email@example.com',
+            ],
+        ])->label('Email Hoặc Mã') ?>
 
-        <?= $form->field($model, 'password')->passwordInput() ?>
+        <?= $form->field($model, 'password', [
+            'template' => "{label}\n<div class=\"input-group\">"
+                          . "<span class=\"input-group-text\"><i class=\"fas fa-key\"></i></span>"
+                          . "{input}</div>\n{hint}\n{error}",
+            'inputOptions' => [
+                'placeholder' => '********',
+            ],
+        ])->label('Mật khẩu') ?>
 
-        <?= $form->field($model, 'rememberMe')->checkbox() ?>
+        <div class="d-flex justify-content-between align-items-center mb-3">
 
-        <div class="form-group">
-            <?= Html::submitButton('Login', ['class' => 'btn btn-primary btn-block', 'name' => 'login-button']) ?>
+                <?= $form->field($model, 'rememberMe')->checkbox([
+                    'class' => 'form-check-input',
+                    'labelOptions' => ['class' => 'form-check-label ms-2'],
+                ])->label('Ghi nhớ đăng nhập') ?>
+ 
+
+            <div class="text-sm">
+                <a href="/site/request-password-reset" class="text-decoration-none text-primary">
+                    Quên mật khẩu?
+                </a>
+            </div>
         </div>
 
-    <?php ActiveForm::end(); ?>
+        <div class="form-group">
+            <?= Html::submitButton('Đăng Nhập', ['class' => 'btn btn-primary w-100 py-2', 'name' => 'login-button']) ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
 
 </div>

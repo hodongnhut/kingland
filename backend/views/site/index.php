@@ -1,53 +1,254 @@
 <?php
-
-/** @var yii\web\View $this */
-
-$this->title = 'My Yii Application';
+use Yii;
+use yii\helpers\Html;
+use yii\widgets\LinkPager;
+$this->title = 'King Land Group';
+$role_code = Yii::$app->user->identity->jobTitle->role_code;
+$this->registerJsFile('https://cdn.jsdelivr.net/npm/chart.js', [
+    'position' => \yii\web\View::POS_BEGIN,
+]);
+$this->registerCssFile(
+    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css',
+    ['position' => \yii\web\View::POS_BEGIN]
+);
 ?>
-<div class="site-index">
 
-    <div class="jumbotron text-center bg-transparent">
-        <h1 class="display-4">Congratulations!</h1>
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
 
-        <p><a class="btn btn-lg btn-success" href="https://www.yiiframework.com">Get started with Yii</a></p>
+<!-- Header -->
+<header class="bg-white shadow-md p-2 flex items-center justify-between rounded-bl-lg">
+    <div class="text-lg font-semibold text-gray-800">Xem Dữ Liệu Nhà Đất</div>
+    <div class="relative flex items-center space-x-4">
+        <button
+            id="userMenuButton"
+            class="w-10 h-10 bg-blue-500 hover:bg-blue-600 text-white rounded-full flex items-center justify-center shadow-md transition-colors duration-200"
+            aria-haspopup="true"
+            aria-expanded="false"
+        >
+            <i class="fas fa-user"></i>
+        </button>
+        <div
+            id="userMenu"
+            class="absolute right-0 mt-20 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-1 z-10 hidden"
+            role="menu"
+            aria-orientation="vertical"
+            aria-labelledby="userMenuButton"
+        >
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Phiên Đăng Nhập</a>
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Đổi Mật Khẩu</a>
+            <?= Html::a('Đăng Xuất', ['/site/logout'], [
+                'data-method' => 'post',
+                'class' => 'block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100',
+                'role' => 'menuitem'
+            ]) ?>
+        </div>
     </div>
+</header>
 
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="https://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+<main class="flex-1 p-6 overflow-auto">
+    <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Top Hoạt Động Trong 7 ngày qua</h2>
+        <div class="chart-container" style="position: relative; height: 400px;">
+            <canvas id="activityChart"></canvas>
+        </div>
+        <div class="flex flex-wrap justify-center gap-4 mt-6 text-sm text-gray-600">
+            <div class="flex items-center"><span class="inline-block w-4 h-4 rounded-full bg-blue-500 mr-2"></span> Thêm mới</div>
+            <div class="flex items-center"><span class="inline-block w-4 h-4 rounded-full bg-green-500 mr-2"></span> Xem số điện thoại</div>
+            <div class="flex items-center"><span class="inline-block w-4 h-4 rounded-full bg-orange-500 mr-2"></span> Bổ sung thông tin nhà</div>
+            <div class="flex items-center"><span class="inline-block w-4 h-4 rounded-full bg-gray-500 mr-2"></span> Tải File</div>
+        </div>
+    </div>
+    <? if ($role_code === 'manager' ||  $role_code == 'super_admin'):  ?>
+        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4 sm:mb-0">Danh sách nhân viên</h2>
+                <a href="/user/create" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md shadow-md flex items-center transition-colors duration-200">
+                    <i class="fas fa-plus mr-2"></i> Thêm nhân viên mới
+                </a>
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="https://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
+            <!-- Search and Filter Section -->
+            <div class="mb-6 flex flex-col gap-4">
+                <?= Html::beginForm(['site/index'], 'get', ['class' => 'flex flex-col md:flex-row gap-4']) ?>
+                    <input type="text" name="UserSearch[full_name]" value="<?= Html::encode($searchModel->full_name) ?>" placeholder="Tìm kiếm theo tên..." class="flex-1 form-input border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500">
+                    <select name="UserSearch[job_title_id]" class="form-select border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Tất cả chức vụ</option>
+                        <option value="1" <?= $searchModel->job_title_id == 1 ? 'selected' : '' ?>>Quản lý</option>
+                        <option value="2" <?= $searchModel->job_title_id == 2 ? 'selected' : '' ?>>Nhân viên kinh doanh</option>
+                        <option value="3" <?= $searchModel->job_title_id == 3 ? 'selected' : '' ?>>Hỗ trợ kỹ thuật</option>
+                        <option value="4" <?= $searchModel->job_title_id == 4 ? 'selected' : '' ?>>Quản trị viên</option>
+                        <option value="5" <?= $searchModel->job_title_id == 5 ? 'selected' : '' ?>>Kế toán</option>
+                    </select>
+                    <select name="UserSearch[status]" class="form-select border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="10" <?= $searchModel->status == 10 ? 'selected' : '' ?>>Hoạt động</option>
+                        <option value="9" <?= $searchModel->status == 9 ? 'selected' : '' ?>>Nghỉ việc</option>
+                    </select>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-md">Tìm kiếm</button>
+                <?= Html::endForm() ?>
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
+            <!-- Staff Table -->
+            <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mã nhân viên</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Họ tên</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Chức vụ</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trạng thái</th>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <?php foreach ($dataProvider->getModels() as $user): ?>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><?= Html::encode($user->username) ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?= Html::encode($user->full_name) ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?= Html::encode($user->email) ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?= Html::encode($user->jobTitle->title_name ?? 'N/A') ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full <?= $user->status == 10 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' ?>">
+                                    <?= $user->status == 10 ? 'Hoạt động' : 'Nghỉ việc' ?>
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <?= Html::a('<i class="fas fa-map"></i> Xem Vị trí', ['user/map', 'id' => $user->id], [
+                                    'class' => 'text-blue-600 hover:text-blue-900 mr-3',
+                                    'title' => 'Xem Vị trí',
+                                    'data-method' => 'get'
+                                ]) ?>
+                                <?= Html::a('<i class="fas fa-edit"></i>', ['user/update', 'id' => $user->id], [
+                                    'class' => 'text-blue-600 hover:text-blue-900 mr-3',
+                                    'title' => 'Chỉnh sửa',
+                                    'data-method' => 'get'
+                                ]) ?>
+                                <?= Html::a('<i class="fas fa-trash-alt"></i>', ['user/delete', 'id' => $user->id], [
+                                    'class' => 'text-red-600 hover:text-red-900',
+                                    'title' => 'Xóa',
+                                    'data-method' => 'post',
+                                    'data-confirm' => 'Bạn có chắc chắn muốn xóa nhân viên này?'
+                                ]) ?>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
 
-                <p><a class="btn btn-outline-secondary" href="https://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
+            <!-- Pagination -->
+            <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 mt-6 rounded-lg shadow-sm">
+                <div class="flex flex-1 justify-between sm:hidden">
+                    <a href="<?= $dataProvider->pagination->createUrl($dataProvider->pagination->getPage() - 1) ?>" class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 <?= $dataProvider->pagination->getPage() <= 0 ? 'hidden' : '' ?>">Trước</a>
+                    <a href="<?= $dataProvider->pagination->createUrl($dataProvider->pagination->getPage() + 1) ?>" class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 <?= $dataProvider->pagination->getPage() >= $dataProvider->pagination->getPageCount() - 1 ? 'hidden' : '' ?>">Sau</a>
+                </div>
+                <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                    <div>
+                        <p class="text-sm text-gray-700">
+                            Hiển thị <span class="font-medium"><?= ($dataProvider->pagination->getPage() * $dataProvider->pagination->getPageSize()) + 1 ?></span> đến <span class="font-medium"><?= min(($dataProvider->pagination->getPage() + 1) * $dataProvider->pagination->getPageSize(), $dataProvider->getTotalCount()) ?></span> của
+                            <span class="font-medium"><?= $dataProvider->getTotalCount() ?></span> kết quả
+                        </p>
+                    </div>
+                    <div>
+                        <?= LinkPager::widget([
+                            'pagination' => $dataProvider->pagination,
+                            'options' => ['class' => 'isolate inline-flex -space-x-px rounded-md shadow-sm'],
+                            'linkOptions' => ['class' => 'relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0'],
+                            'activePageCssClass' => 'z-10 bg-blue-600 text-white',
+                            'prevPageCssClass' => 'relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0',
+                            'nextPageCssClass' => 'relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0',
+                            'prevPageLabel' => '<span class="sr-only">Trước</span><i class="fas fa-chevron-left"></i>',
+                            'nextPageLabel' => '<span class="sr-only">Sau</span><i class="fas fa-chevron-right"></i>',
+                        ]) ?>
+                    </div>
+                </div>
             </div>
         </div>
+    <?php endif; ?>
+</main>
 
-    </div>
-</div>
+<!-- JavaScript for Dropdown Menu -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const button = document.getElementById('userMenuButton');
+    const menu = document.getElementById('userMenu');
+
+    button.addEventListener('click', function (e) {
+        e.preventDefault();
+        const expanded = button.getAttribute('aria-expanded') === 'true';
+        button.setAttribute('aria-expanded', !expanded);
+        menu.classList.toggle('hidden');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function (e) {
+        if (!button.contains(e.target) && !menu.contains(e.target)) {
+            menu.classList.add('hidden');
+            button.setAttribute('aria-expanded', 'false');
+        }
+    });
+});
+
+// Chart.js Configuration
+const wrapLabels = (label, maxWidth) => {
+    if (label.length <= maxWidth) return label;
+    const words = label.split(' ');
+    const lines = [];
+    let currentLine = '';
+    words.forEach(word => {
+        if ((currentLine + ' ' + word).length > maxWidth && currentLine !== '') {
+            lines.push(currentLine.trim());
+            currentLine = word;
+        } else {
+            currentLine += (currentLine === '' ? '' : ' ') + word;
+        }
+    });
+    lines.push(currentLine.trim());
+    return lines;
+};
+
+const tooltipTitleCallback = (tooltipItems) => {
+    const item = tooltipItems[0];
+    let label = item.chart.data.labels[item.dataIndex];
+    if (Array.isArray(label)) return label.join(' ');
+    return label;
+};
+
+const ctx = document.getElementById('activityChart').getContext('2d');
+
+const labels = [
+    'Lê Tuấn Kiên KHV0220', 'Phạm Công Minh NV0183', 'Yanlen Yến NV0232',
+    'Lý Vũ Khôi KH024', 'Phạm Xuân Hoàng NV0227', 'Đinh Phương Chính NV0135',
+    'Đậu Thị Thùy Dương KHV023', 'Nguyễn Văn Tuyển NV0230', 'Kiều Anh Sơn KH013',
+    'admin3 KHV0186'
+].map(label => wrapLabels(label, 16));
+
+const activityChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [
+            { label: 'Thêm mới', data: [591, 480, 322, 280, 166, 319, 236, 197, 179, 191], backgroundColor: '#6EE7B7' },
+            { label: 'Xem số điện thoại', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], backgroundColor: '#3B82F6' },
+            { label: 'Bổ sung thông tin nhà', data: [0, 0, 0, 0, 0, 200, 0, 0, 0, 100], backgroundColor: '#F59E0B' },
+            { label: 'Tải File', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 40], backgroundColor: '#6B7280' }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { position: 'bottom', labels: { font: { size: 14, family: 'Inter, sans-serif' }, padding: 20 } },
+            tooltip: {
+                callbacks: { title: tooltipTitleCallback, label: (context) => `${context.dataset.label}: ${context.raw}` },
+                backgroundColor: 'rgba(0, 0, 0, 0.7)', titleFont: { size: 16 }, bodyFont: { size: 14 }, padding: 12, cornerRadius: 8
+            }
+        },
+        scales: {
+            x: { stacked: true, grid: { display: false }, ticks: { font: { family: 'Inter, sans-serif' } } },
+            y: { stacked: true, beginAtZero: true, title: { display: true, text: 'Số lượng hoạt động', font: { size: 14, family: 'Inter, sans-serif' } }, ticks: { font: { family: 'Inter, sans-serif' } } }
+        }
+    }
+});
+</script>

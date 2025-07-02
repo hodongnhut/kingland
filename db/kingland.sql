@@ -1,39 +1,14 @@
--- Database: staff_management_db
--- This SQL script creates the necessary tables for user management,
--- integrated with Yii2 Framework's default user authentication structure.
-
--- -----------------------------------------------------
--- Table `departments`
--- Stores information about different departments within the organization.
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `departments` (
     `department_id` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Unique identifier for the department',
     `department_name` VARCHAR(100) NOT NULL UNIQUE COMMENT 'Name of the department (e.g., Marketing, Sales)'
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT 'Table to store company departments';
 
--- -----------------------------------------------------
--- Table `job_titles`
--- Stores predefined job titles or roles.
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `job_titles` (
     `job_title_id` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Unique identifier for the job title',
-    `title_name` VARCHAR(100) NOT NULL UNIQUE COMMENT 'Name of the job title (e.g., Manager, Sales Staff, Administrator)'
+    `title_name` VARCHAR(100) NOT NULL UNIQUE COMMENT 'Name of the job title (e.g., Manager, Sales Staff, Administrator)',
+    `role_code` VARCHAR(50) NOT NULL COMMENT 'Role identifier for access control (e.g., super_admin, sales_staff)'
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT 'Table to store job titles';
 
--- -----------------------------------------------------
--- Table `user`
--- Stores detailed information about each user (staff member),
--- adapted for Yii2 user authentication.
--- `id`: Primary key for Yii2 User Identity.
--- `username`: User login name (distinct from email).
--- `auth_key`: For Yii2 cookie-based authentication.
--- `password_hash`: Hashed password.
--- `password_reset_token`: For password reset functionality.
--- `email`: User's email address.
--- `status`: User status (e.g., 9 for inactive, 10 for active, common Yii2 values).
--- `created_at`, `updated_at`: Unix timestamps for record creation/update.
--- `verification_token`: For email verification or similar.
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `user` (
     `id` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Primary key for Yii2 User Identity',
     `username` VARCHAR(255) NOT NULL UNIQUE COMMENT 'Username for login',
@@ -61,18 +36,22 @@ CONSTRAINT `fk_user_job_title`
         ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT 'Table to store user details, compatible with Yii2 User Identity';
 
--- -----------------------------------------------------
--- Optional: Initial data for job_titles and departments tables
--- These INSERT statements provide some common initial values.
--- -----------------------------------------------------
-
 INSERT INTO
-    `job_titles` (`title_name`)
-VALUES ('Quản lý'),
-    ('Nhân viên kinh doanh'),
-    ('Hỗ trợ kỹ thuật'),
-    ('Quản trị viên'),
-    ('Kế toán');
+    `job_titles` (`title_name`, `role_code`)
+VALUES ('Quản lý', 'manager'),
+    (
+        'Nhân viên kinh doanh',
+        'sales_staff'
+    ),
+    (
+        'Hỗ trợ kỹ thuật',
+        'tech_support'
+    ),
+    (
+        'Quản trị viên',
+        'super_admin'
+    ),
+    ('Kế toán', 'accountant');
 
 INSERT INTO
     `departments` (`department_name`)
@@ -82,75 +61,64 @@ VALUES ('Phòng Marketing'),
     ('Phòng Hành chính - Nhân sự'),
     ('Phòng Kế toán');
 
--- -----------------------------------------------------
--- Example of adding an initial admin user (for testing Yii2 login)
--- IMPORTANT: In a real application, passwords should always be hashed
--- using Yii2's Security component (e.g., Yii::$app->security->generatePasswordHash('your_password')).
--- The 'auth_key' should be generated randomly (e.g., Yii::$app->security->generateRandomString()).
--- 'created_at' and 'updated_at' should be `time()` in PHP.
--- This is just an example for structure.
--- -----------------------------------------------------
--- INSERT INTO `user` (`username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `verification_token`, `full_name`, `phone`, `job_title_id`, `department_id`, `status`, `created_at`, `updated_at`) VALUES
--- ('admin_user', 'your_generated_auth_key', '$2y$13$your_hashed_password_here_from_yii2_security', NULL, 'admin@yourdomain.com', NULL, 'Admin User', NULL, (SELECT job_title_id FROM job_titles WHERE title_name = 'Quản trị viên'), NULL, 10, UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
+INSERT INTO
+    `user` (
+        `username`,
+        `auth_key`,
+        `password_hash`,
+        `email`,
+        `full_name`,
+        `phone`,
+        `job_title_id`,
+        `department_id`,
+        `status`,
+        `created_at`,
+        `updated_at`
+    )
+VALUES (
+        'john_doe2',
+        'random32charstring1234567890abcd',
+        '$2y$13$examplehashedpassword...', -- Replace with actual hashed password
+        'john.doe2@example.com',
+        'John Doe',
+        '1234567890',
+        2, -- Assuming job_title_id = 1 for 'Quản lý'
+        2, -- Assuming department_id = 2 for 'Phòng Kinh doanh'
+        10, -- Active status
+        UNIX_TIMESTAMP(),
+        UNIX_TIMESTAMP()
+    );
 
--- -----------------------------------------------------
--- Table `property_types`
--- Stores types of properties (e.g., Nhà phố, Biệt thự, Đất, Chung cư).
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `property_types` (
     `property_type_id` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Unique identifier for the property type',
     `type_name` VARCHAR(100) NOT NULL UNIQUE COMMENT 'Name of the property type'
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT 'Table for property types';
 
--- -----------------------------------------------------
--- Table `location_types`
--- Stores types of locations/position (e.g., Đường Nội Bộ, Mặt tiền, Hẻm).
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `location_types` (
     `location_type_id` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Unique identifier for the location type',
     `type_name` VARCHAR(100) NOT NULL UNIQUE COMMENT 'Name of the location type'
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT 'Table for property location types (e.g., alley, compound)';
 
--- -----------------------------------------------------
--- Table `asset_types`
--- Stores types of asset ownership/origin (e.g., Cá nhân, Công ty, Thừa kế, Đấu giá).
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `asset_types` (
     `asset_type_id` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Unique identifier for the asset type',
     `type_name` VARCHAR(100) NOT NULL UNIQUE COMMENT 'Name of the asset type'
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT 'Table for asset ownership/origin types';
 
--- -----------------------------------------------------
--- Table `transaction_statuses`
--- Stores the different transaction statuses (e.g., Đang Giao Dịch, Ngừng Giao Dịch, Đã Đặt Cọc).
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `transaction_statuses` (
     `transaction_status_id` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Unique identifier for the transaction status',
     `status_name` VARCHAR(100) NOT NULL UNIQUE COMMENT 'Name of the transaction status'
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT 'Table for property transaction statuses';
 
--- -----------------------------------------------------
--- Table `advantages`
--- Stores predefined advantages/selling points of properties.
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `advantages` (
     `advantage_id` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Unique identifier for the advantage',
     `advantage_name` VARCHAR(255) NOT NULL UNIQUE COMMENT 'Description of the advantage (e.g., Nhà Mới Xây, Gần Chợ)'
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT 'Table for property advantages';
 
--- -----------------------------------------------------
--- Table `disadvantages`
--- Stores predefined disadvantages/drawbacks of properties.
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `disadvantages` (
     `disadvantage_id` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Unique identifier for the disadvantage',
     `disadvantage_name` VARCHAR(255) NOT NULL UNIQUE COMMENT 'Description of the disadvantage (e.g., Đất Bị Quy Hoạch, Có Trụ Điện)'
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT 'Table for property disadvantages';
 
--- -----------------------------------------------------
--- Table `properties`
--- Main table storing all details about properties.
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `properties` (
     `property_id` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Unique identifier for the property',
     `user_id` INT NOT NULL COMMENT 'Foreign key to the user table (who manages/created this property)',
@@ -368,3 +336,10 @@ VALUES ('Đất Bị Quy Hoạch'),
     ('Gần Nghĩa Trang'),
     ('Gần Nhà Táng'),
     ('Đất Khó Kiếm');
+
+property_access_logs (
+    id INT PRIMARY KEY,
+    user_id INT,
+    property_id INT,
+    accessed_at DATETIME
+)

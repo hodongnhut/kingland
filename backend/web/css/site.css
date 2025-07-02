@@ -1,90 +1,227 @@
-main > .container {
-    padding: 70px 15px 20px;
+/* Base styling */
+body {
+    font-family: 'Inter', sans-serif;
 }
 
-.footer {
-    background-color: #f5f5f5;
-    font-size: .9em;
-    height: 60px;
+/* Sidebar styling */
+aside {
+    width: 64px;
+    /* Collapsed width */
+    background: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s ease;
+    /* Smooth transition for width */
+    position: relative;
+    z-index: 10;
 }
 
-.footer > .container {
-    padding-right: 15px;
-    padding-left: 15px;
+aside:hover {
+    width: 200px;
+    /* Expanded width */
 }
 
-.not-set {
-    color: #c55;
-    font-style: italic;
+/* Navigation items */
+nav .nav-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    color: #4b5563;
+    /* text-gray-600 */
+    transition: color 0.2s ease;
 }
 
-/* add sorting icons to gridview sort links */
-a.asc:after, a.desc:after {
-    content: '';
-    left: 3px;
-    display: inline-block;
-    width: 0;
-    height: 0;
-    border: solid 5px transparent;
-    margin: 4px 4px 2px 4px;
-    background: transparent;
+nav .nav-item:hover {
+    color: #2563eb;
+    /* text-blue-600 */
+    background: #eff6ff;
+    /* bg-blue-100 */
+    border-radius: 8px;
 }
 
-a.asc:after {
-    border-bottom: solid 7px #212529;
-    border-top-width: 0;
+/* Icon and text */
+nav .nav-item i {
+    font-size: 1.25rem;
+    /* text-xl */
+    width: 24px;
+    text-align: center;
 }
 
-a.desc:after {
-    border-top: solid 7px #212529;
-    border-bottom-width: 0;
-}
-
-.grid-view th,
-.grid-view td:last-child {
+nav .nav-item span {
+    margin-left: 12px;
+    opacity: 0;
+    /* Hidden by default */
+    transition: opacity 0.3s ease;
     white-space: nowrap;
 }
 
-.grid-view .filters input,
-.grid-view .filters select {
-    min-width: 50px;
+aside:hover .nav-item span {
+    opacity: 1;
+    /* Show text on hover */
 }
 
-.hint-block {
+/* Table container styling */
+.table-container {
+    overflow-x: hidden;
+    /* Prevent horizontal scrollbar */
+    width: 100%;
+}
+
+/* Table styling */
+table {
+    table-layout: auto;
+    /* Dynamic column widths */
+    width: 100%;
+    max-width: 100%;
+    /* Ensure table fits container */
+}
+
+/* Table cell styling */
+td,
+th {
+    white-space: normal;
+    /* Allow text wrapping */
+    word-break: break-word;
+    /* Break long words */
+    padding: 12px 16px;
+    text-align: left;
+    max-width: 150px;
+    /* Limit cell width */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Truncate with ellipsis if needed */
+}
+
+/* Ensure header alignment */
+th {
+    font-size: 0.75rem;
+    /* Match original text-xs */
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #6b7280;
+    /* text-gray-500 */
+}
+
+/* Header dropdown menu styling */
+#user-menu-btn {
     display: block;
-    margin-top: 5px;
-    color: #999;
 }
 
-.error-summary {
-    color: #a94442;
-    background: #fdf7f7;
-    border-left: 3px solid #eed3d7;
-    padding: 10px 20px;
-    margin: 0 0 15px 0;
+.group:hover #user-menu {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.2s ease, visibility 0s linear;
+    /* Smooth transition */
 }
 
-/* align the logout "link" (button in form) of the navbar */
-.nav li > form > button.logout {
-    padding-top: 7px;
-    color: rgba(255, 255, 255, 0.5);
+/* Custom scrollbar (optional, if needed) */
+.overflow-x-auto::-webkit-scrollbar {
+    height: 8px;
 }
 
-@media(max-width:767px) {
-    .nav li > form > button.logout {
-        display:block;
-        text-align: left;
-        width: 100%;
-        padding: 10px 0;
+.overflow-x-auto::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+}
+
+@media (min-width: 768px) {
+    .chart-container {
+        height: 450px;
     }
 }
 
-.nav > li > form > button.logout:focus,
-.nav > li > form > button.logout:hover {
-    text-decoration: none;
-    color: rgba(255, 255, 255, 0.75);
+.main-content-area {
+    flex: 1;
+    /* flex-1 */
+    display: flex;
+    flex-direction: column;
 }
 
-.nav > li > form > button.logout:focus {
-    outline: none;
+.main-content-padding {
+    padding: 1.5rem;
+    /* p-6 */
+    overflow: auto;
+}
+
+.card-container {
+    background-color: #ffffff;
+    /* bg-white */
+    padding: 1.5rem;
+    /* p-6 */
+    border-radius: 0.5rem;
+    /* rounded-lg */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    /* shadow-md */
+    margin-bottom: 1.5rem;
+    /* mb-6 */
+    max-width: 48rem;
+    /* max-w-2xl */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    /* text-2xl */
+    font-weight: 700;
+    /* font-bold */
+    color: #1f2937;
+    /* text-gray-800 */
+    margin-bottom: 1.5rem;
+    /* mb-6 */
+    text-align: center;
+}
+
+.form-spacing>div {
+    margin-bottom: 1rem;
+    /* Equivalent to space-y-4 */
+}
+
+.submit-button {
+    padding: 0.625rem 1.25rem;
+    /* px-5 py-2 */
+    border-width: 1px;
+    /* border */
+    border-color: transparent;
+    /* border-transparent */
+    border-radius: 0.375rem;
+    /* rounded-md */
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    /* shadow-sm */
+    font-size: 0.875rem;
+    /* text-sm */
+    font-weight: 500;
+    /* font-medium */
+    color: #ffffff;
+    /* text-white */
+    background-color: #2563eb;
+    /* bg-blue-600 */
+    transition-property: background-color;
+    transition-duration: 200ms;
+}
+
+.submit-button:hover {
+    background-color: #1d4ed8;
+    /* hover:bg-blue-700 */
+}
+
+.submit-button:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #3b82f6;
+    /* focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 */
 }

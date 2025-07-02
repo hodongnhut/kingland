@@ -6,28 +6,24 @@ use Yii;
 use yii\base\Model;
 
 /**
- * Login form
+ * Mẫu đăng nhập
  */
 class LoginForm extends Model
 {
-    public $username;
+    public $usernameOrEmail;
     public $password;
     public $rememberMe = true;
 
     private $_user;
 
-
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function rules()
     {
         return [
-            // username and password are both required
-            [['username', 'password'], 'required'],
-            // rememberMe must be a boolean value
+            [['usernameOrEmail', 'password'], 'required'],
             ['rememberMe', 'boolean'],
-            // password is validated by validatePassword()
             ['password', 'validatePassword'],
         ];
     }
@@ -44,13 +40,13 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+                $this->addError($attribute, 'Incorrect username/email or password.');
             }
         }
     }
 
     /**
-     * Logs in a user using the provided username and password.
+     * Logs in a user using the provided username or email and password.
      *
      * @return bool whether the user is logged in successfully
      */
@@ -59,21 +55,31 @@ class LoginForm extends Model
         if ($this->validate()) {
             return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         }
-        
         return false;
     }
 
     /**
-     * Finds user by [[username]]
+     * Finds user by [[usernameOrEmail]]
      *
      * @return User|null
      */
     protected function getUser()
     {
         if ($this->_user === null) {
-            $this->_user = User::findByUsername($this->username);
+            $this->_user = User::findByUsernameOrEmail($this->usernameOrEmail);
         }
-
         return $this->_user;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'usernameOrEmail' => 'Username or Email',
+            'password' => 'Password',
+            'rememberMe' => 'Remember Me',
+        ];
     }
 }

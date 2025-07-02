@@ -4,8 +4,6 @@
 /** @var string $content */
 
 use backend\assets\AppAsset;
-use common\widgets\Alert;
-use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
@@ -18,63 +16,79 @@ AppAsset::register($this);
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body class="d-flex flex-column h-100">
+<body class="flex min-h-screen bg-gray-100">
 <?php $this->beginBody() ?>
 
-<header>
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
-        ],
-    ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-    ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-    }     
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav me-auto mb-2 mb-md-0'],
-        'items' => $menuItems,
-    ]);
-    if (Yii::$app->user->isGuest) {
-        echo Html::tag('div',Html::a('Login',['/site/login'],['class' => ['btn btn-link login text-decoration-none']]),['class' => ['d-flex']]);
-    } else {
-        echo Html::beginForm(['/site/logout'], 'post', ['class' => 'd-flex'])
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout text-decoration-none']
-            )
-            . Html::endForm();
-    }
-    NavBar::end();
-    ?>
-</header>
+    <aside class="flex flex-col items-start py-4">
+        <div class="mb-8 px-4">
+            <div
+                class="h-10 w-10 bg-yellow-500 rounded-lg flex items-center justify-center text-white text-xl font-bold">
+                L
+            </div>
+        </div>
+        <nav class="flex flex-col space-y-2 w-full">
+            <a href="<?= Yii::$app->homeUrl ?>" class="nav-item bg-blue-100 text-blue-600">
+                <i class="fas fa-home text-xl"></i>
+                <span> Màn hình chính</span>
+            </a>
+            <a href="<?= \yii\helpers\Url::to(['/news']) ?>" class="nav-item">
+                <i class="fas fa-newspaper text-xl"></i>
+                <span>Bản tin nội bộ</span>
+            </a>
+            <a href="<?= \yii\helpers\Url::to(['/property']) ?>" class="nav-item">
+                <i class="fas fa-database text-xl"></i>
+                <span>Dữ liệu Nhà Đất</span>
+            </a>
+            <? if (Yii::$app->user->identity->jobTitle->role_code === 'manager' ||  Yii::$app->user->identity->jobTitle->role_code == 'super_admin'):  ?>
+            <a href="<?= \yii\helpers\Url::to(['/property-user']) ?>" class="nav-item">
+                <i class="fas fa-users text-xl"></i>
+                <span>Quản Lý Nhân Viên</span>
+            </a>    
+            <?php endif; ?>
+           
+        </nav>
+    </aside>
 
-<main role="main" class="flex-shrink-0">
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
+    <div class="flex-1 flex flex-col">
+      
         <?= $content ?>
     </div>
-</main>
+    <script>
+    const userMenuButton = document.getElementById('userMenuButton');
+    const userMenu = document.getElementById('userMenu');
+    let timeoutId;
 
-<footer class="footer mt-auto py-3 text-muted">
-    <div class="container">
-        <p class="float-start">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
-        <p class="float-end"><?= Yii::powered() ?></p>
-    </div>
-</footer>
+    userMenuButton.addEventListener('mouseenter', () => {
+        clearTimeout(timeoutId);
+        userMenu.classList.remove('hidden');
+        userMenuButton.setAttribute('aria-expanded', 'true');
+    });
 
+    userMenuButton.addEventListener('mouseleave', () => {
+        timeoutId = setTimeout(() => {
+            userMenu.classList.add('hidden');
+            userMenuButton.setAttribute('aria-expanded', 'false');
+        }, 300);
+    });
+
+    userMenu.addEventListener('mouseenter', () => {
+        clearTimeout(timeoutId);
+    });
+
+    userMenu.addEventListener('mouseleave', () => {
+        timeoutId = setTimeout(() => {
+            userMenu.classList.add('hidden');
+            userMenuButton.setAttribute('aria-expanded', 'false');
+        }, 300);
+    });
+</script>
 <?php $this->endBody() ?>
 </body>
 </html>
