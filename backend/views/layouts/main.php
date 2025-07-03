@@ -57,7 +57,6 @@ AppAsset::register($this);
     </aside>
 
     <div class="flex-1 flex flex-col">
-      
         <?= $content ?>
     </div>
     <script>

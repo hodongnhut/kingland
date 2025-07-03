@@ -4,17 +4,19 @@ namespace backend\controllers;
 
 use Yii;
 use yii\web\Response;
+use common\models\User;
+use common\models\UserLocations;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use common\models\LoginForm;
 use common\models\SignupForm;
+use common\models\UserSearch;
 use yii\filters\AccessControl;
 use yii\web\BadRequestHttpException;
+use common\models\ChangePasswordForm;
 use frontend\models\ResetPasswordForm;
 use yii\base\InvalidArgumentException;
 use frontend\models\PasswordResetRequestForm;
-use common\models\ChangePasswordForm;
-use common\models\UserSearch;
 
 
 /**
@@ -41,7 +43,9 @@ class SiteController extends Controller
                             'property-folder',
                             'property-user',
                             'login-version',
-                            'change-password'
+                            'change-password',
+                            'save-location',
+                            'clear-location-prompt'
                         ],
                         'allow' => true,
                     ],
@@ -80,13 +84,70 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        $user = Yii::$app->user->identity;
+        // Refresh user model to ensure latest data
+        if ($user) {
+            $user = User::findOne($user->id);
+        }
+        $role_code = $user && $user->jobTitle ? $user->jobTitle->role_code : '';
+        // Show modal if force_location_update is set and user is not manager/super_admin
+        $locationRequired = $role_code && $role_code !== 'manager' && $role_code !== 'super_admin' 
+            && Yii::$app->session->get('force_location_update', false);
+
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'locationRequired' => $locationRequired,
         ]);
+    }
+
+    public function actionSaveLocation()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $user = Yii::$app->user->identity;
+
+        if (!$user || !$user->jobTitle || $user->jobTitle->role_code === 'manager' || $user->jobTitle->role_code === 'super_admin') {
+            return ['success' => false, 'message' => 'Không có quyền hoặc vai trò không hợp lệ'];
+        }
+
+        $latitude = Yii::$app->request->post('latitude');
+        $longitude = Yii::$app->request->post('longitude');
+        $deviceType = Yii::$app->request->post('device_type');
+        $os = Yii::$app->request->post('os');
+        $browser = Yii::$app->request->post('browser');
+        $sessionId = Yii::$app->request->post('session_id');
+
+        if ($latitude !== null && $longitude !== null && is_numeric($latitude) && is_numeric($longitude)) {
+            $location = new UserLocations();
+            $location->user_id = $user->id;
+            $location->latitude = $latitude;
+            $location->longitude = $longitude;
+            $location->device_type = $deviceType;
+            $location->os = $os;
+            $location->browser = $browser;
+            $location->session_id = $sessionId;
+            if ($location->save()) {
+                $user->latitude = $latitude;
+                $user->longitude = $longitude;
+                $user->save(false);
+                Yii::$app->session->remove('force_location_update');
+                return ['success' => true, 'message' => 'Lưu vị trí thành công'];
+            } else {
+                return ['success' => false, 'message' => 'Không thể lưu vị trí', 'errors' => $location->getErrors()];
+            }
+        }
+
+        return ['success' => false, 'message' => 'Dữ liệu vị trí không hợp lệ'];
+    }
+
+    public function actionClearLocationPrompt()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        Yii::$app->session->remove('force_location_update');
+        return ['success' => true];
     }
 
     /**
@@ -154,6 +215,13 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            $user = Yii::$app->user->identity;
+            $role_code = $user->jobTitle ? $user->jobTitle->role_code : '';
+
+            // Set force_location_update for non-manager/super_admin users
+            if ($role_code && $role_code !== 'manager' && $role_code !== 'super_admin') {
+                Yii::$app->session->set('force_location_update', true);
+            }
             return $this->goBack();
         }
 

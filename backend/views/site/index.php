@@ -13,7 +13,25 @@ $this->registerCssFile(
 );
 ?>
 
-
+<!-- Location Prompt Modal for Non-Manager/Super Admin Roles -->
+<?php if (isset($locationRequired) && $locationRequired): ?>
+<div id="locationModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">Yêu cầu vị trí</h2>
+        <p class="text-gray-600 mb-4">Vui lòng bật dịch vụ định vị để sử dụng ứng dụng. Điều này giúp chúng tôi cung cấp dịch vụ phù hợp với vị trí của bạn.</p>
+        <div class="flex justify-between">
+            <button id="allowLocation" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-md transition-colors duration-200">
+                Cho phép định vị
+            </button>
+            <button id="retryLocation" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md shadow-md transition-colors duration-200 hidden">
+                Thử lại
+            </button>
+        </div>
+        <p id="locationError" class="text-red-600 mt-4 hidden"></p>
+        <a href="<?= \yii\helpers\Url::to(['site/logout']) ?>" class="text-blue-600 hover:text-blue-900 mt-4 block" data-method="post">Đăng xuất</a>
+    </div>
+</div>
+<?php endif; ?>
 
 <!-- Header -->
 <header class="bg-white shadow-md p-2 flex items-center justify-between rounded-bl-lg">
@@ -189,6 +207,107 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+    // Location Prompt Logic
+    const locationModal = document.getElementById('locationModal');
+    const allowLocationBtn = document.getElementById('allowLocation');
+    const retryLocationBtn = document.getElementById('retryLocation');
+    const locationError = document.getElementById('locationError');
+    const mainContent = document.querySelector('main');
+
+    if (locationModal && allowLocationBtn && retryLocationBtn && locationError && mainContent) {
+        if (!locationModal.classList.contains('hidden')) {
+            requestLocation();
+        }
+
+        allowLocationBtn.addEventListener('click', requestLocation);
+        retryLocationBtn.addEventListener('click', requestLocation);
+
+        function requestLocation() {
+            if (!navigator.geolocation) {
+                locationError.textContent = 'Trình duyệt của bạn không hỗ trợ định vị.';
+                locationError.classList.remove('hidden');
+                retryLocationBtn.classList.remove('hidden');
+                allowLocationBtn.classList.add('hidden');
+                return;
+            }
+
+            locationError.classList.add('hidden');
+            retryLocationBtn.classList.add('hidden');
+            allowLocationBtn.classList.add('hidden');
+
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+
+                    // Detect device information (basic detection)
+                    const deviceType = /Mobi|Android|iPhone/i.test(navigator.userAgent) ? 'Điện thoại' : 'Máy Tính';
+                    const os = navigator.platform || 'Unknown';
+                    const browser = navigator.userAgent.match(/(Chrome|Firefox|Safari|Edge)/i)?.[1] || 'Unknown';
+                    const sessionId = '<?= Yii::$app->session->id ?>'; // Yii2 session ID
+
+                    fetch('<?= \yii\helpers\Url::to(['site/save-location']) ?>', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-CSRF-Token': '<?= Yii::$app->request->csrfToken ?>'
+                        },
+                        body: 'latitude=' + latitude + '&longitude=' + longitude +
+                              '&device_type=' + encodeURIComponent(deviceType) +
+                              '&os=' + encodeURIComponent(os) +
+                              '&browser=' + encodeURIComponent(browser) +
+                              '&session_id=' + encodeURIComponent(sessionId)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            locationModal.classList.add('hidden');
+                            mainContent.classList.remove('hidden');
+                            fetch('<?= \yii\helpers\Url::to(['site/clear-location-prompt']) ?>', {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-Token': '<?= Yii::$app->request->csrfToken ?>'
+                                }
+                            }).then(() => {
+                                // Optional: Reload only if needed
+                                // window.location.reload();
+                            });
+                        } else {
+                            locationError.textContent = data.message || 'Không thể lưu vị trí. Vui lòng thử lại.';
+                            locationError.classList.remove('hidden');
+                            retryLocationBtn.classList.remove('hidden');
+                        }
+                    })
+                    .catch(error => {
+                        locationError.textContent = 'Lỗi khi lưu vị trí: ' + error.message;
+                        locationError.classList.remove('hidden');
+                        retryLocationBtn.classList.remove('hidden');
+                    });
+                },
+                function(error) {
+                    let errorMessage = 'Vui lòng bật dịch vụ định vị để tiếp tục.';
+                    switch (error.code) {
+                        case error.PERMISSION_DENIED:
+                            errorMessage = 'Bạn đã từ chối chia sẻ vị trí. Vui lòng bật định vị trong cài đặt trình duyệt.';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            errorMessage = 'Không thể lấy được vị trí. Vui lòng kiểm tra kết nối mạng.';
+                            break;
+                        case error.TIMEOUT:
+                            errorMessage = 'Yêu cầu vị trí đã hết thời gian. Vui lòng thử lại.';
+                            break;
+                    }
+                    locationError.textContent = errorMessage;
+                    locationError.classList.remove('hidden');
+                    retryLocationBtn.classList.remove('hidden');
+                    allowLocationBtn.classList.add('hidden');
+                },
+                { enableHighAccuracy: true, timeout: 10000 }
+            );
+        }
+    }
+
 
 // Chart.js Configuration
 const wrapLabels = (label, maxWidth) => {

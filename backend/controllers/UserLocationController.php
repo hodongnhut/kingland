@@ -2,19 +2,16 @@
 
 namespace backend\controllers;
 
-use common\models\User;
-use common\models\SignupForm;
-use common\models\UserSearch;
+use common\models\UserLocations;
+use common\models\UserLocationSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\ForbiddenHttpException;
 use yii\filters\VerbFilter;
-use Yii;
 
 /**
- * UserController implements the CRUD actions for User model.
+ * UserLocationController implements the CRUD actions for UserLocations model.
  */
-class UserController extends Controller
+class UserLocationController extends Controller
 {
     /**
      * @inheritDoc
@@ -35,13 +32,13 @@ class UserController extends Controller
     }
 
     /**
-     * Lists all User models.
+     * Lists all UserLocations models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new UserSearch();
+        $searchModel = new UserLocationSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -51,8 +48,8 @@ class UserController extends Controller
     }
 
     /**
-     * Displays a single User model.
-     * @param int $id
+     * Displays a single UserLocations model.
+     * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -64,50 +61,21 @@ class UserController extends Controller
     }
 
     /**
-     * Displays a single User model's location on a map.
-     * @param int $id
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     * @throws ForbiddenHttpException if the user is not authorized
-     */
-    public function actionMap($id)
-    {
-        $user = Yii::$app->user->identity;
-        // Refresh user model to ensure latest data
-        if ($user) {
-            $user = User::findOne($user->id);
-        }
-        $role_code = $user && $user->jobTitle ? $user->jobTitle->role_code : '';
-
-        // Restrict access to manager and super_admin roles
-        if (!$role_code || ($role_code !== 'manager' && $role_code !== 'super_admin')) {
-            throw new ForbiddenHttpException('Bạn không có quyền xem vị trí của nhân viên.');
-        }
-
-        $model = $this->findModel($id);
-        if (!$model->latitude || !$model->longitude) {
-            throw new NotFoundHttpException('Không tìm thấy dữ liệu vị trí cho nhân viên này.');
-        }
-
-        return $this->render('map', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Creates a new User model.
+     * Creates a new UserLocations model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
+        $model = new UserLocations();
 
-        $model = new SignupForm();
-        if ($model->load($this->request->post()) && $model->signup()) {
-            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
-            return $this->goHome();
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+        } else {
+            $model->loadDefaultValues();
         }
-
 
         return $this->render('create', [
             'model' => $model,
@@ -115,9 +83,9 @@ class UserController extends Controller
     }
 
     /**
-     * Updates an existing User model.
+     * Updates an existing UserLocations model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id
+     * @param int $id ID
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -135,9 +103,9 @@ class UserController extends Controller
     }
 
     /**
-     * Deletes an existing User model.
+     * Deletes an existing UserLocations model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id
+     * @param int $id ID
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -149,15 +117,15 @@ class UserController extends Controller
     }
 
     /**
-     * Finds the User model based on its primary key value.
+     * Finds the UserLocations model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id
-     * @return User the loaded model
+     * @param int $id ID
+     * @return UserLocations the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = User::findOne(['id' => $id])) !== null) {
+        if (($model = UserLocations::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

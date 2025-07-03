@@ -52,7 +52,8 @@ return [
                 'login-version' => 'site/login-version',
                 'change-password' => 'site/change-password',
                 'news' => 'news/index',
-                'user/map' => 'user/map'
+                'user/map' => 'user/map',
+                'login-version' => 'user-location'
             ],
         ],
     ],

@@ -360,3 +360,17 @@ CREATE TABLE IF NOT EXISTS `devices` (
     `updated_at` INT(11) NOT NULL COMMENT 'Unix timestamp of the last update to the record',
     CONSTRAINT `fk_device_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT 'Table to store user device information';
+
+CREATE TABLE user_locations (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    latitude DOUBLE NOT NULL,
+    longitude DOUBLE NOT NULL,
+    device_type VARCHAR(50), -- Loại thiết bị (ví dụ: 'Máy Tính', 'Điện thoại')
+    os VARCHAR(50), -- Hệ điều hành của thiết bị (ví dụ: 'Linux', 'Android')
+    browser VARCHAR(50), -- Trình duyệt được sử dụng (ví dụ: 'Chrome', 'Firefox')
+    device_unique_id VARCHAR(255), -- Mã định danh duy nhất của thiết bị
+    session_id VARCHAR(255), -- ID phiên hoạt động hiện tại
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_user_locations_user FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE
+);
