@@ -16,15 +16,25 @@ $categories = \yii\helpers\ArrayHelper::map(Categories::find()->all(), 'category
 
 <div class="card-container">
     <div class="user-form bg-white p-6 mb-6 max-w-2xl mx-auto">
-        <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+        <?php $form = ActiveForm::begin(
+            [
+                'options' => ['enctype' => 'multipart/form-data'],
+                'fieldConfig' => [
+                    'template' => "{label}\n{input}\n{hint}\n{error}",
+                    'options' => ['class' => 'mb-3'],
+                    'labelOptions' => ['class' => 'form-label'],
+                    'inputOptions' => ['class' => 'form-control'],
+                    'errorOptions' => ['class' => 'invalid-feedback d-block'], 
+                    'hintOptions' => ['class' => 'form-text text-muted'],
+                ],
+                ],
+            ); ?>
 
         <?= $form->field($model, 'post_title')->textInput(['maxlength' => true]) ?>
 
-        <br>
         <?= $form->field($model, 'category_id')->dropDownList(
             ['' => 'Chọn Nhóm Bản Tin'] + (isset($categories) ? $categories : []),
         )->label('Chọn Nhóm Bản Tin') ?>
-        <br>
 
         <?= $form->field($model, 'post_content')->widget(CKEditor::class, [
             'options' => ['rows' => 6],
@@ -52,7 +62,6 @@ $categories = \yii\helpers\ArrayHelper::map(Categories::find()->all(), 'category
             'EVENT' => 'EVENT',
         ], ['prompt' => 'Chọn Loại Bài Viết']) ?>
 
-        <br>
         <?= $form->field($model, 'post_date')->widget(\yii\jui\DatePicker::class, [
             'dateFormat' => 'yyyy-MM-dd', // Or 'dd-MM-yyyy' if preferred
             'options' => ['class' => 'form-control'],
@@ -64,14 +73,13 @@ $categories = \yii\helpers\ArrayHelper::map(Categories::find()->all(), 'category
             ],
         ]) ?>
 
-        <br>
         <?= $form->field($model, 'is_active')->checkbox() // Changed to checkbox for boolean ?>
 
         <hr class="my-6">
         <h3 class="text-lg font-semibold text-gray-800 mb-3">Tệp đính kèm</h3>
 
         <?= $form->field(new \common\models\Attachments(), 'file[]')->fileInput(['multiple' => true])->label('Upload Files') ?>
-        <p class="text-sm text-gray-500 mt-1">Định dạng hỗ trợ: JPG, PNG, GIF, PDF, DOC, DOCX, XLS, XLSX (Tối đa 5MB/tệp, 10 tệp)</p>
+        <p class="text-sm text-gray-500 mt-1">Định dạng hỗ trợ: JPG, PNG (Tối đa 5MB/tệp, 10 tệp)</p>
 
         <?php if (!$model->isNewRecord && !empty($model->attachments)): // Display existing attachments for update ?>
             <div class="mt-4">
