@@ -132,7 +132,7 @@ $this->registerCssFile(
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <? if ($role_code != 'manager' ||  $role_code != 'super_admin'):  ?>
+                                <? if ($role_code != $user->jobTitle->role_code ||  $role_code != $user->jobTitle->role_code):  ?>
                                     <?= Html::a('<i class="fas fa-map"></i> Xem Vị trí', ['user/map', 'id' => $user->id], [
                                         'class' => 'text-blue-600 hover:text-blue-900 mr-3',
                                         'title' => 'Xem Vị trí',
