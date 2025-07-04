@@ -374,3 +374,69 @@ CREATE TABLE user_locations (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_user_locations_user FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE
 );
+
+CREATE TABLE categories (
+    category_id INT AUTO_INCREMENT PRIMARY KEY,
+    category_name VARCHAR(255) NOT NULL UNIQUE, -- Tên nhóm bản tin, ví dụ: "Thông báo", "Tin tức", "Sự kiện"
+    description TEXT -- Mô tả thêm về nhóm (có thể NULL)
+);
+
+CREATE TABLE posts (
+    post_id INT AUTO_INCREMENT PRIMARY KEY,
+    category_id INT NOT NULL, -- Khóa ngoại liên kết với bảng categories
+    post_title VARCHAR(255) NOT NULL, -- Tiêu đề của bản tin
+    post_content TEXT, -- Nội dung chi tiết của bản tin (có thể NULL nếu nội dung được lưu trữ riêng biệt hoặc không hiển thị trên danh sách)
+    post_type ENUM('DOC', 'NEWS', 'EVENT') NOT NULL, -- Loại bản tin dựa trên icon
+    post_date DATE NOT NULL, -- Ngày đăng bản tin
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Thời gian tạo bản ghi
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- Thời gian cập nhật bản ghi
+    is_active BOOLEAN DEFAULT TRUE, -- Trạng thái kích hoạt của bản tin (có thể dùng để ẩn/hiện)
+    FOREIGN KEY (category_id) REFERENCES categories (category_id) ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+CREATE TABLE attachments (
+    attachment_id INT AUTO_INCREMENT PRIMARY KEY,
+    post_id INT NOT NULL,
+    file_name VARCHAR(255) NOT NULL,
+    file_path VARCHAR(255) NOT NULL,
+    file_type VARCHAR(50),
+    file_size INT,
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES posts (post_id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+INSERT INTO
+    categories (category_name)
+VALUES ('Thông báo'),
+    ('Tin tức'),
+    ('Sự kiện');
+
+INSERT INTO
+    posts (
+        category_id,
+        post_title,
+        post_type,
+        post_date,
+        post_content
+    )
+VALUES (
+        1,
+        'THÔNG BÁO THAY ĐỔI THỜI GIAN LÀM VIỆC',
+        'DOC',
+        '2024-04-02',
+        'Nội dung chi tiết thông báo thay đổi thời gian làm việc...'
+    ),
+    (
+        2,
+        'CẬP NHẬT CHÍNH SÁCH HOA HỒNG MỚI NĂM 2024',
+        'NEWS',
+        '2024-03-28',
+        'Nội dung chi tiết cập nhật chính sách hoa hồng...'
+    ),
+    (
+        3,
+        'THÔNG BÁO TỔ CHỨC TIỆC TẤT NIÊN CÔNG TY',
+        'EVENT',
+        '2024-03-15',
+        'Nội dung chi tiết thông báo tiệc tất niên...'
+    );

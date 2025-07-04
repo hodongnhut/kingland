@@ -132,11 +132,13 @@ $this->registerCssFile(
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <?= Html::a('<i class="fas fa-map"></i> Xem Vị trí', ['user/map', 'id' => $user->id], [
-                                    'class' => 'text-blue-600 hover:text-blue-900 mr-3',
-                                    'title' => 'Xem Vị trí',
-                                    'data-method' => 'get'
-                                ]) ?>
+                                <? if ($role_code != 'manager' ||  $role_code != 'super_admin'):  ?>
+                                    <?= Html::a('<i class="fas fa-map"></i> Xem Vị trí', ['user/map', 'id' => $user->id], [
+                                        'class' => 'text-blue-600 hover:text-blue-900 mr-3',
+                                        'title' => 'Xem Vị trí',
+                                        'data-method' => 'get'
+                                    ]) ?>
+                                <?php endif; ?>  
                                 <?= Html::a('<i class="fas fa-edit"></i>', ['user/update', 'id' => $user->id], [
                                     'class' => 'text-blue-600 hover:text-blue-900 mr-3',
                                     'title' => 'Chỉnh sửa',

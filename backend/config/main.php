@@ -53,7 +53,8 @@ return [
                 'change-password' => 'site/change-password',
                 'news' => 'news/index',
                 'user/map' => 'user/map',
-                'login-version' => 'user-location'
+                'login-version' => 'user-location',
+                'news' => 'post'
             ],
         ],
     ],

@@ -3,10 +3,10 @@
 /** @var \yii\web\View $this */
 /** @var string $content */
 
-use backend\assets\AppAsset;
-use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
+use yii\bootstrap5\Html;
 use yii\bootstrap5\NavBar;
+use backend\assets\AppAsset;
 
 AppAsset::register($this);
 ?>
@@ -50,7 +50,15 @@ AppAsset::register($this);
             <a href="<?= \yii\helpers\Url::to(['/property-user']) ?>" class="nav-item">
                 <i class="fas fa-users text-xl"></i>
                 <span>Quản Lý Nhân Viên</span>
-            </a>    
+            </a>  
+            <a href="<?= \yii\helpers\Url::to(['/property-user']) ?>" class="nav-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Báo Cáo</span>
+            </a> 
+            <a href="<?= \yii\helpers\Url::to(['/property-user']) ?>" class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Cài Đặt   </span>
+            </a>  
             <?php endif; ?>
            
         </nav>
