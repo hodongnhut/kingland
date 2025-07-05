@@ -20,6 +20,16 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+            'enableCsrfValidation' => true,
+            'secureHeaders' => [
+                'X-Forwarded-For',
+                'X-Forwarded-Host',
+                'X-Forwarded-Proto',
+                'X-Forwarded-Port',
+            ],
+            'secureProtocolHeaders' => [
+                'X-Forwarded-Proto' => ['https'],
+            ],
         ],
         'user' => [
             'identityClass' => 'common\models\User',
