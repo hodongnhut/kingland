@@ -20,6 +20,9 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+            'secureHeaders' => [
+                'X-Forwarded-Proto' => ['https'],
+            ],
         ],
         'user' => [
             'identityClass' => 'common\models\User',
