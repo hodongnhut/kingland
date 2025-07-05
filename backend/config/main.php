@@ -20,9 +20,6 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
-            'trustedProxies' => [
-                '172.18.0.1',
-            ],
             'enableCsrfValidation' => true,
             'secureHeaders' => [
                 'X-Forwarded-For',
