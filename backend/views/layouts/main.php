@@ -48,16 +48,8 @@ AppAsset::register($this);
             </a>
             <? if (Yii::$app->user->identity->jobTitle->role_code === 'manager' ||  Yii::$app->user->identity->jobTitle->role_code == 'super_admin'):  ?>
             <a href="<?= \yii\helpers\Url::to(['/property-user']) ?>" class="nav-item">
-                <i class="fas fa-users text-xl"></i>
-                <span>Quản Lý Nhân Viên</span>
-            </a>  
-            <a href="<?= \yii\helpers\Url::to(['/property-user']) ?>" class="nav-item">
                 <i class="fas fa-chart-bar"></i>
-                <span>Báo Cáo</span>
-            </a> 
-            <a href="<?= \yii\helpers\Url::to(['/property-user']) ?>" class="nav-item">
-                <i class="fas fa-cog"></i>
-                <span>Cài Đặt   </span>
+                <span>Quản Lý Nhân Viên</span>
             </a>  
             <?php endif; ?>
            
