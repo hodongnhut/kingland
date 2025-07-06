@@ -39,7 +39,8 @@ class UserController extends Controller
                                 'update',
                                 'create',
                                 'delete',
-                                'map'
+                                'map',
+                                'view'
                             ],
                             'allow' => true,
                             'roles' => ['@'],

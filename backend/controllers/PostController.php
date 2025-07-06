@@ -40,7 +40,8 @@ class PostController extends Controller
                                 'index',
                                 'update',
                                 'create',
-                                'delete'
+                                'delete',
+                                'view'
                             ],
                             'allow' => true,
                             'roles' => ['@'],
