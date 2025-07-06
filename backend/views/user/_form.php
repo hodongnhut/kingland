@@ -72,16 +72,15 @@ $departmentMap = ArrayHelper::map(Departments::find()->all(), 'department_id', '
             <?= $form->field($model, 'password')->passwordInput(['maxlength' => true])
                 ->hint('Để trống nếu không muốn thay đổi mật khẩu') ?>
 
-
             <?= $form->field($model, 'job_title_id')->dropDownList(
                         $jobTitleMap,
                         ['prompt' => 'Chọn chức vụ...']
                     ) ?>
 
-                <?= $form->field($model, 'department_id')->dropDownList(
-                    $departmentMap,
-                    ['prompt' => 'Chọn phòng ban...']
-                ) ?>
+            <?= $form->field($model, 'department_id')->dropDownList(
+                $departmentMap,
+                ['prompt' => 'Chọn phòng ban...']
+            ) ?>
 
             <?= $form->field($model, 'status')->hiddenInput()->label(false) ?>
 
