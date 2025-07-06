@@ -64,6 +64,7 @@ return [
                 'user/map/<id:\d+>' => 'user/map',
                 'login-version' => 'user-location',
                 'news' => 'post',
+                'property-folder' => 'folder',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
