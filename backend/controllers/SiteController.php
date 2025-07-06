@@ -17,7 +17,8 @@ use common\models\ChangePasswordForm;
 use frontend\models\ResetPasswordForm;
 use yii\base\InvalidArgumentException;
 use frontend\models\PasswordResetRequestForm;
-
+use yii\web\NotFoundHttpException;
+use yii\web\ForbiddenHttpException;
 
 /**
  * Site controller
@@ -39,18 +40,22 @@ class SiteController extends Controller
                             'error', 
                             'reset-password', 
                             'request-password-reset', 
-                            'property', 
-                            'property-folder',
-                            'property-user',
-                            'login-version',
-                            'change-password',
-                            'save-location',
-                            'clear-location-prompt'
                         ],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'property'],
+                        'actions' => [
+                            'logout', 
+                            'index', 
+                            'property',
+                            'change-password',
+                            'property', 
+                            'property-folder',
+                            'property-user',
+                            'login-version',
+                            'save-location',
+                            'clear-location-prompt'
+                        ],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -311,9 +316,8 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->changePassword()) {
                 Yii::$app->session->setFlash('success', 'Mật khẩu của bạn đã được thay đổi thành công.');
-                // Optional: Log out the user after password change for security
-                // Yii::$app->user->logout();
-                return $this->redirect(['site/index']); // Redirect to dashboard or login page
+                Yii::$app->user->logout();
+                return $this->goHome();
             } else {
                 Yii::$app->session->setFlash('error', 'Có lỗi xảy ra khi thay đổi mật khẩu.');
             }
@@ -323,5 +327,6 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+
 
 }

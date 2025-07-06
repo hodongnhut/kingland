@@ -37,7 +37,6 @@ return [
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
         'session' => [
-            // this is the name of the session cookie used for login on the backend
             'name' => 'advanced-backend',
         ],
         'log' => [
@@ -62,9 +61,13 @@ return [
                 'login-version' => 'site/login-version',
                 'change-password' => 'site/change-password',
                 'news' => 'news/index',
-                'user/map' => 'user/map',
+                'user/map/<id:\d+>' => 'user/map',
                 'login-version' => 'user-location',
-                'news' => 'post'
+                'news' => 'post',
+                '<controller:\w+>/<id:\d+>' => '<controller>/view',
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+
             ],
         ],
     ],

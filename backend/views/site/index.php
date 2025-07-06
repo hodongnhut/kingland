@@ -136,7 +136,8 @@ $this->registerCssFile(
                                     <?= Html::a('<i class="fas fa-map"></i> Xem Vị trí', ['user/map', 'id' => $user->id], [
                                         'class' => 'text-blue-600 hover:text-blue-900 mr-3',
                                         'title' => 'Xem Vị trí',
-                                        'data-method' => 'get'
+                                        'data-method' => 'get',
+                                        'target' => '_blank',
                                     ]) ?>
                                 <?php endif; ?>  
                                 <?= Html::a('<i class="fas fa-edit"></i>', ['user/update', 'id' => $user->id], [

@@ -2,15 +2,15 @@
 
 namespace backend\controllers;
 
+use Yii;
 use common\models\User;
+use yii\web\Controller;
+use yii\filters\VerbFilter;
 use common\models\SignupForm;
 use common\models\UserSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\ForbiddenHttpException;
-use yii\filters\VerbFilter;
-use Yii;
-
+use yii\filters\AccessControl;
 /**
  * UserController implements the CRUD actions for User model.
  */
@@ -28,6 +28,22 @@ class UserController extends Controller
                     'class' => VerbFilter::className(),
                     'actions' => [
                         'delete' => ['POST'],
+                    ],
+                ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'rules' => [
+                        [
+                            'actions' => [
+                                'index',
+                                'update',
+                                'create',
+                                'delete',
+                                'map'
+                            ],
+                            'allow' => true,
+                            'roles' => ['@'],
+                        ],
                     ],
                 ],
             ]

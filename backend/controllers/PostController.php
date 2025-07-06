@@ -11,7 +11,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile; // Import UploadedFile
-
+use yii\filters\AccessControl;
 /**
  * PostsController implements the CRUD actions for Posts model.
  */
@@ -29,7 +29,22 @@ class PostController extends Controller
                     'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
-                        'attachments/delete' => ['POST'], // Add this for attachment deletion
+                        'attachments/delete' => ['POST'],
+                    ],
+                ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'rules' => [
+                        [
+                            'actions' => [
+                                'index',
+                                'update',
+                                'create',
+                                'delete'
+                            ],
+                            'allow' => true,
+                            'roles' => ['@'],
+                        ],
                     ],
                 ],
             ]
