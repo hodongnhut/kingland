@@ -17,6 +17,14 @@ use common\models\ChangePasswordForm;
 use frontend\models\ResetPasswordForm;
 use yii\base\InvalidArgumentException;
 use frontend\models\PasswordResetRequestForm;
+use common\models\PropertiesSearch;
+use common\models\PropertyTypes;
+use common\models\ListingTypes;
+use common\models\LocationTypes;
+use common\models\AssetTypes;
+use common\models\Advantages;
+use common\models\Disadvantages;
+use common\models\Directions;
 use yii\web\NotFoundHttpException;
 use yii\web\ForbiddenHttpException;
 
@@ -254,7 +262,20 @@ class SiteController extends Controller
      * @return mixed
      */
     public function actionProperty() {
-        return $this->render('property');
+        $searchModel = new PropertiesSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        return $this->render('/properties/index', [
+            'searchModel' => $searchModel,
+            'modelPropertyTypes' => PropertyTypes::find()->all(),
+            'modelListingTypes' => ListingTypes::find()->all(),
+            'modelLocationTypes' => LocationTypes::find()->all(),
+            'modelAssetTypes' => AssetTypes::find()->all(),
+            'modelAdvantages' => Advantages::find()->all(),
+            'modelDisadvantages' => Disadvantages::find()->all(),
+            'modelDirections' => Directions::find()->all(),
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**
