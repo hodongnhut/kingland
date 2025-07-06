@@ -27,10 +27,9 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 
     <aside class="flex flex-col items-start py-4">
-        <div class="mb-8 px-4">
-            <div
-                class="h-10 w-10 bg-yellow-500 rounded-lg flex items-center justify-center text-white text-xl font-bold">
-                L
+        <div class="mb-8 px-3">
+            <div class="h-10 w-10 bg-yellow-500 rounded-lg flex items-center justify-center text-white text-xl font-bold overflow-hidden">
+                <img src="img/logo.png" alt="King Land" class="h-full w-full object-contain">
             </div>
         </div>
         <nav class="flex flex-col space-y-2 w-full">
