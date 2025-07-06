@@ -85,13 +85,9 @@ $departmentMap = ArrayHelper::map(Departments::find()->all(), 'department_id', '
 
             <?= $form->field($model, 'status')->hiddenInput()->label(false) ?>
 
-
             <div class="flex justify-end space-x-4 pt-4">
-                <button type="button"
-                    class="px-5 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50
-                                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
-                    Hủy
-                </button>
+                <?= Html::a('Quay lại', Yii::$app->request->referrer ?: ['index'], ['class' => 'px-5 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50
+                                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 btn btn-primary px-5 py-2']) ?>
                 <button type="submit"
                     class="px-5 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700
                                 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
