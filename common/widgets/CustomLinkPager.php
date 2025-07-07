@@ -118,7 +118,7 @@ class CustomLinkPager extends LinkPager
         // Combine Mobile and Desktop Views
         $mobileView = Html::tag('div', implode('', $mobileButtons), ['class' => 'flex flex-1 justify-between sm:hidden']);
 
-        return Html::tag('div', $mobileView . $desktopView, ['class' => 'flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 mt-4']);
+        return Html::tag('div', $mobileView . $desktopView, ['class' => 'flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 mt-6 rounded-lg shadow-sm']);
     }
 }
 ?>
