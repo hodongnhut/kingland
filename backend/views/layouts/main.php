@@ -29,7 +29,7 @@ AppAsset::register($this);
 
     <aside class="flex flex-col items-start py-4">
         <div class="mb-8 px-3">
-            <div class="h-10 w-10 bg-yellow-500 rounded-lg flex items-center justify-center text-white text-xl font-bold overflow-hidden">
+            <div class="h-10 w-10 rounded-lg flex items-center justify-center text-white text-xl font-bold overflow-hidden">
             <img src="<?= Yii::$app->request->baseUrl ?>/img/logo.png" alt="King Land" class="h-full w-full object-contain">
             </div>
         </div>
