@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <span>Quản Lý Tệp</span>
         </a>
         <div class="flex space-x-3">
-            <button class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-md shadow-md flex items-center transition-colors duration-200">
+            <button id="openDialog" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-md shadow-md flex items-center transition-colors duration-200">
                 <i class="fas fa-plus mr-2"></i> TẠO MỚI
             </button>
         </div>
@@ -90,7 +90,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
                 'format' => 'raw',
                 'value' => function ($model, $key, $index, $column) use ($dataProvider) {
-                    // Calculate the row number based on the current page and index
                     $pagination = $dataProvider->getPagination();
                     $page = $pagination->getPage();
                     $pageSize = $pagination->pageSize;
@@ -100,7 +99,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]), ['class' => 'flex items-center space-x-2']);
                 },
             ],
-            // Số Nhà (House Number and Property Type)
             [
                 'attribute' => 'title',
                 'label' => 'Số Nhà',
@@ -108,17 +106,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
                 'format' => 'raw',
                 'value' => function ($model) {
-                    // Map property_type_id to display name (adjust based on your model)
-                    $propertyTypes = [
-                        1 => 'Nhà phố',
-                        2 => 'Biệt thự',
-                        3 => 'Chung cư',
-                        4 => 'Đất',
-                        // Add more mappings as needed
-                    ];
-                    $type = isset($propertyTypes[$model->property_type_id]) ? $propertyTypes[$model->property_type_id] : 'Unknown';
-                    return Html::tag('div', 'BÁN', ['class' => 'font-semibold']) .
-                        Html::tag('div', $type, ['class' => 'text-xs text-gray-600']) .
+                    return Html::tag('div', $model->listingType->name, ['class' => 'font-semibold']) .
+                        Html::tag('div', $model->propertyType->type_name, ['class' => 'text-xs text-gray-600']) .
                         Html::tag('div', $model->title);
                 },
             ],
@@ -212,17 +201,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
                 'format' => 'raw',
                 'value' => function ($model) {
-                    // Map transaction_status_id to status and color
-                    $statusMap = [
-                        1 => ['Đang Giao Dịch', 'bg-green-100 text-green-800'],
-                        2 => ['Ngừng Giao Dịch', 'bg-red-100 text-red-800'],
-                        // Add more mappings as needed
-                    ];
-                    $status = isset($statusMap[$model->transaction_status_id]) 
-                        ? $statusMap[$model->transaction_status_id] 
-                        : ['Unknown', 'bg-gray-100 text-gray-800'];
-                    $statusBadge = Html::tag('span', $status[0], [
-                        'class' => 'text-xs font-medium px-2.5 py-0.5 rounded-full ' . $status[1],
+                    $statusBadge = Html::tag('span', $model->transactionStatus->status_name, [
+                        'class' => 'text-xs font-medium px-2.5 py-0.5 rounded-full ' . $model->transactionStatus->class_css,
                     ]);
                     // Format updated_at (assuming it's a timestamp)
                     $updateTime = Yii::$app->formatter->asDatetime($model->updated_at, 'php:H:i \t\g\i\ứ d/m/Y');
@@ -275,5 +255,170 @@ $this->params['breadcrumbs'][] = $this->title;
     ]);
 ?>
 
+<div id="dialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl">
+            <div class="flex justify-between items-center p-4 border-b">
+                <h2 class="text-xl font-semibold text-gray-800">DỮ LIỆU NHÀ ĐẤT</h2>
+                <button id="cancelIcon" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times-circle text-2xl"></i>
+                </button>
+            </div>
 
+            <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2">
+                        <span class="text-red-500">*</span> Loại Giao Dịch
+                    </label>
+                    <div class="flex space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" class="form-radio text-blue-600" name="transactionType" value="ban" checked>
+                            <span class="ml-2 text-gray-700">Bán</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" class="form-radio text-blue-600" name="transactionType" value="cho_thue">
+                            <span class="ml-2 text-gray-700">Cho Thuê</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="propertyType" class="block text-gray-700 text-sm font-bold mb-2">
+                        <span class="text-red-500">*</span> Loại BĐS
+                    </label>
+                    <select id="propertyType" name="propertyType" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="">Chọn Loại BĐS</option>
+                        </select>
+                </div>
+
+                <div>
+                    <label for="province" class="block text-gray-700 text-sm font-bold mb-2">
+                        <span class="text-red-500">*</span> Tỉnh Thành
+                    </label>
+                    <select id="province" name="province" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="ho_chi_minh">Hồ Chí Minh</option>
+                        </select>
+                </div>
+
+                <div>
+                    <label for="district" class="block text-gray-700 text-sm font-bold mb-2">
+                        <span class="text-red-500">*</span> Quận Huyện
+                    </label>
+                    <select id="district" name="district" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="">Chọn Quận Huyện...</option>
+                        </select>
+                </div>
+
+                <div>
+                    <label for="ward" class="block text-gray-700 text-sm font-bold mb-2">
+                        <span class="text-red-500">*</span> Phường / Xã
+                    </label>
+                    <select id="ward" name="ward" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="">Chọn Phường / Xã</option>
+                        </select>
+                </div>
+
+                <div>
+                    <label for="street" class="block text-gray-700 text-sm font-bold mb-2">
+                        <span class="text-red-500">*</span> Đường
+                    </label>
+                    <select id="street" name="street" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="">Chọn Đường</option>
+                        </select>
+                </div>
+
+                <div>
+                    <label for="houseNumber" class="block text-gray-700 text-sm font-bold mb-2">
+                        Số Nhà
+                    </label>
+                    <input type="text" id="houseNumber" name="houseNumber" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+
+                <div>
+                    <label for="parcelNumber" class="block text-gray-700 text-sm font-bold mb-2">
+                        Số Thửa
+                    </label>
+                    <input type="text" id="parcelNumber" name="parcelNumber" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+
+                <div>
+                    <label for="sheetNumber" class="block text-gray-700 text-sm font-bold mb-2">
+                        Số Tờ
+                    </label>
+                    <input type="text" id="sheetNumber" name="sheetNumber" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+
+                <div>
+                    <label for="lotNumber" class="block text-gray-700 text-sm font-bold mb-2">
+                        Số Lô
+                    </label>
+                    <input type="text" id="lotNumber" name="lotNumber" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+
+                <div class="md:col-span-2">
+                    <label for="areaDescription" class="block text-gray-700 text-sm font-bold mb-2">
+                        Khu Vực
+                    </label>
+                    <input type="text" id="areaDescription" name="areaDescription" placeholder="Ví dụ: CityLand, Trung Sơn, Cư Xá Phú Lâm..." class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+
+            </div>
+
+            <div class="p-6 flex justify-center space-x-4 border-t">
+                <a id="createButton" href="/property/create" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md inline-flex items-center">
+                    <i class="fas fa-arrow-right mr-2"></i> TIẾP TỤC
+                </a>
+                <button id="cancelButton" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md inline-flex items-center">
+                    <i class="fas fa-times mr-2"></i> HỦY
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const openDialogButton = document.getElementById('openDialog');
+    const dialog = document.getElementById('dialog');
+    const cancelButton = document.getElementById('cancelButton');
+    const cancelIcon = document.getElementById('cancelIcon');
+    const createButton = document.getElementById('createButton');
+    const inputField = document.getElementById('inputField');
+
+    // Open dialog
+    openDialogButton.addEventListener('click', () => {
+      dialog.classList.remove('hidden');
+    });
+
+    // Close dialog on cancel
+    cancelButton.addEventListener('click', () => {
+      dialog.classList.add('hidden');
+      inputField.value = ''; // Reset input
+    });
+
+    cancelIcon.addEventListener('click', () => {
+      dialog.classList.add('hidden');
+      inputField.value = ''; // Reset input
+    });
+
+    // Handle Tạo mới button click
+    createButton.addEventListener('click', () => {
+      const inputValue = inputField.value;
+      if (inputValue.trim()) {
+        alert(`Đã tạo mới với thông tin: ${inputValue}`);
+        dialog.classList.add('hidden');
+        inputField.value = ''; // Reset input
+      } else {
+        alert('Vui lòng nhập thông tin!');
+      }
+    });
+
+    // Close dialog when clicking outside
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) {
+        dialog.classList.add('hidden');
+        inputField.value = ''; // Reset input
+      }
+    });
+  </script>
 </main>

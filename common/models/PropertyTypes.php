@@ -57,4 +57,6 @@ class PropertyTypes extends \yii\db\ActiveRecord
         return $this->hasMany(Properties::class, ['property_type_id' => 'property_type_id']);
     }
 
+    
+
 }

@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Folders;
@@ -63,11 +64,14 @@ class FolderSearch extends Folders
             'parent_folder_id' => $this->parent_folder_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'create_by' => $this->create_by,
         ]);
 
         $query->andFilterWhere(['like', 'name_folder', $this->name_folder])
             ->andFilterWhere(['like', 'noted', $this->noted]);
+
+        if (!Yii::$app->user->isGuest) {
+            $query->andFilterWhere(['create_by' => Yii::$app->user->id]);
+        }
 
         return $dataProvider;
     }

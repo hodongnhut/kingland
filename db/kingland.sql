@@ -440,3 +440,2721 @@ VALUES (
         '2024-03-15',
         'Nội dung chi tiết thông báo tiệc tất niên...'
     );
+
+-- Creating table structure for provinces
+CREATE TABLE Provinces (
+    id INT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Keyword VARCHAR(50),
+    latlng VARCHAR(50),
+    Lookup VARCHAR(100)
+);
+
+);
+
+-- Inserting data into Provinces table
+INSERT INTO
+    Provinces (
+        id,
+        Name,
+        Keyword,
+        latlng,
+        Lookup
+    )
+VALUES (
+        0,
+        'Chọn Tỉnh Thành',
+        NULL,
+        NULL,
+        NULL
+    ),
+    (
+        57,
+        'An Giang',
+        'an-giang',
+        '10.5392057,105.2312822',
+        'An Giang AnGiang'
+    ),
+    (
+        49,
+        'Bà Rịa - Vũng Tàu',
+        'ba-ria---vung-tau',
+        '10.5738801,107.3284362',
+        'Ba Ria - Vung Tau BaRia-VungTau'
+    ),
+    (
+        47,
+        'Bình Dương',
+        'binh-duong',
+        '11.1836551,106.7031737',
+        'Binh Duong BinhDuong'
+    ),
+    (
+        45,
+        'Bình Phước',
+        'binh-phuoc',
+        '11.7543232,106.9266473',
+        'Binh Phuoc BinhPhuoc'
+    ),
+    (
+        39,
+        'Bình Thuận',
+        'binh-thuan',
+        '11.1041572,108.1832931',
+        'Binh Thuan BinhThuan'
+    ),
+    (
+        35,
+        'Bình Định',
+        'binh-dinh',
+        '14.0779378,108.9898798',
+        'Binh Dinh BinhDinh'
+    ),
+    (
+        62,
+        'Bạc Liêu',
+        'bac-lieu',
+        '9.3298341,105.5099460',
+        'Bac Lieu BacLieu'
+    ),
+    (
+        15,
+        'Bắc Giang',
+        'bac-giang',
+        '21.3169625,106.4379850',
+        'Bac Giang BacGiang'
+    ),
+    (
+        4,
+        'Bắc Kạn',
+        'bac-kan',
+        '22.2571701,105.8204437',
+        'Bac Kan BacKan'
+    ),
+    (
+        18,
+        'Bắc Ninh',
+        'bac-ninh',
+        '21.0955822,106.1264766',
+        'Bac Ninh BacNinh'
+    ),
+    (
+        53,
+        'Bến Tre',
+        'ben-tre',
+        '10.1093637,106.4811559',
+        'Ben Tre BenTre'
+    ),
+    (
+        3,
+        'Cao Bằng',
+        'cao-bang',
+        '22.7426936,106.1060926',
+        'Cao Bang CaoBang'
+    ),
+    (
+        63,
+        'Cà Mau',
+        'ca-mau',
+        '9.0180177,105.0869724',
+        'Ca Mau CaMau'
+    ),
+    (
+        59,
+        'Cần Thơ',
+        'can-tho',
+        '10.0364634,105.7875821',
+        'Can Tho CanTho'
+    ),
+    (
+        41,
+        'Gia Lai',
+        'gia-lai',
+        '13.8177445,108.2004015',
+        'Gia Lai GiaLai'
+    ),
+    (
+        2,
+        'Hà Giang',
+        'ha-giang',
+        '22.7336097,105.0027271',
+        'Ha Giang HaGiang'
+    ),
+    (
+        23,
+        'Hà Nam',
+        'ha-nam',
+        '20.5340294,105.9810248',
+        'Ha Nam HaNam'
+    ),
+    (
+        1,
+        'Hà Nội',
+        'ha-noi',
+        '21.0283334,105.8540410',
+        'Ha Noi HaNoi'
+    ),
+    (
+        28,
+        'Hà Tĩnh',
+        'ha-tinh',
+        '18.3504832,105.7623047',
+        'Ha Tinh HaTinh'
+    ),
+    (
+        19,
+        'Hải Dương',
+        'hai-duong',
+        '20.8930571,106.3725441',
+        'Hai Duong HaiDuong'
+    ),
+    (
+        20,
+        'Hải Phòng',
+        'hai-phong',
+        '20.8588640,106.6749591',
+        'Hai Phong HaiPhong'
+    ),
+    (
+        60,
+        'Hậu Giang',
+        'hau-giang',
+        '9.7985063,105.6379524',
+        'Hau Giang HauGiang'
+    ),
+    (
+        50,
+        'Hồ Chí Minh',
+        'ho-chi-minh',
+        '10.7763897,106.7011391',
+        'Ho Chi Minh HoChiMinh'
+    ),
+    (
+        11,
+        'Hoà Bình',
+        'hoa-binh',
+        '20.6763365,105.3759952',
+        'Hoa Binh HoaBinh'
+    ),
+    (
+        21,
+        'Hưng Yên',
+        'hung-yen',
+        '20.7833912,106.0699025',
+        'Hung Yen HungYen'
+    ),
+    (
+        37,
+        'Khánh Hòa',
+        'khanh-hoa',
+        '12.2980751,108.9950386',
+        'Khanh Hoa KhanhHoa'
+    ),
+    (
+        58,
+        'Kiên Giang',
+        'kien-giang',
+        '9.9904962,105.2435248',
+        'Kien Giang KienGiang'
+    ),
+    (
+        40,
+        'Kon Tum',
+        'kon-tum',
+        '14.6995372,107.9323831',
+        'Kon Tum KonTum'
+    ),
+    (
+        8,
+        'Lai Châu',
+        'lai-chau',
+        '22.2921668,103.1798662',
+        'Lai Chau LaiChau'
+    ),
+    (
+        6,
+        'Lào Cai',
+        'lao-cai',
+        '22.3069302,104.1829592',
+        'Lao Cai LaoCai'
+    ),
+    (
+        44,
+        'Lâm Đồng',
+        'lam-dong',
+        '11.6614957,108.1335279',
+        'Lam Dong LamDong'
+    ),
+    (
+        13,
+        'Lạng Sơn',
+        'lang-son',
+        '21.8487579,106.6140692',
+        'Lang Son LangSon'
+    ),
+    (
+        51,
+        'Long An',
+        'long-an',
+        '10.6983968,106.1883517',
+        'Long An LongAn'
+    ),
+    (
+        24,
+        'Nam Định',
+        'nam-dinh',
+        '20.2686476,106.2289075',
+        'Nam Dinh NamDinh'
+    ),
+    (
+        27,
+        'Nghệ An',
+        'nghe-an',
+        '19.1976001,105.0606760',
+        'Nghe An NgheAn'
+    ),
+    (
+        25,
+        'Ninh Bình',
+        'ninh-binh',
+        '20.2051051,105.9280678',
+        'Ninh Binh NinhBinh'
+    ),
+    (
+        38,
+        'Ninh Thuận',
+        'ninh-thuan',
+        '11.6965639,108.8928476',
+        'Ninh Thuan NinhThuan'
+    ),
+    (
+        16,
+        'Phú Thọ',
+        'phu-tho',
+        '21.3007538,105.1349604',
+        'Phu Tho PhuTho'
+    ),
+    (
+        36,
+        'Phú Yên',
+        'phu-yen',
+        '13.1912633,109.1273678',
+        'Phu Yen PhuYen'
+    ),
+    (
+        29,
+        'Quảng Bình',
+        'quang-binh',
+        '17.5095990,106.4004452',
+        'Quang Binh QuangBinh'
+    ),
+    (
+        33,
+        'Quảng Nam',
+        'quang-nam',
+        '15.5761698,108.0527132',
+        'Quang Nam QuangNam'
+    ),
+    (
+        34,
+        'Quảng Ngãi',
+        'quang-ngai',
+        '14.9953739,108.6917290',
+        'Quang Ngai QuangNgai'
+    ),
+    (
+        14,
+        'Quảng Ninh',
+        'quang-ninh',
+        '21.1718046,107.2012742',
+        'Quang Ninh QuangNinh'
+    ),
+    (
+        30,
+        'Quảng Trị',
+        'quang-tri',
+        '16.7897806,106.9797431',
+        'Quang Tri QuangTri'
+    ),
+    (
+        61,
+        'Sóc Trăng',
+        'soc-trang',
+        '9.5628369,105.9493991',
+        'Soc Trang SocTrang'
+    ),
+    (
+        9,
+        'Sơn La',
+        'son-la',
+        '21.2276769,104.1575944',
+        'Son La SonLa'
+    ),
+    (
+        46,
+        'Tây Ninh',
+        'tay-ninh',
+        '11.4019366,106.1626927',
+        'Tay Ninh TayNinh'
+    ),
+    (
+        26,
+        'Thanh Hóa',
+        'thanh-hoa',
+        '19.9781573,105.4816107',
+        'Thanh Hoa ThanhHoa'
+    ),
+    (
+        22,
+        'Thái Bình',
+        'thai-binh',
+        '20.5296832,106.3876068',
+        'Thai Binh ThaiBinh'
+    ),
+    (
+        12,
+        'Thái Nguyên',
+        'thai-nguyen',
+        '21.6498502,105.8351394',
+        'Thai Nguyen ThaiNguyen'
+    ),
+    (
+        31,
+        'Thừa Thiên Huế',
+        'thua-thien-hue',
+        '16.3480798,107.5398913',
+        'Thua Thien Hue ThuaThienHue'
+    ),
+    (
+        52,
+        'Tiền Giang',
+        'tien-giang',
+        '10.4030368,106.3616330',
+        'Tien Giang TienGiang'
+    ),
+    (
+        54,
+        'Trà Vinh',
+        'tra-vinh',
+        '9.8037998,106.3256808',
+        'Tra Vinh TraVinh'
+    ),
+    (
+        5,
+        'Tuyên Quang',
+        'tuyen-quang',
+        '22.0747798,105.2584110',
+        'Tuyen Quang TuyenQuang'
+    ),
+    (
+        55,
+        'Vĩnh Long',
+        'vinh-long',
+        '10.1203043,106.0125705',
+        'Vinh Long VinhLong'
+    ),
+    (
+        17,
+        'Vĩnh Phúc',
+        'vinh-phuc',
+        '21.3778689,105.5758286',
+        'Vinh Phuc VinhPhuc'
+    ),
+    (
+        10,
+        'Yên Bái',
+        'yen-bai',
+        '21.8268679,104.6631220',
+        'Yen Bai YenBai'
+    ),
+    (
+        32,
+        'Đà Nẵng',
+        'da-nang',
+        '16.0680000,108.2120000',
+        'Da Nang DaNang'
+    ),
+    (
+        42,
+        'Đắk Lắk',
+        'dak-lak',
+        '12.8292274,108.2999058',
+        'Dak Lak DakLak'
+    ),
+    (
+        43,
+        'Đắk Nông',
+        'dak-nong',
+        '12.2818851,107.7302484',
+        'Dak Nong DakNong'
+    ),
+    (
+        48,
+        'Đồng Nai',
+        'dong-nai',
+        '11.0355624,107.1881076',
+        'Dong Nai DongNai'
+    ),
+    (
+        56,
+        'Đồng Tháp',
+        'dong-thap',
+        '10.5904240,105.6802341',
+        'Dong Thap DongThap'
+    ),
+    (
+        7,
+        'Điện Biên',
+        'dien-bien',
+        '21.6546566,103.2168632',
+        'Dien Bien DienBien'
+    );
+
+CREATE TABLE Districts (
+    id INT PRIMARY KEY,
+    TCTKid VARCHAR(10),
+    Name VARCHAR(100) NOT NULL,
+    ProvinceId VARCHAR(10),
+    Prefix VARCHAR(20),
+    Keyword VARCHAR(50),
+    latlng VARCHAR(50),
+    Lookup VARCHAR(100)
+);
+
+INSERT INTO
+    Districts (
+        id,
+        TCTKid,
+        Name,
+        ProvinceId,
+        Prefix,
+        Keyword,
+        latlng,
+        Lookup
+    )
+VALUES (
+        0,
+        NULL,
+        'Chọn Quận/Huyện',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    ),
+    (
+        550,
+        '760',
+        'Quận 1',
+        '50',
+        'Quận',
+        '1',
+        '10.7773145,106.6999907',
+        '1 1'
+    ),
+    (
+        559,
+        '771',
+        'Quận 10',
+        '50',
+        'Quận',
+        '10',
+        '10.7727320,106.6683666',
+        '10 10'
+    ),
+    (
+        560,
+        '772',
+        'Quận 11',
+        '50',
+        'Quận',
+        '11',
+        '10.7658124,106.6474946',
+        '11 11'
+    ),
+    (
+        551,
+        '761',
+        'Quận 12',
+        '50',
+        'Quận',
+        '12',
+        '10.8616036,106.6609731',
+        '12 12'
+    ),
+    (
+        558,
+        '770',
+        'Quận 3',
+        '50',
+        'Quận',
+        '3',
+        '10.7786390,106.6870156',
+        '3 3'
+    ),
+    (
+        561,
+        '773',
+        'Quận 4',
+        '50',
+        'Quận',
+        '4',
+        '10.7607328,106.7075519',
+        '4 4'
+    ),
+    (
+        562,
+        '774',
+        'Quận 5',
+        '50',
+        'Quận',
+        '5',
+        '10.7553616,106.6685441',
+        '5 5'
+    ),
+    (
+        563,
+        '775',
+        'Quận 6',
+        '50',
+        'Quận',
+        '6',
+        '10.7458860,106.6392921',
+        '6 6'
+    ),
+    (
+        566,
+        '778',
+        'Quận 7',
+        '50',
+        'Quận',
+        '7',
+        '10.7375481,106.7302238',
+        '7 7'
+    ),
+    (
+        564,
+        '776',
+        'Quận 8',
+        '50',
+        'Quận',
+        '8',
+        '10.7217236,106.6296151',
+        '8 8'
+    ),
+    (
+        569,
+        '785',
+        'Huyện Bình Chánh',
+        '50',
+        'Huyện',
+        'binh-chanh',
+        '10.7500035,106.5148858',
+        'binh chanh binhchanh'
+    ),
+    (
+        565,
+        '777',
+        'Quận Bình Tân',
+        '50',
+        'Quận',
+        'binh-tan',
+        '10.7703708,106.5996353',
+        'binh tan binhtan'
+    ),
+    (
+        553,
+        '765',
+        'Quận Bình Thạnh',
+        '50',
+        'Quận',
+        'binh-thanh',
+        '10.8117887,106.7039109',
+        'binh thanh binhthanh'
+    ),
+    (
+        571,
+        '787',
+        'Huyện Cần Giờ',
+        '50',
+        'Huyện',
+        'can-gio',
+        '10.5265318,106.8821244',
+        'can gio cangio'
+    ),
+    (
+        567,
+        '783',
+        'Huyện Củ Chi',
+        '50',
+        'Huyện',
+        'cu-chi',
+        '11.0370567,106.5024104',
+        'cu chi cuchi'
+    ),
+    (
+        552,
+        '764',
+        'Quận Gò Vấp',
+        '50',
+        'Quận',
+        'go-vap',
+        '10.8345635,106.6739598',
+        'go vap govap'
+    ),
+    (
+        568,
+        '784',
+        'Huyện Hóc Môn',
+        '50',
+        'Huyện',
+        'hoc-mon',
+        '10.8783450,106.5763531',
+        'hoc mon hocmon'
+    ),
+    (
+        570,
+        '786',
+        'Huyện Nhà Bè',
+        '50',
+        'Huyện',
+        'nha-be',
+        '10.6509670,106.7263825',
+        'nha be nhabe'
+    ),
+    (
+        556,
+        '768',
+        'Quận Phú Nhuận',
+        '50',
+        'Quận',
+        'phu-nhuan',
+        '10.8009810,106.6794379',
+        'phu nhuan phunhuan'
+    ),
+    (
+        554,
+        '766',
+        'Quận Tân Bình',
+        '50',
+        'Quận',
+        'tan-binh',
+        '10.8025830,106.6521157',
+        'tan binh tanbinh'
+    ),
+    (
+        555,
+        '767',
+        'Quận Tân Phú',
+        '50',
+        'Quận',
+        'tan-phu',
+        '10.7914967,106.6278431',
+        'tan phu tanphu'
+    ),
+    (
+        557,
+        '769',
+        'Thành phố Thủ Đức',
+        '50',
+        'Thành phố',
+        'thu-duc',
+        '10.8298295,106.7617899',
+        'thu duc thuduc'
+    );
+
+CREATE TABLE Wards (
+    id INT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    ProvinceId VARCHAR(10),
+    DistrictId VARCHAR(10),
+    Prefix VARCHAR(50),
+    Keyword VARCHAR(100),
+    latlng VARCHAR(50),
+    Lookup VARCHAR(150)
+);
+
+CREATE TABLE Streets (
+    id INT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Name_vi_Old VARCHAR(100),
+    Keyword_Old VARCHAR(100),
+    ProvinceId VARCHAR(10),
+    DistrictId VARCHAR(10),
+    Prefix VARCHAR(50),
+    Keyword VARCHAR(100),
+    Lookup VARCHAR(150)
+);
+
+INSERT INTO
+    Wards (
+        id,
+        Name,
+        ProvinceId,
+        DistrictId,
+        Prefix,
+        Keyword,
+        latlng,
+        Lookup
+    )
+VALUES (
+        0,
+        'Chọn Quận/Huyện',
+        NULL,
+        NULL,
+        NULL,
+        '',
+        NULL,
+        ''
+    ),
+    (
+        8689,
+        'Phường Bến Nghé',
+        '50',
+        '550',
+        'Phường',
+        'ben-nghe',
+        '10.7801495,106.7032527',
+        'ben nghe bennghe'
+    ),
+    (
+        8690,
+        'Phường Bến Thành',
+        '50',
+        '550',
+        'Phường',
+        'ben-thanh',
+        '10.7737414,106.6941118',
+        'ben thanh benthanh'
+    ),
+    (
+        8694,
+        'Phường Cô Giang',
+        '50',
+        '550',
+        'Phường',
+        'co-giang',
+        '10.7622107,106.6934252',
+        'co giang cogiang'
+    ),
+    (
+        8693,
+        'Phường Cầu Ông Lãnh',
+        '50',
+        '550',
+        'Phường',
+        'cau-ong-lanh',
+        '10.7654571,106.6967082',
+        'cau ong lanh cauonglanh'
+    ),
+    (
+        8696,
+        'Phường Cầu Kho',
+        '50',
+        '550',
+        'Phường',
+        'cau-kho',
+        '10.7581211,106.6890049',
+        'cau kho caukho'
+    ),
+    (
+        8695,
+        'Phường Nguyễn Cư Trinh',
+        '50',
+        '550',
+        'Phường',
+        'nguyen-cu-trinh',
+        '10.7630751,106.6863012',
+        'nguyen cu trinh nguyencutrinh'
+    ),
+    (
+        8691,
+        'Phường Nguyễn Thái Bình',
+        '50',
+        '550',
+        'Phường',
+        'nguyen-thai-binh',
+        '10.7686402,106.7005920',
+        'nguyen thai binh nguyenthaibinh'
+    ),
+    (
+        8692,
+        'Phường Phạm Ngũ Lão',
+        '50',
+        '550',
+        'Phường',
+        'pham-ngu-lao',
+        '10.7673332,106.6905498',
+        'pham ngu lao phamngulao'
+    ),
+    (
+        8687,
+        'Phường Tân Định',
+        '50',
+        '550',
+        'Phường',
+        'tan-dinh',
+        '10.7925016,106.6907644',
+        'tan dinh tandinh'
+    ),
+    (
+        8688,
+        'Phường Đa Kao',
+        '50',
+        '550',
+        'Phường',
+        'da-kao',
+        '10.7888339,106.6987037',
+        'da kao dakao'
+    );
+
+-- Inserting data into Streets table
+INSERT INTO
+    Streets (
+        id,
+        Name,
+        Name_vi_Old,
+        Keyword_Old,
+        ProvinceId,
+        DistrictId,
+        Prefix,
+        Keyword,
+        Lookup
+    )
+VALUES (
+        0,
+        'Chọn Đường',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '',
+        ''
+    ),
+    (
+        3021,
+        'Đường 15B',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        '15b',
+        '15b 15b'
+    ),
+    (
+        3022,
+        'Đường 3A',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        '3a',
+        '3a 3a'
+    ),
+    (
+        3023,
+        'Đường Alexandre',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'alexandre',
+        'alexandre alexandre'
+    ),
+    (
+        3024,
+        'Đường Bà Huyện Thanh Quan',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'ba-huyen-thanh-quan',
+        'ba huyen thanh quan bahuyenthanhquan'
+    ),
+    (
+        3025,
+        'Đường Bà Lê Chân',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'ba-le-chan',
+        'ba le chan balechan'
+    ),
+    (
+        3027,
+        'Đường Bùi Thị Xuân',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'bui-thi-xuan',
+        'bui thi xuan buithixuan'
+    ),
+    (
+        3028,
+        'Đường Bùi Viện',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'bui-vien',
+        'bui vien buivien'
+    ),
+    (
+        3026,
+        'Đường Bến Chương Dương',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'ben-chuong-duong',
+        'ben chuong duong benchuongduong'
+    ),
+    (
+        3030,
+        'Đường Calmette',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'calmette',
+        'calmette calmette'
+    ),
+    (
+        3031,
+        'Đường Camex',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'camex',
+        'camex camex'
+    ),
+    (
+        3032,
+        'Đường Cao Bá Nhạ',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'cao-ba-nha',
+        'cao ba nha caobanha'
+    ),
+    (
+        3033,
+        'Đường Cao Bá Quát',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'cao-ba-quat',
+        'cao ba quat caobaquat'
+    ),
+    (
+        3029,
+        'Đường Cách Mạng Tháng Tám',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'cach-mang-thang-tam',
+        'cach mang thang tam cachmangthangtam'
+    ),
+    (
+        3034,
+        'Đường Cây Điệp',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'cay-diep',
+        'cay diep caydiep'
+    ),
+    (
+        3036,
+        'Đường Cô Bắc',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'co-bac',
+        'co bac cobac'
+    ),
+    (
+        3037,
+        'Đường Cô Giang',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'co-giang',
+        'co giang cogiang'
+    ),
+    (
+        3039,
+        'Đường Công Trường Lam Sơn',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'cong-truong-lam-son',
+        'cong truong lam son congtruonglamson'
+    ),
+    (
+        3040,
+        'Đường Công Trường Mê Linh',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'cong-truong-me-linh',
+        'cong truong me linh congtruongmelinh'
+    ),
+    (
+        3041,
+        'Đường Công Trường Quốc Tế',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'cong-truong-quoc-te',
+        'cong truong quoc te congtruongquocte'
+    ),
+    (
+        3042,
+        'Đường Công Xã Paris',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'cong-xa-paris',
+        'cong xa paris congxaparis'
+    ),
+    (
+        3038,
+        'Đường Cống Quỳnh',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'cong-quynh',
+        'cong quynh congquynh'
+    ),
+    (
+        3035,
+        'Đường Chu Mạnh Trinh',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'chu-manh-trinh',
+        'chu manh trinh chumanhtrinh'
+    ),
+    (
+        3055,
+        'Đường Hai Bà Trưng',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'hai-ba-trung',
+        'hai ba trung haibatrung'
+    ),
+    (
+        3057,
+        'Đường Hàm Nghi',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'ham-nghi',
+        'ham nghi hamnghi'
+    ),
+    (
+        3058,
+        'Đường Hàn Thuyên',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'han-thuyen',
+        'han thuyen hanthuyen'
+    ),
+    (
+        3062,
+        'Đường Hòa Hưng',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'hoa-hung',
+        'hoa hung hoahung'
+    ),
+    (
+        3063,
+        'Đường Hòa Mỹ',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'hoa-my',
+        'hoa my hoamy'
+    ),
+    (
+        3056,
+        'Đường Hải Triều',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'hai-trieu',
+        'hai trieu haitrieu'
+    ),
+    (
+        3059,
+        'Đường Hồ Hảo Hớn',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'ho-hao-hon',
+        'ho hao hon hohaohon'
+    ),
+    (
+        3060,
+        'Đường Hồ Huấn Nghiệp',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'ho-huan-nghiep',
+        'ho huan nghiep hohuannghiep'
+    ),
+    (
+        3061,
+        'Đường Hồ Tùng Mậu',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'ho-tung-mau',
+        'ho tung mau hotungmau'
+    ),
+    (
+        3064,
+        'Đường Hoàng Diệu',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'hoang-dieu',
+        'hoang dieu hoangdieu'
+    ),
+    (
+        3065,
+        'Đường Hoàng Hoa Thám',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'hoang-hoa-tham',
+        'hoang hoa tham hoanghoatham'
+    ),
+    (
+        3066,
+        'Đường Hoàng Sa',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'hoang-sa',
+        'hoang sa hoangsa'
+    ),
+    (
+        3069,
+        'Đường Huỳnh Khương An',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'huynh-khuong-an',
+        'huynh khuong an huynhkhuongan'
+    ),
+    (
+        3070,
+        'Đường Huỳnh Khương Ninh',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'huynh-khuong-ninh',
+        'huynh khuong ninh huynhkhuongninh'
+    ),
+    (
+        3071,
+        'Đường Huỳnh Thúc Kháng',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'huynh-thuc-khang',
+        'huynh thuc khang huynhthuckhang'
+    ),
+    (
+        3067,
+        'Đường Huyền Quang',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'huyen-quang',
+        'huyen quang huyenquang'
+    ),
+    (
+        3068,
+        'Đường Huyền Trân Công Chúa',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'huyen-tran-cong-chua',
+        'huyen tran cong chua huyentrancongchua'
+    ),
+    (
+        3072,
+        'Đường Ký Con',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'ky-con',
+        'ky con kycon'
+    ),
+    (
+        3073,
+        'Đường Lãnh Binh Thăng',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'lanh-binh-thang',
+        'lanh binh thang lanhbinhthang'
+    ),
+    (
+        3074,
+        'Đường Lê Anh Xuân',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'le-anh-xuan',
+        'le anh xuan leanhxuan'
+    ),
+    (
+        3075,
+        'Đường Lê Công Kiều',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'le-cong-kieu',
+        'le cong kieu lecongkieu'
+    ),
+    (
+        3076,
+        'Đường Lê Duẩn',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'le-duan',
+        'le duan leduan'
+    ),
+    (
+        3077,
+        'Đường Lê Lai',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'le-lai',
+        'le lai lelai'
+    ),
+    (
+        3078,
+        'Đường Lê Lợi',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'le-loi',
+        'le loi leloi'
+    ),
+    (
+        3079,
+        'Đường Lê Quý Đôn',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'le-quy-don',
+        'le quy don lequydon'
+    ),
+    (
+        3080,
+        'Đường Lê Thánh Tôn',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'le-thanh-ton',
+        'le thanh ton lethanhton'
+    ),
+    (
+        3081,
+        'Đường Lê Thị Hồng Gấm',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'le-thi-hong-gam',
+        'le thi hong gam lethihonggam'
+    ),
+    (
+        3082,
+        'Đường Lê Thị Riêng',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'le-thi-rieng',
+        'le thi rieng lethirieng'
+    ),
+    (
+        3083,
+        'Đường Lê Văn Hưu',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'le-van-huu',
+        'le van huu levanhuu'
+    ),
+    (
+        3086,
+        'Đường Lý Chính Thắng',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'ly-chinh-thang',
+        'ly chinh thang lychinhthang'
+    ),
+    (
+        3087,
+        'Đường Lý Tự Trọng',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'ly-tu-trong',
+        'ly tu trong lytutrong'
+    ),
+    (
+        3088,
+        'Đường Lý Văn Phức',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'ly-van-phuc',
+        'ly van phuc lyvanphuc'
+    ),
+    (
+        3085,
+        'Đường Lưu Văn Lang',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'luu-van-lang',
+        'luu van lang luuvanlang'
+    ),
+    (
+        3084,
+        'Đường Lương Hữu Khánh',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'luong-huu-khanh',
+        'luong huu khanh luonghuukhanh'
+    ),
+    (
+        3092,
+        'Đường Mai Thị Lựu',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'mai-thi-luu',
+        'mai thi luu maithiluu'
+    ),
+    (
+        3089,
+        'Đường Mã Lộ',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'ma-lo',
+        'ma lo malo'
+    ),
+    (
+        3091,
+        'Đường Mạc Thị Bưởi',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'mac-thi-buoi',
+        'mac thi buoi macthibuoi'
+    ),
+    (
+        3090,
+        'Đường Mạc Đĩnh Chi',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'mac-dinh-chi',
+        'mac dinh chi macdinhchi'
+    ),
+    (
+        3093,
+        'Đường Nam Kỳ Khởi Nghĩa',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nam-ky-khoi-nghia',
+        'nam ky khoi nghia namkykhoinghia'
+    ),
+    (
+        3094,
+        'Đường Nam Quốc Cang',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nam-quoc-cang',
+        'nam quoc cang namquoccang'
+    ),
+    (
+        3096,
+        'Đường Ngô Văn Năm',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'ngo-van-nam',
+        'ngo van nam ngovannam'
+    ),
+    (
+        3095,
+        'Đường Ngô Đức Kế',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'ngo-duc-ke',
+        'ngo duc ke ngoducke'
+    ),
+    (
+        3097,
+        'Đường Nguyễn An Ninh',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-an-ninh',
+        'nguyen an ninh nguyenanninh'
+    ),
+    (
+        3098,
+        'Đường Nguyễn Bỉnh Khiêm',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-binh-khiem',
+        'nguyen binh khiem nguyenbinhkhiem'
+    ),
+    (
+        3100,
+        'Đường Nguyễn Công Trứ',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-cong-tru',
+        'nguyen cong tru nguyencongtru'
+    ),
+    (
+        3099,
+        'Đường Nguyễn Cảnh Chân',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-canh-chan',
+        'nguyen canh chan nguyencanhchan'
+    ),
+    (
+        3101,
+        'Đường Nguyễn Cư Trinh',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-cu-trinh',
+        'nguyen cu trinh nguyencutrinh'
+    ),
+    (
+        3103,
+        'Đường Nguyễn Doãn Khanh',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-doan-khanh',
+        'nguyen doan khanh nguyendoankhanh'
+    ),
+    (
+        3104,
+        'Đường Nguyễn Du',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-du',
+        'nguyen du nguyendu'
+    ),
+    (
+        3106,
+        'Đường Nguyễn Hữu Cảnh',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-huu-canh',
+        'nguyen huu canh nguyenhuucanh'
+    ),
+    (
+        3107,
+        'Đường Nguyễn Hữu Cầu',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-huu-cau',
+        'nguyen huu cau nguyenhuucau'
+    ),
+    (
+        3108,
+        'Đường Nguyễn Hữu Nghĩa',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-huu-nghia',
+        'nguyen huu nghia nguyenhuunghia'
+    ),
+    (
+        3105,
+        'Đường Nguyễn Huệ',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-hue',
+        'nguyen hue nguyenhue'
+    ),
+    (
+        3109,
+        'Đường Nguyễn Huy Tự',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-huy-tu',
+        'nguyen huy tu nguyenhuytu'
+    ),
+    (
+        3110,
+        'Đường Nguyễn Khắc Nhu',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-khac-nhu',
+        'nguyen khac nhu nguyenkhacnhu'
+    ),
+    (
+        3111,
+        'Đường Nguyễn Phi Khanh',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-phi-khanh',
+        'nguyen phi khanh nguyenphikhanh'
+    ),
+    (
+        3112,
+        'Đường Nguyễn Siêu',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-sieu',
+        'nguyen sieu nguyensieu'
+    ),
+    (
+        3115,
+        'Đường Nguyễn Thành Ý',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-thanh-y',
+        'nguyen thanh y nguyenthanhy'
+    ),
+    (
+        3113,
+        'Đường Nguyễn Thái Bình',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-thai-binh',
+        'nguyen thai binh nguyenthaibinh'
+    ),
+    (
+        3114,
+        'Đường Nguyễn Thái Học',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-thai-hoc',
+        'nguyen thai hoc nguyenthaihoc'
+    ),
+    (
+        3116,
+        'Đường Nguyễn Thị Diệu',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-thi-dieu',
+        'nguyen thi dieu nguyenthidieu'
+    ),
+    (
+        3117,
+        'Đường Nguyễn Thị Lắng',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-thi-lang',
+        'nguyen thi lang nguyenthilang'
+    ),
+    (
+        3118,
+        'Đường Nguyễn Thị Minh Khai',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-thi-minh-khai',
+        'nguyen thi minh khai nguyenthiminhkhai'
+    ),
+    (
+        3119,
+        'Đường Nguyễn Thị Nghĩa',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-thi-nghia',
+        'nguyen thi nghia nguyenthinghia'
+    ),
+    (
+        3120,
+        'Đường Nguyễn Thiệp',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-thiep',
+        'nguyen thiep nguyenthiep'
+    ),
+    (
+        3121,
+        'Đường Nguyễn Trãi',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-trai',
+        'nguyen trai nguyentrai'
+    ),
+    (
+        3122,
+        'Đường Nguyễn Trung Ngạn',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-trung-ngan',
+        'nguyen trung ngan nguyentrungngan'
+    ),
+    (
+        3123,
+        'Đường Nguyễn Trung Trực',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-trung-truc',
+        'nguyen trung truc nguyentrungtruc'
+    ),
+    (
+        3124,
+        'Đường Nguyễn Văn Bình',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-van-binh',
+        'nguyen van binh nguyenvanbinh'
+    ),
+    (
+        3126,
+        'Đường Nguyễn Văn Côn',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-van-con',
+        'nguyen van con nguyenvancon'
+    ),
+    (
+        3127,
+        'Đường Nguyễn Văn Cừ',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-van-cu',
+        'nguyen van cu nguyenvancu'
+    ),
+    (
+        3125,
+        'Đường Nguyễn Văn Chiêm',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-van-chiem',
+        'nguyen van chiem nguyenvanchiem'
+    ),
+    (
+        3129,
+        'Đường Nguyễn Văn Giai',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-van-giai',
+        'nguyen van giai nguyenvangiai'
+    ),
+    (
+        3130,
+        'Đường Nguyễn Văn Linh',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-van-linh',
+        'nguyen van linh nguyenvanlinh'
+    ),
+    (
+        3131,
+        'Đường Nguyễn Văn Mai',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-van-mai',
+        'nguyen van mai nguyenvanmai'
+    ),
+    (
+        3132,
+        'Đường Nguyễn Văn Nguyễn',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-van-nguyen',
+        'nguyen van nguyen nguyenvannguyen'
+    ),
+    (
+        3133,
+        'Đường Nguyễn Văn Thủ',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-van-thu',
+        'nguyen van thu nguyenvanthu'
+    ),
+    (
+        3134,
+        'Đường Nguyễn Văn Tráng',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-van-trang',
+        'nguyen van trang nguyenvantrang'
+    ),
+    (
+        3135,
+        'Đường Nguyễn Văn Trỗi',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-van-troi',
+        'nguyen van troi nguyenvantroi'
+    ),
+    (
+        3136,
+        'Đường Nguyễn Văn Trường',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-van-truong',
+        'nguyen van truong nguyenvantruong'
+    ),
+    (
+        3128,
+        'Đường Nguyễn Văn Đại',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-van-dai',
+        'nguyen van dai nguyenvandai'
+    ),
+    (
+        3102,
+        'Đường Nguyễn Đình Chiểu',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'nguyen-dinh-chieu',
+        'nguyen dinh chieu nguyendinhchieu'
+    ),
+    (
+        3137,
+        'Đường Pasteur',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'pasteur',
+        'pasteur pasteur'
+    ),
+    (
+        3142,
+        'Đường Phan Bội Châu',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'phan-boi-chau',
+        'phan boi chau phanboichau'
+    ),
+    (
+        3143,
+        'Đường Phan Chu Trinh',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'phan-chu-trinh',
+        'phan chu trinh phanchutrinh'
+    ),
+    (
+        3144,
+        'Đường Phan Kế Bính',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'phan-ke-binh',
+        'phan ke binh phankebinh'
+    ),
+    (
+        3145,
+        'Đường Phan Liêm',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'phan-liem',
+        'phan liem phanliem'
+    ),
+    (
+        3146,
+        'Đường Phan Ngữ',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'phan-ngu',
+        'phan ngu phanngu'
+    ),
+    (
+        3147,
+        'Đường Phan Tôn',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'phan-ton',
+        'phan ton phanton'
+    ),
+    (
+        3149,
+        'Đường Phan Văn Trường',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'phan-van-truong',
+        'phan van truong phanvantruong'
+    ),
+    (
+        3148,
+        'Đường Phan Văn Đạt',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'phan-van-dat',
+        'phan van dat phanvandat'
+    ),
+    (
+        3150,
+        'Đường Phó Đức Chính',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'pho-duc-chinh',
+        'pho duc chinh phoducchinh'
+    ),
+    (
+        3151,
+        'Đường Phùng Khắc Khoan',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'phung-khac-khoan',
+        'phung khac khoan phungkhackhoan'
+    ),
+    (
+        3138,
+        'Đường Phạm Hồng Thái',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'pham-hong-thai',
+        'pham hong thai phamhongthai'
+    ),
+    (
+        3139,
+        'Đường Phạm Ngọc Thạch',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'pham-ngoc-thach',
+        'pham ngoc thach phamngocthach'
+    ),
+    (
+        3140,
+        'Đường Phạm Ngũ Lão',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'pham-ngu-lao',
+        'pham ngu lao phamngulao'
+    ),
+    (
+        3141,
+        'Đường Phạm Viết Chánh',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'pham-viet-chanh',
+        'pham viet chanh phamvietchanh'
+    ),
+    (
+        3152,
+        'Đường Quang Trung',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'quang-trung',
+        'quang trung quangtrung'
+    ),
+    (
+        3153,
+        'Đường Sương Nguyệt Ánh',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'suong-nguyet-anh',
+        'suong nguyet anh suongnguyetanh'
+    ),
+    (
+        3162,
+        'Đường Tôn Thất Tùng',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'ton-that-tung',
+        'ton that tung tonthattung'
+    ),
+    (
+        3161,
+        'Đường Tôn Thất Thiệp',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'ton-that-thiep',
+        'ton that thiep tonthatthiep'
+    ),
+    (
+        3160,
+        'Đường Tôn Thất Đạm',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'ton-that-dam',
+        'ton that dam tonthatdam'
+    ),
+    (
+        3159,
+        'Đường Tôn Đức Thắng',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'ton-duc-thang',
+        'ton duc thang tonducthang'
+    ),
+    (
+        3180,
+        'Đường Tú Xương',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'tu-xuong',
+        'tu xuong tuxuong'
+    ),
+    (
+        3155,
+        'Đường Thái Bình',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'thai-binh',
+        'thai binh thaibinh'
+    ),
+    (
+        3156,
+        'Đường Thái Văn Lung',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'thai-van-lung',
+        'thai van lung thaivanlung'
+    ),
+    (
+        3154,
+        'Đường Thạch Thị Thanh',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'thach-thi-thanh',
+        'thach thi thanh thachthithanh'
+    ),
+    (
+        3158,
+        'Đường Thủ Khoa Huân',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'thu-khoa-huan',
+        'thu khoa huan thukhoahuan'
+    ),
+    (
+        3157,
+        'Đường Thi Sách',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'thi-sach',
+        'thi sach thisach'
+    ),
+    (
+        3163,
+        'Đường Trần Bình Trọng',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'tran-binh-trong',
+        'tran binh trong tranbinhtrong'
+    ),
+    (
+        3164,
+        'Đường Trần Cao Vân',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'tran-cao-van',
+        'tran cao van trancaovan'
+    ),
+    (
+        3166,
+        'Đường Trần Doãn Khanh',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'tran-doan-khanh',
+        'tran doan khanh trandoankhanh'
+    ),
+    (
+        3167,
+        'Đường Trần Hưng Đạo',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'tran-hung-dao',
+        'tran hung dao tranhungdao'
+    ),
+    (
+        3169,
+        'Đường Trần Khánh Dư',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'tran-khanh-du',
+        'tran khanh du trankhanhdu'
+    ),
+    (
+        3168,
+        'Đường Trần Khắc Chân',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'tran-khac-chan',
+        'tran khac chan trankhacchan'
+    ),
+    (
+        31159,
+        'đường Trần Nguyên Đán',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'đường',
+        'tran-nguyen-dan',
+        'tran nguyen dan trannguyendan'
+    ),
+    (
+        3170,
+        'Đường Trần Nhật Duật',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'tran-nhat-duat',
+        'tran nhat duat trannhatduat'
+    ),
+    (
+        3171,
+        'Đường Trần Quang Khải',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'tran-quang-khai',
+        'tran quang khai tranquangkhai'
+    ),
+    (
+        3172,
+        'Đường Trần Quốc Thảo',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'tran-quoc-thao',
+        'tran quoc thao tranquocthao'
+    ),
+    (
+        3173,
+        'Đường Trần Quý Khoách',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'tran-quy-khoach',
+        'tran quy khoach tranquykhoach'
+    ),
+    (
+        3174,
+        'Đường Trần Tuấn Khải',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'tran-tuan-khai',
+        'tran tuan khai trantuankhai'
+    ),
+    (
+        3175,
+        'Đường Trần Văn Kỷ',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'tran-van-ky',
+        'tran van ky tranvanky'
+    ),
+    (
+        3165,
+        'Đường Trần Đình Xu',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'tran-dinh-xu',
+        'tran dinh xu trandinhxu'
+    ),
+    (
+        3176,
+        'Đường Trịnh Văn Cấn',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'trinh-van-can',
+        'trinh van can trinhvancan'
+    ),
+    (
+        3179,
+        'Đường Trường Sa',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'truong-sa',
+        'truong sa truongsa'
+    ),
+    (
+        3178,
+        'Đường Trương Hán Siêu',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'truong-han-sieu',
+        'truong han sieu truonghansieu'
+    ),
+    (
+        3177,
+        'Đường Trương Định',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'truong-dinh',
+        'truong dinh truongdinh'
+    ),
+    (
+        3182,
+        'Đường Võ Thị Sáu',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'vo-thi-sau',
+        'vo thi sau vothisau'
+    ),
+    (
+        3183,
+        'Đường Võ Văn Kiệt',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'vo-van-kiet',
+        'vo van kiet vovankiet'
+    ),
+    (
+        3181,
+        'Đường Vạn Kiếp',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'van-kiep',
+        'van kiep vankiep'
+    ),
+    (
+        3184,
+        'Đường Xô Viết Nghệ Tĩnh',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'xo-viet-nghe-tinh',
+        'xo viet nghe tinh xovietnghetinh'
+    ),
+    (
+        3185,
+        'Đường Yersin',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'yersin',
+        'yersin yersin'
+    ),
+    (
+        3053,
+        'Đường Đông Du',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'dong-du',
+        'dong du dongdu'
+    ),
+    (
+        3043,
+        'Đường Đại Lộ Đông Tây',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'dai-lo-dong-tay',
+        'dai lo dong tay dailodongtay'
+    ),
+    (
+        3044,
+        'Đường Đặng Dung',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'dang-dung',
+        'dang dung dangdung'
+    ),
+    (
+        3045,
+        'Đường Đặng Tất',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'dang-tat',
+        'dang tat dangtat'
+    ),
+    (
+        3046,
+        'Đường Đặng Thị Nhu',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'dang-thi-nhu',
+        'dang thi nhu dangthinhu'
+    ),
+    (
+        3047,
+        'Đường Đặng Trần Côn',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'dang-tran-con',
+        'dang tran con dangtrancon'
+    ),
+    (
+        3048,
+        'Đường Đề Thám',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'de-tham',
+        'de tham detham'
+    ),
+    (
+        3054,
+        'Đường Đồng Khởi',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'dong-khoi',
+        'dong khoi dongkhoi'
+    ),
+    (
+        3052,
+        'Đường Đỗ Quang Đẩu',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'do-quang-dau',
+        'do quang dau doquangdau'
+    ),
+    (
+        3049,
+        'Đường Điện Biên Phủ',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'dien-bien-phu',
+        'dien bien phu dienbienphu'
+    ),
+    (
+        3050,
+        'Đường Đinh Công Tráng',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'dinh-cong-trang',
+        'dinh cong trang dinhcongtrang'
+    ),
+    (
+        3051,
+        'Đường Đinh Tiên Hoàng',
+        NULL,
+        NULL,
+        '50',
+        '550',
+        'Đường',
+        'dinh-tien-hoang',
+        'dinh tien hoang dinhtienhoang'
+    );

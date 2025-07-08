@@ -1,18 +1,15 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
-/** @var common\models\Folders $model */
+/** @var common\models\Properties $model */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Folders', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
+$this->title = 'Create Properties';
+
 ?>
 <header class="bg-white shadow-md p-2 flex items-center justify-between rounded-bl-lg">
-    <div class="text-lg font-semibold text-gray-800">Xem Bản Tin Nội Bộ</div>
+    <div class="text-lg font-semibold text-gray-800">Dữ Liệu Nhà Đất / Màn hình chính / Thêm Dữ Liệu Nhà Đất</div>
     <div class="relative flex items-center space-x-4">
         <button
             id="userMenuButton"
@@ -39,31 +36,10 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </header>
-<main class="flex-1 p-6 overflow-auto">
-    <div class="bg-white p-6 rounded-lg shadow-md mb-6">
-    <p>
-        <?= Html::a('Cập Nhật', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Xóa', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-    <br>
+<div class="properties-create">
 
-    <?= DetailView::widget([
+    <?= $this->render('_form', [
         'model' => $model,
-        'attributes' => [
-            'id',
-            'name_folder',
-            'parent_folder_id',
-            'noted:ntext',
-            'created_at',
-            'updated_at',
-        ],
     ]) ?>
 
 </div>
-</main>

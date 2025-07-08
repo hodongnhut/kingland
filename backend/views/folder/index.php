@@ -77,7 +77,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 ['class' => 'yii\grid\SerialColumn'],
 
                 'name_folder',
-                'parent_folder_id',
+                [
+                    'attribute' => 'parentFolderName',
+                    'label' => 'Thư mục cha', // Custom label for the column
+                    'value' => function ($model) {
+                        return $model->parentFolder->name_folder ?? '--- Thư mục gốc ---';
+                    },
+                ],
                 'noted:ntext',
                 'created_at',
                 //'updated_at',

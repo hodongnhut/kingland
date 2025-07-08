@@ -2,7 +2,14 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
+use common\models\Folders;
+use yii\helpers\ArrayHelper;
+$userFolders = Folders::find()
+            ->select(['id', 'name_folder'])
+            ->where(['create_by' => Yii::$app->user->id])
+            ->asArray()
+            ->all();
+$userFoldersFormatted = ArrayHelper::map($userFolders, 'id', 'name_folder'); 
 /** @var yii\web\View $this */
 /** @var common\models\Folders $model */
 /** @var yii\widgets\ActiveForm $form */
@@ -26,7 +33,11 @@ use yii\widgets\ActiveForm;
 
         <?= $form->field($model, 'name_folder')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'parent_folder_id')->textInput() ?>
+
+        <?= $form->field($model, 'parent_folder_id')->dropDownList(
+            $userFoldersFormatted,
+            ['prompt' => 'Chọn thư mục cha (tùy chọn)'] 
+        ) ?>
 
         <?= $form->field($model, 'noted')->textarea(['rows' => 6]) ?>
 

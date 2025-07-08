@@ -41,7 +41,7 @@ foreach ($advancedFields as $field) {
      x-data="{ advancedSearchOpen: <?= $isAdvancedPanelOpen ? 'true' : 'false' ?> }"
 >
     <?php $form = ActiveForm::begin([
-        'action' => ['/site/property'],
+        'action' => ['/property'],
         'method' => 'get',
         'options' => [
             'data-pjax' => true,
@@ -62,7 +62,7 @@ foreach ($advancedFields as $field) {
                 $searchParams['keyword'] ?? null,
                 [
                     'class' => 'form-input border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500 w-full',
-                    'placeholder' => 'Nhập từ khoá tìm kiếm...'
+                    'placeholder' => 'Điện Thoại | Số Nhà | Đường Phố | Khu Vực '
                 ]
             ) ?>
         </div>
@@ -74,7 +74,7 @@ foreach ($advancedFields as $field) {
                 $selectedListingTypeId,
                 ArrayHelper::map($listingTypes, 'id', 'name'),
                 [
-                    'prompt' => 'Chọn Loại Giao Dịch',
+                    'prompt' => 'Loại Giao Dịch',
                     'class' => 'form-select border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500 w-full'
                 ]
             );
@@ -685,7 +685,42 @@ foreach ($advancedFields as $field) {
 
     <div class="border-t border-gray-200 pt-4 mt-4">
         <?php
-        $allButtons = [ 1 => ['label' => 'Tài Sản Đấu Giá', 'icon' => 'fa-tag', 'color' => 'blue'], 2 => ['label' => 'Sản Phẩm Mới',   'icon' => 'fa-star', 'color' => 'yellow'], 3 => ['label' => 'Đang Giao Dịch',    'icon' => 'fa-handshake', 'color' => 'green'], 4 => ['label' => 'Ngừng Giao Dịch',  'icon' => 'fa-comments', 'color' => 'orange'], 5 => ['label' => 'Đã Đặt Cọc',       'icon' => 'fa-money-check-alt', 'color' => 'purple'], 6 => ['label' => 'Có HĐ Thuê',       'icon' => 'fa-file-invoice', 'color' => 'pink'], 7 => ['label' => 'Động Tư Trạch', 'icon' => 'fa-search-location', 'color' => 'teal'], 8 => ['label' => 'Tẩy Trạch',     'icon' => 'fa-exchange-alt', 'color' => 'indigo'], 9 => ['label' => 'Tăng giá',         'icon' => 'fa-arrow-alt-circle-up', 'color' => 'red'], 10=> ['label' => 'Giảm giá',        'icon' => 'fa-arrow-alt-circle-down', 'color' => 'gray'], ];
+        $allButtons = [ 
+            1 => [
+                'label' => 'Tài Sản Đấu Giá', 
+                'icon' => 'fa-tag', 
+                'color' => 'blue'], 
+            2 => [
+                'label' => 'Sản Phẩm Mới',   
+                'icon' => 'fa-star', 
+                'color' => 'yellow'], 
+            3 => [
+                'label' => 'Đang Giao Dịch',    
+                'icon' => 'fa-handshake', 
+                'color' => 'green'], 
+            4 => [
+                'label' => 'Ngừng Giao Dịch',  
+                'icon' => 'fa-comments',
+                 'color' => 'orange'], 
+            5 => [
+                'label' => 'Đã Giao Dịch',       
+                'icon' => 'fa-money-check-alt', 
+                'color' => 'purple'], 
+            11 => [
+                'label' => 'Đã Cọc',       
+                'icon' => 'fa-money-check-alt', 
+                'color' => 'purple'], 
+            6 => [
+                'label' => 'Có HĐ Thuê',     
+                'icon' => 'fa-file-invoice', 'color' => 'pink'], 
+            7 => [
+                'label' => 'Động Tư Trạch',
+                'icon' => 'fa-search-location', 
+                'color' => 'teal'], 
+            8 => ['label' => 'Tẩy Trạch',     'icon' => 'fa-exchange-alt', 'color' => 'indigo'], 
+            9 => ['label' => 'Tăng giá',         'icon' => 'fa-arrow-alt-circle-up', 'color' => 'red'], 
+            10=> ['label' => 'Giảm giá',        'icon' => 'fa-arrow-alt-circle-down', 'color' => 'gray'],
+         ];
         $selectedIds = [];
         $filterValue = $searchParams['status_filters'] ?? ''; 
         if (!empty($filterValue) && is_string($filterValue)) { $selectedIds = array_map('intval', explode(',', $filterValue)); }

@@ -170,6 +170,16 @@ class Properties extends \yii\db\ActiveRecord
         return $this->hasOne(PropertyTypes::class, ['property_type_id' => 'property_type_id']);
     }
 
+     /**
+     * Gets query for [[PropertyType]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getListingType()
+    {
+        return $this->hasOne(ListingTypes::class, ['id' => 'listing_types_id']);
+    }
+
     /**
      * Gets query for [[User]].
      *

@@ -63,7 +63,7 @@ class Folders extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'id' => 'Mã Thư Mục',
             'name_folder' => 'Tên Thư Mục',
             'parent_folder_id' => 'Thư Mục Cha',
             'noted' => 'Ghi Chú',

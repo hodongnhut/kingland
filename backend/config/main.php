@@ -55,7 +55,6 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                'property' => 'site/property',
                 'property-folder' => 'site/property-folder',
                 'property-user' => 'site/property-user',
                 'login-version' => 'site/login-version',
