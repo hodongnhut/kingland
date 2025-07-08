@@ -714,10 +714,10 @@ foreach ($advancedFields as $field) {
                 'label' => 'Có HĐ Thuê',     
                 'icon' => 'fa-file-invoice', 'color' => 'pink'], 
             7 => [
-                'label' => 'Động Tư Trạch',
+                'label' => 'Đông Tứ Trạch',
                 'icon' => 'fa-search-location', 
                 'color' => 'teal'], 
-            8 => ['label' => 'Tẩy Trạch',     'icon' => 'fa-exchange-alt', 'color' => 'indigo'], 
+            8 => ['label' => 'Tây Tứ Trạch',     'icon' => 'fa-exchange-alt', 'color' => 'indigo'], 
             9 => ['label' => 'Tăng giá',         'icon' => 'fa-arrow-alt-circle-up', 'color' => 'red'], 
             10=> ['label' => 'Giảm giá',        'icon' => 'fa-arrow-alt-circle-down', 'color' => 'gray'],
          ];

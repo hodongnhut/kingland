@@ -119,7 +119,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
                 'format' => 'raw',
                 'value' => function ($model) {
-                    return Html::tag('div', $model->street_name, ['class' => 'font-semibold']);
+                    $localtionType = Html::tag('span', $model->locationType->type_name, [
+                        'class' => 'text-xs font-medium px-2.5 py-0.5 rounded-full bg-gray-100 text-gray-800',
+                    ]);
+                    $treet = Html::tag('div', $model->street_name, ['class' => 'font-semibold']);
+                    return $localtionType . $treet;
                 },
             ],
             // Phường/Xã (Ward/Commune)
