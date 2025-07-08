@@ -76,12 +76,12 @@ class Properties extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'property_type_id', 'house_number', 'street_name', 'ward_commune', 'district_county', 'location_type_id', 'compound_name', 'area_width', 'area_length', 'area_total', 'planned_width', 'planned_length', 'planned_construction_area', 'usable_area', 'direction', 'land_type', 'num_toilets', 'num_bedrooms', 'num_basements', 'asset_type_id', 'description', 'transaction_status_id', 'transaction_description', 'external_id', 'num_floors', 'plot_number', 'sheet_number', 'lot_number', 'commission_types_id', 'commission_prices_id', 'area_back_side', 'wide_road', 'planned_back_side', 'property_images_id'], 'default', 'value' => null],
+            [['title', 'property_type_id', 'listing_types_id','house_number', 'street_name', 'ward_commune', 'district_county', 'location_type_id', 'compound_name', 'area_width', 'area_length', 'area_total', 'planned_width', 'planned_length', 'planned_construction_area', 'usable_area', 'direction', 'land_type', 'num_toilets', 'num_bedrooms', 'num_basements', 'asset_type_id', 'description', 'transaction_status_id', 'transaction_description', 'external_id', 'num_floors', 'plot_number', 'sheet_number', 'lot_number', 'commission_types_id', 'commission_prices_id', 'area_back_side', 'wide_road', 'planned_back_side', 'property_images_id'], 'default', 'value' => null],
             [['has_rental_contract'], 'default', 'value' => 0],
             [['city'], 'default', 'value' => 'Hồ Chí Minh'],
             [['is_active'], 'default', 'value' => 1],
             [['user_id', 'created_at', 'updated_at'], 'required'],
-            [['user_id', 'property_type_id', 'has_vat_invoice', 'location_type_id', 'num_toilets', 'num_bedrooms', 'num_basements', 'has_deposit', 'transaction_status_id', 'has_rental_contract', 'is_active','num_floors', 'commission_types_id', 'commission_prices_id', 'property_images_id'], 'integer'],
+            [['user_id', 'property_type_id', 'listing_types_id', 'has_vat_invoice', 'location_type_id', 'num_toilets', 'num_bedrooms', 'num_basements', 'has_deposit', 'transaction_status_id', 'has_rental_contract', 'is_active','num_floors', 'commission_types_id', 'commission_prices_id', 'property_images_id'], 'integer'],
             [['area_width', 'area_length', 'area_total', 'planned_width', 'planned_length', 'planned_construction_area', 'area_back_side', 'wide_road', 'planned_back_side'], 'number'],
             [['description', 'transaction_description'], 'string'],
             [['title'], 'string', 'max' => 500],
@@ -105,6 +105,7 @@ class Properties extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
             'title' => 'Title',
             'property_type_id' => 'Property Type ID',
+            'listing_types_id' => 'Loại Giao Dịch',
             'price' => 'Selling Price',
             'has_vat_invoice' => 'Has Vat Invoice',
             'house_number' => 'House Number',

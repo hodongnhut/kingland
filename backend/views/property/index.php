@@ -6,6 +6,8 @@ use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use common\models\Properties;
 use common\widgets\CustomLinkPager;
+use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
 
 
 /** @var yii\web\View $this */
@@ -269,114 +271,112 @@ $this->params['breadcrumbs'][] = $this->title;
                 </button>
             </div>
 
-            <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <?php $form = ActiveForm::begin([
+                'id' => 'property-form', 
+                'enableAjaxValidation' => false, 
+                'enableClientValidation' => true,
+                'fieldConfig' => [
+                    'errorOptions' => ['class' => 'invalid-feedback d-block'], 
+                ], 
+            ]); ?>
 
-                <div>
-                    <label class="block text-gray-700 text-sm font-bold mb-2">
-                        <span class="text-red-500">*</span> Loại Giao Dịch
-                    </label>
-                    <div class="flex space-x-4">
-                        <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio text-blue-600" name="transactionType" value="ban" checked>
-                            <span class="ml-2 text-gray-700">Bán</span>
-                        </label>
-                        <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio text-blue-600" name="transactionType" value="cho_thue">
-                            <span class="ml-2 text-gray-700">Cho Thuê</span>
-                        </label>
+                <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                    <div>
+                        <?= $form->field($model, 'listing_types_id', [
+                            'options' => ['class' => ''], // No extra div for this field
+                        ])->radioList([
+                            1 => 'Bán', 
+                            2 => 'Cho Thuê', 
+                        ], [
+                            'item' => function ($index, $label, $name, $checked, $value) {
+                                $check = $checked ? 'checked' : '';
+                                return "<label class='inline-flex items-center'>" .
+                                    "<input type='radio' class='form-radio text-blue-600' name='{$name}' value='{$value}' {$check}>" .
+                                    "<span class='ml-2 text-gray-700'>{$label}</span>" .
+                                    "</label>";
+                            }
+                        ])->label('<span class="text-red-500">*</span> Loại Giao Dịch') ?>
                     </div>
+
+                    <div>
+                        <?= $form->field($model, 'property_type_id')->dropDownList(
+                            ArrayHelper::map($modelPropertyTypes, 'property_type_id', 'type_name'),
+                            [
+                                'prompt' => 'Chọn Loại BĐS',
+                                'class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                            ]
+                        )->label('<span class="text-red-500">*</span> Loại BĐS') 
+                        ?>
+                    </div>
+
+                    <div>
+                        <?= $form->field($model, 'provinces')->dropDownList(
+                           ArrayHelper::map($modelProvinces, 'id', 'Name'),
+                            ['prompt' => 'Chọn Tỉnh Thành', 'class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline']
+                        )->label('<span class="text-red-500">*</span> Tỉnh Thành') ?>
+                    </div>
+
+                    <div>
+                        <?= $form->field($model, 'districts')->dropDownList(
+                            ArrayHelper::map($modelDistricts, 'id', 'Name'),
+                            ['prompt' => 'Chọn Quận Huyện...', 'class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline']
+                        )->label('<span class="text-red-500">*</span> Quận Huyện') ?>
+                    </div>
+
+                    <div>
+                        <?= $form->field($model, 'wards')->dropDownList(
+                            [], // Populate dynamically based on district
+                            ['prompt' => 'Chọn Phường / Xã', 'class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline']
+                        )->label('<span class="text-red-500">*</span> Phường / Xã') ?>
+                    </div>
+
+                    <div>
+                        <?= $form->field($model, 'streets')->dropDownList(
+                            [], // Populate dynamically based on ward
+                            ['prompt' => 'Chọn Đường', 'class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline']
+                        )->label('<span class="text-red-500">*</span> Đường') ?>
+                    </div>
+
+                    <div>
+                        <?= $form->field($model, 'house_number')->textInput([
+                            'class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                        ]) ?>
+                    </div>
+
+                    <div>
+                        <?= $form->field($model, 'plot_number')->textInput([
+                            'class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                        ]) ?>
+                    </div>
+
+                    <div>
+                        <?= $form->field($model, 'sheet_number')->textInput([
+                            'class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                        ]) ?>
+                    </div>
+
+                    <div>
+                        <?= $form->field($model, 'lot_number')->textInput([
+                            'class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                        ]) ?>
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <?= $form->field($model, 'region')->textInput([
+                            'placeholder' => 'Ví dụ: CityLand, Trung Sơn, Cư Xá Phú Lâm...',
+                            'class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                        ]) ?>
+                    </div>
+
                 </div>
 
-                <div>
-                    <label for="propertyType" class="block text-gray-700 text-sm font-bold mb-2">
-                        <span class="text-red-500">*</span> Loại BĐS
-                    </label>
-                    <select id="propertyType" name="propertyType" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        <option value="">Chọn Loại BĐS</option>
-                        </select>
+                <div class="p-6 flex justify-center space-x-4 border-t">
+                    <?= Html::submitButton('<i class="fas fa-arrow-right mr-2"></i> TIẾP TỤC', ['class' => 'bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md inline-flex items-center']) ?>
+                    <?= Html::button('<i class="fas fa-times mr-2"></i> HỦY', ['id' => 'cancelButton', 'class' => 'bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md inline-flex items-center']) ?>
                 </div>
 
-                <div>
-                    <label for="province" class="block text-gray-700 text-sm font-bold mb-2">
-                        <span class="text-red-500">*</span> Tỉnh Thành
-                    </label>
-                    <select id="province" name="province" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        <option value="ho_chi_minh">Hồ Chí Minh</option>
-                        </select>
-                </div>
-
-                <div>
-                    <label for="district" class="block text-gray-700 text-sm font-bold mb-2">
-                        <span class="text-red-500">*</span> Quận Huyện
-                    </label>
-                    <select id="district" name="district" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        <option value="">Chọn Quận Huyện...</option>
-                        </select>
-                </div>
-
-                <div>
-                    <label for="ward" class="block text-gray-700 text-sm font-bold mb-2">
-                        <span class="text-red-500">*</span> Phường / Xã
-                    </label>
-                    <select id="ward" name="ward" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        <option value="">Chọn Phường / Xã</option>
-                        </select>
-                </div>
-
-                <div>
-                    <label for="street" class="block text-gray-700 text-sm font-bold mb-2">
-                        <span class="text-red-500">*</span> Đường
-                    </label>
-                    <select id="street" name="street" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        <option value="">Chọn Đường</option>
-                        </select>
-                </div>
-
-                <div>
-                    <label for="houseNumber" class="block text-gray-700 text-sm font-bold mb-2">
-                        Số Nhà
-                    </label>
-                    <input type="text" id="houseNumber" name="houseNumber" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                </div>
-
-                <div>
-                    <label for="parcelNumber" class="block text-gray-700 text-sm font-bold mb-2">
-                        Số Thửa
-                    </label>
-                    <input type="text" id="parcelNumber" name="parcelNumber" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                </div>
-
-                <div>
-                    <label for="sheetNumber" class="block text-gray-700 text-sm font-bold mb-2">
-                        Số Tờ
-                    </label>
-                    <input type="text" id="sheetNumber" name="sheetNumber" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                </div>
-
-                <div>
-                    <label for="lotNumber" class="block text-gray-700 text-sm font-bold mb-2">
-                        Số Lô
-                    </label>
-                    <input type="text" id="lotNumber" name="lotNumber" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                </div>
-
-                <div class="md:col-span-2">
-                    <label for="areaDescription" class="block text-gray-700 text-sm font-bold mb-2">
-                        Khu Vực
-                    </label>
-                    <input type="text" id="areaDescription" name="areaDescription" placeholder="Ví dụ: CityLand, Trung Sơn, Cư Xá Phú Lâm..." class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                </div>
-
-            </div>
-
-            <div class="p-6 flex justify-center space-x-4 border-t">
-                <a id="createButton" href="/property/create" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md inline-flex items-center">
-                    <i class="fas fa-arrow-right mr-2"></i> TIẾP TỤC
-                </a>
-                <button id="cancelButton" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md inline-flex items-center">
-                    <i class="fas fa-times mr-2"></i> HỦY
-                </button>
-            </div>
+            <?php ActiveForm::end(); ?>
         </div>
     </div>
 </div>

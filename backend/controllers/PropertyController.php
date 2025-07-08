@@ -15,12 +15,16 @@ use common\models\Directions;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use common\models\PropertiesFrom;
+use common\models\Provinces;
+use common\models\Districts;
 
 class PropertyController extends Controller
 {
     public function actionIndex()
     {
-        $model = new Properties();
+        $model = new PropertiesFrom();
+        $model->provinces = 50;
         $searchModel = new PropertiesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         
@@ -35,6 +39,8 @@ class PropertyController extends Controller
             'modelDirections' => Directions::find()->all(),
             'dataProvider' => $dataProvider,
             'model' => $model,
+            'modelProvinces' => Provinces::find()->all(),
+            'modelDistricts' => Districts::find()->where(['ProvinceId' => 50])->all()
         ]);
     }
 
