@@ -22,11 +22,10 @@ iframe {
 
 .logo-overlay {
     position: absolute;
-    top: 2%;         /* Position the top edge at 50% of the parent's height */
-    left: 40%;        /* Position the left edge at 50% of the parent's width */
-    transform: translate(-50%, -50%); /* Move back by half of its own width/height */
-    z-index: 10;      /* Ensure it's above the iframe */
-
+    top: 2%;      
+    left: 40%;      
+    transform: translate(-50%, -50%); 
+    z-index: 10;
     width: 129px;
     height: 50px; 
     background-color: white ;
