@@ -35,11 +35,11 @@ return [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
-            'authTimeout' => 600,
+            'authTimeout' => 1800,
         ],
         'session' => [
             'name' => 'advanced-backend',
-            'timeout' => 600,
+            'timeout' => 1800,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
