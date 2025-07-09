@@ -3,24 +3,50 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Properties;
-use common\models\PropertiesSearch;
-use common\models\PropertyTypes;
-use common\models\ListingTypes;
-use common\models\LocationTypes;
-use common\models\AssetTypes;
-use common\models\Advantages;
-use common\models\Disadvantages;
-use common\models\Directions;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use common\models\PropertiesFrom;
-use common\models\Provinces;
 use common\models\Districts;
+use common\models\Provinces;
+use common\models\Advantages;
+use common\models\AssetTypes;
+use common\models\Directions;
+use common\models\Properties;
+use common\models\ListingTypes;
+use common\models\Disadvantages;
+use common\models\LocationTypes;
+use common\models\PropertyTypes;
+use common\models\PropertiesFrom;
+use yii\web\NotFoundHttpException;
+use common\models\PropertiesSearch;
+use yii\filters\AccessControl; 
 
 class PropertyController extends Controller
 {
+
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'], 
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
+    }
+
     public function actionIndex()
     {
         $model = new PropertiesFrom();
@@ -64,11 +90,12 @@ class PropertyController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Properties();
+        $model = new PropertiesFrom();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'property_id' => $model->property_id]);
+            $property = $model->load($this->request->post()) ? $model->save() : null;
+            if ($property !== null) {
+                return $this->redirect(['update', 'property_id' => $property->property_id]);
             }
         } else {
             $model->loadDefaultValues();
@@ -128,5 +155,8 @@ class PropertyController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+
+
 
 }

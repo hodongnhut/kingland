@@ -3,8 +3,6 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\grid\ActionColumn;
-use common\models\Properties;
 use common\widgets\CustomLinkPager;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
@@ -16,6 +14,7 @@ use yii\helpers\ArrayHelper;
 
 $this->title = 'Dữ Liệu Nhà Đất';
 $this->params['breadcrumbs'][] = $this->title;
+$csrfToken = Yii::$app->request->getCsrfToken();
 ?>
 <header class="bg-white shadow-md p-2 flex items-center justify-between rounded-bl-lg">
     <div class="text-lg font-semibold text-gray-800">Dữ Liệu Nhà Đất</div>
@@ -64,7 +63,18 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
-    <?php echo $this->render('_search', ['model' => $searchModel, 'listingTypes' => $modelListingTypes, 'locationTypes' => $modelLocationTypes, 'propertyTypes' => $modelPropertyTypes, 'assetTypes' => $modelAssetTypes, 'advantages' => $modelAdvantages, 'disadvantages' => $modelDisadvantages, 'directions' => $modelDirections]); ?>
+    <?php
+        echo $this->render('_search', [
+            'model' => $searchModel, 
+            'listingTypes' => $modelListingTypes, 
+            'locationTypes' => $modelLocationTypes, 
+            'propertyTypes' => $modelPropertyTypes, 
+            'assetTypes' => $modelAssetTypes, 
+            'advantages' => $modelAdvantages, 
+            'disadvantages' => $modelDisadvantages, 
+            'directions' => $modelDirections
+        ]); 
+    ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -89,16 +99,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => 'yii\grid\DataColumn',
                 'label' => '#',
                 'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
                 'format' => 'raw',
                 'value' => function ($model, $key, $index, $column) use ($dataProvider) {
                     $pagination = $dataProvider->getPagination();
                     $page = $pagination->getPage();
                     $pageSize = $pagination->pageSize;
                     $rowNumber = $index + 1 + ($page * $pageSize);
-                    return Html::tag('div', $rowNumber . Html::checkbox('selection[]', false, [
-                        'class' => 'form-checkbox h-4 w-4 text-blue-600 rounded ml-2',
-                    ]), ['class' => 'flex items-center space-x-2']);
+                    return Html::tag('div', $rowNumber, ['class' => 'flex items-center space-x-2']);
                 },
             ],
             [
@@ -110,7 +117,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model) {
                     return Html::tag('div', $model->listingType->name, ['class' => 'font-semibold']) .
                         Html::tag('div', $model->propertyType->type_name, ['class' => 'text-xs text-gray-600']) .
-                        Html::tag('div', $model->title);
+                        Html::tag('div', $model->house_number).
+                        ($model->plot_number ? Html::tag('div', 'Thửa: '. $model->plot_number) : '').
+                        ($model->sheet_number ? Html::tag('div', 'Tờ: '.$model->sheet_number): '');
                 },
             ],
             // Đường Phố (Street)
@@ -121,9 +130,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
                 'format' => 'raw',
                 'value' => function ($model) {
-                    $localtionType = Html::tag('span', $model->locationType->type_name, [
+                    $localtionType = $model->locationType ? Html::tag('span', $model->locationType->type_name, [
                         'class' => 'text-xs font-medium px-2.5 py-0.5 rounded-full bg-gray-100 text-gray-800',
-                    ]);
+                    ]) : " ";
                     $treet = Html::tag('div', $model->street_name, ['class' => 'font-semibold']);
                     return $localtionType . $treet;
                 },
@@ -207,9 +216,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
                 'format' => 'raw',
                 'value' => function ($model) {
-                    $statusBadge = Html::tag('span', $model->transactionStatus->status_name, [
+                    $statusBadge = $model->transactionStatus ? Html::tag('span', $model->transactionStatus->status_name, [
                         'class' => 'text-xs font-medium px-2.5 py-0.5 rounded-full ' . $model->transactionStatus->class_css,
-                    ]);
+                    ]) : " ";
                     // Format updated_at (assuming it's a timestamp)
                     $updateTime = Yii::$app->formatter->asDatetime($model->updated_at, 'php:H:i \t\g\i\ứ d/m/Y');
                     $updateTimeDiv = Html::tag('div', 'Hôm Qua lúc ' . $updateTime, ['class' => 'text-xs text-gray-500 mt-1']);
@@ -272,7 +281,9 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
 
             <?php $form = ActiveForm::begin([
-                'id' => 'property-form', 
+                'id' => 'property-form',
+                'action' => ['property/create'], 
+                'method' => 'post',
                 'enableAjaxValidation' => false, 
                 'enableClientValidation' => true,
                 'fieldConfig' => [
@@ -304,7 +315,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ArrayHelper::map($modelPropertyTypes, 'property_type_id', 'type_name'),
                             [
                                 'prompt' => 'Chọn Loại BĐS',
-                                'class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                                'class' => 'shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                             ]
                         )->label('<span class="text-red-500">*</span> Loại BĐS') 
                         ?>
@@ -313,28 +324,38 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div>
                         <?= $form->field($model, 'provinces')->dropDownList(
                            ArrayHelper::map($modelProvinces, 'id', 'Name'),
-                            ['prompt' => 'Chọn Tỉnh Thành', 'class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline']
+                            [
+                                'prompt' => 'Chọn Tỉnh Thành', 
+                                'class' => 'shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                                ]
                         )->label('<span class="text-red-500">*</span> Tỉnh Thành') ?>
                     </div>
 
                     <div>
                         <?= $form->field($model, 'districts')->dropDownList(
                             ArrayHelper::map($modelDistricts, 'id', 'Name'),
-                            ['prompt' => 'Chọn Quận Huyện...', 'class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline']
+                            [
+                                'prompt' => 'Chọn Quận Huyện...', 
+                                'class' => 'shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline']
                         )->label('<span class="text-red-500">*</span> Quận Huyện') ?>
                     </div>
 
                     <div>
                         <?= $form->field($model, 'wards')->dropDownList(
                             [], // Populate dynamically based on district
-                            ['prompt' => 'Chọn Phường / Xã', 'class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline']
+                            [
+                                'prompt' => 'Chọn Phường / Xã', 
+                                'class' => 'shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline']
                         )->label('<span class="text-red-500">*</span> Phường / Xã') ?>
                     </div>
 
                     <div>
                         <?= $form->field($model, 'streets')->dropDownList(
                             [], // Populate dynamically based on ward
-                            ['prompt' => 'Chọn Đường', 'class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline']
+                            [
+                                'prompt' => 'Chọn Đường', 
+                                'class' => 'shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                                ]
                         )->label('<span class="text-red-500">*</span> Đường') ?>
                     </div>
 
@@ -372,7 +393,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
 
                 <div class="p-6 flex justify-center space-x-4 border-t">
-                    <?= Html::submitButton('<i class="fas fa-arrow-right mr-2"></i> TIẾP TỤC', ['class' => 'bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md inline-flex items-center']) ?>
+                    <?= Html::submitButton('<i class="fas fa-arrow-right mr-2"></i> TIẾP TỤC', ['id'=> 'createButton',  'class' => 'bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md inline-flex items-center']) ?>
                     <?= Html::button('<i class="fas fa-times mr-2"></i> HỦY', ['id' => 'cancelButton', 'class' => 'bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md inline-flex items-center']) ?>
                 </div>
 
@@ -426,3 +447,62 @@ $this->params['breadcrumbs'][] = $this->title;
     });
   </script>
 </main>
+<?php
+$script = <<< JS
+$('#propertiesfrom-provinces').on('change', function() {
+    var provinceId = $(this).val();
+    $.ajax({
+        url: '/address/districts',
+        type: 'GET',
+        data: { ProvinceId: provinceId },
+        headers: {
+            'X-CSRF-Token': '$csrfToken'
+        },
+        success: function(data) {
+            $('select[name="PropertiesFrom[districts]"]').html(data);
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX error:', error);
+        }
+    });
+});
+JS;
+$this->registerJs($script);
+?>
+
+<?php
+$script = <<< JS
+$('#propertiesfrom-districts').on('change', function() {
+    var districtId = $(this).val();
+    $.ajax({
+        url: '/address/wards',
+        type: 'GET',
+        data: { DistrictId: districtId },
+        headers: {
+            'X-CSRF-Token': '$csrfToken'
+        },
+        success: function(data) {
+            $('select[name="PropertiesFrom[wards]"]').html(data);
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX error:', error);
+        }
+    });
+    $.ajax({
+        url: '/address/streets',
+        type: 'GET',
+        data: { DistrictId: districtId },
+        headers: {
+            'X-CSRF-Token': '$csrfToken'
+        },
+        success: function(data) {
+            $('select[name="PropertiesFrom[streets]"]').html(data);
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX error:', error);
+        }
+    });
+});
+JS;
+$this->registerJs($script);
+?>

@@ -4,12 +4,12 @@ namespace backend\controllers;
 
 use common\models\News;
 use common\models\NewsSearch;
-use common\models\NewsCategory; // Import NewsCategory model
+use common\models\NewsCategory;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl; // Để quản lý quyền truy cập
-use Yii; // Import Yii
+use yii\filters\AccessControl; 
+use Yii;
 
 /**
  * NewsController implements the CRUD actions for News model.

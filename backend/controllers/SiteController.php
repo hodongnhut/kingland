@@ -51,7 +51,8 @@ class SiteController extends Controller
                             'property-user',
                             'login-version',
                             'save-location',
-                            'clear-location-prompt'
+                            'clear-location-prompt',
+                            'map'
                         ],
                         'allow' => true,
                         'roles' => ['@'],
@@ -272,6 +273,15 @@ class SiteController extends Controller
      */
     public function actionPropertyFolder() {
         return $this->render('property-folder');
+    }
+
+    /**
+     * Property user up.
+     *
+     * @return mixed
+     */
+    public function actionMap() {
+        return $this->render('map');
     }
     
 

@@ -86,7 +86,7 @@ class Properties extends \yii\db\ActiveRecord
             [['description', 'transaction_description'], 'string'],
             [['title'], 'string', 'max' => 500],
             [['house_number', 'usable_area', 'direction', 'land_type', 'plot_number', 'sheet_number', 'lot_number'], 'string', 'max' => 50],
-            [['street_name', 'compound_name', 'external_id'], 'string', 'max' => 255],
+            [['street_name', 'compound_name', 'external_id', 'region'], 'string', 'max' => 255],
             [['ward_commune', 'district_county', 'city'], 'string', 'max' => 100],
             [['location_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => LocationTypes::class, 'targetAttribute' => ['location_type_id' => 'location_type_id']],
             [['property_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => PropertyTypes::class, 'targetAttribute' => ['property_type_id' => 'property_type_id']],

@@ -3158,3 +3158,326 @@ VALUES (
         'dinh-tien-hoang',
         'dinh tien hoang dinhtienhoang'
     );
+
+-- Inserting data into Districts table
+INSERT INTO
+    Districts (
+        id,
+        TCTKid,
+        Name,
+        ProvinceId,
+        Prefix,
+        Keyword,
+        latlng,
+        Lookup
+    )
+VALUES (
+        0,
+        NULL,
+        'Chọn Quận/Huyện',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    ),
+    (
+        29,
+        '281',
+        'Huyện Ứng Hòa',
+        '1',
+        'Huyện',
+        'ung-hoa',
+        '20.7110772,105.8143304',
+        'ung hoa unghoa'
+    ),
+    (
+        19,
+        '271',
+        'Huyện Ba Vì',
+        '1',
+        'Huyện',
+        'ba-vi',
+        '21.1559766,105.3749427',
+        'ba vi bavi'
+    ),
+    (
+        1,
+        '001',
+        'Quận Ba Đình',
+        '1',
+        'Quận',
+        'ba-dinh',
+        '21.0365377,105.8285908',
+        'ba dinh badinh'
+    ),
+    (
+        15,
+        '021',
+        'Quận Bắc Từ Liêm',
+        '1',
+        'Quận',
+        'bac-tu-liem',
+        '21.0712548,105.7644855',
+        'bac tu liem bactuliem'
+    ),
+    (
+        5,
+        '005',
+        'Quận Cầu Giấy',
+        '1',
+        'Quận',
+        'cau-giay',
+        '21.0295015,105.7914212',
+        'cau giay caugiay'
+    ),
+    (
+        25,
+        '277',
+        'Huyện Chương Mỹ',
+        '1',
+        'Huyện',
+        'chuong-my',
+        '20.8785159,105.6492335',
+        'chuong my chuongmy'
+    ),
+    (
+        12,
+        '018',
+        'Huyện Gia Lâm',
+        '1',
+        'Huyện',
+        'gia-lam',
+        '21.0238721,105.9705013',
+        'gia lam gialam'
+    ),
+    (
+        7,
+        '007',
+        'Quận Hai Bà Trưng',
+        '1',
+        'Quận',
+        'hai-ba-trung',
+        '21.0064704,105.8578519',
+        'hai ba trung haibatrung'
+    ),
+    (
+        17,
+        '268',
+        'Quận Hà Đông',
+        '1',
+        'Quận',
+        'ha-dong',
+        '20.9551855,105.7580110',
+        'ha dong hadong'
+    ),
+    (
+        22,
+        '274',
+        'Huyện Hoài Đức',
+        '1',
+        'Huyện',
+        'hoai-duc',
+        '21.0229256,105.7034794',
+        'hoai duc hoaiduc'
+    ),
+    (
+        2,
+        '002',
+        'Quận Hoàn Kiếm',
+        '1',
+        'Quận',
+        'hoan-kiem',
+        '21.0302237,105.8523115',
+        'hoan kiem hoankiem'
+    ),
+    (
+        8,
+        '008',
+        'Quận Hoàng Mai',
+        '1',
+        'Quận',
+        'hoang-mai',
+        '20.9757581,105.8626556',
+        'hoang mai hoangmai'
+    ),
+    (
+        4,
+        '004',
+        'Quận Long Biên',
+        '1',
+        'Quận',
+        'long-bien',
+        '21.0359662,105.9021921',
+        'long bien longbien'
+    ),
+    (
+        16,
+        '250',
+        'Huyện Mê Linh',
+        '1',
+        'Huyện',
+        'me-linh',
+        '21.1807885,105.7072570',
+        'me linh melinh'
+    ),
+    (
+        30,
+        '282',
+        'Huyện Mỹ Đức',
+        '1',
+        'Huyện',
+        'my-duc',
+        '20.6973826,105.7157754',
+        'my duc myduc'
+    ),
+    (
+        13,
+        '019',
+        'Quận Nam Từ Liêm',
+        '1',
+        'Quận',
+        'nam-tu-liem',
+        '21.0173512,105.7613329',
+        'nam tu liem namtuliem'
+    ),
+    (
+        28,
+        '280',
+        'Huyện Phú Xuyên',
+        '1',
+        'Huyện',
+        'phu-xuyen',
+        '20.7290459,105.9102398',
+        'phu xuyen phuxuyen'
+    ),
+    (
+        20,
+        '272',
+        'Huyện Phúc Thọ',
+        '1',
+        'Huyện',
+        'phuc-tho',
+        '21.1096428,105.5709447',
+        'phuc tho phuctho'
+    ),
+    (
+        23,
+        '275',
+        'Huyện Quốc Oai',
+        '1',
+        'Huyện',
+        'quoc-oai',
+        '20.9779128,105.6295922',
+        'quoc oai quocoai'
+    ),
+    (
+        10,
+        '016',
+        'Huyện Sóc Sơn',
+        '1',
+        'Huyện',
+        'soc-son',
+        '21.2808747,105.8292403',
+        'soc son socson'
+    ),
+    (
+        18,
+        '269',
+        'Thị xã Sơn Tây',
+        '1',
+        'Thị xã',
+        'son-tay',
+        '21.1386671,105.5056335',
+        'son tay sontay'
+    ),
+    (
+        3,
+        '003',
+        'Quận Tây Hồ',
+        '1',
+        'Quận',
+        'tay-ho',
+        '21.0683576,105.8240984',
+        'tay ho tayho'
+    ),
+    (
+        26,
+        '278',
+        'Huyện Thanh Oai',
+        '1',
+        'Huyện',
+        'thanh-oai',
+        '20.8602693,105.7801644',
+        'thanh oai thanhoai'
+    ),
+    (
+        14,
+        '020',
+        'Huyện Thanh Trì',
+        '1',
+        'Huyện',
+        'thanh-tri',
+        '20.9408967,105.8365081',
+        'thanh tri thanhtri'
+    ),
+    (
+        9,
+        '009',
+        'Quận Thanh Xuân',
+        '1',
+        'Quận',
+        'thanh-xuan',
+        '20.9944171,105.8171316',
+        'thanh xuan thanhxuan'
+    ),
+    (
+        24,
+        '276',
+        'Huyện Thạch Thất',
+        '1',
+        'Huyện',
+        'thach-that',
+        '21.0235566,105.5537358',
+        'thach that thachthat'
+    ),
+    (
+        27,
+        '279',
+        'Huyện Thường Tín',
+        '1',
+        'Huyện',
+        'thuong-tin',
+        '20.8319978,105.8700643',
+        'thuong tin thuongtin'
+    ),
+    (
+        21,
+        '273',
+        'Huyện Đan Phượng',
+        '1',
+        'Huyện',
+        'dan-phuong',
+        '21.1196271,105.6784682',
+        'dan phuong danphuong'
+    ),
+    (
+        11,
+        '017',
+        'Huyện Đông Anh',
+        '1',
+        'Huyện',
+        'dong-anh',
+        '21.1367358,105.8460325',
+        'dong anh donganh'
+    ),
+    (
+        6,
+        '006',
+        'Quận Đống Đa',
+        '1',
+        'Quận',
+        'dong-da',
+        '21.0146852,105.8235426',
+        'dong da dongda'
+    );

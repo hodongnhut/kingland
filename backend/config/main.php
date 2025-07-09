@@ -35,9 +35,11 @@ return [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+            'authTimeout' => 600,
         ],
         'session' => [
             'name' => 'advanced-backend',
+            'timeout' => 600,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -64,6 +66,7 @@ return [
                 'login-version' => 'user-location',
                 'news' => 'post',
                 'property-folder' => 'folder',
+                'ban-do-quy-hoach' => 'site/map',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',

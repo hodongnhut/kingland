@@ -44,6 +44,7 @@ class PropertiesFrom extends Model
 
             // Example of a default value if needed (e.g., if 'Bán' is default)
             // ['listing_types_id', 'default', 'value' => 1], // For 'Bán'
+            [['property_id'], 'safe']
         ];
     }
 
@@ -66,4 +67,39 @@ class PropertiesFrom extends Model
             'region' => 'Khu Vực',
         ];
     }
+
+
+     /**
+     * Tạo property
+     *
+     * @return bool Create property
+     */
+    public function save()
+    {
+        if (!$this->validate()) {
+            return null;
+        }
+        
+        $property = new Properties();
+        $property->user_id = Yii::$app->user->id;
+        $property->listing_types_id = $this->listing_types_id;
+        $property->property_type_id = $this->property_type_id;
+
+        $property->city = Provinces::findOne($this->provinces)->Name;
+        $property->district_county = Districts::findOne($this->districts)->Name;
+        $property->ward_commune = Wards::findOne($this->wards)->Name;
+        $property->street_name = Streets::findOne($this->streets)->Name;
+
+        $property->house_number = $this->house_number;
+        $property->plot_number = $this->plot_number;
+        $property->sheet_number = $this->sheet_number;
+        $property->lot_number = $this->lot_number;
+        $property->region = $this->region;
+
+        $property->created_at = date('Y-m-d H:i:s');
+        $property->updated_at = date('Y-m-d H:i:s');
+
+        return $property->save(false) ? $property : null;
+    }
+
 }

@@ -46,6 +46,10 @@ AppAsset::register($this);
                 <i class="fas fa-database text-xl"></i>
                 <span>Dữ liệu Nhà Đất</span>
             </a>
+            <a href="<?= \yii\helpers\Url::to(['/ban-do-quy-hoach']) ?>" class="nav-item">
+                <i class="fas fa-map text-xl"></i>
+                <span>BĐ Quy Hoạch</span>
+            </a>
             <? if (Yii::$app->user->identity->jobTitle->role_code === 'manager' ||  Yii::$app->user->identity->jobTitle->role_code == 'super_admin'):  ?>
             <a href="<?= \yii\helpers\Url::to(['/property-user']) ?>" class="nav-item">
                 <i class="fas fa-chart-bar"></i>
