@@ -37,7 +37,7 @@ $this->title = 'Bản Đồ Quy Hoạch TP.HCM';
 .map-container {
     position: relative;
     width: 100%;
-    height: 95vh; /* Or a fixed height like 800px */
+    height: 95vh;
     overflow: hidden;
 }
 
