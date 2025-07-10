@@ -76,22 +76,41 @@ class Properties extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'property_type_id', 'listing_types_id','house_number', 'street_name', 'ward_commune', 'district_county', 'location_type_id', 'compound_name', 'area_width', 'area_length', 'area_total', 'planned_width', 'planned_length', 'planned_construction_area', 'usable_area', 'direction', 'land_type', 'num_toilets', 'num_bedrooms', 'num_basements', 'asset_type_id', 'description', 'transaction_status_id', 'transaction_description', 'external_id', 'num_floors', 'plot_number', 'sheet_number', 'lot_number', 'commission_types_id', 'commission_prices_id', 'area_back_side', 'wide_road', 'planned_back_side', 'property_images_id'], 'default', 'value' => null],
-            [['has_rental_contract'], 'default', 'value' => 0],
+            [['title', 'property_type_id', 'listing_types_id', 'price_unit', 'currency_id', 'price', 'house_number', 'street_name', 'ward_commune', 'district_county', 'location_type_id', 'compound_name', 'area_width', 'area_length', 'area_total', 'planned_width', 'planned_length', 'planned_construction_area', 'usable_area', 'direction_id', 'land_type', 'num_toilets', 'num_bedrooms', 'num_basements', 'asset_type_id', 'description', 'has_deposit', 'transaction_status_id', 'transaction_description', 'external_id', 'num_floors', 'plot_number', 'sheet_number', 'lot_number', 'commission_types_id', 'commission_prices_id', 'area_back_side', 'wide_road', 'planned_back_side', 'property_images_id', 'region'], 'default', 'value' => null],
+            [['is_active'], 'default', 'value' => 1, 'message' => 'Trạng thái hoạt động không hợp lệ'],
+            [['has_rental_contract'], 'default', 'value' => 0, 'message' => 'Hợp đồng thuê không hợp lệ'],
             [['city'], 'default', 'value' => 'Hồ Chí Minh'],
-            [['is_active'], 'default', 'value' => 1],
-            [['user_id', 'created_at', 'updated_at'], 'required'],
-            [['user_id', 'property_type_id', 'listing_types_id', 'has_vat_invoice', 'location_type_id', 'num_toilets', 'num_bedrooms', 'num_basements', 'has_deposit', 'transaction_status_id', 'has_rental_contract', 'is_active','num_floors', 'commission_types_id', 'commission_prices_id', 'property_images_id'], 'integer'],
-            [['area_width', 'area_length', 'area_total', 'planned_width', 'planned_length', 'planned_construction_area', 'area_back_side', 'wide_road', 'planned_back_side'], 'number'],
-            [['description', 'transaction_description'], 'string'],
-            [['title'], 'string', 'max' => 500],
-            [['house_number', 'usable_area', 'direction', 'land_type', 'plot_number', 'sheet_number', 'lot_number'], 'string', 'max' => 50],
-            [['street_name', 'compound_name', 'external_id', 'region'], 'string', 'max' => 255],
-            [['ward_commune', 'district_county', 'city'], 'string', 'max' => 100],
-            [['location_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => LocationTypes::class, 'targetAttribute' => ['location_type_id' => 'location_type_id']],
-            [['property_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => PropertyTypes::class, 'targetAttribute' => ['property_type_id' => 'property_type_id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
-            [['direction_id'], 'exist', 'skipOnError' => true, 'targetClass' => Directions::class, 'targetAttribute' => ['direction_id' => 'id']],
+
+            // Các trường bắt buộc
+            [[
+                'user_id', 'created_at', 'updated_at', 'location_type_id', 'price', 'area_width', 'area_total',
+                'area_length', 'street_name', 'property_type_id', 'asset_type_id'
+            ], 'required', 'message' => '{attribute} không được để trống'],
+
+            // Kiểm tra kiểu dữ liệu số nguyên
+            [['user_id', 'property_type_id', 'listing_types_id', 'currency_id', 'has_vat_invoice', 'location_type_id', 'direction_id', 'num_toilets', 'num_bedrooms', 'num_basements', 'asset_type_id', 'has_deposit', 'transaction_status_id', 'has_rental_contract', 'is_active', 'num_floors', 'commission_types_id', 'commission_prices_id', 'property_images_id'], 'integer', 'message' => '{attribute} phải là số nguyên'],
+
+            // Kiểm tra kiểu số thực
+            [['price', 'area_width', 'area_length', 'area_total', 'planned_width', 'planned_length', 'planned_construction_area', 'area_back_side', 'wide_road', 'planned_back_side'], 'number', 'message' => '{attribute} phải là số'],
+
+            // Kiểm tra kiểu chuỗi và độ dài tối đa
+            [['description', 'transaction_description'], 'string', 'message' => '{attribute} phải là chuỗi ký tự'],
+            [['title'], 'string', 'max' => 500, 'tooLong' => '{attribute} không được vượt quá 500 ký tự'],
+            [['price_unit', 'house_number', 'usable_area', 'land_type', 'plot_number', 'sheet_number', 'lot_number'], 'string', 'max' => 50, 'tooLong' => '{attribute} không được vượt quá 50 ký tự'],
+            [['street_name', 'compound_name', 'external_id', 'region'], 'string', 'max' => 255, 'tooLong' => '{attribute} không được vượt quá 255 ký tự'],
+            [['ward_commune', 'district_county', 'city'], 'string', 'max' => 100, 'tooLong' => '{attribute} không được vượt quá 100 ký tự'],
+
+            // Kiểm tra khóa ngoại
+            [['asset_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => AssetTypes::class, 'targetAttribute' => ['asset_type_id' => 'asset_type_id'], 'message' => 'Loại tài sản không hợp lệ'],
+            [['location_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => LocationTypes::class, 'targetAttribute' => ['location_type_id' => 'location_type_id'], 'message' => 'Loại vị trí không hợp lệ'],
+            [['transaction_status_id'], 'exist', 'skipOnError' => true, 'targetClass' => TransactionStatuses::class, 'targetAttribute' => ['transaction_status_id' => 'transaction_status_id'], 'message' => 'Trạng thái giao dịch không hợp lệ'],
+            [['property_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => PropertyTypes::class, 'targetAttribute' => ['property_type_id' => 'property_type_id'], 'message' => 'Loại bất động sản không hợp lệ'],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id'], 'message' => 'Người dùng không hợp lệ'],
+            [['direction_id'], 'exist', 'skipOnError' => true, 'targetClass' => Directions::class, 'targetAttribute' => ['direction_id' => 'id'], 'message' => 'Hướng không hợp lệ'],
+            [['currency_id'], 'exist', 'skipOnError' => true, 'targetClass' => Currencies::class, 'targetAttribute' => ['currency_id' => 'id'], 'message' => 'Loại tiền tệ không hợp lệ'],
+
+            // Kiểm tra kiểu ngày giờ
+            [['created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -101,53 +120,55 @@ class Properties extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'property_id' => 'Property ID',
-            'user_id' => 'User ID',
-            'title' => 'Title',
-            'property_type_id' => 'Property Type ID',
-            'listing_types_id' => 'Loại Giao Dịch',
-            'price' => 'Selling Price',
-            'has_vat_invoice' => 'Has Vat Invoice',
-            'house_number' => 'House Number',
-            'street_name' => 'Street Name',
-            'ward_commune' => 'Ward Commune',
-            'district_county' => 'District County',
-            'city' => 'City',
-            'location_type_id' => 'Location Type ID',
-            'compound_name' => 'Compound Name',
-            'area_width' => 'Area Width',
-            'area_length' => 'Area Length',
-            'area_total' => 'Area Total',
-            'planned_width' => 'Planned Width',
-            'planned_length' => 'Planned Length',
-            'planned_construction_area' => 'Planned Construction Area',
-            'usable_area' => 'Usable Area',
-            'direction' => 'Direction',
-            'land_type' => 'Land Type',
-            'num_toilets' => 'Num Toilets',
-            'num_bedrooms' => 'Num Bedrooms',
-            'num_basements' => 'Num Basements',
-            'asset_type_id' => 'Asset Type ID',
-            'description' => 'Description',
-            'has_deposit' => 'Has Deposit',
-            'transaction_status_id' => 'Transaction Status ID',
-            'transaction_description' => 'Transaction Description',
-            'has_rental_contract' => 'Has Rental Contract',
-            'is_active' => 'Is Active',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
-            'external_id' => 'External ID',
-            'num_floors' => 'Num Floors',
-            'plot_number' => 'Plot Number',
-            'sheet_number' => 'Sheet Number',
-            'lot_number' => 'Lot Number',
-            'commission_types_id' => 'Commission Types ID',
-            'commission_prices_id' => 'Commission Prices ID',
-            'area_back_side' => 'Area Back Side',
-            'wide_road' => 'Wide Road',
-            'planned_back_side' => 'Planned Back Side',
-            'property_images_id' => 'Property Images ID',
-            'direction_id' => 'Direction ID',
+            'property_id' => 'ID Bất động sản',
+            'user_id' => 'ID Người dùng',
+            'title' => 'Tiêu đề',
+            'property_type_id' => 'Loại bất động sản',
+            'listing_types_id' => 'Loại giao dịch',
+            'price_unit' => 'Đơn vị giá',
+            'currency_id' => 'Loại tiền tệ',
+            'price' => 'Giá',
+            'has_vat_invoice' => 'Có hóa đơn VAT',
+            'house_number' => 'Số nhà',
+            'street_name' => 'Tên đường',
+            'ward_commune' => 'Phường/Xã',
+            'district_county' => 'Quận/Huyện',
+            'city' => 'Thành phố',
+            'location_type_id' => 'Vị Trí BĐS',
+            'compound_name' => 'Tên khu đô thị',
+            'area_width' => 'Chiều ngang',
+            'area_length' => 'Chiều dài',
+            'area_total' => 'Diện tích tổng',
+            'planned_width' => 'Chiều ngang quy hoạch',
+            'planned_length' => 'Chiều dài quy hoạch',
+            'planned_construction_area' => 'Diện tích xây dựng quy hoạch',
+            'usable_area' => 'Diện tích sử dụng',
+            'direction_id' => 'Hướng',
+            'land_type' => 'Loại đất',
+            'num_toilets' => 'Số nhà vệ sinh',
+            'num_bedrooms' => 'Số phòng ngủ',
+            'num_basements' => 'Số tầng hầm',
+            'asset_type_id' => 'Loại tài sản',
+            'description' => 'Mô tả',
+            'has_deposit' => 'Có đặt cọc',
+            'transaction_status_id' => 'Trạng thái giao dịch',
+            'transaction_description' => 'Mô tả giao dịch',
+            'has_rental_contract' => 'Hợp đồng thuê',
+            'is_active' => 'Trạng thái hoạt động',
+            'created_at' => 'Thời gian tạo',
+            'updated_at' => 'Thời gian cập nhật',
+            'external_id' => 'ID bên ngoài',
+            'num_floors' => 'Số tầng',
+            'plot_number' => 'Số thửa',
+            'sheet_number' => 'Số tờ',
+            'lot_number' => 'Số lô',
+            'commission_types_id' => 'Loại hoa hồng',
+            'commission_prices_id' => 'Giá hoa hồng',
+            'area_back_side' => 'Mặt hậu',
+            'wide_road' => 'Độ rộng đường',
+            'planned_back_side' => 'Mặt hậu quy hoạch',
+            'property_images_id' => 'ID hình ảnh bất động sản',
+            'region' => 'Khu vực',
         ];
     }
 
@@ -211,6 +232,41 @@ class Properties extends \yii\db\ActiveRecord
         // Giả sử khóa ngoại trong bảng 'properties' là 'asset_type_id'
         // và nó liên kết đến 'asset_type_id' trong bảng của AssetType.
         return $this->hasOne(AssetTypes::class, ['asset_type_id' => 'asset_type_id']);
+    }
+
+    public function getPropertyInteriors()
+    {
+        return $this->hasMany(PropertyInteriors::class, ['property_id' => 'property_id']);
+    }
+
+    public function getInteriors()
+    {
+        return $this->hasMany(Interiors::class, ['interior_id' => 'interior_id'])
+                    ->via(relationName: 'propertyInteriors');
+    }
+
+    public function getPropertyAdvantages()
+    {
+        return $this->hasMany(PropertyAdvantages::class, ['property_id' => 'property_id']);
+    }
+
+
+    public function getAdvantages() {
+        return $this->hasMany(Advantages::class, ['advantage_id' => 'advantage_id'])
+                ->via(relationName: 'propertyAdvantages');
+    }
+
+
+    public function getPropertyDisadvantages()
+    {
+        return $this->hasMany(PropertyDisadvantages::class, ['property_id' => 'property_id']);
+    }
+
+
+    
+    public function getDisadvantages() {
+        return $this->hasMany(Disadvantages::class, ['disadvantage_id' => 'disadvantage_id'])
+                    ->via(relationName: 'propertyDisadvantages');
     }
 
 }

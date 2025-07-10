@@ -274,7 +274,7 @@ foreach ($advancedFields as $field) {
 
             <?= Html::button('<i class="fas fa-chevron-down transition-transform duration-300" :class="{\'rotate-180\': advancedSearchOpen}"></i>', [
                 'type' => 'button',
-                'class' => 'bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg shadow-md',
+                'class' => 'bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm px-2 py-1 rounded-md shadow-sm',
                 'title' => 'Tìm kiếm nâng cao',
                 '@click' => 'advancedSearchOpen = !advancedSearchOpen'
             ]) ?>
@@ -717,8 +717,8 @@ foreach ($advancedFields as $field) {
                 'icon' => 'fa-search-location', 
                 'color' => 'teal'], 
             8 => ['label' => 'Tây Tứ Trạch',     'icon' => 'fa-exchange-alt', 'color' => 'indigo'], 
-            9 => ['label' => 'Tăng giá',         'icon' => 'fa-arrow-alt-circle-up', 'color' => 'red'], 
-            10=> ['label' => 'Giảm giá',        'icon' => 'fa-arrow-alt-circle-down', 'color' => 'gray'],
+            // 9 => ['label' => 'Tăng giá',         'icon' => 'fa-arrow-alt-circle-up', 'color' => 'red'], 
+            // 10=> ['label' => 'Giảm giá',        'icon' => 'fa-arrow-alt-circle-down', 'color' => 'gray'],
          ];
         $selectedIds = [];
         $filterValue = $searchParams['status_filters'] ?? ''; 

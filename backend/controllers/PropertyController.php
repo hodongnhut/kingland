@@ -19,6 +19,10 @@ use common\models\PropertiesFrom;
 use yii\web\NotFoundHttpException;
 use common\models\PropertiesSearch;
 use yii\filters\AccessControl; 
+use common\models\PropertyInteriors;
+use common\models\PropertyAdvantages;
+use common\models\PropertyDisadvantages;
+
 
 class PropertyController extends Controller
 {
@@ -116,13 +120,60 @@ class PropertyController extends Controller
     public function actionUpdate($property_id)
     {
         $model = $this->findModel($property_id);
+        
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            if ($model->validate()) {
+                if ($model->save(false)) { 
+                    if ($model->listing_types_id === 2) {
+                        $interiorIds = Yii::$app->request->post('interiors', []);
+                        PropertyInteriors::deleteAll(['property_id' => $model->property_id]);
+                        foreach ($interiorIds as $interiorId) {
+                            $relation = new PropertyInteriors();
+                            $relation->property_id = $model->property_id;
+                            $relation->interior_id = $interiorId;
+                            $relation->save();
+                        }
+                    }
+                    $advantagesIds = Yii::$app->request->post('advantages', []);
+                    PropertyAdvantages::deleteAll(['property_id' => $model->property_id]);
+                    foreach ($advantagesIds as $antageseriorId) { 
+                        $antageserior = new PropertyAdvantages();
+                        $antageserior->property_id = $model->property_id;
+                        $antageserior->advantage_id = $antageseriorId;
+                        $antageserior->save();
+                    }
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'property_id' => $model->property_id]);
+                    $disadvantagesIds = Yii::$app->request->post('disadvantages', []);
+                    PropertyDisadvantages::deleteAll(['property_id' => $model->property_id]);
+                    foreach ($disadvantagesIds as $disadvantageId) { 
+                        $disadvantages = new PropertyDisadvantages();
+                        $disadvantages->property_id = $model->property_id;
+                        $disadvantages->disadvantage_id = $disadvantageId;
+                        $disadvantages->save();
+                    }
+                    
+                    Yii::$app->session->setFlash('success', 'Cập nhật bất động sản thành công.');
+                    return $this->redirect(['update', 'property_id' => $model->property_id]);
+                } else {
+                    Yii::$app->session->setFlash('error', 'Không thể lưu bất động sản. Vui lòng thử lại.');
+                }
+            } else {
+                $errors = $model->getErrors();
+                $errorMessages = [];
+                foreach ($errors as $attribute => $errorList) {
+                    foreach ($errorList as $error) {
+                        $errorMessages[] = $error;
+                    }
+                }
+                Yii::$app->session->setFlash('error', 'Có lỗi trong dữ liệu nhập: ' . implode(', ', $errorMessages));
+            }
         }
 
         return $this->render('update', [
             'model' => $model,
+            'modelProvinces' => Provinces::find()->all(),
+            'modelDistricts' => Districts::find()->where(['ProvinceId' => 50])->all(),
+            'modelPropertyTypes' => PropertyTypes::find()->all(),
         ]);
     }
 

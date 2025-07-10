@@ -20,6 +20,12 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'listing_types_id')->textInput() ?>
 
+    <?= $form->field($model, 'price_unit')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'currency_id')->textInput() ?>
+
+    <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'has_vat_invoice')->textInput() ?>
 
     <?= $form->field($model, 'house_number')->textInput(['maxlength' => true]) ?>

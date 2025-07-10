@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var common\models\Properties $model */
 
-$this->title = 'Dữ Liệu Nhà Đất: ' . $model->property_id;
+$this->title = 'Dữ Liệu Nhà Đất: [ Mã: ' . $model->property_id .']';
 ?>
 <header class="bg-white shadow-md p-2 flex items-center justify-between rounded-bl-lg rounded-br-lg">
     <div class="text-lg font-semibold text-gray-800">Dữ Liệu Nhà Đất</div>
@@ -38,5 +38,8 @@ $this->title = 'Dữ Liệu Nhà Đất: ' . $model->property_id;
 <main class="flex-1 p-6 overflow-auto">
     <?= $this->render('_form', [
         'model' => $model,
+        'modelProvinces' => $modelProvinces,
+        'modelDistricts' => $modelDistricts,
+        'modelPropertyTypes' => $modelPropertyTypes,
     ]) ?>
 </div>
