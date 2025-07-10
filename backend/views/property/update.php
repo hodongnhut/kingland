@@ -41,5 +41,6 @@ $this->title = 'Dữ Liệu Nhà Đất: [ Mã: ' . $model->property_id .']';
         'modelProvinces' => $modelProvinces,
         'modelDistricts' => $modelDistricts,
         'modelPropertyTypes' => $modelPropertyTypes,
+        'dataProvider' => $dataProvider,
     ]) ?>
 </div>

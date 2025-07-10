@@ -3,6 +3,9 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
+use yii\grid\ActionColumn;
+use yii\grid\GridView;
+
 Use common\models\Directions;
 use common\models\LandType;
 use common\models\Interiors;
@@ -10,6 +13,7 @@ use common\models\Advantages;
 use common\models\Disadvantages;
 use common\models\AssetTypes;
 use common\models\CommissionTypes;
+use common\models\TransactionStatuses;
 
 if ($model->listing_types_id === 2) {
     $interiors = Interiors::find()->all();
@@ -18,13 +22,13 @@ if ($model->listing_types_id === 2) {
 
 $advantages = Advantages::find()->all();
 $disadvantages = Disadvantages::find()->all();
-
+$assetTypes = ArrayHelper::map(AssetTypes::find()->all(), 'asset_type_id', 'type_name');
+$commissionTypes = ArrayHelper::map(CommissionTypes::find()->all(), 'id', 'name');
+$transactionStatuses = ArrayHelper::map(TransactionStatuses::find()->where(['<>', 'transaction_status_id', 0])->all(), 'transaction_status_id', 'status_name');
 $selectedAdvantages = array_column($model->advantages, 'advantage_id');
 $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
 
-$assetTypes = ArrayHelper::map(AssetTypes::find()->all(), 'asset_type_id', 'type_name');
 
-$commissionTypes = ArrayHelper::map(CommissionTypes::find()->all(), 'id', 'name');
 
 
 /** @var yii\web\View $this */
@@ -566,8 +570,7 @@ $commissionTypes = ArrayHelper::map(CommissionTypes::find()->all(), 'id', 'name'
                             ]
                         ) ?>
                     </div>
-                    <p class="text-xs text-gray-500 mt-3 mb-2">Nếu bạn có thông tin liên hệ chủ nhà thì hãy điền vào đây.</p>
-                    <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Nhập thông tin liên hệ...">
+                   
                 </div>
                 <!-- Commission Type Section -->
                 <div>
@@ -592,24 +595,38 @@ $commissionTypes = ArrayHelper::map(CommissionTypes::find()->all(), 'id', 'name'
                 <div>
                     <h3 class="text-md font-semibold text-gray-800 mb-3">Trạng Thái</h3>
                     <div class="flex flex-wrap gap-2 mb-2">
-                        <label class="inline-flex items-center">
-                        <input type="radio" class="form-radio text-orange-600 h-4 w-4" name="status" value="trading" checked>
-                        <span class="ml-2 text-sm text-gray-700">Đang Giao Dịch</span>
-                        </label>
-                        <label class="inline-flex items-center">
-                        <input type="radio" class="form-radio text-orange-600 h-4 w-4" name="status" value="stopped">
-                        <span class="ml-2 text-sm text-gray-700">Ngừng Giao Dịch</span>
-                        </label>
-                        <label class="inline-flex items-center">
-                        <input type="radio" class="form-radio text-orange-600 h-4 w-4" name="status" value="traded">
-                        <span class="ml-2 text-sm text-gray-700">Đã Giao Dịch</span>
-                        </label>
-                        <label class="inline-flex items-center">
-                        <input type="radio" class="form-radio text-orange-600 h-4 w-4" name="status" value="deposited">
-                        <span class="ml-2 text-sm text-gray-700">Đã Cọc</span>
-                        </label>
+                        <?php foreach ($transactionStatuses as $id => $name): ?>
+                            <label class="inline-flex items-center">
+                                <input 
+                                    type="radio" 
+                                    class="form-radio text-orange-600 h-4 w-4" 
+                                    name="Properties[transaction_status_id]" 
+                                    value="<?= $id ?>" 
+                                    <?= $model->transaction_status_id == $id ? 'checked' : '' ?>>
+                                <span class="ml-2 text-sm text-gray-700"><?= htmlspecialchars($name) ?></span>
+                            </label>
+                        <?php endforeach; ?>
                     </div>
-                    <textarea class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm" rows="2" placeholder="Nhập Thông Tin Mô Tả"></textarea>
+
+                    <?= $form->field($model, 'transaction_description')->textarea([
+                        'rows' => 2,
+                        'placeholder' => 'Nhập Thông Tin Mô Tả',
+                        'class' => 'mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
+                    ]) ?>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500 mt-3 mb-2">Nếu bạn có thông tin liên hệ chủ nhà thì hãy điền vào đây.</p>
+                    <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Nhập thông tin liên hệ...">
+                    <br>
+                    <?= GridView::widget([
+                        'dataProvider' => $dataProvider,
+                        'columns' => [
+                            'contact_name',
+                            'phone_number',
+                            'role_id',
+                            'gender_id',
+                        ],
+                    ]); ?>
                 </div>
             </div>
          </div>

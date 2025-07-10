@@ -78,7 +78,7 @@ $csrfToken = Yii::$app->request->getCsrfToken();
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-    'layout' => "{items}\n",
+        'layout' => "{items}\n",
         'summaryOptions' => [
             'class' => 'text-sm text-gray-700',
             'id' => 'DataTables_Table_0_info',

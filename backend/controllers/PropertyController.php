@@ -22,6 +22,8 @@ use yii\filters\AccessControl;
 use common\models\PropertyInteriors;
 use common\models\PropertyAdvantages;
 use common\models\PropertyDisadvantages;
+use common\models\OwnerContactSearch;
+
 
 
 class PropertyController extends Controller
@@ -96,6 +98,7 @@ class PropertyController extends Controller
     {
         $model = new PropertiesFrom();
 
+
         if ($this->request->isPost) {
             $property = $model->load($this->request->post()) ? $model->save() : null;
             if ($property !== null) {
@@ -120,6 +123,9 @@ class PropertyController extends Controller
     public function actionUpdate($property_id)
     {
         $model = $this->findModel($property_id);
+        $searchModel = new OwnerContactSearch();
+        $searchModel->property_id = $property_id;
+        $dataProvider = $searchModel->search($this->request->queryParams);
         
         if ($this->request->isPost && $model->load($this->request->post())) {
             if ($model->validate()) {
@@ -174,6 +180,7 @@ class PropertyController extends Controller
             'modelProvinces' => Provinces::find()->all(),
             'modelDistricts' => Districts::find()->where(['ProvinceId' => 50])->all(),
             'modelPropertyTypes' => PropertyTypes::find()->all(),
+            'dataProvider' => $dataProvider,
         ]);
     }
 
