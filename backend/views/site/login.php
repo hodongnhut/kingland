@@ -68,12 +68,17 @@ $this->title = 'Đăng Nhập';
 
         <?= $form->field($model, 'password', [
             'template' => "{label}\n<div class=\"input-group\">"
-                          . "<span class=\"input-group-text\"><i class=\"fas fa-key\"></i></span>"
-                          . "{input}</div>\n{hint}\n{error}",
-            'inputOptions' => [
-                'placeholder' => '********',
-            ],
+                        . "<span class=\"input-group-text\"><i class=\"fas fa-key\"></i></span>"
+                        . "{input}"
+                        . "<button type=\"button\" class=\"btn btn-outline-secondary toggle-password\" tabindex=\"-1\">
+                            <i class=\"fas fa-eye\"></i>
+                        </button>"
+                        . "</div>\n{hint}\n{error}",
+        ])->passwordInput([
+            'placeholder' => '********',
+            'class' => 'form-control password-input',
         ])->label('Mật khẩu') ?>
+
 
         <div class="d-flex justify-content-between align-items-center mb-3">
 
@@ -97,3 +102,20 @@ $this->title = 'Đăng Nhập';
         <?php ActiveForm::end(); ?>
 
 </div>
+
+<?php
+$js = <<<JS
+$(document).on('click', '.toggle-password', function () {
+    var input = $(this).siblings('input');
+    var icon = $(this).find('i');
+    if (input.attr('type') === 'password') {
+        input.attr('type', 'text');
+        icon.removeClass('fa-eye').addClass('fa-eye-slash');
+    } else {
+        input.attr('type', 'password');
+        icon.removeClass('fa-eye-slash').addClass('fa-eye');
+    }
+});
+JS;
+$this->registerJs($js);
+?>
