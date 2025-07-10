@@ -282,82 +282,81 @@ foreach ($advancedFields as $field) {
     </div>
 
     <div x-show="advancedSearchOpen" x-ref="advancedFieldsContainer" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:leave="transition ease-in duration-200" class="origin-top">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 mt-4 pt-4 border-t">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 mt-4 pt-4 border-t">
             <div class="flex items-center space-x-2">
                 <?= Html::textInput('PropertiesSearch[update_by]', $searchParams['update_by'] ?? null, ['placeholder' => 'Người cập nhật', 'class' => 'form-input border border-gray-300 rounded-lg p-2 w-1/2 focus:ring-blue-500 focus:border-blue-500']) ?>
                 <?php
-    // Giữ nguyên đoạn PHP này
-    $selectedAssetTypeIds = [];
-    $assetTypeValue = $searchParams['asset_type_id'] ?? [];
-    if (!empty($assetTypeValue) && is_string($assetTypeValue)) {
-        $selectedAssetTypeIds = array_map('intval', explode(',', $assetTypeValue));
-    } elseif (is_array($assetTypeValue)) {
-        $selectedAssetTypeIds = $assetTypeValue;
-    }
-    $assetTypes = $assetTypes ?? [];
-?>
+                    // Giữ nguyên đoạn PHP này
+                    $selectedAssetTypeIds = [];
+                    $assetTypeValue = $searchParams['asset_type_id'] ?? [];
+                    if (!empty($assetTypeValue) && is_string($assetTypeValue)) {
+                        $selectedAssetTypeIds = array_map('intval', explode(',', $assetTypeValue));
+                    } elseif (is_array($assetTypeValue)) {
+                        $selectedAssetTypeIds = $assetTypeValue;
+                    }
+                    $assetTypes = $assetTypes ?? [];
+                ?>
 
-<div x-data="{ initialized: false }" class="relative w-full">
+            <div x-data="{ initialized: false }" class="relative w-full">
+                <button x-show="!initialized" @click="initialized = true" type="button" class="w-full flex items-center justify-between text-left bg-white border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <span>
+                        <?php if (empty($selectedAssetTypeIds)): ?>
+                            <span class="text-gray-800">Chọn Loại Tài Sản</span>
+                        <?php else: ?>
+                            <span class="text-gray-700">Đã chọn: <?= count($selectedAssetTypeIds) ?> loại</span>
+                        <?php endif; ?>
+                    </span>
+                    <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                </button>
 
-    <button x-show="!initialized" @click="initialized = true" type="button" class="w-full flex items-center justify-between text-left bg-white border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-        <span>
-            <?php if (empty($selectedAssetTypeIds)): ?>
-                <span class="text-gray-800">Chọn Loại Tài Sản</span>
-            <?php else: ?>
-                <span class="text-gray-700">Đã chọn: <?= count($selectedAssetTypeIds) ?> loại</span>
-            <?php endif; ?>
-        </span>
-        <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
-    </button>
+                <template x-if="initialized">
+                    <div x-data="{
+                            open: false,
+                            selected: <?php echo json_encode($selectedAssetTypeIds); ?>,
+                            toggle(id) { if (this.selected.includes(id)) { this.selected = this.selected.filter(i => i !== id) } else { this.selected.push(id) } },
+                            clearAll() { this.selected = [] }
+                        }"
+                        @reset-form.window="selected = []"
+                        class="relative w-full" x-cloak
+                        x-init="
+                            $watch('selected', val => { document.getElementById('asset_type_id_hidden').value = val.join(','); });
+                            $nextTick(() => open = true);
+                        "
+                        @click.away="open = false"
+                    >
+                        <button type="button" @click="open = !open" class="w-full flex items-center justify-between text-left bg-white border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <span>
+                                <template x-if="selected.length === 0"><span class="text-gray-800">Chọn Loại Tài Sản</span></template>
+                                <template x-if="selected.length > 0"><span class="text-gray-700" x-text="'Đã chọn: ' + selected.length + ' loại'"></span></template>
+                            </span>
+                            <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                        </button>
+                        <div x-show="open" x-transition class="absolute z-10 bg-white border border-gray-200 rounded-md shadow-lg w-full mt-2">
+                            <div x-show="selected.length > 0" class="border-b border-gray-200">
+                                <button type="button" @click="clearAll(); open = false" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                                    Xóa tất cả lựa chọn
+                                </button>
+                            </div>
+                            <ul class="py-1 max-h-60 overflow-y-auto">
+                                <?php foreach ($assetTypes as $type): ?>
+                                    <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center">
+                                        <input type="checkbox" value="<?= $type->asset_type_id; ?>" :checked="selected.includes(<?= $type->asset_type_id; ?>)" @change="toggle(<?= $type->asset_type_id; ?>)" class="mr-2 rounded" id="asset-type-<?= $type->asset_type_id; ?>">
+                                        <label for="asset-type-<?= $type->asset_type_id; ?>" class="flex-grow cursor-pointer"><?= Html::encode($type->type_name); ?></label>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                        </div>
+                </template>
 
-    <template x-if="initialized">
-        <div x-data="{
-                open: false,
-                selected: <?php echo json_encode($selectedAssetTypeIds); ?>,
-                toggle(id) { if (this.selected.includes(id)) { this.selected = this.selected.filter(i => i !== id) } else { this.selected.push(id) } },
-                clearAll() { this.selected = [] }
-            }"
-            @reset-form.window="selected = []"
-            class="relative w-full" x-cloak
-            x-init="
-                $watch('selected', val => { document.getElementById('asset_type_id_hidden').value = val.join(','); });
-                $nextTick(() => open = true);
-            "
-            @click.away="open = false"
-        >
-            <button type="button" @click="open = !open" class="w-full flex items-center justify-between text-left bg-white border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                <span>
-                    <template x-if="selected.length === 0"><span class="text-gray-800">Chọn Loại Tài Sản</span></template>
-                    <template x-if="selected.length > 0"><span class="text-gray-700" x-text="'Đã chọn: ' + selected.length + ' loại'"></span></template>
-                </span>
-                <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
-            </button>
-            <div x-show="open" x-transition class="absolute z-10 bg-white border border-gray-200 rounded-md shadow-lg w-full mt-2">
-                <div x-show="selected.length > 0" class="border-b border-gray-200">
-                    <button type="button" @click="clearAll(); open = false" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
-                        Xóa tất cả lựa chọn
-                    </button>
-                </div>
-                <ul class="py-1 max-h-60 overflow-y-auto">
-                    <?php foreach ($assetTypes as $type): ?>
-                        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center">
-                            <input type="checkbox" value="<?= $type->asset_type_id; ?>" :checked="selected.includes(<?= $type->asset_type_id; ?>)" @change="toggle(<?= $type->asset_type_id; ?>)" class="mr-2 rounded" id="asset-type-<?= $type->asset_type_id; ?>">
-                            <label for="asset-type-<?= $type->asset_type_id; ?>" class="flex-grow cursor-pointer"><?= Html::encode($type->type_name); ?></label>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
+                <input
+                    type="hidden"
+                    name="PropertiesSearch[asset_type_id]"
+                    id="asset_type_id_hidden"
+                    class="resettable-hidden-input"
+                    value="<?= implode(',', $selectedAssetTypeIds) ?>"
+                />
             </div>
-            </div>
-    </template>
-
-    <input
-        type="hidden"
-        name="PropertiesSearch[asset_type_id]"
-        id="asset_type_id_hidden"
-        class="resettable-hidden-input"
-        value="<?= implode(',', $selectedAssetTypeIds) ?>"
-    />
-</div>
             </div>
             <div class="flex items-center space-x-2">
                 <?php
