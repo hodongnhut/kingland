@@ -9,6 +9,7 @@ use common\models\Interiors;
 use common\models\Advantages;
 use common\models\Disadvantages;
 use common\models\AssetTypes;
+use common\models\CommissionTypes;
 
 if ($model->listing_types_id === 2) {
     $interiors = Interiors::find()->all();
@@ -22,6 +23,8 @@ $selectedAdvantages = array_column($model->advantages, 'advantage_id');
 $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
 
 $assetTypes = ArrayHelper::map(AssetTypes::find()->all(), 'asset_type_id', 'type_name');
+
+$commissionTypes = ArrayHelper::map(CommissionTypes::find()->all(), 'id', 'name');
 
 
 /** @var yii\web\View $this */
@@ -570,14 +573,17 @@ $assetTypes = ArrayHelper::map(AssetTypes::find()->all(), 'asset_type_id', 'type
                 <div>
                     <h3 class="text-md font-semibold text-gray-800 mb-3">Loại Hoa Hồng</h3>
                     <div class="flex space-x-4 mb-2">
+                    <?php foreach ($commissionTypes as $id => $name): ?>
                         <label class="inline-flex items-center">
-                        <input type="radio" class="form-radio text-orange-600 h-4 w-4" name="commission_type" value="percentage" checked>
-                        <span class="ml-2 text-sm text-gray-700">Phần trăm</span>
+                            <input 
+                                type="radio" 
+                                class="form-radio text-orange-600 h-4 w-4" 
+                                name="Properties[commission_types_id]" 
+                                value="<?= $id ?>" 
+                                <?= $model->commission_types_id == $id ? 'checked' : '' ?>>
+                            <span class="ml-2 text-sm text-gray-700"><?= Html::encode($name) ?></span>
                         </label>
-                        <label class="inline-flex items-center">
-                        <input type="radio" class="form-radio text-orange-600 h-4 w-4" name="commission_type" value="month">
-                        <span class="ml-2 text-sm text-gray-700">Tháng</span>
-                        </label>
+                    <?php endforeach; ?>
                     </div>
                     <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Tên">
                     <input type="text" class="mt-3 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Phần trăm">
