@@ -2,11 +2,13 @@
 
 namespace backend\controllers;
 
+use Yii;
 use common\models\OwnerContacts;
 use common\models\OwnerContactSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * OwnerContactController implements the CRUD actions for OwnerContacts model.
@@ -45,6 +47,30 @@ class OwnerContactController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionCreateAjax()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        if (!$data || !isset($data['role'])) {
+            return ['success' => false, 'message' => 'Dữ liệu gửi lên không hợp lệ.'];
+        }
+
+
+        $model = new OwnerContacts();
+        $model->role_id = (int)$data['role'];
+        $model->contact_name = $data['name'];
+        $model->phone_number = $data['phone'];
+        $model->gender_id = (int)$data['gender'];
+        $model->property_id = $data['propertyId'];
+
+        if ($model->save()) {
+            return ['success' => true];
+        }
+
+        return ['success' => false, 'errors' => $model->errors];
     }
 
     /**

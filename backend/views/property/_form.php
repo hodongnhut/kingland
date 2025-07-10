@@ -71,6 +71,9 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                 ],
             ]); 
         ?>
+
+        <?= $form->field($model, 'property_id')->hiddenInput()->label(false) ?>
+
         <!-- Hiển thị thông báo flash -->
         <?php if (Yii::$app->session->hasFlash('success')): ?>
             <div class="alert alert-success">
@@ -622,12 +625,35 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                     <br>
                     <?= GridView::widget([
                         'dataProvider' => $dataProvider,
+                        'layout' => "{items}\n{summary}",
+                        'summary' => 'Hiển thị {begin} - {end} trên tổng số {totalCount} liên hệ',
                         'emptyText' => 'Chưa Có Thông Tin Liên Hệ.',
                         'columns' => [
-                            'role_id',
+                            [
+                                'attribute' => 'role_id',
+                                'label' => 'Vai Trò',
+                                'value' => function ($model) {
+                                    return $model->role ? $model->role->name : 'Không xác định';
+                                },
+                            ],
                             'contact_name',
-                            'phone_number',
-                            'gender_id',
+                            [
+                                'attribute' => 'phone_number',
+                                'value' => function ($model) {
+                                    $phone = $model->phone_number;
+                                    if (strlen($phone) >= 3) {
+                                        return substr($phone, 0, -3) . '***';
+                                    }
+                                    return '***';
+                                },
+                            ],
+                            [
+                                'attribute' => 'gender_id',
+                                'label' => 'Giới Tính',
+                                'value' => function ($model) {
+                                    return $model->gender ? $model->gender->name : 'Không xác định';
+                                },
+                            ],
                         ],
                     ]); ?>
                 </div>
@@ -713,10 +739,16 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
             <div>
                 <label for="contact-role" class="block text-sm font-medium text-gray-700 mb-1">Vai Trò</label>
                 <select id="contact-role" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
-                    <option>Chọn Vai Trò</option>
-                    <option>Chủ nhà</option>
-                    <option>Người thân</option>
-                    <option>Môi giới</option>
+                <option value="">Chọn Vai Trò</option>
+                    <option value="0">Không xác định</option>
+                    <option value="1">Chủ nhà</option>
+                    <option value="2">Độc Quyền</option>
+                    <option value="3">Môi Giới Hợp Tác</option>
+                    <option value="4">Người Thân Chủ Nhà</option>
+                    <option value="5">Trợ Lý Chủ Nhà</option>
+                    <option value="6">Đại Diện Công Ty</option>
+                    <option value="7">Đại Diện Chủ Nhà</option>
+                    <option value="8">Đầu Tư</option>
                 </select>
             </div>
             <div>
@@ -730,10 +762,10 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
             <div>
                 <label for="contact-gender" class="block text-sm font-medium text-gray-700 mb-1">Giới tính</label>
                 <select id="contact-gender" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
-                    <option>Chọn Giới tính</option>
-                    <option>Nam</option>
-                    <option>Nữ</option>
-                    <option>Khác</option>
+                    <option >Chọn Giới tính</option>
+                    <option value="1">Nam</option>
+                    <option value="2">Nữ</option>
+                    <option value="0">Khác</option>
                 </select>
             </div>
         </div>
@@ -850,5 +882,48 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
             form.submit();
         }
     }
+
+    document.getElementById('save-contact-button').addEventListener('click', function () {
+        const role = document.getElementById('contact-role').value;
+        const name = document.getElementById('contact-name').value;
+        const phone = document.getElementById('contact-phone').value;
+        const gender = document.getElementById('contact-gender').value;
+        const propertyId = document.getElementById('properties-property_id').value;
+
+
+        // Kiểm tra dữ liệu cơ bản
+        if (!name || !phone || role === 'Chọn Vai Trò' || gender === 'Chọn Giới tính') {
+            alert('Vui lòng điền đầy đủ thông tin.');
+            return;
+        }
+
+        // Gửi Ajax
+        fetch('/owner-contact/create-ajax', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': yii.getCsrfToken()
+            },
+            body: JSON.stringify({
+                role: role,
+                name: name,
+                phone: phone,
+                gender: gender,
+                propertyId: propertyId
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Có lỗi xảy ra khi lưu!');
+            }
+        })
+        .catch(error => {
+            console.error('Lỗi:', error);
+            alert('Lỗi kết nối máy chủ.');
+        });
+    });
 </script>
 
