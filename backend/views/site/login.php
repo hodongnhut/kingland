@@ -64,7 +64,7 @@ $this->title = 'Đăng Nhập';
                 'autofocus' => true,
                 'placeholder' => 'your.email@example.com',
             ],
-        ])->label('Email Hoặc Mã') ?>
+        ])->label('Email Hoặc Mã Nhân Viên') ?>
 
         <?= $form->field($model, 'password', [
             'template' => "{label}\n<div class=\"input-group\">"
