@@ -3,9 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
-use yii\grid\ActionColumn;
 use yii\grid\GridView;
-
 Use common\models\Directions;
 use common\models\LandType;
 use common\models\Interiors;
@@ -38,14 +36,14 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
 <div class="bg-white p-6 rounded-lg shadow-md ">
     <div class="flex items-center justify-between">
         <h2 class="text-lg font-semibold text-gray-800">
-            <a href="<?= \yii\helpers\Url::to(['/property']) ?>">Màn hình chính</a> / 
-            Thêm Dữ Liệu Nhà Đất [Mã: <?= $model->property_id ?>]</h2>
+        <a href="<?= \yii\helpers\Url::to(['/property']) ?>">Màn hình chính</a> / 
+        Thêm Dữ Liệu Nhà Đất [Mã: <?= $model->property_id ?>]</h2>
         <div class="flex space-x-2">
-            <?= Html::submitButton('Lưu Lại', [
+            <?= Html::submitButton('<i class="fas fa-save"></i> Lưu Lại', [
                 'onclick' => 'submitPropertyForm()',
                 'class' => 'px-4 py-2 bg-orange-600 text-white rounded-md shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'
             ]) ?>
-            <?= Html::a('Quay lại', Yii::$app->request->referrer ?: ['index'], ['class' => 'px-4 py-2 bg-gray-200 text-gray-800 rounded-md shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500']) ?>
+            <?= Html::a('<i class="fas fa-arrow-left"></i> Quay lại', Yii::$app->request->referrer ?: ['index'], ['class' => 'px-4 py-2 bg-gray-200 text-gray-800 rounded-md shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500']) ?>
         </div>
     </div>
 </div>
@@ -616,14 +614,19 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                 </div>
                 <div>
                     <p class="text-xs text-gray-500 mt-3 mb-2">Nếu bạn có thông tin liên hệ chủ nhà thì hãy điền vào đây.</p>
-                    <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Nhập thông tin liên hệ...">
+                    <?= Html::a('<i class="fas fa-address-book "></i> Tạo Liên Hệ', 'javascript:void(0)', [
+                        'id'=> 'add-contact-button',
+                        'onclick' => 'createContact()',
+                        'class' => 'bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded mb-4 inline-block'
+                    ]) ?>
                     <br>
                     <?= GridView::widget([
                         'dataProvider' => $dataProvider,
+                        'emptyText' => 'Chưa Có Thông Tin Liên Hệ.',
                         'columns' => [
+                            'role_id',
                             'contact_name',
                             'phone_number',
-                            'role_id',
                             'gender_id',
                         ],
                     ]); ?>
@@ -701,6 +704,46 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
     </div>
 </main>
 
+<div id="contact-modal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Thêm Thông Tin Liên Hệ</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label for="contact-role" class="block text-sm font-medium text-gray-700 mb-1">Vai Trò</label>
+                <select id="contact-role" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                    <option>Chọn Vai Trò</option>
+                    <option>Chủ nhà</option>
+                    <option>Người thân</option>
+                    <option>Môi giới</option>
+                </select>
+            </div>
+            <div>
+                <label for="contact-name" class="block text-sm font-medium text-gray-700 mb-1">Tên</label>
+                <input type="text" id="contact-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+            </div>
+            <div>
+                <label for="contact-phone" class="block text-sm font-medium text-gray-700 mb-1">Điện thoại</label>
+                <input type="text" id="contact-phone" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+            </div>
+            <div>
+                <label for="contact-gender" class="block text-sm font-medium text-gray-700 mb-1">Giới tính</label>
+                <select id="contact-gender" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                    <option>Chọn Giới tính</option>
+                    <option>Nam</option>
+                    <option>Nữ</option>
+                    <option>Khác</option>
+                </select>
+            </div>
+        </div>
+        <div class="flex justify-end mt-6 space-x-2">
+            <button id="save-contact-button" class="px-4 py-2 bg-orange-600 text-white rounded-md shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">Lưu</button>
+            <button id="cancel-contact-button" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">Hủy</button>
+        </div>
+    </div>
+</div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -708,6 +751,46 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
         const soHongTab = document.getElementById('so-hong-tab');
         const thongTinContent = document.getElementById('thong-tin-content');
         const soHongContent = document.getElementById('so-hong-content');
+
+
+        const addContactButton = document.getElementById('add-contact-button');
+        const contactModal = document.getElementById('contact-modal');
+        const closeButton = contactModal.querySelector('.close-button');
+        const saveContactButton = document.getElementById('save-contact-button');
+        const cancelContactButton = document.getElementById('cancel-contact-button');
+        const contactEntriesDiv = document.getElementById('contact-entries');
+
+
+         // Event listeners for tab clicks
+         thongTinTab.addEventListener('click', function() {
+                activateTab(thongTinTab, thongTinContent);
+            });
+
+            soHongTab.addEventListener('click', function() {
+                activateTab(soHongTab, soHongContent);
+            });
+
+            // Show the modal when "Thêm Liên Hệ" button is clicked
+            addContactButton.addEventListener('click', function() {
+                contactModal.style.display = 'flex'; // Use flex to center the modal
+            });
+
+            // Hide the modal when close button or Cancel is clicked
+            closeButton.addEventListener('click', function() {
+                contactModal.style.display = 'none';
+            });
+
+            cancelContactButton.addEventListener('click', function() {
+                contactModal.style.display = 'none';
+            });
+
+            // Hide the modal if user clicks outside of it
+            window.addEventListener('click', function(event) {
+                if (event.target == contactModal) {
+                    contactModal.style.display = 'none';
+                }
+            });
+
     
         function activateTab(tabButton, contentDiv) {
             document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
