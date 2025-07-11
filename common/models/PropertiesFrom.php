@@ -29,7 +29,7 @@ class PropertiesFrom extends Model
     {
         return [
             [['listing_types_id'], 'required', 'message' => 'Vui lòng chọn {attribute}!'],
-            [['property_type_id', 'provinces', 'districts', 'wards', 'streets'], 'required', 'message' => '{attribute} không được để trống.'],
+            [['property_type_id', 'provinces', 'districts', 'wards', 'streets', 'house_number'], 'required', 'message' => '{attribute} không được để trống.'],
 
             ['listing_types_id', 'integer'], // Assuming it's an ID (1 for Bán, 2 for Cho Thuê)
             ['property_type_id', 'integer'], // Assuming it's an ID

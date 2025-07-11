@@ -1,9 +1,6 @@
 <?php
-use yii\widgets\ActiveForm;
 use yii\helpers\Html;
-use common\models\PropertyImages;
 
-// Nạp script của Yii2 để sử dụng yii.getCsrfToken()
 \yii\web\YiiAsset::register($this);
 ?>
 
@@ -44,9 +41,9 @@ use common\models\PropertyImages;
         <?php
         $images = $model->propertyImages;
         foreach ($images as $image) {
-            echo "<div class='relative group aspect-w-1 aspect-h-1 w-full rounded-lg overflow-hidden border border-gray-200 image-container' data-image-id='{$image->id}'>";
-            echo "<img src='" . Html::encode(Yii::$app->urlManager->createAbsoluteUrl($image->file_path)) . "' alt='" . Html::encode($image->file_name) . "' class='object-cover w-full h-full'>";
-            echo "<button class='absolute top-2 right-2 text-white bg-red-500 hover:bg-red-600 p-2 rounded-full delete-btn opacity-0 group-hover:opacity-100 transition-opacity duration-200' data-image-id='{$image->id}'>";
+            echo "<div class='relative group aspect-w-1 aspect-h-1 w-full rounded-lg overflow-hidden border border-gray-200 image-container' data-image-id='{$image->image_id}'>";
+            echo "<img src='" . Html::encode(Yii::$app->urlManager->createAbsoluteUrl($image->image_path)) . "' alt='" . Html::encode($image->image_path) . "' class='object-cover w-full h-full'>";
+            echo "<button class='absolute top-2 right-2 text-white bg-red-500 hover:bg-red-600 p-2 rounded-full delete-btn opacity-0 group-hover:opacity-100 transition-opacity duration-200' data-image-id='{$image->image_id}'>";
             echo "<svg class='w-5 h-5' fill='none' viewBox='0 0 24 24' stroke='currentColor'>";
             echo "<path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'></path>";
             echo "</svg></button></div>";
@@ -55,11 +52,12 @@ use common\models\PropertyImages;
     </div>
 </div>
 
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const uploadAreas = document.querySelectorAll('.upload-area');
     const uploadInputs = document.querySelectorAll('.upload-input');
+
+    console.log('CSRF Token:', yii.getCsrfToken()); // Debug CSRF token
 
     uploadAreas.forEach(area => {
         area.addEventListener('click', function() {
@@ -150,20 +148,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (xhr.status === 200) {
                     try {
                         const response = JSON.parse(xhr.responseText);
+                        console.log('Upload response:', response); // Debug
                         if (response.success) {
                             response.images.forEach(image => {
+                                console.log('Adding image:', image); // Debug
                                 const div = document.createElement('div');
                                 div.className = 'relative group aspect-w-1 aspect-h-1 w-full rounded-lg overflow-hidden border border-gray-200 image-container';
                                 div.dataset.imageId = image.id;
                                 div.innerHTML = `
                                     <img src="${image.url}" alt="${image.name}" class="object-cover w-full h-full">
-                                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                        <button class="text-white bg-red-500 hover:bg-red-600 p-2 rounded-full delete-btn" data-image-id="${image.id}">
-                                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                            </svg>
-                                        </button>
-                                    </div>`;
+                                    <button class="absolute top-2 right-2 text-white bg-red-500 hover:bg-red-600 p-2 rounded-full delete-btn opacity-0 group-hover:opacity-100 transition-opacity duration-200" data-image-id="${image.id}">
+                                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                    </button>`;
                                 document.querySelector('.uploaded-images').appendChild(div);
                             });
                             alert('Tải lên hình ảnh thành công.');

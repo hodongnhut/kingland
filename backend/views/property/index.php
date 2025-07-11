@@ -362,7 +362,7 @@ $csrfToken = Yii::$app->request->getCsrfToken();
                     <div>
                         <?= $form->field($model, 'house_number')->textInput([
                             'class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                        ]) ?>
+                        ])->label('<span class="text-red-500">*</span> Số Nhà') ?>
                     </div>
 
                     <div>

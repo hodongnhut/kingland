@@ -238,6 +238,8 @@ class PropertyController extends Controller
             return $response;
         }
 
+        $sortOrder = PropertyImages::find()->where(['property_id' => $propertyId])->max('sort_order') + 1;
+
         foreach ($files as $file) {
             $allowedExtensions = ['pdf', 'jpg', 'png', 'jpeg', 'webp', 'heic'];
             if (!in_array(strtolower($file->extension), $allowedExtensions)) {
@@ -247,18 +249,16 @@ class PropertyController extends Controller
 
             $imageModel = new PropertyImages();
             $imageModel->property_id = $propertyId;
-            $imageModel->type = $type;
-            $imageModel->file_name = $file->name;
+            $imageModel->image_path = '/uploads/properties/' . time() . '_' . uniqid() . '.' . $file->extension;
+            $imageModel->is_main = 0;
+            $imageModel->sort_order = $sortOrder++;
 
-            $fileName = time() . '_' . uniqid() . '.' . $file->extension;
-            $filePath = Yii::getAlias('@webroot/uploads/properties/') . $fileName;
-
+            $filePath = Yii::getAlias('@webroot') . $imageModel->image_path;
             if ($file->saveAs($filePath)) {
-                $imageModel->file_path = '/uploads/properties/' . $fileName;
                 if ($imageModel->save()) {
                     $response['images'][] = [
-                        'id' => $imageModel->id,
-                        'url' => Yii::$app->urlManager->createAbsoluteUrl($imageModel->file_path),
+                        'id' => $imageModel->image_id,
+                        'url' => Yii::$app->urlManager->createAbsoluteUrl($imageModel->image_path),
                         'name' => $file->name
                     ];
                 } else {
@@ -293,9 +293,18 @@ class PropertyController extends Controller
             return $response;
         }
 
-        $filePath = Yii::getAlias('@webroot') . $image->file_path;
+        $filePath = Yii::getAlias('@webroot') . $image->image_path;
         if (file_exists($filePath) && unlink($filePath)) {
             if ($image->delete()) {
+                $otherImage = PropertyImages::find()
+                    ->where(['property_id' => $image->property_id])
+                    ->andWhere(['!=', 'image_id', $imageId])
+                    ->orderBy(['sort_order' => SORT_ASC])
+                    ->one();
+                if ($otherImage && $image->is_main) {
+                    $otherImage->is_main = 1;
+                    $otherImage->save();
+                }
                 $response['success'] = true;
                 $response['message'] = 'Xóa hình ảnh thành công.';
             } else {

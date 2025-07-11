@@ -1,24 +1,13 @@
 <?php
-
 namespace common\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
-/**
- * This is the model class for table "property_images".
- *
- * @property int $id
- * @property int $property_id
- * @property string $file_name
- * @property string $file_path
- * @property string|null $type
- *
- * @property Properties $property
- */
-class PropertyImages extends \yii\db\ActiveRecord
+class PropertyImages extends ActiveRecord
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public static function tableName()
     {
@@ -26,34 +15,36 @@ class PropertyImages extends \yii\db\ActiveRecord
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    
-     public function rules()
-     {
-         return [
-             [['property_id', 'file_name', 'file_path'], 'required', 'message' => '{attribute} không được để trống'],
-             [['property_id'], 'integer', 'message' => 'ID bất động sản phải là số nguyên'],
-             [['type'], 'string', 'max' => 50, 'tooLong' => 'Loại hình ảnh không được vượt quá 50 ký tự'],
-             [['file_name', 'file_path'], 'string', 'max' => 255, 'tooLong' => '{attribute} không được vượt quá 255 ký tự'],
-             [['property_id'], 'exist', 'skipOnError' => true, 'targetClass' => Properties::class, 'targetAttribute' => ['property_id' => 'property_id'], 'message' => 'Bất động sản không hợp lệ'],
-         ];
-     }
- 
-     public function attributeLabels()
-     {
-         return [
-             'id' => 'ID Hình ảnh',
-             'property_id' => 'ID Bất động sản',
-             'file_name' => 'Tên file',
-             'file_path' => 'Đường dẫn file',
-             'type' => 'Loại hình ảnh',
-         ];
-     }
+    public function rules()
+    {
+        return [
+            [['property_id', 'image_path'], 'required'],
+            [['property_id', 'sort_order', 'created_at', 'updated_at'], 'integer'],
+            [['is_main'], 'boolean'],
+            [['image_path'], 'string', 'max' => 255],
+            [['property_id'], 'exist', 'skipOnError' => true, 'targetClass' => Properties::class, 'targetAttribute' => ['property_id' => 'property_id']],
+        ];
+    }
 
     /**
-     * Gets query for [[Property]].
-     *
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'image_id' => 'Image ID',
+            'property_id' => 'Property ID',
+            'image_path' => 'Image Path',
+            'is_main' => 'Is Main',
+            'sort_order' => 'Sort Order',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+        ];
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getProperty()
@@ -61,4 +52,17 @@ class PropertyImages extends \yii\db\ActiveRecord
         return $this->hasOne(Properties::class, ['property_id' => 'property_id']);
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function beforeSave($insert)
+    {
+        if ($insert) {
+            $this->created_at = time();
+            $this->updated_at = time();
+        } else {
+            $this->updated_at = time();
+        }
+        return parent::beforeSave($insert);
+    }
 }
