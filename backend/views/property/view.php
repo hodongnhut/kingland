@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <img src="https://placehold.co/40x40/f0f0f0/555555?text=Logo" alt="Người Nhập Logo" class="w-10 h-10 rounded-full">
                     <div>
                         <p class="text-sm text-gray-500">Người Nhập:</p>
-                        <p class="font-semibold text-gray-800">Toàn Cầu Admin <i class="fas fa-info-circle text-gray-400 text-xs"></i></p>
+                        <p class="font-semibold text-gray-800">Admin <i class="fas fa-info-circle text-gray-400 text-xs"></i></p>
                     </div>
                 </div>
             </div>
@@ -149,7 +149,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <!-- Another similar section (TIN GÓC) -->
             <div class="bg-white p-6 rounded-lg shadow-md space-y-4">
-                <p class="text-sm text-gray-500">5 năm 10 tháng Trước (30-08-2019) | Toàn Cầu Admin <i class="fas fa-info-circle text-gray-400 text-xs"></i></p>
+                <p class="text-sm text-gray-500">5 năm 10 tháng Trước (30-08-2019) | Admin<i class="fas fa-info-circle text-gray-400 text-xs"></i></p>
                 <div class="flex items-center space-x-2">
                     <span class="px-2 py-1 bg-red-100 text-red-700 text-xs font-medium rounded-full">TIN GÓC</span>
                     <span class="text-sm text-gray-600">được đăng đầu tiên</span>
