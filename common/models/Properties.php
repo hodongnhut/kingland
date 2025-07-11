@@ -262,11 +262,13 @@ class Properties extends \yii\db\ActiveRecord
         return $this->hasMany(PropertyDisadvantages::class, ['property_id' => 'property_id']);
     }
 
-
-    
     public function getDisadvantages() {
         return $this->hasMany(Disadvantages::class, ['disadvantage_id' => 'disadvantage_id'])
                     ->via(relationName: 'propertyDisadvantages');
     }
 
+    public function getPropertyImages()
+    {
+        return $this->hasMany(PropertyImages::class, ['property_id' => 'property_id']);
+    }
 }

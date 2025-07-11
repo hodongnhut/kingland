@@ -23,8 +23,8 @@ use common\models\PropertyInteriors;
 use common\models\PropertyAdvantages;
 use common\models\PropertyDisadvantages;
 use common\models\OwnerContactSearch;
-
-
+use yii\web\UploadedFile;
+use common\models\PropertyImages;
 
 class PropertyController extends Controller
 {
@@ -215,6 +215,97 @@ class PropertyController extends Controller
     }
 
 
+    /**
+     * Uploads images via AJAX.
+     * @return array JSON response
+     */
+    public function actionUploadImage()
+    {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $response = ['success' => false, 'message' => '', 'images' => []];
 
+        $files = UploadedFile::getInstancesByName('files');
+        $type = Yii::$app->request->post('type');
+        $propertyId = Yii::$app->request->post('property_id', 0);
+
+        if (empty($files)) {
+            $response['message'] = 'Vui lòng chọn ít nhất một file để tải lên.';
+            return $response;
+        }
+
+        if ($propertyId == 0) {
+            $response['message'] = 'ID bất động sản không hợp lệ.';
+            return $response;
+        }
+
+        foreach ($files as $file) {
+            $allowedExtensions = ['pdf', 'jpg', 'png', 'jpeg', 'webp', 'heic'];
+            if (!in_array(strtolower($file->extension), $allowedExtensions)) {
+                $response['message'] = 'Định dạng file không hợp lệ: ' . $file->name;
+                return $response;
+            }
+
+            $imageModel = new PropertyImages();
+            $imageModel->property_id = $propertyId;
+            $imageModel->type = $type;
+            $imageModel->file_name = $file->name;
+
+            $fileName = time() . '_' . uniqid() . '.' . $file->extension;
+            $filePath = Yii::getAlias('@webroot/uploads/properties/') . $fileName;
+
+            if ($file->saveAs($filePath)) {
+                $imageModel->file_path = '/uploads/properties/' . $fileName;
+                if ($imageModel->save()) {
+                    $response['images'][] = [
+                        'id' => $imageModel->id,
+                        'url' => Yii::$app->urlManager->createAbsoluteUrl($imageModel->file_path),
+                        'name' => $file->name
+                    ];
+                } else {
+                    $response['message'] = 'Không thể lưu thông tin hình ảnh vào cơ sở dữ liệu: ' . implode(', ', $imageModel->getErrorSummary(true));
+                    return $response;
+                }
+            } else {
+                $response['message'] = 'Không thể lưu file: ' . $file->name;
+                return $response;
+            }
+        }
+
+        $response['success'] = true;
+        $response['message'] = 'Tải lên thành công';
+        return $response;
+    }
+
+    /**
+     * Deletes an image via AJAX.
+     * @return array JSON response
+     */
+    public function actionDeleteImage()
+    {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $response = ['success' => false, 'message' => ''];
+
+        $imageId = Yii::$app->request->post('image_id');
+        $image = PropertyImages::findOne($imageId);
+
+        if (!$image) {
+            $response['message'] = 'Hình ảnh không tồn tại.';
+            return $response;
+        }
+
+        $filePath = Yii::getAlias('@webroot') . $image->file_path;
+        if (file_exists($filePath) && unlink($filePath)) {
+            if ($image->delete()) {
+                $response['success'] = true;
+                $response['message'] = 'Xóa hình ảnh thành công.';
+            } else {
+                $response['message'] = 'Không thể xóa thông tin hình ảnh khỏi cơ sở dữ liệu.';
+            }
+        } else {
+            $response['message'] = 'Không thể xóa file hình ảnh.';
+        }
+
+        return $response;
+    }
 
 }

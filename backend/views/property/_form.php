@@ -674,73 +674,9 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
          </div>
         <?php ActiveForm::end(); ?>
     </div>
-    <div id="so-hong-content" class="tab-content hidden bg-white p-6 rounded-lg shadow-md">
-        <h3 class="text-md font-semibold text-gray-800 mb-3">Hình ảnh đã tải lên</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-white rounded-lg border border-gray-200 p-4">
-                <div class="flex items-center mb-4">
-                    <div class="bg-purple-600 text-white p-2 rounded-md mr-3 flex-shrink-0">
-                        <i class="fas fa-file-alt text-lg"></i>
-                    </div>
-                    <h3 class="text-lg font-semibold text-gray-800">SỔ HỒNG | GIẤY TỜ PHÁP LÝ</h3>
-                </div>
-                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center text-gray-500 hover:border-blue-400 hover:text-blue-600 cursor-pointer transition duration-200 ease-in-out">
-                    <i class="fas fa-cloud-upload-alt text-4xl mb-2"></i>
-                    <p>Chọn hoặc kéo thả</p>
-                    <p class="text-xs">File: pdf, jpg, png, jpeg, webp, heic!</p>
-                    <input type="file" multiple class="hidden">
-                </div>
-            </div>
-            <div class="bg-white rounded-lg border border-gray-200 p-4">
-                <div class="flex items-center mb-4">
-                    <div class="bg-blue-600 text-white p-2 rounded-md mr-3 flex-shrink-0">
-                        <i class="fas fa-images text-lg"></i>
-                    </div>
-                    <h3 class="text-lg font-semibold text-gray-800">HÌNH ẢNH BỔ SUNG</h3>
-                </div>
-                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center text-gray-500 hover:border-blue-400 hover:text-blue-600 cursor-pointer transition duration-200 ease-in-out">
-                    <i class="fas fa-cloud-upload-alt text-4xl mb-2"></i>
-                    <p>Chọn hoặc kéo thả</p>
-                    <p class="text-xs">File: pdf, jpg, png, jpeg, webp, heic!</p>
-                    <input type="file" multiple class="hidden">
-                </div>
-            </div>
-        </div>
-        <br>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            <!-- Placeholder for uploaded images -->
-            <div class="relative group aspect-w-1 aspect-h-1 w-full rounded-lg overflow-hidden border border-gray-200">
-                <img src="https://placehold.co/150x150/e0e0e0/555555?text=Image+1" alt="Placeholder Image 1" class="object-cover w-full h-full">
-                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    <button class="text-white bg-red-500 hover:bg-red-600 p-2 rounded-full">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <div class="relative group aspect-w-1 aspect-h-1 w-full rounded-lg overflow-hidden border border-gray-200">
-                <img src="https://placehold.co/150x150/d0d0d0/444444?text=Image+2" alt="Placeholder Image 2" class="object-cover w-full h-full">
-                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    <button class="text-white bg-red-500 hover:bg-red-600 p-2 rounded-full">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <div class="relative group aspect-w-1 aspect-h-1 w-full rounded-lg overflow-hidden border border-gray-200">
-                <img src="https://placehold.co/150x150/e0e0e0/555555?text=Image+1" alt="Placeholder Image 1" class="object-cover w-full h-full">
-                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    <button class="text-white bg-red-500 hover:bg-red-600 p-2 rounded-full">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?= $this->render('_upload', [
+        'model' => $model,
+    ]) ?>
 </main>
 
 <div id="contact-modal" class="modal">

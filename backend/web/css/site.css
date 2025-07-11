@@ -343,3 +343,7 @@ label.required::after {
     text-decoration: none;
     cursor: pointer;
 }
+
+.image-container .delete-btn {
+    opacity: 1 !important;
+}
