@@ -23,6 +23,7 @@ use common\models\PropertyInteriors;
 use common\models\PropertyAdvantages;
 use common\models\PropertyDisadvantages;
 use common\models\OwnerContactSearch;
+use common\models\RentalContracts;
 use yii\web\UploadedFile;
 use common\models\PropertyImages;
 
@@ -126,50 +127,78 @@ class PropertyController extends Controller
         $searchModel = new OwnerContactSearch();
         $searchModel->property_id = $property_id;
         $dataProvider = $searchModel->search($this->request->queryParams);
+        $rentalContractModel = $model->rentalContract ?? new RentalContracts();
         
         if ($this->request->isPost && $model->load($this->request->post())) {
-            if ($model->validate()) {
-                if ($model->save(false)) { 
-                    if ($model->listing_types_id === 2) {
-                        $interiorIds = Yii::$app->request->post('interiors', []);
-                        PropertyInteriors::deleteAll(['property_id' => $model->property_id]);
-                        foreach ($interiorIds as $interiorId) {
-                            $relation = new PropertyInteriors();
-                            $relation->property_id = $model->property_id;
-                            $relation->interior_id = $interiorId;
-                            $relation->save();
-                        }
-                    }
-                    $advantagesIds = Yii::$app->request->post('advantages', []);
-                    PropertyAdvantages::deleteAll(['property_id' => $model->property_id]);
-                    foreach ($advantagesIds as $antageseriorId) { 
-                        $antageserior = new PropertyAdvantages();
-                        $antageserior->property_id = $model->property_id;
-                        $antageserior->advantage_id = $antageseriorId;
-                        $antageserior->save();
-                    }
+            
 
-                    $disadvantagesIds = Yii::$app->request->post('disadvantages', []);
-                    PropertyDisadvantages::deleteAll(['property_id' => $model->property_id]);
-                    foreach ($disadvantagesIds as $disadvantageId) { 
-                        $disadvantages = new PropertyDisadvantages();
-                        $disadvantages->property_id = $model->property_id;
-                        $disadvantages->disadvantage_id = $disadvantageId;
-                        $disadvantages->save();
+            $rentalContractModel->load($this->request->post());
+            if ($rentalContractModel->isNewRecord) {
+                $rentalContractModel->property_id = $model->property_id;
+            }
+
+            $isModelValid = $model->validate();
+            $isRentalValid = true;
+            if ($model->has_rental_contract) {
+                $isRentalValid = $rentalContractModel->validate();
+            }
+
+            if ($isModelValid && $isRentalValid) {
+                $transaction = Yii::$app->db->beginTransaction();
+                try {
+                    if ($model->save(false)) { 
+                        
+                        if ($model->has_rental_contract) {
+                            $rentalContractModel->save(false);
+                        } elseif (!$rentalContractModel->isNewRecord) {
+                            $rentalContractModel->delete();
+                        }
+
+                        if ($model->listing_types_id === 2) {
+                            $interiorIds = Yii::$app->request->post('interiors', []);
+                            PropertyInteriors::deleteAll(['property_id' => $model->property_id]);
+                            foreach ($interiorIds as $interiorId) {
+                                $relation = new PropertyInteriors();
+                                $relation->property_id = $model->property_id;
+                                $relation->interior_id = $interiorId;
+                                $relation->save();
+                            }
+                        }
+                        $advantagesIds = Yii::$app->request->post('advantages', []);
+                        PropertyAdvantages::deleteAll(['property_id' => $model->property_id]);
+                        foreach ($advantagesIds as $advantageId) { 
+                            $advantage = new PropertyAdvantages();
+                            $advantage->property_id = $model->property_id;
+                            $advantage->advantage_id = $advantageId;
+                            $advantage->save();
+                        }
+
+                        $disadvantagesIds = Yii::$app->request->post('disadvantages', []);
+                        PropertyDisadvantages::deleteAll(['property_id' => $model->property_id]);
+                        foreach ($disadvantagesIds as $disadvantageId) { 
+                            $disadvantage = new PropertyDisadvantages();
+                            $disadvantage->property_id = $model->property_id;
+                            $disadvantage->disadvantage_id = $disadvantageId;
+                            $disadvantage->save();
+                        }
+
+                        $transaction->commit();
+                        Yii::$app->session->setFlash('success', 'Cập nhật bất động sản thành công.');
+                        return $this->redirect(['update', 'property_id' => $model->property_id]);
+
+                    } else {
+                        $transaction->rollBack();
+                        Yii::$app->session->setFlash('error', 'Không thể lưu bất động sản. Vui lòng thử lại.');
                     }
-                    
-                    Yii::$app->session->setFlash('success', 'Cập nhật bất động sản thành công.');
-                    return $this->redirect(['update', 'property_id' => $model->property_id]);
-                } else {
-                    Yii::$app->session->setFlash('error', 'Không thể lưu bất động sản. Vui lòng thử lại.');
+                } catch (\Exception $e) {
+                    $transaction->rollBack();
+                    Yii::$app->session->setFlash('error', 'Có lỗi xảy ra khi lưu: ' . $e->getMessage());
                 }
             } else {
-                $errors = $model->getErrors();
+                $errors = array_merge($model->getErrors(), $rentalContractModel->getErrors());
                 $errorMessages = [];
-                foreach ($errors as $attribute => $errorList) {
-                    foreach ($errorList as $error) {
-                        $errorMessages[] = $error;
-                    }
+                foreach ($errors as $errorList) {
+                    $errorMessages = array_merge($errorMessages, $errorList);
                 }
                 Yii::$app->session->setFlash('error', 'Có lỗi trong dữ liệu nhập: ' . implode(', ', $errorMessages));
             }
@@ -180,6 +209,7 @@ class PropertyController extends Controller
             'modelProvinces' => Provinces::find()->all(),
             'modelDistricts' => Districts::find()->where(['ProvinceId' => 50])->all(),
             'modelPropertyTypes' => PropertyTypes::find()->all(),
+            'rentalContractModel' => $rentalContractModel,
             'dataProvider' => $dataProvider,
         ]);
     }

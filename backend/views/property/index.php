@@ -94,7 +94,6 @@ $csrfToken = Yii::$app->request->getCsrfToken();
             'class' => 'bg-white rounded-lg shadow-md overflow-x-auto',
         ],
         'columns' => [
-            // Serial Column (#)
             [
                 'class' => 'yii\grid\DataColumn',
                 'label' => '#',
@@ -115,8 +114,8 @@ $csrfToken = Yii::$app->request->getCsrfToken();
                 'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
                 'format' => 'raw',
                 'value' => function ($model) {
-                    return Html::tag('div', $model->listingType->name, ['class' => 'font-semibold']) .
-                        Html::tag('div', $model->propertyType->type_name, ['class' => 'text-xs text-gray-600']) .
+                    return Html::tag('div', $model->listingType->name ?? null, ['class' => 'font-semibold']) .
+                        Html::tag('div', $model->propertyType->type_name ?? null, ['class' => 'text-xs text-gray-600']) .
                         Html::tag('div', $model->house_number).
                         ($model->plot_number ? Html::tag('div', 'Thửa: '. $model->plot_number) : '').
                         ($model->sheet_number ? Html::tag('div', 'Tờ: '.$model->sheet_number): '');
@@ -143,6 +142,9 @@ $csrfToken = Yii::$app->request->getCsrfToken();
                 'label' => 'Phường/Xã',
                 'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
                 'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
+                'value' => function ($model) {
+                    return $model->ward_commune ?? '';
+                },
             ],
             // Quận/Huyện (District/County)
             [
