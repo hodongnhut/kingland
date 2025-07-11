@@ -447,6 +447,7 @@ $csrfToken = Yii::$app->request->getCsrfToken();
     });
   </script>
 </main>
+
 <?php
 $script = <<< JS
 $('#propertiesfrom-provinces').on('change', function() {

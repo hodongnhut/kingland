@@ -212,25 +212,38 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label for="province" class="block text-sm font-medium text-gray-700 mb-1 required">Tỉnh / TP</label>
-                        <select id="province" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
-                            <option>TP Hồ Chí Minh</option>
-                            <option>Hà Nội</option>
-                        </select>
+                        <?= $form->field($model, 'city',[
+                            'template' => '{input}{error}',
+                        ])->dropDownList(
+                           ArrayHelper::map($modelProvinces, 'id', 'Name'),
+                            [
+                                'prompt' => 'Chọn Tỉnh Thành', 
+                                'class' => 'mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
+                                ]
+                        )->label('<span class="text-red-500">*</span> Tỉnh Thành') ?>
                     </div>
                     <div>
                         <label for="district" class="block text-sm font-medium text-gray-700 mb-1 required">Quận / Huyện</label>
-                        <select id="district" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
-                            <option>Phú Nhuận</option>
-                            <option>Quận 1</option>
-                        </select>
+                        <?= $form->field($model, 'district_county', [
+                            'template' => '{input}{error}',
+                        ])->dropDownList(
+                            ArrayHelper::map($modelDistricts, 'id', 'Name'),
+                            [
+                                'prompt' => 'Chọn Quận Huyện...', 
+                                'class' => 'mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm']
+                        )->label('<span class="text-red-500">*</span> Quận Huyện') ?>
                     </div>
                    
                     <div>
                         <label for="ward" class="block text-sm font-medium text-gray-700 mb-1 required">Phường / Xã</label>
-                        <select id="ward" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
-                            <option>Phường 17</option>
-                            <option>Phường 1</option>
-                        </select>
+                        <?= $form->field($model, 'ward_commune',[
+                            'template' => '{input}{error}',
+                        ])->dropDownList(
+                            [],
+                            [
+                                'prompt' => 'Chọn Phường / Xã', 
+                                'class' => 'mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm']
+                        )->label('<span class="text-red-500">*</span> Phường / Xã') ?>
                     </div>
                 </div>
                 
@@ -926,4 +939,52 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
         });
     });
 </script>
+<?php
+$script = <<< JS
+$('#properties-city').on('change', function() {
+    var provinceId = $(this).val();
+    $.ajax({
+        url: '/address/districts',
+        type: 'GET',
+        data: { ProvinceId: provinceId },
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': yii.getCsrfToken()
+        },
+        success: function(data) {
+            $('select[name="Properties[district_county]"]').html(data);
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX error:', error);
+        }
+    });
+});
+JS;
+$this->registerJs($script);
+?>
+
+
+<?php
+$script = <<< JS
+$('#properties-district_county').on('change', function() {
+    var districtId = $(this).val();
+    $.ajax({
+        url: '/address/wards',
+        type: 'GET',
+        data: { DistrictId: districtId },
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': yii.getCsrfToken()
+        },
+        success: function(data) {
+            $('select[name="Properties[ward_commune]"]').html(data);
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX error:', error);
+        }
+    });
+});
+JS;
+$this->registerJs($script);
+?>
 
