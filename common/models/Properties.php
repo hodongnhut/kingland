@@ -21,6 +21,7 @@ use Yii;
  * @property string|null $city thành phố
  * @property int|null $location_type_id [FK] Vị trí (Vị trí BĐS)
  * @property string|null $compound_name Name of the compound, if applicable
+ * @property float|null $final_price Giá chốt thực tế sau khi thương lượng
  * @property float|null $area_width Ngang (Diện tích đất)
  * @property float|null $area_length Dài (Diện tích đất)
  * @property float|null $area_total DT Công Nhận (Diện tích đất)
@@ -76,7 +77,7 @@ class Properties extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'property_type_id', 'listing_types_id', 'price_unit', 'currency_id', 'price', 'house_number', 'street_name', 'ward_commune', 'district_county', 'location_type_id', 'compound_name', 'area_width', 'area_length', 'area_total', 'planned_width', 'planned_length', 'planned_construction_area', 'usable_area', 'direction_id', 'land_type', 'num_toilets', 'num_bedrooms', 'num_basements', 'asset_type_id', 'description', 'has_deposit', 'transaction_status_id', 'transaction_description', 'external_id', 'num_floors', 'plot_number', 'sheet_number', 'lot_number', 'commission_types_id', 'commission_prices_id', 'area_back_side', 'wide_road', 'planned_back_side', 'property_images_id', 'region'], 'default', 'value' => null],
+            [['title', 'property_type_id', 'listing_types_id', 'price_unit', 'currency_id', 'price', 'final_price','house_number', 'street_name', 'ward_commune', 'district_county', 'location_type_id', 'compound_name', 'area_width', 'area_length', 'area_total', 'planned_width', 'planned_length', 'planned_construction_area', 'usable_area', 'direction_id', 'land_type', 'num_toilets', 'num_bedrooms', 'num_basements', 'asset_type_id', 'description', 'has_deposit', 'transaction_status_id', 'transaction_description', 'external_id', 'num_floors', 'plot_number', 'sheet_number', 'lot_number', 'commission_types_id', 'commission_prices_id', 'area_back_side', 'wide_road', 'planned_back_side', 'property_images_id', 'region'], 'default', 'value' => null],
             [['is_active'], 'default', 'value' => 1, 'message' => 'Trạng thái hoạt động không hợp lệ'],
             [['has_rental_contract'], 'default', 'value' => 0, 'message' => 'Hợp đồng thuê không hợp lệ'],
             [['city'], 'default', 'value' => 'Hồ Chí Minh'],
@@ -91,7 +92,7 @@ class Properties extends \yii\db\ActiveRecord
             [['user_id', 'property_type_id', 'listing_types_id', 'currency_id', 'has_vat_invoice', 'location_type_id', 'direction_id', 'num_toilets', 'num_bedrooms', 'num_basements', 'asset_type_id', 'has_deposit', 'transaction_status_id', 'has_rental_contract', 'is_active', 'num_floors', 'commission_types_id', 'commission_prices_id', 'property_images_id'], 'integer', 'message' => '{attribute} phải là số nguyên'],
 
             // Kiểm tra kiểu số thực
-            [['price', 'area_width', 'area_length', 'area_total', 'planned_width', 'planned_length', 'planned_construction_area', 'area_back_side', 'wide_road', 'planned_back_side'], 'number', 'message' => '{attribute} phải là số'],
+            [['price','final_price', 'area_width', 'area_length', 'area_total', 'planned_width', 'planned_length', 'planned_construction_area', 'area_back_side', 'wide_road', 'planned_back_side'], 'number', 'message' => '{attribute} phải là số'],
 
             // Kiểm tra kiểu chuỗi và độ dài tối đa
             [['description', 'transaction_description'], 'string', 'message' => '{attribute} phải là chuỗi ký tự'],
@@ -128,6 +129,7 @@ class Properties extends \yii\db\ActiveRecord
             'price_unit' => 'Đơn vị giá',
             'currency_id' => 'Loại tiền tệ',
             'price' => 'Giá',
+            'final_price' => 'Giá chốt',
             'has_vat_invoice' => 'Có hóa đơn VAT',
             'house_number' => 'Số nhà',
             'street_name' => 'Tên đường',
@@ -270,5 +272,10 @@ class Properties extends \yii\db\ActiveRecord
     public function getPropertyImages()
     {
         return $this->hasMany(PropertyImages::class, ['property_id' => 'property_id']);
+    }
+
+    public function getRentalContract()
+    {
+        return $this->hasOne(RentalContracts::class, ['property_id' => 'property_id']);
     }
 }
