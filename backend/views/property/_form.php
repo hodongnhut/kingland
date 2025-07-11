@@ -512,7 +512,7 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
 
                 </div>
                 <?php if ($model->listing_types_id === 2) : ?>
-                    <h3 class="text-md font-semibold text-gray-800 mb-3">NỘI THẤT</h3>
+                    <h3 class="text-md font-semibold text-gray-800 mb-3">Nội Thất</h3>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-2 text-sm text-gray-700">
                     <?php foreach ($interiors as $interior): ?>
                         <label class="flex items-center">
