@@ -17,10 +17,14 @@ return [
            'allowedIPs' => ['*'],
         ],
     ],
+    'language' => 'vi',
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
-            'enableCsrfValidation' => true,
+            // 'enableCsrfValidation' => true,
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ],
             'secureHeaders' => [
                 'X-Forwarded-For',
                 'X-Forwarded-Host',
@@ -57,6 +61,10 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/post',
+                ],
                 'property-folder' => 'site/property-folder',
                 'property-user' => 'site/property-user',
                 'login-version' => 'site/login-version',

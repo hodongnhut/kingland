@@ -7,11 +7,6 @@ use common\widgets\CustomLinkPager;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 
-
-/** @var yii\web\View $this */
-/** @var common\models\PropertiesSearch $searchModel */
-/** @var yii\data\ActiveDataProvider $dataProvider */
-
 $this->title = 'Dữ Liệu Nhà Đất';
 $this->params['breadcrumbs'][] = $this->title;
 $csrfToken = Yii::$app->request->getCsrfToken();
@@ -34,8 +29,8 @@ $csrfToken = Yii::$app->request->getCsrfToken();
             aria-orientation="vertical"
             aria-labelledby="userMenuButton"
         >
-            <a href="<?= \yii\helpers\Url::to(['/login-version']) ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Phiên Đăng Nhập</a>
-            <a href="<?= \yii\helpers\Url::to(['/change-password']) ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Đổi Mật Khẩu</a>
+            <a href="<?= Url::to(['/login-version']) ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Phiên Đăng Nhập</a>
+            <a href="<?= Url::to(['/change-password']) ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Đổi Mật Khẩu</a>
             <?= Html::a('Đăng Xuất', ['/site/logout'], [
                 'data-method' => 'post',
                 'class' => 'block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100',
@@ -47,11 +42,11 @@ $csrfToken = Yii::$app->request->getCsrfToken();
 <main class="flex-1 p-6 overflow-auto">
 
     <div class="flex space-x-2 mb-6">   
-        <a href="<?= \yii\helpers\Url::to(['/property']) ?>" class="px-6 py-3 rounded-lg bg-white text-blue-600 shadow-md flex items-center space-x-2">
+        <a href="<?= Url::to(['/property']) ?>" class="px-6 py-3 rounded-lg bg-white text-blue-600 shadow-md flex items-center space-x-2">
             <i class="fas fa-database"></i>
             <span>Dữ Liệu Nhà Đất</span>
         </a>
-        <a href="<?= \yii\helpers\Url::to(['/property-folder']) ?>"
+        <a href="<?= Url::to(['/property-folder']) ?>"
             class="px-6 py-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors duration-200 flex items-center space-x-2">
             <i class="fas fa-file-alt"></i>
             <span>Quản Lý Tệp</span>
@@ -114,14 +109,20 @@ $csrfToken = Yii::$app->request->getCsrfToken();
                 'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
                 'format' => 'raw',
                 'value' => function ($model) {
-                    return Html::tag('div', $model->listingType->name ?? null, ['class' => 'font-semibold']) .
+
+                    $processedTitle = $model->title; 
+                    if ($processedTitle && strpos($processedTitle, ',') !== false) {
+                        $processedTitle = trim(explode(',', $processedTitle)[0]);
+                    }
+
+                    return 
+                        Html::tag('div', $model->listingType->name ?? null, ['class' => 'font-semibold']) .
                         Html::tag('div', $model->propertyType->type_name ?? null, ['class' => 'text-xs text-gray-600']) .
-                        Html::tag('div', $model->house_number).
+                        Html::tag('div', $model->house_number ?? $processedTitle ?? '') .
                         ($model->plot_number ? Html::tag('div', 'Thửa: '. $model->plot_number) : '').
                         ($model->sheet_number ? Html::tag('div', 'Tờ: '.$model->sheet_number): '');
                 },
             ],
-            // Đường Phố (Street)
             [
                 'attribute' => 'street_name',
                 'label' => 'Đường Phố',
@@ -129,31 +130,76 @@ $csrfToken = Yii::$app->request->getCsrfToken();
                 'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
                 'format' => 'raw',
                 'value' => function ($model) {
+
+                    $displayStreet = $model->street_name;
+                    if (empty($displayStreet)) {
+                        if ($model->title && strpos($model->title, ',') !== false) {
+                            $parts = explode(',', $model->title);
+                            if (isset($parts[1])) {
+                                $displayStreet = trim($parts[1]);
+                            }
+                        }
+                    }
+
                     $localtionType = $model->locationType ? Html::tag('span', $model->locationType->type_name, [
                         'class' => 'text-xs font-medium px-2.5 py-0.5 rounded-full bg-gray-100 text-gray-800',
                     ]) : " ";
-                    $treet = Html::tag('div', $model->street_name, ['class' => 'font-semibold']);
+
+                    $treet = Html::tag('div', $displayStreet, ['class' => 'font-semibold']);
                     return $localtionType . $treet;
                 },
             ],
-            // Phường/Xã (Ward/Commune)
             [
                 'attribute' => 'ward_commune',
                 'label' => 'Phường/Xã',
                 'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
                 'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
                 'value' => function ($model) {
-                    return $model->ward_commune ?? '';
+                    $wardCommune = $model->ward_commune;
+                    if (!empty($wardCommune)) {
+                        return trim(explode(',', $wardCommune)[0]);
+                    }
+
+                    $districtCounty = $model->district_county;
+                    if ($districtCounty) {
+                        $parts = explode(',', $districtCounty);
+
+                        if (isset($parts[1])) {
+                            return trim($parts[0]);
+                        }
+                    }
+                    
+                    return '';
                 },
             ],
-            // Quận/Huyện (District/County)
             [
                 'attribute' => 'district_county',
                 'label' => 'Quận/Huyện',
                 'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
                 'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
+                'format' => 'raw',
+                'value' => function ($model) {
+                    $districtCounty = $model->district_county;
+                    if (!empty($districtCounty)) {
+                        $parts = explode(',', $districtCounty);
+                        if (isset($parts[1])) {
+                            return trim($parts[1]);
+                        }
+                        return trim($parts[0]);
+                    }
+
+                    $wardCommune = $model->ward_commune;
+                    if (!empty($wardCommune)) {
+                        $parts = explode(',', $wardCommune);
+
+                        if (isset($parts[1])) {
+                            return trim($parts[1]);
+                        }
+                    }
+
+                    return '';
+                },
             ],
-            // Giá (Price)
             [
                 'attribute' => 'price',
                 'label' => 'Giá',
@@ -161,9 +207,7 @@ $csrfToken = Yii::$app->request->getCsrfToken();
                 'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
                 'format' => 'raw',
                 'value' => function ($model) {
-                    // Format price (assuming price is in VND and stored as numeric value)
-                    $price = number_format($model->price / 1e9, 1) . ' Tỷ VNĐ';
-                    // Calculate price per m² (check for null or zero to avoid division by zero)
+                    $price = number_format($model->price / 1e9, 1) . ' Tỷ ' . $model->currencies->code;
                     $pricePerM2 = (!empty($model->area_total) && $model->area_total > 0) 
                         ? number_format($model->price / $model->area_total / 1e6, 0) . ' Triệu/m2' 
                         : '-';
@@ -171,7 +215,6 @@ $csrfToken = Yii::$app->request->getCsrfToken();
                         Html::tag('div', '-' . $pricePerM2, ['class' => 'text-xs text-gray-600']);
                 },
             ],
-            // Diện Tích (Area)
             [
                 'attribute' => 'area_total',
                 'label' => 'Diện Tích',
@@ -186,21 +229,18 @@ $csrfToken = Yii::$app->request->getCsrfToken();
                         Html::tag('div', $dimensions, ['class' => 'text-xs text-gray-600']);
                 },
             ],
-            // Kết Cấu (Structure, empty)
             [
                 'label' => 'Kết Cấu',
                 'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
                 'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
                 'value' => function () { return ''; },
             ],
-            // HĐ Thuê (Lease Contract, empty)
             [
                 'label' => 'HĐ Thuê',
                 'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
                 'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
                 'value' => function () { return ''; },
             ],
-            // Lưu (Favorite Icon)
             [
                 'label' => 'Lưu',
                 'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
@@ -210,7 +250,6 @@ $csrfToken = Yii::$app->request->getCsrfToken();
                     return Html::tag('i', '', ['class' => 'far fa-heart text-gray-400']);
                 },
             ],
-            // Cập nhật (Transaction Status and Update Time)
             [
                 'attribute' => 'transaction_status_id',
                 'label' => 'Cập nhật',
@@ -218,13 +257,15 @@ $csrfToken = Yii::$app->request->getCsrfToken();
                 'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
                 'format' => 'raw',
                 'value' => function ($model) {
-                    $statusBadge = $model->transactionStatus ? Html::tag('span', $model->transactionStatus->status_name, [
+                    if (!$model->transactionStatus || $model->transactionStatus->transaction_status_id === 0) {
+                        $statusBadge = '';
+                    } else {
+                        $statusBadge = $model->transactionStatus ? Html::tag('span', $model->transactionStatus->status_name, [
                         'class' => 'text-xs font-medium px-2.5 py-0.5 rounded-full ' . $model->transactionStatus->class_css,
                     ]) : " ";
-                    // Format updated_at (assuming it's a timestamp)
-                    $updateTime = Yii::$app->formatter->asDatetime($model->updated_at, 'php:H:i \t\g\i\ứ d/m/Y');
-                    $updateTimeDiv = Html::tag('div', 'Hôm Qua lúc ' . $updateTime, ['class' => 'text-xs text-gray-500 mt-1']);
-                    // Add edit button for rows with "Sản Phẩm Mới" (assuming a condition, e.g., is_new = 1)
+                    }
+                    $relativeTime = Yii::$app->formatter->asRelativeTime($model->updated_at);
+                    $updateTimeDiv = Html::tag('div', $relativeTime, ['class' => 'text-xs text-gray-500 mt-1']);
                     $editButton = $model->is_new ?? false ? Html::a(
                         '<i class="fas fa-pencil-alt mr-1"></i>Sản Phẩm Mới',
                         ['update', 'property_id' => $model->property_id],
@@ -233,7 +274,6 @@ $csrfToken = Yii::$app->request->getCsrfToken();
                     return $statusBadge . $updateTimeDiv . $editButton;
                 },
             ],
-            // Action Column
             [
                 'class' => 'yii\grid\ActionColumn',
                 'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],

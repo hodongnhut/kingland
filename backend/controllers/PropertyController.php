@@ -24,6 +24,7 @@ use common\models\PropertyAdvantages;
 use common\models\PropertyDisadvantages;
 use common\models\OwnerContactSearch;
 use common\models\RentalContracts;
+use common\models\ActivityLogs;
 use yii\web\UploadedFile;
 use common\models\PropertyImages;
 
@@ -85,8 +86,15 @@ class PropertyController extends Controller
      */
     public function actionView($property_id)
     {
+        $activityLogs = ActivityLogs::find()
+            ->where(['property_id' => $property_id])
+            ->with('user')
+            ->orderBy(['created_at' => SORT_DESC])
+            ->all();
+
         return $this->render('view', [
             'model' => $this->findModel($property_id),
+            'modelActivityLogs' => $activityLogs
         ]);
     }
 
