@@ -278,4 +278,19 @@ class Properties extends \yii\db\ActiveRecord
     {
         return $this->hasOne(RentalContracts::class, ['property_id' => 'property_id']);
     }
+
+    public function getOwnerContacts()
+    {
+        return $this->hasMany(OwnerContacts::class, ['property_id' => 'property_id']);
+    }
+
+    public function getLocationTypes()
+    {
+        return $this->hasOne(LocationTypes::class, ['location_type_id' => 'location_type_id']);
+    }
+
+    public function getCurrencies()
+    {
+        return $this->hasOne(Currencies::class, ['id' => 'currency_id']);
+    }
 }
