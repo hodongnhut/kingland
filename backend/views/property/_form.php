@@ -489,7 +489,7 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                     <?php if ($model->listing_types_id != 2) : ?>
                         <div>
                             <label for="direction" class="block text-sm font-medium text-gray-700 mb-1">Loại Đất</label>
-                            <?= $form->field($model, 'land_type', [
+                            <?= $form->field($model, 'land_type_id', [
                                 'template' => '{input}{error}',
                             ])->dropDownList(
                                 ArrayHelper::map(LandType::find()->all(), 'id', 'name'),
