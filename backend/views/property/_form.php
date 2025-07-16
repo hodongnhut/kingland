@@ -51,7 +51,7 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
         <button id="so-hong-tab" class="px-4 py-2 text-gray-600 hover:text-orange-600 hover:border-b-2 hover:border-orange-600 transition-colors duration-200 rounded-t-md">Sổ Hồng & Hình Ảnh</button>
     </nav>
     <div class="text-lg font-semibold text-gray-800">
-        Địa Chỉ <span class="text-gray-500 text-sm">→ Số 17-19 Phan Đình Phùng, Phường 17, Phú Nhuận, TP.HCM</span>
+        Địa Chỉ <span class="text-gray-500 text-sm">→ <?= Html::encode($model->title) ?></span>
     </div>
 </div>
 
