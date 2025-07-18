@@ -280,27 +280,33 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                         <?= $form->field($model, 'city',[
                             'template' => '{input}{error}',
                         ])->dropDownList(
-                           ArrayHelper::map($modelProvinces, 'id', 'Name'),
+                           ArrayHelper::map($modelProvinces, 'Name', 'Name'),
                             [
                                 'prompt' => 'Chọn Tỉnh Thành', 
                                 'class' => 'mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
                                 ]
                         )->label('<span class="text-red-500">*</span> Tỉnh Thành') ?>
                     </div>
+
                     <div>
                         <label for="district" class="block text-sm font-medium text-gray-700 mb-1 required">Quận / Huyện</label>
-                        <?= $form->field($model, 'district_county', [
-                            'template' => '{input}{error}',
-                        ])->dropDownList(
-                            ArrayHelper::map($modelDistricts, 'id', 'Name'),
-                            [
-                                'prompt' => 'Chọn Quận Huyện...', 
-                                'class' => 'mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm']
-                        )->label('<span class="text-red-500">*</span> Quận Huyện') ?>
+                        <? if (empty($model->external_id)):  ?>
+                            <?= $form->field($model, 'district_county', [
+                                'template' => '{input}{error}',
+                            ])->dropDownList(
+                                ArrayHelper::map($modelDistricts, 'id', 'Name'),
+                                [
+                                    'prompt' => 'Chọn Quận Huyện...', 
+                                    'class' => 'mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm']
+                            )->label('<span class="text-red-500">*</span> Quận Huyện') ?>
+                        <?php else: ?>
+                            <?= $form->field($model, 'district_county')->label(false) ?>
+                        <?php endif; ?>
                     </div>
                    
                     <div>
                         <label for="ward" class="block text-sm font-medium text-gray-700 mb-1 required">Phường / Xã</label>
+                        <? if (empty($model->external_id)):  ?>
                         <?= $form->field($model, 'ward_commune',[
                             'template' => '{input}{error}',
                         ])->dropDownList(
@@ -309,6 +315,9 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                                 'prompt' => 'Chọn Phường / Xã', 
                                 'class' => 'mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm']
                         )->label('<span class="text-red-500">*</span> Phường / Xã') ?>
+                        <?php else: ?>
+                            <?= $form->field($model, 'ward_commune')->label(false) ?>
+                        <?php endif; ?>
                     </div>
                 </div>
                 

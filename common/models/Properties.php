@@ -30,7 +30,7 @@ use Yii;
  * @property float|null $planned_construction_area Diện tích xây dựng (Diện tích quy hoạch)
  * @property string|null $usable_area DT sử dụng (Thông tin khác)
  * @property string|null $direction Hướng (Thông tin khác)
- * @property string|null $land_type Loại đất (Thông tin khác)
+ * @property string|null $land_type_id Loại đất (Thông tin khác)
  * @property int|null $num_toilets Số WC (Thông tin khác)
  * @property int|null $num_bedrooms Số phòng ngủ (Thông tin khác)
  * @property int|null $num_basements Số Tầng hầm (Thông tin khác)
@@ -77,7 +77,7 @@ class Properties extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'property_type_id', 'listing_types_id', 'price_unit', 'currency_id', 'price', 'final_price','house_number', 'street_name', 'ward_commune', 'district_county', 'location_type_id', 'compound_name', 'area_width', 'area_length', 'area_total', 'planned_width', 'planned_length', 'planned_construction_area', 'usable_area', 'direction_id', 'land_type', 'num_toilets', 'num_bedrooms', 'num_basements', 'asset_type_id', 'description', 'has_deposit', 'transaction_status_id', 'transaction_description', 'external_id', 'num_floors', 'plot_number', 'sheet_number', 'lot_number', 'commission_types_id', 'commission_prices_id', 'area_back_side', 'wide_road', 'planned_back_side', 'property_images_id', 'region'], 'default', 'value' => null],
+            [['title', 'property_type_id', 'listing_types_id', 'price_unit', 'currency_id', 'price', 'final_price','house_number', 'street_name', 'ward_commune', 'district_county', 'location_type_id', 'compound_name', 'area_width', 'area_length', 'area_total', 'planned_width', 'planned_length', 'planned_construction_area', 'usable_area', 'direction_id', 'land_type_id', 'num_toilets', 'num_bedrooms', 'num_basements', 'asset_type_id', 'description', 'has_deposit', 'transaction_status_id', 'transaction_description', 'external_id', 'num_floors', 'plot_number', 'sheet_number', 'lot_number', 'commission_types_id', 'commission_prices_id', 'area_back_side', 'wide_road', 'planned_back_side', 'property_images_id', 'region'], 'default', 'value' => null],
             [['is_active'], 'default', 'value' => 1, 'message' => 'Trạng thái hoạt động không hợp lệ'],
             [['has_rental_contract'], 'default', 'value' => 0, 'message' => 'Hợp đồng thuê không hợp lệ'],
             [['city'], 'default', 'value' => 'Hồ Chí Minh'],
@@ -97,7 +97,7 @@ class Properties extends \yii\db\ActiveRecord
             // Kiểm tra kiểu chuỗi và độ dài tối đa
             [['description', 'transaction_description'], 'string', 'message' => '{attribute} phải là chuỗi ký tự'],
             [['title'], 'string', 'max' => 500, 'tooLong' => '{attribute} không được vượt quá 500 ký tự'],
-            [['price_unit', 'house_number', 'usable_area', 'land_type', 'plot_number', 'sheet_number', 'lot_number'], 'string', 'max' => 50, 'tooLong' => '{attribute} không được vượt quá 50 ký tự'],
+            [['price_unit', 'house_number', 'usable_area', 'land_type_id', 'plot_number', 'sheet_number', 'lot_number'], 'string', 'max' => 50, 'tooLong' => '{attribute} không được vượt quá 50 ký tự'],
             [['street_name', 'compound_name', 'external_id', 'region'], 'string', 'max' => 255, 'tooLong' => '{attribute} không được vượt quá 255 ký tự'],
             [['ward_commune', 'district_county', 'city'], 'string', 'max' => 100, 'tooLong' => '{attribute} không được vượt quá 100 ký tự'],
 
@@ -146,7 +146,7 @@ class Properties extends \yii\db\ActiveRecord
             'planned_construction_area' => 'Diện tích xây dựng quy hoạch',
             'usable_area' => 'Diện tích sử dụng',
             'direction_id' => 'Hướng',
-            'land_type' => 'Loại đất',
+            'land_type_id' => 'Loại đất',
             'num_toilets' => 'Số nhà vệ sinh',
             'num_bedrooms' => 'Số phòng ngủ',
             'num_basements' => 'Số tầng hầm',
