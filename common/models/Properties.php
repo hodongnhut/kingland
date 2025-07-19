@@ -54,6 +54,7 @@ use Yii;
  * @property float|null $wide_road Đường rộng (Thông tin khác)
  * @property float|null $planned_back_side Mặt hậu (Diện tích quy hoạch)
  * @property int|null $property_images_id [FK] Image (property_images)
+ * @property string|null $new_district [FK] Quân Huyện MỚi (new_district)
  *
  * @property LocationTypes $locationType
  * @property PropertyTypes $propertyType
@@ -77,7 +78,7 @@ class Properties extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'property_type_id', 'listing_types_id', 'price_unit', 'currency_id', 'price', 'final_price','house_number', 'street_name', 'ward_commune', 'district_county', 'location_type_id', 'compound_name', 'area_width', 'area_length', 'area_total', 'planned_width', 'planned_length', 'planned_construction_area', 'usable_area', 'direction_id', 'land_type_id', 'num_toilets', 'num_bedrooms', 'num_basements', 'asset_type_id', 'description', 'has_deposit', 'transaction_status_id', 'transaction_description', 'external_id', 'num_floors', 'plot_number', 'sheet_number', 'lot_number', 'commission_types_id', 'commission_prices_id', 'area_back_side', 'wide_road', 'planned_back_side', 'property_images_id', 'region'], 'default', 'value' => null],
+            [['title', 'property_type_id', 'listing_types_id', 'price_unit', 'currency_id', 'price', 'final_price','house_number', 'street_name', 'ward_commune', 'district_county', 'location_type_id', 'compound_name', 'area_width', 'area_length', 'area_total', 'planned_width', 'planned_length', 'planned_construction_area', 'usable_area', 'direction_id', 'land_type_id', 'num_toilets', 'num_bedrooms', 'num_basements', 'asset_type_id', 'description', 'has_deposit', 'transaction_status_id', 'transaction_description', 'external_id', 'num_floors', 'plot_number', 'sheet_number', 'lot_number', 'commission_types_id', 'commission_prices_id', 'area_back_side', 'wide_road', 'planned_back_side', 'property_images_id', 'region', 'new_district'], 'default', 'value' => null],
             [['is_active'], 'default', 'value' => 1, 'message' => 'Trạng thái hoạt động không hợp lệ'],
             [['has_rental_contract'], 'default', 'value' => 0, 'message' => 'Hợp đồng thuê không hợp lệ'],
             [['city'], 'default', 'value' => 'Hồ Chí Minh'],

@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use Yii;
+use common\models\Provinces;
 use common\models\Districts;
 use common\models\Wards;
 use common\models\Streets;
@@ -31,13 +32,17 @@ class AddressController extends \yii\web\Controller
             throw new \yii\web\ForbiddenHttpException('Vui Lòng Đăng Nhập.');
         }
 
+        $province = Provinces::find()
+            ->where(['Name' => $ProvinceId])
+            ->one();
+
         $districts = Districts::find()
-            ->where(['ProvinceId' => $ProvinceId])
+            ->where(['ProvinceId' => $province->id])
             ->all();
 
         echo "<option value=''>Chọn Quận Huyện...</option>";
         foreach ($districts as $district) {
-            echo "<option value='" . $district->id . "'>" . $district->Name . "</option>";
+            echo "<option value='" . $district->Name . "'>" . $district->Name . "</option>";
         }
     }
 
@@ -48,13 +53,17 @@ class AddressController extends \yii\web\Controller
             throw new \yii\web\ForbiddenHttpException('Vui Lòng Đăng Nhập.');
         }
 
+        $district = Districts::find()
+            ->where(['Name' => $DistrictId])
+            ->one();
+
         $wards = Wards::find()
-            ->where(['DistrictId' => $DistrictId])
+            ->where(['DistrictId' => $district->id])
             ->all();
 
         echo "<option value=''>Chọn Phường / Xã</option>";
         foreach ($wards as $ward) {
-            echo "<option value='" . $ward->id . "'>" . $ward->Name . "</option>";
+            echo "<option value='" . $ward->Name . "'>" . $ward->Name . "</option>";
         }
     }
 
@@ -64,13 +73,18 @@ class AddressController extends \yii\web\Controller
             throw new \yii\web\ForbiddenHttpException('Vui Lòng Đăng Nhập.');
         }
 
+
+        $district = Districts::find()
+            ->where(['Name' => $DistrictId])
+            ->one();
+
         $streets = Streets::find()
-            ->where(['DistrictId' => $DistrictId])
+            ->where(['DistrictId' => $district->id])
             ->all();
 
         echo "<option value=''>Chọn Đường</option>";
         foreach ($streets as $street) {
-            echo "<option value='" . $street->id . "'>" . $street->Name . "</option>";
+            echo "<option value='" . $street->Name . "'>" . $street->Name . "</option>";
         }
     }
 }

@@ -231,9 +231,12 @@ class PropertyController extends Controller
      */
     public function actionDelete($property_id)
     {
-        $this->findModel($property_id)->delete();
+        if (Yii::$app->user->identity->jobTitle->role_code === 'manager' ||  Yii::$app->user->identity->jobTitle->role_code == 'super_admin') {
+            $this->findModel($property_id)->delete();
 
-        return $this->redirect(['index']);
+            return $this->redirect(['index']);
+        }
+        throw new \yii\web\ForbiddenHttpException('Bạn không có quyền xóa');
     }
 
     /**

@@ -34,7 +34,7 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
     <div class="flex items-center justify-between">
         <h2 class="text-lg font-semibold text-gray-800">
         <a href="<?= \yii\helpers\Url::to(['/property']) ?>">Màn hình chính</a> / 
-        Thêm Dữ Liệu Nhà Đất [Mã: <?= $model->property_id ?>]</h2>
+        Thêm Dữ Liệu Nhà Đất [Mã: <?= $model->property_id ?> - Loại Giao Dịch: <?= $model->listingType->name ?>]</h2>
         <div class="flex space-x-2">
             <?= Html::submitButton('<i class="fas fa-save"></i> Lưu Lại', [
                 'onclick' => 'submitPropertyForm()',
@@ -134,88 +134,81 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                     </div>
                 </div>
                 <?php if ($model->listing_types_id != 2) : ?>
-                <div class="flex items-center">
-                    <?= $form->field($model, 'has_rental_contract', [
-                        'template' => '{input}{label}{error}',
-                        'labelOptions' => [
-                            'for' => 'has_rental_contract',
-                            'class' => 'ml-2 block text-sm text-gray-900',
-                        ],
-                        'options' => ['class' => 'flex items-center'],
-                    ])->checkbox([
-                        'id' => 'has_rental_contract',
-                        'class' => 'h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded',
-                        'label' => false, 
-                    ]) ?>
-                    <label for="rental_contract" class="ml-2 block text-sm text-gray-900">
-                        Có Hợp đồng thuê
-                    </label>
-                    <div id="rental-details-container" class="hidden mt-4 p-4 border border-gray-200 rounded-md bg-gray-50 space-y-4">
-                        <h4 class="font-medium text-gray-800">Chi tiết hợp đồng thuê</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Giá cho thuê</label>
-                                <div class="relative mt-1 rounded-md shadow-sm">
-                                    <?= $form->field($rentalContractModel, 'rent_price', [
+                    <div class="grid grid-cols-1">
+                        <?= $form->field($model, 'has_rental_contract', [
+                                'template' => '{input}{label}{error}',
+                            ])->checkbox([
+                                'id' => 'has_rental_contract',
+                                'class' => 'h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded',
+                            ]) ?>
+                    </div>
+                    <div class="grid grid-cols-1">
+                        <div id="rental-details-container" class="hidden mt-2 p-4 border border-gray-200 rounded-md bg-gray-50 space-y-4">
+                            <h4 class="font-medium text-gray-800">Chi tiết hợp đồng thuê</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Giá cho thuê</label>
+                                    <div class="relative mt-1 rounded-md shadow-sm">
+                                        <?= $form->field($rentalContractModel, 'rent_price', [
+                                            'template' => '{input}{error}'
+                                        ])->textInput([
+                                            'type' => 'number',
+                                            'min' => 0,
+                                            'class' => 'block w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm pr-24', // Thêm padding phải (pr-24)
+                                            'placeholder' => 'Ví dụ: 15000000',
+                                            'value' => $rentalContractModel->rent_price ? (float)$rentalContractModel->rent_price : null,
+                                            'oninput' => "if(this.value < 0) this.value = 0;",
+                                        ]) ?>
+
+                                        <div class="absolute inset-y-0 right-0 flex items-center">
+                                            <?= $form->field($rentalContractModel, 'currency_id', [
+                                                'template' => '{input}'
+                                            ])->dropDownList(
+                                                [1 => 'VND', 2 => 'USD'],
+                                                [
+                                                    'class' => 'h-full rounded-md border-transparent bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
+                                                ]
+                                            ) ?>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Thời hạn thuê</label>
+                                    <?= $form->field($rentalContractModel, 'lease_term', [
                                         'template' => '{input}{error}'
                                     ])->textInput([
                                         'type' => 'number',
-                                        'min' => 0,
-                                        'class' => 'block w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm pr-24', // Thêm padding phải (pr-24)
-                                        'placeholder' => 'Ví dụ: 15000000',
-                                        'value' => $rentalContractModel->rent_price ? (float)$rentalContractModel->rent_price : null,
-                                        'oninput' => "if(this.value < 0) this.value = 0;",
+                                        'min' => 1,
+                                        'class' => 'mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm',
+                                        'placeholder' => 'Ví dụ: 12',
+                                        'oninput' => "if(this.value !== '' && this.value < 1) this.value = 1;",
                                     ]) ?>
-
-                                    <div class="absolute inset-y-0 right-0 flex items-center">
-                                        <?= $form->field($rentalContractModel, 'currency_id', [
-                                            'template' => '{input}'
-                                        ])->dropDownList(
-                                            [1 => 'VND', 2 => 'USD'],
-                                            [
-                                                'class' => 'h-full rounded-md border-transparent bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
-                                            ]
-                                        ) ?>
-                                    </div>
                                 </div>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Thời hạn thuê</label>
-                                <?= $form->field($rentalContractModel, 'lease_term', [
-                                    'template' => '{input}{error}'
-                                ])->textInput([
-                                    'type' => 'number',
-                                    'min' => 1,
-                                    'class' => 'mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm',
-                                    'placeholder' => 'Ví dụ: 12',
-                                    'oninput' => "if(this.value !== '' && this.value < 1) this.value = 1;",
-                                ]) ?>
-                            </div>
 
 
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Đơn vị thời hạn</label>
-                                <?= $form->field($rentalContractModel, 'lease_term_unit', [
-                                    'template' => '{input}{error}'
-                                ])->dropDownList(
-                                    ['month' => 'Tháng', 'year' => 'Năm'],
-                                    ['prompt' => 'Chọn đơn vị', 'class' => 'mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm']
-                                ) ?>
-                            </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Đơn vị thời hạn</label>
+                                    <?= $form->field($rentalContractModel, 'lease_term_unit', [
+                                        'template' => '{input}{error}'
+                                    ])->dropDownList(
+                                        ['month' => 'Tháng', 'year' => 'Năm'],
+                                        ['prompt' => 'Chọn đơn vị', 'class' => 'mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm']
+                                    ) ?>
+                                </div>
 
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Ngày hết hạn</label>
-                                <?= $form->field($rentalContractModel, 'expiry_date', [
-                                    'template' => '{input}{error}'
-                                ])->textInput([
-                                    'type' => 'date',
-                                    'class' => 'mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm',
-                                ]) ?>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Ngày hết hạn</label>
+                                    <?= $form->field($rentalContractModel, 'expiry_date', [
+                                        'template' => '{input}{error}'
+                                    ])->textInput([
+                                        'type' => 'date',
+                                        'class' => 'mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm',
+                                    ]) ?>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 <?php endif; ?>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
@@ -277,47 +270,17 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label for="province" class="block text-sm font-medium text-gray-700 mb-1 required">Tỉnh / TP</label>
-                        <?= $form->field($model, 'city',[
-                            'template' => '{input}{error}',
-                        ])->dropDownList(
-                           ArrayHelper::map($modelProvinces, 'Name', 'Name'),
-                            [
-                                'prompt' => 'Chọn Tỉnh Thành', 
-                                'class' => 'mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
-                                ]
-                        )->label('<span class="text-red-500">*</span> Tỉnh Thành') ?>
+                        <?= $form->field($model, 'city')->label(label: false) ?>
                     </div>
 
                     <div>
                         <label for="district" class="block text-sm font-medium text-gray-700 mb-1 required">Quận / Huyện</label>
-                        <? if (empty($model->external_id)):  ?>
-                            <?= $form->field($model, 'district_county', [
-                                'template' => '{input}{error}',
-                            ])->dropDownList(
-                                ArrayHelper::map($modelDistricts, 'id', 'Name'),
-                                [
-                                    'prompt' => 'Chọn Quận Huyện...', 
-                                    'class' => 'mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm']
-                            )->label('<span class="text-red-500">*</span> Quận Huyện') ?>
-                        <?php else: ?>
-                            <?= $form->field($model, 'district_county')->label(false) ?>
-                        <?php endif; ?>
+                        <?= $form->field($model, 'district_county')->label(label: false) ?>
                     </div>
                    
                     <div>
                         <label for="ward" class="block text-sm font-medium text-gray-700 mb-1 required">Phường / Xã</label>
-                        <? if (empty($model->external_id)):  ?>
-                        <?= $form->field($model, 'ward_commune',[
-                            'template' => '{input}{error}',
-                        ])->dropDownList(
-                            [],
-                            [
-                                'prompt' => 'Chọn Phường / Xã', 
-                                'class' => 'mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm']
-                        )->label('<span class="text-red-500">*</span> Phường / Xã') ?>
-                        <?php else: ?>
-                            <?= $form->field($model, 'ward_commune')->label(false) ?>
-                        <?php endif; ?>
+                        <?= $form->field($model, 'ward_commune')->label(false) ?>
                     </div>
                 </div>
                 
@@ -818,16 +781,18 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
         const rentalCheckbox = document.getElementById('has_rental_contract');
         const rentalDetailsContainer = document.getElementById('rental-details-container');
 
-        function toggleRentalDetails() {
-            if (rentalCheckbox.checked) {
-                rentalDetailsContainer.classList.remove('hidden');
-            } else {
-                rentalDetailsContainer.classList.add('hidden');
+        if (rentalCheckbox && rentalDetailsContainer) {
+            function toggleRentalDetails() {
+                if (rentalCheckbox.checked) {
+                    rentalDetailsContainer.classList.remove('hidden');
+                } else {
+                    rentalDetailsContainer.classList.add('hidden');
+                }
             }
-        }
 
-        rentalCheckbox.addEventListener('change', toggleRentalDetails);
-        toggleRentalDetails();
+            rentalCheckbox.addEventListener('change', toggleRentalDetails);
+            toggleRentalDetails(); 
+        }
 
          // Event listeners for tab clicks
          thongTinTab.addEventListener('click', function() {

@@ -52,6 +52,7 @@ nav .nav-item span {
     /* Hidden by default */
     transition: opacity 0.3s ease;
     white-space: nowrap;
+    pointer-events: none;
 }
 
 aside:hover .nav-item span {

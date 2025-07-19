@@ -85,11 +85,14 @@ class PropertiesFrom extends Model
         $property->listing_types_id = $this->listing_types_id;
         $property->property_type_id = $this->property_type_id;
 
-        $property->city = Provinces::findOne($this->provinces)->Name;
-        $property->district_county = Districts::findOne($this->districts)->Name;
-        $property->ward_commune = Wards::findOne($this->wards)->Name;
-        $property->street_name = Streets::findOne($this->streets)->Name;
-
+        $property->city = $this->provinces;
+        $property->district_county = $this->districts;
+        $property->ward_commune = $this->wards;
+        $property->street_name = $this->streets;
+        $property->title = $this->house_number. ','. $this->streets . ','. $this->wards .',' . $this->districts .','. $this->provinces;
+        
+        $property->new_district = $this->findNewDistrict($this->provinces, $this->districts, $this->wards);
+       
         $property->house_number = $this->house_number;
         $property->plot_number = $this->plot_number;
         $property->sheet_number = $this->sheet_number;
@@ -101,5 +104,19 @@ class PropertiesFrom extends Model
 
         return $property->save(false) ? $property : null;
     }
+
+    private function findNewDistrict($province, $district, $ward) {
+        $result = NewWardMapping::find()
+            ->where(['like', 'Old_Cities', "%$province%", false])
+            ->andWhere(['like', 'Old_Districts', "%$district%", false])
+            ->andWhere(['like', 'Old_Names', "%$ward%", false])
+            ->one();
+        
+        if (!empty($result)) {
+            return $result->New_Type . ' '. $result->New_Name;
+        }
+        return;
+    }
+
 
 }

@@ -150,42 +150,22 @@ $csrfToken = Yii::$app->request->getCsrfToken();
                 },
             ],
             [
-                'attribute' => 'ward_commune',
-                'label' => 'Phường/Xã',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
-                'value' => function ($model) {
-                    $wardCommune = $model->ward_commune;
-                    if (!empty($wardCommune)) {
-                        return trim(explode(',', $wardCommune)[0]);
-                    }
-
-                    $districtCounty = $model->district_county;
-                    if ($districtCounty) {
-                        $parts = explode(',', $districtCounty);
-
-                        if (isset($parts[1])) {
-                            return trim($parts[0]);
-                        }
-                    }
-                    
-                    return '';
-                },
-            ],
-            [
                 'attribute' => 'district_county',
                 'label' => 'Quận/Huyện',
                 'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
                 'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
                 'format' => 'raw',
                 'value' => function ($model) {
+                    $new_district = $model->new_district
+                    ? Html::tag('div', $model->new_district, ['class' => 'text-xs font-medium px-2.5 py-0.5 rounded-full bg-green-100 text-green-800'])
+                    : '';
                     $districtCounty = $model->district_county;
                     if (!empty($districtCounty)) {
                         $parts = explode(',', $districtCounty);
                         if (isset($parts[1])) {
-                            return trim($parts[1]);
+                            return trim($parts[1]) . $new_district;
                         }
-                        return trim($parts[0]);
+                        return trim($parts[0]) . $new_district;
                     }
 
                     $wardCommune = $model->ward_commune;
@@ -193,11 +173,11 @@ $csrfToken = Yii::$app->request->getCsrfToken();
                         $parts = explode(',', $wardCommune);
 
                         if (isset($parts[1])) {
-                            return trim($parts[1]);
+                            return trim($parts[1]) .$new_district;
                         }
                     }
 
-                    return '';
+                    return $new_district;
                 },
             ],
             [
@@ -281,7 +261,7 @@ $csrfToken = Yii::$app->request->getCsrfToken();
                 'urlCreator' => function ($action, $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'property_id' => $model->property_id]);
                 },
-                'template' => '{view} {update}',
+                'template' => '{view} {update} {delete}',
                 'buttons' => [
                     'view' => function ($url, $model) {
                         return Html::a('<i class="fas fa-eye"></i>', $url, [
@@ -294,6 +274,19 @@ $csrfToken = Yii::$app->request->getCsrfToken();
                             'class' => 'text-blue-600 hover:text-blue-800 mx-1',
                             'title' => 'Update',
                         ]);
+                    },
+                    'delete' => function ($url, $model) {
+                        if (Yii::$app->user->identity->jobTitle->role_code === 'manager' ||  Yii::$app->user->identity->jobTitle->role_code == 'super_admin') {
+                            return Html::a('<i class="fas fa-trash-alt"></i>', $url, [
+                                'class' => 'text-blue-600 hover:text-blue-800 mx-1',
+                                'title' => 'Update',
+                                'data' => [
+                                    'confirm' => 'Bạn có chắc chắn muốn xóa bài viết này?',
+                                    'method' => 'post',
+                                ],
+                        ]);
+                        }
+                        return '';
                     },
                 ],
             ],
@@ -365,7 +358,7 @@ $csrfToken = Yii::$app->request->getCsrfToken();
 
                     <div>
                         <?= $form->field($model, 'provinces')->dropDownList(
-                           ArrayHelper::map($modelProvinces, 'id', 'Name'),
+                           ArrayHelper::map($modelProvinces, 'Name', 'Name'),
                             [
                                 'prompt' => 'Chọn Tỉnh Thành', 
                                 'class' => 'shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
@@ -375,7 +368,7 @@ $csrfToken = Yii::$app->request->getCsrfToken();
 
                     <div>
                         <?= $form->field($model, 'districts')->dropDownList(
-                            ArrayHelper::map($modelDistricts, 'id', 'Name'),
+                            ArrayHelper::map($modelDistricts, 'Name', 'Name'),
                             [
                                 'prompt' => 'Chọn Quận Huyện...', 
                                 'class' => 'shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline']
