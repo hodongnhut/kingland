@@ -194,8 +194,7 @@ function formatNumber($number) {
                         
                         <div class="flex items-center font-medium">
                             <i class="<?= $iconClass ?> mr-2 w-4 text-center"></i> <span class="text-gray-800">
-                                <?= Html::encode($contact->contact_name) ?> • 
-                                ••••••.<?= substr($contact->phone_number, -3) ?>
+                                <?= Html::encode($contact->contact_name) ?> •••••••<?= substr($contact->phone_number, -3) ?>
                             </span>
                             <span class="ml-2 px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full"><?= Html::encode($contact->role->name ?? 'Chủ nhà') ?></span>
                         </div>
@@ -234,18 +233,32 @@ function formatNumber($number) {
                     <p class="text-gray-700">Thông tin chi tiết về loại tài sản cá nhân sẽ được hiển thị tại đây.</p>
                 </div>
             </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-md font-semibold text-gray-800 mb-3">Sổ Hồng & Hình Ảnh</h3>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 uploaded-images">
+                    <?php
+                    $images = $model->propertyImages;
+                    foreach ($images as $image) {
+                        echo "<div class='relative group aspect-w-1 aspect-h-1 w-full rounded-lg overflow-hidden border border-gray-200 image-container' data-image-id='{$image->image_id}'>";
+                        echo "<img src='" . Html::encode(Yii::$app->urlManager->createAbsoluteUrl($image->image_path)) . "' alt='" . Html::encode($image->image_path) . "' class='object-cover w-full h-full'>";
+                        echo "</div>";
+                    }
+                    ?>
+                </div>
+            </div>
         </div>
 
         <div class="lg:col-span-1 space-y-6">
              <!-- User Info Card -->
-             <div class="bg-white p-6 rounded-lg shadow-md space-y-4">
+            <div class="bg-white p-6 rounded-lg shadow-md space-y-4">
                 <p class="text-sm text-gray-500"><?=  Yii::$app->formatter->asRelativeTime(Yii::$app->user->identity->updated_at) ?> | <?= Yii::$app->user->identity->username ?> | <?= Yii::$app->user->identity->full_name ?> | <?= Yii::$app->user->identity->phone ?></p>
                 <button id="add-contact-button" class="w-full py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 flex items-center justify-center space-x-2">
                     <i class="fas fa-address-book"></i>
                     <span>Thêm Thông Tin Liên Hệ</span>
                 </button>
                
-                <div class="space-y-2 flex items-center text-blue-600 font-medium">
+                <div class="space-y-2 flex flex-col text-blue-600 font-medium">
                     <?php foreach ($model->ownerContacts as $contact): ?>
                         <?php
                         if ($contact->gender_id == 2) {
@@ -255,13 +268,13 @@ function formatNumber($number) {
                         }
                         ?>
                         
-                        <div class="flex items-center font-medium">
+                        <div class="flex items-center font-medium w-full">
                             <i class="<?= $iconClass ?> mr-2 w-4 text-center"></i> <span class="text-gray-800">
-                                <?= Html::encode($contact->contact_name) ?> • 
-                                ••••••.<?= substr($contact->phone_number, -3) ?>
+                                <?= Html::encode($contact->contact_name) ?> •••••••<?= substr($contact->phone_number, -3) ?>
                             </span>
                             <span class="ml-2 px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full"><?= Html::encode($contact->role->name ?? 'Chủ nhà') ?></span>
                         </div>
+                        </br>
 
                     <?php endforeach; ?>
                 </div>

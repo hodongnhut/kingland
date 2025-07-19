@@ -692,7 +692,7 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                                 'value' => function ($model) {
                                     $phone = $model->phone_number;
                                     if (strlen($phone) >= 3) {
-                                        return substr($phone, 0, -3) . '***';
+                                        return '•••••••'. substr($phone, -3) ;
                                     }
                                     return '***';
                                 },
