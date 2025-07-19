@@ -157,7 +157,7 @@ $csrfToken = Yii::$app->request->getCsrfToken();
                 'format' => 'raw',
                 'value' => function ($model) {
                     $new_district = $model->new_district
-                    ? Html::tag('div', $model->new_district, ['class' => 'text-xs font-medium px-2.5 py-0.5 rounded-full bg-green-100 text-green-800'])
+                    ? Html::tag('div', $model->new_district, ['class' => 'capitalize text-xs font-medium px-2.5 py-0.5 rounded-full bg-green-100 text-green-800'])
                     : '';
                     $districtCounty = $model->district_county;
                     if (!empty($districtCounty)) {
@@ -266,20 +266,20 @@ $csrfToken = Yii::$app->request->getCsrfToken();
                     'view' => function ($url, $model) {
                         return Html::a('<i class="fas fa-eye"></i>', $url, [
                             'class' => 'text-blue-600 hover:text-blue-800 mx-1',
-                            'title' => 'View',
+                            'title' => 'Xem',
                         ]);
                     },
                     'update' => function ($url, $model) {
                         return Html::a('<i class="fas fa-pencil-alt"></i>', $url, [
                             'class' => 'text-blue-600 hover:text-blue-800 mx-1',
-                            'title' => 'Update',
+                            'title' => 'Cập Nhật',
                         ]);
                     },
                     'delete' => function ($url, $model) {
                         if (Yii::$app->user->identity->jobTitle->role_code === 'manager' ||  Yii::$app->user->identity->jobTitle->role_code == 'super_admin') {
                             return Html::a('<i class="fas fa-trash-alt"></i>', $url, [
                                 'class' => 'text-blue-600 hover:text-blue-800 mx-1',
-                                'title' => 'Update',
+                                'title' => 'Xóa',
                                 'data' => [
                                     'confirm' => 'Bạn có chắc chắn muốn xóa bài viết này?',
                                     'method' => 'post',

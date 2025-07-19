@@ -927,6 +927,7 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
         });
     });
 </script>
+
 <?php
 $script = <<< JS
 $('#properties-city').on('change', function() {

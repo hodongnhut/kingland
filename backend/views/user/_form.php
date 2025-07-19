@@ -15,7 +15,7 @@ $departmentMap = ArrayHelper::map(Departments::find()->all(), 'department_id', '
 ?>
 <!-- Header -->
 <header class="bg-white shadow-md p-2 flex items-center justify-between rounded-bl-lg">
-    <div class="text-lg font-semibold text-gray-800"> Tạo Tài Khoản</div>
+    <div class="text-lg font-semibold text-gray-800"> Tài Khoản</div>
     <div class="relative flex items-center space-x-4">
         <button
             id="userMenuButton"
@@ -69,8 +69,10 @@ $departmentMap = ArrayHelper::map(Departments::find()->all(), 'department_id', '
 
             <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
 
-            <?= $form->field($model, 'password')->passwordInput(['maxlength' => true])
-                ->hint('Để trống nếu không muốn thay đổi mật khẩu') ?>
+            <?php if ($model->isNewRecord): ?>
+                <?= $form->field($model, 'password')->passwordInput(['maxlength' => true])
+                    ->hint('Mật khẩu người dùng') ?>
+            <?php endif; ?>
 
             <?= $form->field($model, 'job_title_id')->dropDownList(
                         $jobTitleMap,

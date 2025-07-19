@@ -46,7 +46,11 @@ function formatNumber($number) {
 ?>
 
 <header class="bg-white shadow-md p-2 flex items-center justify-between rounded-bl-lg">
-    <div class="text-lg font-semibold text-gray-800">Dữ Liệu Nhà Đất</div>
+    <div class="text-lg font-semibold text-gray-800">
+    <?= Html::a('<i class="fas fa-arrow-left"></i> Quay lại', Yii::$app->request->referrer ?: ['index'], [
+        'class' => 'px-4 py-2 bg-gray-200 text-gray-800 rounded-md  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500']) ?>    
+        Dữ Liệu Nhà Đất [Mã: <?= $model->property_id ?> - Loại Giao Dịch: <?= $model->listingType->name ?>]
+    </div>
     <div class="relative flex items-center space-x-4">
         <button
             id="userMenuButton"
@@ -85,10 +89,9 @@ function formatNumber($number) {
                     <p class="text-sm text-gray-500">Ngày Nhập: <span class="font-semibold text-gray-800"><?= Yii::$app->formatter->asRelativeTime($model->created_at) ?> (<?= Yii::$app->formatter->asDate($model->created_at, 'php:d-m-Y') ?>)</span></p>
                 </div>
                 <div class="flex items-center space-x-2">
-                    <img src="https://placehold.co/40x40/f0f0f0/555555?text=Logo" alt="Người Nhập Logo" class="w-10 h-10 rounded-full">
                     <div>
                         <p class="text-sm text-gray-500">Người Nhập:</p>
-                        <p class="font-semibold text-gray-800">Admin <i class="fas fa-info-circle text-gray-400 text-xs"></i></p>
+                        <p class="font-semibold text-gray-800"><?= Yii::$app->user->identity->username ?> <i class="fas fa-info-circle text-gray-400 text-xs"></i></p>
                     </div>
                 </div>
             </div>
@@ -97,16 +100,36 @@ function formatNumber($number) {
                 <div class="flex items-center justify-between mb-4">
                     <div class="flex items-center space-x-2">
                         <span class="text-lg font-bold text-orange-600"><?= Html::encode($model->listingType->name ?? '') ?></span>
+                        <?= Html::tag('div', $model->propertyType->type_name ?? null, [
+                            'class' => 'tab-sub-button px-4 text-sm font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200'
+                            ]) 
+                        ?>
                         <?php if ($model->transactionStatus && $model->transactionStatus->transaction_status_id !== 0): ?>
                             <span class="px-2 py-1 text-xs font-medium rounded-full <?= Html::encode($model->transactionStatus->class_css) ?>">
                                 <?= Html::encode($model->transactionStatus->status_name) ?>
                             </span>
                         <?php endif; ?>
                     </div>
-                    <img src="https://placehold.co/24x24/transparent/000000?text=🌍" alt="World Map Icon" class="w-6 h-6">
                 </div>
                 <p class="text-xl font-bold text-gray-800 mb-2"><?= Html::encode($model->title) ?></p>
-                <div class="grid grid-cols-2 gap-4 mb-4">
+                <?= 
+                    Html::a(
+                        '<i class="fas fa-map mr-1"></i> Xem bản đồ',
+                        "https://maps.google.com/?q=".$model->title,
+                        [
+                            'target' => '_blank',
+                            'class' => 'px-4 py-2 text-sm font-medium rounded-full bg-blue-100 text-blue-700',
+                            'encode' => false,
+                        ]
+                    )
+                ?>
+                <?= 
+                    $model->new_district
+                    ? Html::tag('span', $model->new_district, [
+                        'class' => 'capitalize px-4 py-2 text-sm font-medium rounded-full bg-green-100 text-green-700'])
+                    : '';
+                ?>
+                <div class="grid grid-cols-3 gap-4 mb-4 mt-4">
                     <?php
                         $totalPrice = $model->price; 
                         $totalArea = $model->area_total;
@@ -127,6 +150,27 @@ function formatNumber($number) {
                             ~ <?= $pricePerSqM_Text ?>/m²
                         </p>
                     </div>
+                    <? if (!empty($model->final_price) && $model->final_price > 0):  ?>
+                        <?php
+                        $totalFinalPrice = $model->final_price; 
+                        $totalArea = $model->area_total;
+                        $pricePerSqM_Text = '';
+
+                        if ($totalArea > 0 && $totalFinalPrice > 0) {
+                            $pricePerSqM_VND = $totalFinalPrice / $totalArea;
+                            $pricePerSqM_Text = formatPriceUnit($pricePerSqM_VND);
+                        }
+                        ?>
+                        <div>
+                            <p class="text-sm text-gray-500">Giá chốt</p>
+                            <p class="text-lg font-bold text-gray-800">
+                                <?= formatPriceUnit($model->final_price) ?>
+                            </p>
+                            <p class="text-xs text-gray-500">
+                                ~ <?= $pricePerSqM_Text ?>/m²
+                            </p>
+                        </div>
+                    <?php endif; ?>
                     <div>
                         <p class="text-sm text-gray-500">Diện tích</p>
                         <p class="text-lg font-bold text-gray-800">
@@ -193,7 +237,50 @@ function formatNumber($number) {
         </div>
 
         <div class="lg:col-span-1 space-y-6">
+             <!-- User Info Card -->
+             <div class="bg-white p-6 rounded-lg shadow-md space-y-4">
+                <p class="text-sm text-gray-500"><?=  Yii::$app->formatter->asRelativeTime(Yii::$app->user->identity->updated_at) ?> | <?= Yii::$app->user->identity->username ?> | <?= Yii::$app->user->identity->full_name ?> | <?= Yii::$app->user->identity->phone ?></p>
+                <button id="add-contact-button" class="w-full py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 flex items-center justify-center space-x-2">
+                    <i class="fas fa-address-book"></i>
+                    <span>Thêm Thông Tin Liên Hệ</span>
+                </button>
+               
+                <div class="space-y-2 flex items-center text-blue-600 font-medium">
+                    <?php foreach ($model->ownerContacts as $contact): ?>
+                        <?php
+                        if ($contact->gender_id == 2) {
+                            $iconClass = 'fas fa-venus text-pink-500';
+                        } else {
+                            $iconClass = 'fas fa-mars text-blue-600';
+                        }
+                        ?>
+                        
+                        <div class="flex items-center font-medium">
+                            <i class="<?= $iconClass ?> mr-2 w-4 text-center"></i> <span class="text-gray-800">
+                                <?= Html::encode($contact->contact_name) ?> • 
+                                ••••••.<?= substr($contact->phone_number, -3) ?>
+                            </span>
+                            <span class="ml-2 px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full"><?= Html::encode($contact->role->name ?? 'Chủ nhà') ?></span>
+                        </div>
 
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <!-- Loại Tài Sản Card -->
+            <div class="bg-white p-6 rounded-lg shadow-md space-y-4">
+                <p class="text-sm text-gray-500">Loại Tài Sản: <span class="font-semibold text-gray-800"><?= $model->assetType->type_name ?></span></p>
+                <p class="text-sm text-gray-500">Đánh dấu: <span class="font-semibold text-green-700"><?= $model->transactionStatus->status_name ?></span></p>
+                <p class="text-sm text-gray-500">Mức giá: <span class="font-bold text-gray-800"><?= formatPriceUnit($model->price) ?></span> <i class="fas fa-arrow-up text-green-500 ml-1"></i></p>
+                <p class="text-sm text-gray-500">Giá trên m2: <span class="font-bold text-gray-800"><?= $pricePerSqM_Text ?> </span></p>
+                <button class="px-4 py-2 bg-green-100 text-green-700 text-sm font-medium rounded-full hover:bg-green-200 flex items-center space-x-2">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Xác minh bởi</span>
+                    <span class="font-semibold"><?= Yii::$app->user->identity->username ?></span>
+                </button>
+            </div>
+            <!-- Another similar section (TIN GÓC) -->
+           
             <?php foreach ($modelActivityLogs as $log): ?>
                 <div class="bg-white p-6 rounded-lg shadow-md space-y-2">
                     <p class="text-sm text-gray-500">
@@ -212,74 +299,132 @@ function formatNumber($number) {
 
                 </div>
             <?php endforeach; ?>
-
         </div>
-    </div>
-
-    <div id="lich-su-content" class="tab-content hidden bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-lg font-semibold text-gray-800 mb-4">Lịch sử tương tác</h2>
-        <p class="text-gray-600">Nội dung lịch sử tương tác sẽ được hiển thị tại đây.</p>
     </div>
 </main>
 
+<div id="contact-modal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Thêm Thông Tin Liên Hệ</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label for="contact-role" class="block text-sm font-medium text-gray-700 mb-1">Vai Trò</label>
+                <select id="contact-role" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                <option value="">Chọn Vai Trò</option>
+                    <option value="0">Không xác định</option>
+                    <option value="1">Chủ nhà</option>
+                    <option value="2">Độc Quyền</option>
+                    <option value="3">Môi Giới Hợp Tác</option>
+                    <option value="4">Người Thân Chủ Nhà</option>
+                    <option value="5">Trợ Lý Chủ Nhà</option>
+                    <option value="6">Đại Diện Công Ty</option>
+                    <option value="7">Đại Diện Chủ Nhà</option>
+                    <option value="8">Đầu Tư</option>
+                </select>
+            </div>
+            <div>
+                <label for="contact-name" class="block text-sm font-medium text-gray-700 mb-1">Tên</label>
+                <input type="text" id="contact-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+            </div>
+            <div>
+                <label for="contact-phone" class="block text-sm font-medium text-gray-700 mb-1">Điện thoại</label>
+                <input type="text" id="contact-phone" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+            </div>
+            <div>
+                <label for="contact-gender" class="block text-sm font-medium text-gray-700 mb-1">Giới tính</label>
+                <select id="contact-gender" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                    <option >Chọn Giới tính</option>
+                    <option value="1">Nam</option>
+                    <option value="2">Nữ</option>
+                    <option value="0">Khác</option>
+                </select>
+            </div>
+            <input type="hidden" id="properties-property_id" value="<?= $model->property_id ?>">
+        </div>
+        <div class="flex justify-end mt-6 space-x-2">
+            <button id="save-contact-button" class="px-4 py-2 bg-orange-600 text-white rounded-md shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">Lưu</button>
+            <button id="cancel-contact-button" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">Hủy</button>
+        </div>
+    </div>
+</div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-    const thongTinTab = document.getElementById('thong-tin-tab');
-    const lichSuTab = document.getElementById('lich-su-tab');
-    const thongTinContent = document.getElementById('thong-tin-content');
-    const lichSuContent = document.getElementById('lich-su-content');
 
-    const subTabButtons = document.querySelectorAll('.tab-sub-button');
-    const subTabContents = document.querySelectorAll('.tab-sub-content');
+        const addContactButton = document.getElementById('add-contact-button');
+        const contactModal = document.getElementById('contact-modal');
+        const closeButton = contactModal.querySelector('.close-button');
+        const saveContactButton = document.getElementById('save-contact-button');
+        const cancelContactButton = document.getElementById('cancel-contact-button');
+        const contactEntriesDiv = document.getElementById('contact-entries');
 
-    function activateMainTab(tabButton, contentDiv) {
-        document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
-        document.querySelectorAll('header nav button').forEach(button => {
-            button.classList.remove('text-orange-600', 'border-orange-600');
-            button.classList.add('text-gray-600', 'hover:text-orange-600', 'hover:border-orange-600');
+        
+
+
+        // Show the modal when "Thêm Liên Hệ" button is clicked
+        addContactButton.addEventListener('click', function() {
+            contactModal.style.display = 'flex'; // Use flex to center the modal
         });
 
-        tabButton.classList.add('text-orange-600', 'border-b-2', 'border-orange-600');
-        tabButton.classList.remove('text-gray-600', 'hover:text-orange-600', 'hover:border-orange-600');
-        contentDiv.classList.remove('hidden');
-    }
-
-    function activateSubTab(tabButton) {
-        tabButton.closest('nav').nextElementSibling.querySelectorAll('.tab-sub-content').forEach(content => {
-            content.classList.add('hidden');
+        // Hide the modal when close button or Cancel is clicked
+        closeButton.addEventListener('click', function() {
+            contactModal.style.display = 'none';
         });
 
-        tabButton.closest('nav').querySelectorAll('.tab-sub-button').forEach(button => {
-            button.classList.remove('bg-orange-100', 'text-orange-700');
-            button.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+        cancelContactButton.addEventListener('click', function() {
+            contactModal.style.display = 'none';
         });
 
-        tabButton.classList.add('bg-orange-100', 'text-orange-700');
-        tabButton.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
-        document.getElementById(tabButton.dataset.target).classList.remove('hidden');
-    }
-
-    thongTinTab.addEventListener('click', function() {
-        activateMainTab(thongTinTab, thongTinContent);
-    });
-
-    lichSuTab.addEventListener('click', function() {
-        activateMainTab(lichSuTab, lichSuContent);
-    });
-
-    subTabButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            activateSubTab(this);
+        // Hide the modal if user clicks outside of it
+        window.addEventListener('click', function(event) {
+            if (event.target == contactModal) {
+                contactModal.style.display = 'none';
+            }
         });
     });
 
-    activateMainTab(thongTinTab, thongTinContent);
+    document.getElementById('save-contact-button').addEventListener('click', function () {
+        const role = document.getElementById('contact-role').value;
+        const name = document.getElementById('contact-name').value;
+        const phone = document.getElementById('contact-phone').value;
+        const gender = document.getElementById('contact-gender').value;
+        const propertyId = document.getElementById('properties-property_id').value;
 
-    document.querySelectorAll('.tab-sub-button[data-target="vi-tri-mat-tien"]').forEach(button => {
-        activateSubTab(button);
+
+        // Kiểm tra dữ liệu cơ bản
+        if (!name || !phone || role === 'Chọn Vai Trò' || gender === 'Chọn Giới tính') {
+            alert('Vui lòng điền đầy đủ thông tin.');
+            return;
+        }
+
+        // Gửi Ajax
+        fetch('/owner-contact/create-ajax', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': yii.getCsrfToken()
+            },
+            body: JSON.stringify({
+                role: role,
+                name: name,
+                phone: phone,
+                gender: gender,
+                propertyId: propertyId
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Có lỗi xảy ra khi lưu!');
+            }
+        })
+        .catch(error => {
+            console.error('Lỗi:', error);
+            alert('Lỗi kết nối máy chủ.');
+        });
     });
-    document.querySelectorAll('.tab-sub-button[data-target="vi-tri-mat-tien-2"]').forEach(button => {
-        activateSubTab(button);
-    });
-});
 </script>

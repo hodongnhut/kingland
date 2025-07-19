@@ -19,6 +19,7 @@ class SignupForm extends Model
     public $job_title_id; // Thêm trường job_title_id
     public $department_id; // Thêm trường department_id
     public $status = 10; // Đặt giá trị mặc định cho status
+    public $isNewRecord = true;
 
     /**
      * {@inheritdoc}
