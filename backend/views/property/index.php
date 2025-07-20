@@ -12,7 +12,24 @@ $this->params['breadcrumbs'][] = $this->title;
 $csrfToken = Yii::$app->request->getCsrfToken();
 ?>
 <header class="bg-white shadow-md p-2 flex items-center justify-between rounded-bl-lg">
-    <div class="text-lg font-semibold text-gray-800">Dữ Liệu Nhà Đất</div>
+    <div class="text-lg font-semibold text-gray-800">
+        <div class="flex space-x-2">
+            <a href="<?= Url::to(['/property']) ?>" class="px-4 py-2 rounded-lg bg-white text-blue-600 shadow-md flex items-center space-x-1.5 text-sm">
+                <i class="fas fa-database fa-sm"></i>
+                <span>Dữ Liệu Nhà Đất</span>
+            </a>
+            <a href="<?= Url::to(['/property-folder']) ?>" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors duration-200 flex items-center space-x-1.5 text-sm">
+                <i class="fas fa-file-alt fa-sm"></i>
+                <span>Quản Lý Tệp</span>
+            </a>
+            <div class="flex space-x-2">
+                <button id="openDialog" class="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white shadow-md flex items-center space-x-1.5 text-sm transition-colors duration-200">
+                    <i class="fas fa-plus fa-sm mr-1"></i>
+                    <span>TẠO MỚI</span>
+                </button>
+            </div>
+        </div>
+    </div>
     <div class="relative flex items-center space-x-4">
         <button
             id="userMenuButton"
@@ -40,24 +57,6 @@ $csrfToken = Yii::$app->request->getCsrfToken();
     </div>
 </header>
 <main class="flex-1 p-6 overflow-auto">
-
-    <div class="flex space-x-2 mb-6">   
-        <a href="<?= Url::to(['/property']) ?>" class="px-6 py-3 rounded-lg bg-white text-blue-600 shadow-md flex items-center space-x-2">
-            <i class="fas fa-database"></i>
-            <span>Dữ Liệu Nhà Đất</span>
-        </a>
-        <a href="<?= Url::to(['/property-folder']) ?>"
-            class="px-6 py-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors duration-200 flex items-center space-x-2">
-            <i class="fas fa-file-alt"></i>
-            <span>Quản Lý Tệp</span>
-        </a>
-        <div class="flex space-x-3">
-            <button id="openDialog" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-md shadow-md flex items-center transition-colors duration-200">
-                <i class="fas fa-plus mr-2"></i> TẠO MỚI
-            </button>
-        </div>
-    </div>
-
     <?php
         echo $this->render('_search', [
             'model' => $searchModel, 

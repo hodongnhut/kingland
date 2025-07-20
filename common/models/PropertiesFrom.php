@@ -102,6 +102,8 @@ class PropertiesFrom extends Model
         $property->created_at = date('Y-m-d H:i:s');
         $property->updated_at = date('Y-m-d H:i:s');
 
+        \common\models\UserActivities::logActivity(Yii::$app->user->id, 'add_new');
+
         return $property->save(false) ? $property : null;
     }
 

@@ -192,6 +192,9 @@ class PropertyController extends Controller
 
                         $transaction->commit();
                         Yii::$app->session->setFlash('success', 'Cập nhật bất động sản thành công.');
+
+                        \common\models\UserActivities::logActivity(Yii::$app->user->id, 'update_property');
+                        
                         return $this->redirect(['update', 'property_id' => $model->property_id]);
 
                     } else {
