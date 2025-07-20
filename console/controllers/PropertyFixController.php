@@ -15,12 +15,6 @@ class PropertyFixController extends Controller
     {
         // Chỉ chọn những bản ghi cần cập nhật
         $properties = Properties::find()
-            ->where(['or',
-                ['city' => null],
-                ['district_county' => null],
-                ['ward_commune' => null],
-                ['street_name' => null],
-            ])
             ->andWhere(['not', ['title' => null]])
             ->all();
 
@@ -49,4 +43,29 @@ class PropertyFixController extends Controller
 
         echo "✅ Hoàn tất cập nhật địa chỉ\n";
     }
+
+    public function actionFixDistrictNames()
+    {
+        $properties = Properties::find()
+            ->where(['between', 'district_county', 1, 12])
+            ->all();
+
+        foreach ($properties as $property) {
+            $districtNumber = (int) $property->district_county;
+
+            if ($districtNumber >= 1 && $districtNumber <= 12) {
+                $newDistrictName = 'Quận ' . $districtNumber;
+                $property->district_county = $newDistrictName;
+
+                if ($property->save(false)) {
+                    echo "✔ ID {$property->property_id}: Đã cập nhật thành {$newDistrictName}\n";
+                } else {
+                    echo "✖ ID {$property->property_id}: Lỗi khi cập nhật\n";
+                }
+            }
+        }
+
+        echo "✅ Hoàn tất cập nhật district_county.\n";
+    }
+
 }

@@ -17,8 +17,14 @@ class CustomLinkPager extends LinkPager
     {
         $pagination = $this->pagination;
         $totalCount = $pagination->totalCount;
-        $page = $pagination->getPage() + 1;
         $totalPages = $pagination->getPageCount();
+        
+        // Handle edge case: no pages or single page
+        if ($totalPages <= 1) {
+            return '';
+        }
+
+        $page = (int)$pagination->getPage() + 1; // Current page (1-based, cast to int for safety)
         $buttons = [];
 
         // Mobile View
@@ -27,18 +33,20 @@ class CustomLinkPager extends LinkPager
         $nextLink = $pagination->getPage() < $totalPages - 1 ? $pagination->createUrl($pagination->getPage() + 1) : '#';
 
         $mobileButtons[] = Html::a(
-            'Previous',
+            Yii::t('app', 'Previous'),
             $prevLink,
             [
                 'class' => 'relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50' . ($pagination->getPage() <= 0 ? ' opacity-50 cursor-not-allowed' : ''),
+                'aria-label' => Yii::t('app', 'Go to previous page'),
                 'aria-disabled' => $pagination->getPage() <= 0 ? 'true' : null,
             ]
         );
         $mobileButtons[] = Html::a(
-            'Next',
+            Yii::t('app', 'Next'),
             $nextLink,
             [
                 'class' => 'relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50' . ($pagination->getPage() >= $totalPages - 1 ? ' opacity-50 cursor-not-allowed' : ''),
+                'aria-label' => Yii::t('app', 'Go to next page'),
                 'aria-disabled' => $pagination->getPage() >= $totalPages - 1 ? 'true' : null,
             ]
         );
@@ -46,7 +54,7 @@ class CustomLinkPager extends LinkPager
         // Desktop View: Page Info
         $pageInfo = Html::tag(
             'p',
-            Yii::t('app', 'Tổng {totalCount} Trang {currentPage}/{totalPages}', [
+            Yii::t('app', 'Total {totalCount} items, Page {currentPage}/{totalPages}', [
                 'totalCount' => number_format($totalCount),
                 'currentPage' => $page,
                 'totalPages' => $totalPages,
@@ -60,10 +68,11 @@ class CustomLinkPager extends LinkPager
 
         // Previous Button
         $navButtons[] = Html::a(
-            '<span class="sr-only">Previous</span>' . $this->prevPageLabel,
+            '<span class="sr-only">' . Yii::t('app', 'Previous') . '</span>' . $this->prevPageLabel,
             $prevLink,
             [
                 'class' => 'relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0' . ($pagination->getPage() <= 0 ? ' opacity-50 cursor-not-allowed' : ''),
+                'aria-label' => Yii::t('app', 'Go to previous page'),
                 'aria-disabled' => $pagination->getPage() <= 0 ? 'true' : null,
             ]
         );
@@ -77,7 +86,7 @@ class CustomLinkPager extends LinkPager
         }
 
         for ($i = $startPage; $i <= $endPage; $i++) {
-            $isCurrent = $i + 1 === $page;
+            $isCurrent = ((int)$i + 1) === $page; // Ensure strict comparison with int casting
             $navButtons[] = Html::a(
                 $i + 1,
                 $pagination->createUrl($i),
@@ -87,6 +96,7 @@ class CustomLinkPager extends LinkPager
                             ? 'z-10 bg-blue-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'
                             : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0'),
                     'aria-current' => $isCurrent ? 'page' : null,
+                    'aria-label' => $isCurrent ? Yii::t('app', 'Current page, page {page}', ['page' => $i + 1]) : Yii::t('app', 'Go to page {page}', ['page' => $i + 1]),
                 ]
             );
         }
@@ -101,10 +111,11 @@ class CustomLinkPager extends LinkPager
 
         // Next Button
         $navButtons[] = Html::a(
-            '<span class="sr-only">Next</span>' . $this->nextPageLabel,
+            '<span class="sr-only">' . Yii::t('app', 'Next') . '</span>' . $this->nextPageLabel,
             $nextLink,
             [
                 'class' => 'relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0' . ($pagination->getPage() >= $totalPages - 1 ? ' opacity-50 cursor-not-allowed' : ''),
+                'aria-label' => Yii::t('app', 'Go to next page'),
                 'aria-disabled' => $pagination->getPage() >= $totalPages - 1 ? 'true' : null,
             ]
         );

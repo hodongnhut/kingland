@@ -296,7 +296,6 @@ $csrfToken = Yii::$app->request->getCsrfToken();
     echo CustomLinkPager::widget([
         'pagination' => $dataProvider->pagination,
         'options' => ['class' => ''],
-        'view' => '@backend/views/pagination/pagination.php',
         'maxButtonCount' => 5,
         'firstPageLabel' => false,
         'lastPageLabel' => false,
