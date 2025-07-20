@@ -217,9 +217,32 @@ $csrfToken = Yii::$app->request->getCsrfToken();
             ],
             [
                 'label' => 'HĐ Thuê',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
                 'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
-                'value' => function () { return ''; },
+                'format' => 'raw',
+                'value' => function ($model) {
+                    if ($model->rentalContract) {
+                        $contract = $model->rentalContract;
+
+                        $priceText = number_format($contract->rent_price / 1e6) . ' Triệu';
+                        if ($contract->currency) {
+                            $priceText .= ' ' . $contract->currency->code;
+                        }
+
+                        $timeUnitText = '';
+                        if ($contract->price_time_unit === 'per_month') {
+                            $timeUnitText = '/Tháng';
+                        } elseif ($contract->price_time_unit === 'per_year') {
+                            $timeUnitText = '/Năm';
+                        }
+
+                        $priceHtml = Html::tag('div', $priceText, ['class' => 'font-semibold text-red-600']);
+                        $unitHtml = Html::tag('div', $timeUnitText, ['class' => 'text-xs text-gray-600']);
+
+                        return $priceHtml . $unitHtml;
+                    }
+
+                    return '';
+                },
             ],
             [
                 'label' => 'Lưu',

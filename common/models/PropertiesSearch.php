@@ -18,42 +18,39 @@ class PropertiesSearch extends Properties
     public $ward;
     public $street;
     public $listing_type;
-
     public $direction;
-
-    public $status_filters; // New property for status filters
-
+    public $status_filters;
     public $area_from;
     public $area_to;
-
     public $location_type_id;
     public $property_type_id;
     public $asset_type_id;
-    public $direction_ids; // For multi-select direction filter
+    public $direction_ids;
 
     public $num_floors_from, $num_floors_to;
+
     public $num_bedrooms_from, $num_bedrooms_to;
+
     public $date_from, $date_to;
+    public $listing_types_id;
+    public $has_rental_contract;
+
     /**
      * {@inheritdoc}
      */
     public function rules()
 {
     return [
-        // BƯỚC 1: Xóa các thuộc tính tìm kiếm đa lựa chọn khỏi danh sách 'integer' này.
-        // Chỉ để lại các thuộc tính thực sự luôn là số nguyên.
         [['property_id', 'user_id', 'has_vat_invoice', 'num_toilets', 'num_bedrooms', 
           'num_basements', 'has_deposit', 'transaction_status_id', 'has_rental_contract', 
           'is_active', 'created_at', 'updated_at', 'num_floors', 'commission_types_id', 
           'commission_prices_id', 'property_images_id', 'num_floors_from', 'num_floors_to', 'num_bedrooms_from', 'num_bedrooms_to'], 'integer'],
 
-        // BƯỚC 2: Đảm bảo các thuộc tính đó nằm trong danh sách 'safe' (như bạn đã làm).
-        // Dòng này đã đúng, không cần sửa.
         [['title', 'selling_price', 'house_number', 'street_name', 'ward_commune', 'district_county', 'city', 
           'compound_name', 'usable_area', 'land_type', 'description', 'transaction_description', 'external_id', 
           'plot_number', 'sheet_number', 'lot_number', 'keyword', 'district', 'ward', 'street', 
           'direction','location_type_id', 'property_type_id', 'status_filters','area_from', 'area_to', 
-          'asset_type_id', 'direction_ids','date_from', 'date_to'], 'safe'],
+          'asset_type_id', 'direction_ids','date_from', 'date_to', 'listing_types_id'], 'safe'],
 
         [['area_width', 'area_length', 'area_total', 'planned_width', 'planned_length', 'planned_construction_area', 
           'area_back_side', 'wide_road', 'planned_back_side', 'price_from', 'price_to'], 'number'],
@@ -92,46 +89,47 @@ class PropertiesSearch extends Properties
         ]);
 
         $this->load($params);
-    // var_dump($params ["PropertiesSearch"]['asset_type_id']);die;
-
-
-        // var_dump($params);die;
 
         if (!$this->validate()) {
             return $dataProvider;
         }
+
+        if (!empty($this->listing_types_id)) {
+            $query->andWhere(['properties.listing_types_id' => $this->listing_types_id]);
+        }
         
-        // var_dump($this->area_from,$this->area_to);die;
-        // === LOGIC LỌC TỪ CÁC NÚT BẤM ===
         if (!empty($this->status_filters)) {
             $selectedIds = array_map('intval', explode(',', $this->status_filters));
+
             $logicMap = [
-                'transaction_status_id' => [3, 4, 5, 6],
+                'transaction_status_id' => [3, 4, 5, 6, 11],
                 'selling_price_status_id' => [9, 10], // Giả sử bạn có cột này
                 'auction_property' => 1, // ID 2 đã được tách ra cho logic riêng
                 'new_product' => 2, // ID cho "Sản Phẩm Mới"
                 'east_four_trach' => 7, // ID cho "Đông Tư Trạch"
                 'west_four_trach' => 8, // ID cho "Tây Tứ Trạch" (Tẩy Trạch)
             ];
-
             $transactionStatusValueMap = [
-                3 => 1, 4 => 2, 5 => 3, 6 => 4,
+                3 => 1, 4 => 2, 5 => 3, 11 => 4,
             ];
+
             $selectedFrontendTransactionIds = array_intersect($selectedIds, $logicMap['transaction_status_id']);
 
             $sellingPriceIds = array_intersect($selectedIds, $logicMap['selling_price_status_id']);
             $isAuctionPropertySelected = in_array($logicMap['auction_property'], $selectedIds);
-            // var_dump($isAuctionPropertySelected);die;
             $isNewProductSelected = in_array($logicMap['new_product'], $selectedIds);
             $isEastFourTrachSelected = in_array($logicMap['east_four_trach'], $selectedIds);
             $isWestFourTrachSelected = in_array($logicMap['west_four_trach'], $selectedIds);
 
-            // Áp dụng bộ lọc
             if (!empty($selectedFrontendTransactionIds)) {
                 $condition = ['or'];
                 foreach ($selectedFrontendTransactionIds as $frontendId) {
                     if (isset($transactionStatusValueMap[$frontendId])) {
                         $condition[] = ['properties.transaction_status_id' => $transactionStatusValueMap[$frontendId]];
+                    }
+
+                    if ($frontendId === 6) {
+                        $condition[] = ['properties.has_rental_contract' => 1];
                     }
                 }
                 if(count($condition) > 1){
@@ -140,7 +138,6 @@ class PropertiesSearch extends Properties
             }
 
             if (!empty($sellingPriceIds)) {
-                // Thay 'selling_price_status_id' bằng tên cột đúng trong DB của bạn
                 $query->andWhere(['in', 'properties.selling_price_status_id', $sellingPriceIds]);
             }
 
@@ -148,14 +145,11 @@ class PropertiesSearch extends Properties
                 $query->andWhere(['properties.asset_type_id' => 6]);
             }
 
-            // NÂNG CẤP: Thêm logic cho "Sản Phẩm Mới"
             if ($isNewProductSelected) {
-                // Lấy timestamp của 7 ngày trước
                 $oneWeekAgo = strtotime('-7 days');
                 $query->andWhere(['>=', 'properties.created_at', $oneWeekAgo]);
             }
 
-            // Xử lý logic phức tạp cho các hướng
             $directionConditions = ['or'];
             if (!empty($directionIds)) {
                 $directionConditions[] = ['in', 'properties.direction_id', $directionIds];
@@ -172,9 +166,6 @@ class PropertiesSearch extends Properties
             }
         }
 
-        // --- Lọc theo các trường input thông thường ---
-
-        // Lọc theo các dropdown đa lựa chọn
         if (!empty($this->location_type_id)) {
             $ids = explode(',', $this->location_type_id);
             $condition = ['or'];
@@ -185,6 +176,7 @@ class PropertiesSearch extends Properties
                 $query->andWhere($condition);
             }
         }
+
         if (!empty($this->property_type_id)) {
             $ids = explode(',', $this->property_type_id);
             $condition = ['or'];
@@ -196,17 +188,14 @@ class PropertiesSearch extends Properties
             }
         }
         
-        // Lọc theo khoảng giá & diện tích
         $query->andFilterWhere(['>=', 'properties.area_width', $this->area_from]);
         $query->andFilterWhere(['<=', 'properties.area_length', $this->area_to]);
         $query->andFilterWhere(['between', 'properties.num_floors', $this->num_floors_from, $this->num_floors_to]);
         $query->andFilterWhere(['between', 'properties.num_bedrooms', $this->num_bedrooms_from, $this->num_bedrooms_to]);
         $query->andFilterWhere(['between', 'properties.price', $this->price_from, $this->price_to]);
-        // Lọc theo các trường text khác
         $query->andFilterWhere(['like', 'properties.plot_number', $this->plot_number])
               ->andFilterWhere(['like', 'properties.sheet_number', $this->sheet_number]);
 
-        // Lọc theo từ khóa
         if (!empty($this->keyword)) {
             $query->andWhere([
                 'or',
@@ -216,37 +205,29 @@ class PropertiesSearch extends Properties
                 ['like', 'properties.district_county', $this->keyword],
             ]);
         }
-
         
-        // --- Lọc theo khoảng ngày (dành cho cột TIMESTAMP) ---
-    if (!empty($this->date_from)) {
-        $query->andWhere(['>=', 'properties.created_at', $this->date_from]);
-    }
-    if (!empty($this->date_to)) {
-        $query->andWhere(['<=', 'properties.created_at', $this->date_to . ' 23:59:59']);
-    }
+        if (!empty($this->date_from)) {
+            $query->andWhere(['>=', 'properties.created_at', $this->date_from]);
+        }
 
-        // --- NÂNG CẤP: Lọc theo các dropdown đa lựa chọn (dùng điều kiện OR) ---
-    $multiSelectFilters = [
-        'asset_type_id'    => $this->asset_type_id,
-        'direction_id'     => $this->direction_ids, // Lấy từ form "Chọn Hướng"
-    ];
+        if (!empty($this->date_to)) {
+            $query->andWhere(['<=', 'properties.created_at', $this->date_to . ' 23:59:59']);
+        }
 
+        $multiSelectFilters = [
+            'asset_type_id'    => $this->asset_type_id,
+            'direction_id'     => $this->direction_ids,
+        ];
 
-    // var_dump($multiSelectFilters);die;
-
-    // SỬA LỖI: Áp dụng AND cho mỗi nhóm bộ lọc riêng biệt
-    foreach ($multiSelectFilters as $column => $value) {
-        if (!empty($value) && is_string($value)) {
-            $ids = explode(',', $value);
-            // Lọc các giá trị rỗng hoặc không hợp lệ
-            $ids = array_filter(array_map('trim', $ids));
-            if (!empty($ids)) {
-                 // Dùng andWhere riêng cho mỗi bộ lọc để áp dụng logic AND
-                 $query->andWhere(['in', 'properties.' . $column, $ids]);
+        foreach ($multiSelectFilters as $column => $value) {
+            if (!empty($value) && is_string($value)) {
+                $ids = explode(',', $value);
+                $ids = array_filter(array_map('trim', $ids));
+                if (!empty($ids)) {
+                    $query->andWhere(['in', 'properties.' . $column, $ids]);
+                }
             }
         }
-    }
 
         return $dataProvider;
     }
