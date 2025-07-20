@@ -34,29 +34,28 @@ AppAsset::register($this);
             </div>
         </div>
         <nav class="flex flex-col space-y-2 w-full">
-            <a href="<?= Yii::$app->homeUrl ?>" class="nav-item bg-blue-100 text-blue-600">
+            <a href="<?= Yii::$app->homeUrl ?>" class="nav-item <?= Yii::$app->request->pathInfo === '' ? 'bg-blue-100 text-blue-600' : '' ?>" aria-label="Màn hình chính">
                 <i class="fas fa-home text-xl"></i>
-                <span> Màn hình chính</span>
+                <span>Màn hình chính</span>
             </a>
-            <a href="<?= \yii\helpers\Url::to(['/news']) ?>" class="nav-item">
+            <a href="<?= \yii\helpers\Url::to(['/news']) ?>" class="nav-item <?= Yii::$app->controller->id === 'post' ? 'bg-blue-100 text-blue-600' : '' ?>" aria-label="Bản tin nội bộ">
                 <i class="fas fa-newspaper text-xl"></i>
                 <span>Bản tin nội bộ</span>
             </a>
-            <a href="<?= \yii\helpers\Url::to(['/property']) ?>" class="nav-item">
+            <a href="<?= \yii\helpers\Url::to(['/property']) ?>" class="nav-item <?= Yii::$app->controller->id === 'property' ? 'bg-blue-100 text-blue-600' : '' ?>" aria-label="Dữ liệu Nhà Đất">
                 <i class="fas fa-database text-xl"></i>
                 <span>Dữ liệu Nhà Đất</span>
             </a>
-            <a href="<?= \yii\helpers\Url::to(['/ban-do-quy-hoach']) ?>" class="nav-item">
+            <a href="<?= \yii\helpers\Url::to(['/ban-do-quy-hoach']) ?>" class="nav-item <?= Yii::$app->controller->id === 'site' ? 'bg-blue-100 text-blue-600' : '' ?>" aria-label="BĐ Quy Hoạch">
                 <i class="fas fa-map text-xl"></i>
                 <span>BĐ Quy Hoạch</span>
             </a>
-            <? if (Yii::$app->user->identity->jobTitle->role_code === 'manager' ||  Yii::$app->user->identity->jobTitle->role_code == 'super_admin'):  ?>
-            <a href="<?= \yii\helpers\Url::to(['/property-user']) ?>" class="nav-item">
-                <i class="fas fa-chart-bar"></i>
-                <span>Quản Lý Nhân Viên</span>
-            </a>  
+            <?php if (!Yii::$app->user->isGuest && in_array(Yii::$app->user->identity->jobTitle->role_code, ['manager', 'super_admin'])): ?>
+                <a href="<?= \yii\helpers\Url::to(['/property-user']) ?>" class="nav-item <?= Yii::$app->controller->id === 'property-user' ? 'bg-blue-100 text-blue-600' : '' ?>" aria-label="Quản Lý Nhân Viên">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Quản Lý Nhân Viên</span>
+                </a>
             <?php endif; ?>
-           
         </nav>
     </aside>
 
