@@ -64,18 +64,21 @@ $this->registerCssFile(
 </header>
 
 <main class="flex-1 p-6 overflow-auto">
+
     <div class="bg-white p-6 rounded-lg shadow-md mb-6">
         <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Top Hoạt Động Trong 7 ngày qua</h2>
-        <div class="chart-container" style="position: relative; height: 400px;">
+        <div class="chart-container" style="position: relative; height: 60vh;">
             <canvas id="activityChart"></canvas>
+            <div id="noDataMessage" class="text-center text-gray-600 mt-4 hidden">Không có dữ liệu hoạt động để hiển thị.</div>
         </div>
         <div class="flex flex-wrap justify-center gap-4 mt-6 text-sm text-gray-600">
-            <div class="flex items-center"><span class="inline-block w-4 h-4 rounded-full bg-blue-500 mr-2"></span> Thêm mới</div>
-            <div class="flex items-center"><span class="inline-block w-4 h-4 rounded-full bg-green-500 mr-2"></span> Xem số điện thoại</div>
-            <div class="flex items-center"><span class="inline-block w-4 h-4 rounded-full bg-orange-500 mr-2"></span> Bổ sung thông tin nhà</div>
-            <div class="flex items-center"><span class="inline-block w-4 h-4 rounded-full bg-gray-500 mr-2"></span> Tải File</div>
+            <div class="flex items-center"><span class="inline-block w-4 h-4 rounded-full bg-[#6EE7B7] mr-2"></span> Thêm mới</div>
+            <div class="flex items-center"><span class="inline-block w-4 h-4 rounded-full bg-[#3B82F6] mr-2"></span> Xem số điện thoại</div>
+            <div class="flex items-center"><span class="inline-block w-4 h-4 rounded-full bg-[#F59E0B] mr-2"></span> Bổ sung thông tin nhà</div>
+            <div class="flex items-center"><span class="inline-block w-4 h-4 rounded-full bg-[#6B7280] mr-2"></span> Tải File</div>
         </div>
     </div>
+
     <? if ($role_code === 'manager' ||  $role_code == 'super_admin'):  ?>
         <div class="bg-white p-6 rounded-lg shadow-md mb-6">
             <div class="flex flex-col sm:flex-row justify-between items-center mb-6">
@@ -187,6 +190,7 @@ $this->registerCssFile(
             </div>
         </div>
     <?php endif; ?>
+
 </main>
 
 <!-- JavaScript for Dropdown Menu -->
@@ -312,65 +316,77 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-// Chart.js Configuration
-const wrapLabels = (label, maxWidth) => {
-    if (label.length <= maxWidth) return label;
-    const words = label.split(' ');
-    const lines = [];
-    let currentLine = '';
-    words.forEach(word => {
-        if ((currentLine + ' ' + word).length > maxWidth && currentLine !== '') {
-            lines.push(currentLine.trim());
-            currentLine = word;
-        } else {
-            currentLine += (currentLine === '' ? '' : ' ') + word;
-        }
-    });
-    lines.push(currentLine.trim());
-    return lines;
-};
-
-const tooltipTitleCallback = (tooltipItems) => {
-    const item = tooltipItems[0];
-    let label = item.chart.data.labels[item.dataIndex];
-    if (Array.isArray(label)) return label.join(' ');
-    return label;
-};
-
-const ctx = document.getElementById('activityChart').getContext('2d');
-
-const labels = [
-    'Lê Tuấn Kiên KHV0220', 'Phạm Công Minh NV0183', 'Yanlen Yến NV0232',
-    'Lý Vũ Khôi KH024', 'Phạm Xuân Hoàng NV0227', 'Đinh Phương Chính NV0135',
-    'Đậu Thị Thùy Dương KHV023', 'Nguyễn Văn Tuyển NV0230', 'Kiều Anh Sơn KH013',
-    'admin3 KHV0186'
-].map(label => wrapLabels(label, 16));
-
-const activityChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: labels,
-        datasets: [
-            { label: 'Thêm mới', data: [591, 480, 322, 280, 166, 319, 236, 197, 179, 191], backgroundColor: '#6EE7B7' },
-            { label: 'Xem số điện thoại', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], backgroundColor: '#3B82F6' },
-            { label: 'Bổ sung thông tin nhà', data: [0, 0, 0, 0, 0, 200, 0, 0, 0, 100], backgroundColor: '#F59E0B' },
-            { label: 'Tải File', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 40], backgroundColor: '#6B7280' }
-        ]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: { position: 'bottom', labels: { font: { size: 14, family: 'Inter, sans-serif' }, padding: 20 } },
-            tooltip: {
-                callbacks: { title: tooltipTitleCallback, label: (context) => `${context.dataset.label}: ${context.raw}` },
-                backgroundColor: 'rgba(0, 0, 0, 0.7)', titleFont: { size: 16 }, bodyFont: { size: 14 }, padding: 12, cornerRadius: 8
+    // Chart.js Configuration
+    const wrapLabels = (label, maxWidth) => {
+        if (label.length <= maxWidth) return label;
+        const words = label.split(' ');
+        const lines = [];
+        let currentLine = '';
+        words.forEach(word => {
+            if ((currentLine + ' ' + word).length > maxWidth && currentLine !== '') {
+                lines.push(currentLine.trim());
+                currentLine = word;
+            } else {
+                currentLine += (currentLine === '' ? '' : ' ') + word;
             }
-        },
-        scales: {
-            x: { stacked: true, grid: { display: false }, ticks: { font: { family: 'Inter, sans-serif' } } },
-            y: { stacked: true, beginAtZero: true, title: { display: true, text: 'Số lượng hoạt động', font: { size: 14, family: 'Inter, sans-serif' } }, ticks: { font: { family: 'Inter, sans-serif' } } }
+        });
+        lines.push(currentLine.trim());
+        return lines;
+    };
+
+
+    const ctx = document.getElementById('activityChart').getContext('2d');
+    
+    const tooltipTitleCallback = (tooltipItems) => {
+        const item = tooltipItems[0];
+        let label = item.chart.data.labels[item.dataIndex];
+        if (Array.isArray(label)) return label.join(' ');
+        return label;
+    };
+
+    fetch('<?= \yii\helpers\Url::to(['site/activity-data']) ?>', {
+        method: 'GET',
+        headers: {
+            'X-CSRF-Token': '<?= Yii::$app->request->csrfToken ?>'
         }
-    }
-});
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.labels.length === 0) {
+            document.getElementById('noDataMessage').classList.remove('hidden');
+            return;
+        }
+        new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { font: { size: 14, family: 'Inter, sans-serif' }, padding: 20 } },
+                    tooltip: {
+                        callbacks: { title: tooltipTitleCallback, label: (context) => `${context.dataset.label}: ${context.raw}` },
+                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                        titleFont: { size: 16 },
+                        bodyFont: { size: 14 },
+                        padding: 12,
+                        cornerRadius: 8
+                    }
+                },
+                scales: {
+                    x: { stacked: true, grid: { display: false }, ticks: { font: { family: 'Inter, sans-serif' } } },
+                    y: {
+                        stacked: true,
+                        beginAtZero: true,
+                        title: { display: true, text: 'Số lượng hoạt động', font: { size: 14, family: 'Inter, sans-serif' } },
+                        ticks: { font: { family: 'Inter, sans-serif' } }
+                    }
+                }
+            }
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching chart data:', error);
+        document.getElementById('noDataMessage').classList.remove('hidden');
+    });
 </script>

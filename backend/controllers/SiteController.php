@@ -17,7 +17,7 @@ use common\models\ChangePasswordForm;
 use frontend\models\ResetPasswordForm;
 use yii\base\InvalidArgumentException;
 use frontend\models\PasswordResetRequestForm;
-
+use common\models\UserActivities;
 /**
  * Site controller
  */
@@ -52,7 +52,8 @@ class SiteController extends Controller
                             'login-version',
                             'save-location',
                             'clear-location-prompt',
-                            'map'
+                            'map',
+                            'activity-data'
                         ],
                         'allow' => true,
                         'roles' => ['@'],
@@ -77,6 +78,105 @@ class SiteController extends Controller
             'error' => [
                 'class' => \yii\web\ErrorAction::class,
             ],
+        ];
+    }
+
+    /**
+     * Returns activity data for all users for the Chart.js chart.
+     * @return array JSON response with chart data
+     */
+    public function actionActivityData()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        // Fetch all users
+        $users = User::find()->all();
+        $labels = [];
+        $addNewData = [];
+        $viewPhoneData = [];
+        $updatePropertyData = [];
+        $downloadFileData = [];
+
+        foreach ($users as $user) {
+
+            $labels[] = $user->full_name ?: $user->username;
+
+   
+            $activities = UserActivities::find()
+                ->where(['user_id' => $user->id])
+                ->andWhere(['>=', 'created_at', date('Y-m-d H:i:s', strtotime('-7 days'))])
+                ->all();
+
+            $addNew = 0;
+            $viewPhone = 0;
+            $updateProperty = 0;
+            $downloadFile = 0;
+
+
+            foreach ($activities as $activity) {
+                switch ($activity->action_type) {
+                    case 'add_new':
+                        $addNew += $activity->count;
+                        break;
+                    case 'view_phone':
+                        $viewPhone += $activity->count;
+                        break;
+                    case 'update_property':
+                        $updateProperty += $activity->count;
+                        break;
+                    case 'download_file':
+                        $downloadFile += $activity->count;
+                        break;
+                }
+            }
+
+            $addNewData[] = $addNew;
+            $viewPhoneData[] = $viewPhone;
+            $updatePropertyData[] = $updateProperty;
+            $downloadFileData[] = $downloadFile;
+        }
+
+        return [
+            'labels' => array_map(function ($label) {
+                // Wrap labels for Chart.js (same as existing logic)
+                $maxWidth = 16;
+                if (strlen($label) <= $maxWidth) return $label;
+                $words = explode(' ', $label);
+                $lines = [];
+                $currentLine = '';
+                foreach ($words as $word) {
+                    if (strlen($currentLine . ' ' . $word) > $maxWidth && $currentLine !== '') {
+                        $lines[] = trim($currentLine);
+                        $currentLine = $word;
+                    } else {
+                        $currentLine .= ($currentLine === '' ? '' : ' ') . $word;
+                    }
+                }
+                $lines[] = trim($currentLine);
+                return $lines;
+            }, $labels),
+            'datasets' => [
+                [
+                    'label' => 'Thêm mới',
+                    'data' => $addNewData,
+                    'backgroundColor' => '#6EE7B7'
+                ],
+                [
+                    'label' => 'Xem số điện thoại',
+                    'data' => $viewPhoneData,
+                    'backgroundColor' => '#3B82F6'
+                ],
+                [
+                    'label' => 'Bổ sung thông tin nhà',
+                    'data' => $updatePropertyData,
+                    'backgroundColor' => '#F59E0B'
+                ],
+                [
+                    'label' => 'Tải File',
+                    'data' => $downloadFileData,
+                    'backgroundColor' => '#6B7280'
+                ]
+            ]
         ];
     }
 
