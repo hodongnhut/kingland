@@ -90,7 +90,7 @@ class UserController extends Controller
     public function actionMap($id)
     {
         $user = Yii::$app->user->identity;
-        // Refresh user model to ensure latest data
+
         if ($user) {
             $user = User::findOne($user->id);
         }
@@ -143,7 +143,7 @@ class UserController extends Controller
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->goHome();
         }
 
         return $this->render('update', [
