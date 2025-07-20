@@ -51,7 +51,7 @@ AppAsset::register($this);
                 <span>BĐ Quy Hoạch</span>
             </a>
             <?php if (!Yii::$app->user->isGuest && in_array(Yii::$app->user->identity->jobTitle->role_code, ['manager', 'super_admin'])): ?>
-                <a href="<?= \yii\helpers\Url::to(['/property-user']) ?>" class="nav-item <?= Yii::$app->controller->id === 'property-user' ? 'bg-blue-100 text-blue-600' : '' ?>" aria-label="Quản Lý Nhân Viên">
+                <a href="<?= \yii\helpers\Url::to(['/property/users']) ?>" class="nav-item <?= Yii::$app->controller->id === 'property' ? 'bg-blue-100 text-blue-600' : '' ?>" aria-label="Quản Lý Nhân Viên">
                     <i class="fas fa-chart-bar"></i>
                     <span>Quản Lý Nhân Viên</span>
                 </a>

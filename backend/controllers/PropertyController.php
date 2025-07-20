@@ -27,6 +27,7 @@ use common\models\RentalContracts;
 use common\models\ActivityLogs;
 use yii\web\UploadedFile;
 use common\models\PropertyImages;
+use common\models\PropertiesUserSearch;
 
 class PropertyController extends Controller
 {
@@ -95,6 +96,22 @@ class PropertyController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($property_id),
             'modelActivityLogs' => $activityLogs
+        ]);
+    }
+
+    /**
+     * Displays a single Properties model.
+     * @return string
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionUsers()
+    {
+        $searchModel = new PropertiesUserSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('users', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
