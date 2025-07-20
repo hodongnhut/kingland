@@ -22,15 +22,16 @@ $csrfToken = Yii::$app->request->getCsrfToken();
                 <i class="fas fa-file-alt fa-sm"></i>
                 <span>Quản Lý Tệp</span>
             </a>
-            <div class="flex space-x-2">
-                <button id="openDialog" class="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white shadow-md flex items-center space-x-1.5 text-sm transition-colors duration-200">
-                    <i class="fas fa-plus fa-sm mr-1"></i>
-                    <span>TẠO MỚI</span>
-                </button>
-            </div>
+            
         </div>
     </div>
     <div class="relative flex items-center space-x-4">
+        <div class="flex space-x-2">
+            <button id="openDialog" class="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white shadow-md flex items-center space-x-1.5 text-sm transition-colors duration-200">
+                <i class="fas fa-plus fa-sm mr-1"></i>
+                <span>TẠO MỚI</span>
+            </button>
+        </div>
         <button
             id="userMenuButton"
             class="w-10 h-10 bg-blue-500 hover:bg-blue-600 text-white rounded-full flex items-center justify-center shadow-md transition-colors duration-200"

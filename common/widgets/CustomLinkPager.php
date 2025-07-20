@@ -24,10 +24,10 @@ class CustomLinkPager extends LinkPager
             return '';
         }
 
-        $page = (int)$pagination->getPage() + 1; // Current page (1-based, cast to int for safety)
+        $page = (int)$pagination->getPage() + 1; // Current page (1-based)
         $buttons = [];
 
-        // Mobile View
+        // --- Mobile View (remains largely the same) ---
         $mobileButtons = [];
         $prevLink = $pagination->getPage() > 0 ? $pagination->createUrl($pagination->getPage() - 1) : '#';
         $nextLink = $pagination->getPage() < $totalPages - 1 ? $pagination->createUrl($pagination->getPage() + 1) : '#';
@@ -51,10 +51,10 @@ class CustomLinkPager extends LinkPager
             ]
         );
 
-        // Desktop View: Page Info
+        // --- Desktop View: Page Info and Dropdown ---
         $pageInfo = Html::tag(
             'p',
-            Yii::t('app', 'Total {totalCount} items, Page {currentPage}/{totalPages}', [
+            Yii::t('app', 'Tổng {totalCount} mục, Trang {currentPage}/{totalPages}', [ // Đã dịch
                 'totalCount' => number_format($totalCount),
                 'currentPage' => $page,
                 'totalPages' => $totalPages,
@@ -63,9 +63,38 @@ class CustomLinkPager extends LinkPager
         );
         $pageInfo = Html::tag('div', $pageInfo);
 
-        // Desktop View: Navigation
-        $navButtons = [];
+        // Dropdown for page selection
+        $options = [];
+        for ($i = 0; $i < $totalPages; $i++) {
+            $options[$pagination->createUrl($i)] = Yii::t('app', 'Trang {page}', ['page' => $i + 1]);
+        }
+        
+        // Label for the dropdown
+        $dropdownLabel = Html::tag(
+            'label',
+            Yii::t('app', ' '),
+            ['for' => 'page-selector', 'class' => 'sr-only sm:not-sr-only text-sm font-medium text-gray-700 ml-4']
+        );
 
+        $dropdown = Html::dropDownList(
+            'page-selector',
+            $pagination->createUrl($pagination->getPage()),
+            $options,
+            [
+                'id' => 'page-selector',
+                'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm
+                            py-2 pl-3 pr-8 text-base leading-5 text-gray-900 focus:outline-none sm:text-sm',
+                'onchange' => 'window.location.href = this.value;',
+                'aria-label' => Yii::t('app', 'Select page'),
+            ]
+        );
+        
+        // Container for dropdown and its label
+        $dropdownContainer = Html::tag('div', $dropdownLabel . $dropdown, ['class' => 'flex items-center mr-auto sm:mr-4']); // Changed ml-auto to mr-auto
+
+
+        // --- Desktop View: Navigation (buttons) ---
+        $navButtons = [];
         // Previous Button
         $navButtons[] = Html::a(
             '<span class="sr-only">' . Yii::t('app', 'Previous') . '</span>' . $this->prevPageLabel,
@@ -86,7 +115,7 @@ class CustomLinkPager extends LinkPager
         }
 
         for ($i = $startPage; $i <= $endPage; $i++) {
-            $isCurrent = ((int)$i + 1) === $page; // Ensure strict comparison with int casting
+            $isCurrent = ((int)$i + 1) === $page;
             $navButtons[] = Html::a(
                 $i + 1,
                 $pagination->createUrl($i),
@@ -121,10 +150,12 @@ class CustomLinkPager extends LinkPager
         );
 
         $nav = Html::tag('nav', implode('', $navButtons), ['class' => 'isolate inline-flex -space-x-px rounded-md shadow-sm', 'aria-label' => 'Pagination']);
-        $desktopNav = Html::tag('div', $nav);
-
-        // Combine Desktop View
-        $desktopView = Html::tag('div', $pageInfo . $desktopNav, ['class' => 'hidden sm:flex sm:flex-1 sm:items-center sm:justify-between']);
+        
+        // **Crucial Change Here:** Reordered elements
+        // Now it's dropdown first, then page info, then nav buttons
+        $desktopNavComponents = Html::tag('div', $dropdownContainer . $pageInfo . $nav, ['class' => 'flex items-center w-full justify-between']);
+        
+        $desktopView = Html::tag('div', $desktopNavComponents, ['class' => 'hidden sm:flex sm:flex-1 sm:items-center sm:justify-between']);
 
         // Combine Mobile and Desktop Views
         $mobileView = Html::tag('div', implode('', $mobileButtons), ['class' => 'flex flex-1 justify-between sm:hidden']);
