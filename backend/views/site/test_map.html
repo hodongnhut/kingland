@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Rocker2025.0.3.1</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" developed-by="Rocker.vn" />
+    <meta http-equiv="Content-Language" content="vi">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="googlebot" content="noindex,nofollow" />
+    <base href="https://app.tapdoantoancau.com" />
+    <link rel="shortcut icon" type="image/png" href="./refer/custom/tapdoantoancau/favicon.ico" />
+    <link rel="stylesheet" type="text/css" media="all" href="./refer/custom/tapdoantoancau/def.css?v=2025.0.3.1" />
+    <link rel="stylesheet" type="text/css" media="all" href="./refer/ast/css/fonts/asw.min.css?v=2025.0.3.1" />
+    <link rel="stylesheet" type="text/css" media="all" href="./refer/ast/css/fonts/RockerSocialLine.css?v=2025.0.3.1" />
+    <link rel="stylesheet" type="text/css" media="all"
+        href="./refer/ast/css/fonts/RockerSocialSolid.css?v=2025.0.3.1" />
+    <link rel="stylesheet" type="text/css" media="all" href="./refer/ast/css/style.css?v=2025.0.3.1" />
+    <link rel="stylesheet" type="text/css" media="all" href="./refer/ast/css/rocker-form.css?v=2025.0.3.1" />
+    <link rel="stylesheet" type="text/css" media="all" href="./refer/ast/css/rocker-element.css?v=2025.0.3.1" />
+    <!-- Geocoder CSS -->
+    <link rel="stylesheet"
+        href="https://unpkg.com/@maplibre/maplibre-gl-geocoder@1.5.0/dist/maplibre-gl-geocoder.css" />
+    <style>
+        #ZMEST {
+            height: 600px;
+            width: 100%;
+        }
+
+        .legend {
+            background: white;
+            padding: 10px;
+            border: 1px solid #ccc;
+            font-family: Arial, sans-serif;
+        }
+
+        .legend i {
+            width: 18px;
+            height: 18px;
+            display: inline-block;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+    </style>
+    <script>
+        var site_url = "https://app.tapdoantoancau.com/",
+            UrlUl = "https://files.rockervietnam.com/",
+            RquiCLo = "1",
+            jLanguage = "vi",
+            _lade = "",
+            _lode = "",
+            _versions = "2025.0.3.1",
+            _IdClient = "tapdoantoancaucom",
+            M_http = "https://",
+            _Device = "3",
+            IsLocal = "",
+            ctk = "ntc",
+            cth = "8dfe862724c7c8b2c5e737c45c26ef9f",
+            IsDevShow = "",
+            IsDevelop = "",
+            _decl = false;
+    </script>
+    <script type="text/javascript" src="./refer/ast/js/script.min.js?v=2025.0.3.1"></script>
+    <script type="text/javascript" src="./refer/ast/js/rocker.helper.js?v=2025.0.3.1"></script>
+    <!-- Dynamically load MapLibre, Turf.js, and custom styles -->
+    <script type="text/javascript">
+        hp_HeadCode(["./refer/ast/ex/ZoningMapVer2/css/maplibre-gl.css?v=2025.0.3.1", "./refer/ast/css/pri_css/ZoningMapVer2.css?v=2025.0.3.1", "./refer/ast/ex/zoningmap/css/stylezoning.css?v=2025.0.3.1"], "css");
+        hp_HeadCode(["./refer/ast/ex/ZoningMapVer2/js/maplibre-gl.js?v=2025.0.3.1", "./refer/ast/ex/ZoningMapVer2/js/turf.js?v=2025.0.3.1", "./refer/ast/js/Zone.js?v=2025.0.3.1"], "js");
+    </script>
+    <!-- Geocoder JS -->
+    <script src="https://unpkg.com/@maplibre/maplibre-gl-geocoder@1.5.0/dist/maplibre-gl-geocoder.min.js"></script>
+</head>
+
+<body class="tapdoantoancau" label-wt="CÔNG TY BĐS TOÀN CẦU">
+    <header class="AdminHeader nslt NoPrintProcess">
+        <div class="Wrab clear">
+            <a class="Logo jSmk" href="https://app.tapdoantoancau.com//">
+                <img src="./refer/custom/tapdoantoancau/LogoHead.svg?v=2025.0.3.1">
+            </a>
+            <span class="js-BtnExpand BtnExpand"><i class="fal fa-bars"></i></span>
+            <div class="HeadTopRight">
+                <div class="AreaAccount">
+                    <a class="aInfoAccount jaInfoAccount" href="javascript:void(0)">
+                        <span class="Text">Tím</span><span class="Img">T</span>
+                        <i class="far fa-chevron-down"></i>
+                    </a>
+                    <ul>
+                        <li><a class="jSmk" href="./DeviceLoginList"><i class="fal fa-computer-speaker"></i>Quản Lý
+                                Phiên Đăng Nhập</a></li>
+                        <li><a class="jAddPopup" href="./Profile/ChangePassword"><i class="fal fa-key"></i>Đổi mật
+                                khẩu</a></li>
+                        <li><a class="" href="./LogOut"><i style="color:var(--ColorHightline)"
+                                    class="fal fa-sign-out"></i>Đăng xuất</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="LineProcess"></div>
+    </header>
+
+    <div class="jAdminMenu AdminMenu nslt NoPrintProcess">
+        <ul class="Parent">
+            <li><a href="./" class="jSmk jHmnu"><i class="fad fa-th-large"></i> <span>Màn hình chính</span></a></li>
+            <li class="liParent"><a class="jSmk jAmnu NoChild" href="InternalNewsView"><i
+                        class="fad fa-newspaper"></i><span>Bản Tin Nội Bộ</span></a></li>
+            <li class="liParent"><a class="jSmk jAmnu NoChild" href="Property"><i
+                        class="fad fa-laptop-house"></i><span>Dữ liệu nhà đất</span></a></li>
+            <li class="liParent active">
+                <a href="javascript:void(0)" class="jAmnu"><i class="fad fa-wand-magic"></i><span>Bản Đồ Quy
+                        Hoạch</span><i class="DropDownIcon fal fa-chevron-right"></i></a>
+                <ul class="Child" style="display:block">
+                    <li><a class="jSmk jCmNU" href="ZoningMap"><i class="fal fa-map-marked-alt"></i><span>Phiên Bản
+                                Cũ</span></a></li>
+                    <li><a class="jSmk jCmNU active" href="ZoningMapVer2"><i class="fad fa-globe fa-fw"></i><span>Phiên
+                                Bản Mới</span></a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <main class="NoPrintProcess MainPage JQQ VVR QQR5">
+        <section id="MainPageContainer" data-action="ZoningMapVer2" class="MainPageContainer Page-ZoningMapVer2 View">
+            <div class="AreaContent">
+                <div id="ZMEST" class="VVR"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="NoPrintProcess AdminFooter">
+        <p>Rocker.vn © 2008 - 2025, All Rights Reserved</p>
+    </footer>
+
+    <script type="text/javascript" src="./refer/ast/js/Translator.js?v=2025.0.3.1"></script>
+    <script type="text/javascript" src="./refer/ast/js/rocker.all.js?v=2025.0.3.1"></script>
+    <script type="text/javascript" src="./refer/ast/js/jquery.history.js?v=2025.0.3.1"></script>
+    <script type="text/javascript" src="./refer/ast/js/rocker.dtl.js?v=2025.0.3.1"></script>
+    <script type="text/javascript" src="./refer/ast/js/rocker.fm.js?v=2025.0.3.1"></script>
+
+    <script>
+        // Wait for DOM and all scripts to load
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if maplibregl is defined (loaded by hp_HeadCode)
+            if (typeof maplibregl === 'undefined') {
+                console.error('maplibregl is not defined. Ensure MapLibre GL JS is loaded correctly.');
+                return;
+            }
+
+            // Initialize MapLibre GL JS map
+            var map = new maplibregl.Map({
+                container: 'ZMEST',
+                style: 'https://demotiles.maplibre.org/style.json',
+                center: [105.8542, 21.0285],
+                zoom: 10
+            });
+
+            // Add navigation controls
+            map.addControl(new maplibregl.NavigationControl());
+
+            // Add geocoder control (with error handling)
+            if (typeof MapLibreGeocoder !== 'undefined') {
+                map.addControl(new MapLibreGeocoder({
+                    maplibregl: maplibregl,
+                    placeholder: 'Tìm kiếm địa chỉ hoặc tọa độ'
+                }), 'top-left');
+            } else {
+                console.warn('MapLibreGeocoder is not defined. Skipping geocoder initialization.');
+            }
+
+            // Load zoning data
+            map.on('load', function () {
+                fetch('./data.json')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to load GeoJSON data');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        map.addSource('zoning-data', {
+                            type: 'geojson',
+                            data: data
+                        });
+
+                        map.addLayer({
+                            id: 'zoning-layer',
+                            type: 'fill',
+                            source: 'zoning-data',
+                            paint: {
+                                'fill-color': ['get', 'color'],
+                                'fill-opacity': 0.7,
+                                'fill-outline-color': '#000000'
+                            }
+                        });
+
+                        // Add popups
+                        map.on('click', 'zoning-layer', function (e) {
+                            var properties = e.features[0].properties;
+                            new maplibregl.Popup()
+                                .setLngLat(e.lngLat)
+                                .setHTML(
+                                    `<b>Loại đất:</b> ${properties.land_type}<br>` +
+                                    `<b>Mô tả:</b> ${properties.description}`
+                                )
+                                .addTo(map);
+                        });
+
+                        map.on('mouseenter', 'zoning-layer', function () {
+                            map.getCanvas().style.cursor = 'pointer';
+                        });
+                        map.on('mouseleave', 'zoning-layer', function () {
+                            map.getCanvas().style.cursor = '';
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error loading GeoJSON:', error);
+                    });
+            });
+
+            // Add legend
+            var legend = new maplibregl.Control({ position: 'bottom-right' });
+            legend.onAdd = function (map) {
+                var div = document.createElement('div');
+                div.className = 'legend';
+                div.innerHTML = `
+                    <h4>Chú thích</h4>
+                    <div><i style="background: #FF0000"></i> Đất ở đô thị (ODT)</div>
+                    <div><i style="background: #FF69B4"></i> Đất ở nông thôn (ONT)</div>
+                    <div><i style="background: #800080"></i> Đất công nghiệp (SKC)</div>
+                    <div><i style="background: #FFA500"></i> Đất giao thông (DGT)</div>
+                `;
+                return div;
+            };
+            map.addControl(legend);
+        });
+    </script>
+</body>
+
+</html>
