@@ -72,6 +72,13 @@ class User extends ActiveRecord implements IdentityInterface
                             ->one();
     }
 
+    public function generateAccessToken()
+    {
+        $this->access_token = Yii::$app->security->generateRandomString(64);
+        $this->access_token_expired_at = time() + 1800; // 30 minutes from now
+        $this->save(false);
+    }
+
     /**
      * @inheritdoc
      */
@@ -85,7 +92,19 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+        Yii::warning("Received token: $token");
+
+        $user = static::find()
+            ->where(['access_token' => $token])
+            ->andWhere(['>', 'access_token_expired_at', time()])
+            ->one();
+
+        if (!$user) {
+            throw new NotSupportedException('Plz logout.');
+        }
+
+        return $user;
+        
     }
 
     /**

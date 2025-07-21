@@ -65,6 +65,15 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/post',
                 ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/auth',
+                    'extraPatterns' => [
+                        'POST login'  => 'login',
+                        'POST logout' => 'logout',
+                        'GET me'      => 'me',
+                    ],
+                ],
                 'property-folder' => 'site/property-folder',
                 'property-user' => 'site/property-user',
                 'login-version' => 'site/login-version',
