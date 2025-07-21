@@ -114,14 +114,7 @@ hp_HeadCode([
 ],"js");
 </script>
     <section id="MainPageContainer" data-action="ZoningMapVer2" class="MainPageContainer  Page-ZoningMapVer2 View  ">
-        <section class="HeadControl AdminRight">
-            <div class="HC-Left">
-                <h1>Phiên Bản Mởi</h1>
-                <p><a href="./" class="jSmk">Màn hình chính</a> / <span>Xem Phiên Bản Mởi</span></p>
-            </div>
-            <div class="HC-Right"></div>
-        </section>
-        <script src="./refer/ast/js/afterAjax.js?v=2025.0.3.1"></script>
+        <script src="https://app.tapdoantoancau.com/refer/ast/js/afterAjax.js?v=2025.0.3.1"></script>
         <div class="AreaContent">
             <script type="text/javascript">BodyCollaped()</script>
             <style>
