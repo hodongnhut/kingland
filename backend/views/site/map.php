@@ -159,7 +159,7 @@ hp_HeadCode([
                             <li class="filter-item">
                                 <a class="jGetLatLng" href="javascript:void(0);" data-latlng="10.7773145,106.6999907" data-districtname="Quận 1">
                                 Quận 1
-                                <i class="fal fa-chevron-right"></i>
+                                <i class="fa fa-chevron-right"></i>
                                 </a> 
                                 <ul>
                                     <li>
@@ -217,7 +217,7 @@ hp_HeadCode([
                             <li class="filter-item">
                                 <a class="jGetLatLng" href="javascript:void(0);" data-latlng="10.7727320,106.6683666" data-districtname="Quận 10">
                                 Quận 10
-                                <i class="fal fa-chevron-right"></i>
+                                <i class="fa fa-chevron-right"></i>
                                 </a> 
                                 <ul>
                                     <li>
@@ -295,7 +295,7 @@ hp_HeadCode([
                             <li class="filter-item">
                                 <a class="jGetLatLng" href="javascript:void(0);" data-latlng="10.7658124,106.6474946" data-districtname="Quận 11">
                                 Quận 11
-                                <i class="fal fa-chevron-right"></i>
+                                <i class="fa fa-chevron-right"></i>
                                 </a> 
                                 <ul>
                                     <li>
@@ -383,7 +383,7 @@ hp_HeadCode([
                             <li class="filter-item">
                                 <a class="jGetLatLng" href="javascript:void(0);" data-latlng="10.8616036,106.6609731" data-districtname="Quận 12">
                                 Quận 12
-                                <i class="fal fa-chevron-right"></i>
+                                <i class="fa fa-chevron-right"></i>
                                 </a> 
                                 <ul>
                                     <li>
@@ -446,7 +446,7 @@ hp_HeadCode([
                             <li class="filter-item">
                                 <a class="jGetLatLng" href="javascript:void(0);" data-latlng="10.7786390,106.6870156" data-districtname="Quận 3">
                                 Quận 3
-                                <i class="fal fa-chevron-right"></i>
+                                <i class="fa fa-chevron-right"></i>
                                 </a> 
                                 <ul>
                                     <li>
@@ -514,7 +514,7 @@ hp_HeadCode([
                             <li class="filter-item">
                                 <a class="jGetLatLng" href="javascript:void(0);" data-latlng="10.7607328,106.7075519" data-districtname="Quận 4">
                                 Quận 4
-                                <i class="fal fa-chevron-right"></i>
+                                <i class="fa fa-chevron-right"></i>
                                 </a> 
                                 <ul>
                                     <li>
@@ -587,7 +587,7 @@ hp_HeadCode([
                             <li class="filter-item">
                                 <a class="jGetLatLng" href="javascript:void(0);" data-latlng="10.7553616,106.6685441" data-districtname="Quận 5">
                                 Quận 5
-                                <i class="fal fa-chevron-right"></i>
+                                <i class="fa fa-chevron-right"></i>
                                 </a> 
                                 <ul>
                                     <li>
@@ -670,7 +670,7 @@ hp_HeadCode([
                             <li class="filter-item">
                                 <a class="jGetLatLng" href="javascript:void(0);" data-latlng="10.7458860,106.6392921" data-districtname="Quận 6">
                                 Quận 6
-                                <i class="fal fa-chevron-right"></i>
+                                <i class="fa fa-chevron-right"></i>
                                 </a> 
                                 <ul>
                                     <li>
@@ -748,7 +748,7 @@ hp_HeadCode([
                             <li class="filter-item">
                                 <a class="jGetLatLng" href="javascript:void(0);" data-latlng="10.7375481,106.7302238" data-districtname="Quận 7">
                                 Quận 7
-                                <i class="fal fa-chevron-right"></i>
+                                <i class="fa fa-chevron-right"></i>
                                 </a> 
                                 <ul>
                                     <li>
@@ -806,7 +806,7 @@ hp_HeadCode([
                             <li class="filter-item">
                                 <a class="jGetLatLng" href="javascript:void(0);" data-latlng="10.7217236,106.6296151" data-districtname="Quận 8">
                                 Quận 8
-                                <i class="fal fa-chevron-right"></i>
+                                <i class="fa fa-chevron-right"></i>
                                 </a> 
                                 <ul>
                                     <li>
@@ -894,7 +894,7 @@ hp_HeadCode([
                             <li class="filter-item">
                                 <a class="jGetLatLng" href="javascript:void(0);" data-latlng="10.7500035,106.5148858" data-districtname="Huyện Bình Chánh">
                                 Huyện Bình Chánh
-                                <i class="fal fa-chevron-right"></i>
+                                <i class="fa fa-chevron-right"></i>
                                 </a> 
                                 <ul>
                                     <li>
@@ -982,7 +982,7 @@ hp_HeadCode([
                             <li class="filter-item">
                                 <a class="jGetLatLng" href="javascript:void(0);" data-latlng="10.7703708,106.5996353" data-districtname="Quận Bình Tân">
                                 Quận Bình Tân
-                                <i class="fal fa-chevron-right"></i>
+                                <i class="fa fa-chevron-right"></i>
                                 </a> 
                                 <ul>
                                     <li>
@@ -1040,7 +1040,7 @@ hp_HeadCode([
                             <li class="filter-item">
                                 <a class="jGetLatLng" href="javascript:void(0);" data-latlng="10.8117887,106.7039109" data-districtname="Quận Bình Thạnh">
                                 Quận Bình Thạnh
-                                <i class="fal fa-chevron-right"></i>
+                                <i class="fa fa-chevron-right"></i>
                                 </a> 
                                 <ul>
                                     <li>
@@ -1148,7 +1148,7 @@ hp_HeadCode([
                             <li class="filter-item">
                                 <a class="jGetLatLng" href="javascript:void(0);" data-latlng="10.5265318,106.8821244" data-districtname="Huyện Cần Giờ">
                                 Huyện Cần Giờ
-                                <i class="fal fa-chevron-right"></i>
+                                <i class="fa fa-chevron-right"></i>
                                 </a> 
                                 <ul>
                                     <li>
@@ -1191,7 +1191,7 @@ hp_HeadCode([
                             <li class="filter-item">
                                 <a class="jGetLatLng" href="javascript:void(0);" data-latlng="11.0370567,106.5024104" data-districtname="Huyện Củ Chi">
                                 Huyện Củ Chi
-                                <i class="fal fa-chevron-right"></i>
+                                <i class="fa fa-chevron-right"></i>
                                 </a> 
                                 <ul>
                                     <li>
@@ -1304,7 +1304,7 @@ hp_HeadCode([
                             <li class="filter-item">
                                 <a class="jGetLatLng" href="javascript:void(0);" data-latlng="10.8345635,106.6739598" data-districtname="Quận Gò Vấp">
                                 Quận Gò Vấp
-                                <i class="fal fa-chevron-right"></i>
+                                <i class="fa fa-chevron-right"></i>
                                 </a> 
                                 <ul>
                                     <li>
@@ -1392,7 +1392,7 @@ hp_HeadCode([
                             <li class="filter-item">
                                 <a class="jGetLatLng" href="javascript:void(0);" data-latlng="10.8783450,106.5763531" data-districtname="Huyện Hóc Môn">
                                 Huyện Hóc Môn
-                                <i class="fal fa-chevron-right"></i>
+                                <i class="fa fa-chevron-right"></i>
                                 </a> 
                                 <ul>
                                     <li>
@@ -1460,7 +1460,7 @@ hp_HeadCode([
                             <li class="filter-item">
                                 <a class="jGetLatLng" href="javascript:void(0);" data-latlng="10.6509670,106.7263825" data-districtname="Huyện Nhà Bè">
                                 Huyện Nhà Bè
-                                <i class="fal fa-chevron-right"></i>
+                                <i class="fa fa-chevron-right"></i>
                                 </a> 
                                 <ul>
                                     <li>
@@ -1503,7 +1503,7 @@ hp_HeadCode([
                             <li class="filter-item">
                                 <a class="jGetLatLng" href="javascript:void(0);" data-latlng="10.8009810,106.6794379" data-districtname="Quận Phú Nhuận">
                                 Quận Phú Nhuận
-                                <i class="fal fa-chevron-right"></i>
+                                <i class="fa fa-chevron-right"></i>
                                 </a> 
                                 <ul>
                                     <li>
@@ -1576,7 +1576,7 @@ hp_HeadCode([
                             <li class="filter-item">
                                 <a class="jGetLatLng" href="javascript:void(0);" data-latlng="10.8025830,106.6521157" data-districtname="Quận Tân Bình">
                                 Quận Tân Bình
-                                <i class="fal fa-chevron-right"></i>
+                                <i class="fa fa-chevron-right"></i>
                                 </a> 
                                 <ul>
                                     <li>
@@ -1659,7 +1659,7 @@ hp_HeadCode([
                             <li class="filter-item">
                                 <a class="jGetLatLng" href="javascript:void(0);" data-latlng="10.7914967,106.6278431" data-districtname="Quận Tân Phú">
                                 Quận Tân Phú
-                                <i class="fal fa-chevron-right"></i>
+                                <i class="fa fa-chevron-right"></i>
                                 </a> 
                                 <ul>
                                     <li>
@@ -1722,7 +1722,7 @@ hp_HeadCode([
                             <li class="filter-item">
                                 <a class="jGetLatLng" href="javascript:void(0);" data-latlng="10.8298295,106.7617899" data-districtname="Thành phố Thủ Đức">
                                 Thành phố Thủ Đức
-                                <i class="fal fa-chevron-right"></i>
+                                <i class="fa fa-chevron-right"></i>
                                 </a> 
                                 <ul>
                                     <li>
