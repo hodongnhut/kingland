@@ -56,6 +56,10 @@ AppAsset::register($this);
                     <span>Quản Lý Nhân Viên</span>
                 </a>
             <?php endif; ?>
+            <a href="<?= \yii\helpers\Url::to(['/property/my-favorites']) ?>" class="nav-item <?= Yii::$app->controller->id === 'site' ? 'bg-blue-100 text-blue-600' : '' ?>" aria-label="BĐ Quy Hoạch">
+                <i class="fas fa-heart text-xl"></i>
+                <span>BĐS Yêu Thích</span>
+            </a>
         </nav>
     </aside>
 
