@@ -87,6 +87,10 @@ $this->title = "Quản Lý Người Dùng - Thống Kê Bài Đăng";
                 ['class' => 'yii\grid\SerialColumn'],
                 [
                     'attribute' => 'username',
+                    'label' => 'Tên Tài Khoản',
+                ],
+                [
+                    'attribute' => 'full_name',
                     'label' => 'Tên Người Dùng',
                 ],
                 [

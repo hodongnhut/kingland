@@ -20,7 +20,7 @@ class PropertiesUserSearch extends Properties
     public function search($params)
     {
         $query = User::find()
-            ->select(['user.id', 'user.username', 'user.email', 'COUNT(properties.property_id) as property_count'])
+            ->select(['user.id', 'user.username','user.full_name', 'user.email', 'COUNT(properties.property_id) as property_count'])
             ->leftJoin('properties', 'properties.user_id = user.id')
             ->groupBy('user.id');
 
