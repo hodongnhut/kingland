@@ -14,7 +14,7 @@ return [
     'modules' => [
         'gii' => [
             'class' => 'yii\gii\Module',
-           'allowedIPs' => ['*'],
+            'allowedIPs' => ['*'],
         ],
     ],
     'language' => 'vi',
