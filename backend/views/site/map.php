@@ -132,7 +132,7 @@ hp_HeadCode([
                                 <i class="fas fa-thumbtack"></i>
                                 <span class="tooltip">Ghim vị trí đánh dấu</span>
                             </div>
-                            <div class="close jSidebarClose"> <i class="fal fa-times"></i> </div>
+                            <div class="close jSidebarClose"> <i class="fa fa-times"></i> </div>
                         </div>
                     </div>
                     <div class="content">
@@ -1915,7 +1915,7 @@ hp_HeadCode([
                     <div class="FrmItems    jFrmInput SearchBox jGetSearchBox Type-Text Items-q fHasLeftIcon  fNoLabel " data-required="0" data-required-type="" data-lang="" data-type="Text">
                         <div class="FrmLabel jFrmLabel" data-label="Toạ độ"></div>
                         <input placeholder="Toạ độ" type="text" class="FrmInput jEle  " name="q" value="">
-                        <div class="fIconLeft"><i class="fal fa-search"></i></div>
+                        <div class="fIconLeft"><i class="fa fa-search"></i></div>
                     </div>
                 </div>
                 <div class="GroupButtonZoom">
