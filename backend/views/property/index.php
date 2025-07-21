@@ -418,33 +418,33 @@ $csrfToken = Yii::$app->request->getCsrfToken();
 
                 <div>
                     <?= $form->field($model, 'house_number')->textInput([
-                        'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
-                    ])->label('<span class="text-red-500">*</span> Số Nhà', ['class' => 'text-sm font-medium text-gray-700']) ?>
+                        'class' => 'block w-full rounded-md border-2 border-gray-400 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base p-2'
+                    ])->label('<span class="text-red-500">*</span> Số Nhà', ['class' => 'text-base font-medium text-gray-700']) ?>
                 </div>
 
                 <div>
                     <?= $form->field($model, 'plot_number')->textInput([
-                        'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
-                    ])->label('Số Thửa', ['class' => 'text-sm font-medium text-gray-700']) ?>
+                        'class' => 'block w-full rounded-md border-2 border-gray-400 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base p-2'
+                    ])->label('Số Thửa', ['class' => 'text-base font-medium text-gray-700']) ?>
                 </div>
 
                 <div>
                     <?= $form->field($model, 'sheet_number')->textInput([
-                        'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
-                    ])->label('Số Tờ', ['class' => 'text-sm font-medium text-gray-700']) ?>
+                        'class' => 'block w-full rounded-md border-2 border-gray-400 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base p-2'
+                    ])->label('Số Tờ', ['class' => 'text-base font-medium text-gray-700']) ?>
                 </div>
 
                 <div>
                     <?= $form->field($model, 'lot_number')->textInput([
-                        'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
-                    ])->label('Số Lô', ['class' => 'text-sm font-medium text-gray-700']) ?>
+                        'class' => 'block w-full rounded-md border-2 border-gray-400 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base p-2'
+                    ])->label('Số Lô', ['class' => 'text-base font-medium text-gray-700']) ?>
                 </div>
 
                 <div class="md:col-span-2">
                     <?= $form->field($model, 'region')->textInput([
                         'placeholder' => 'Ví dụ: CityLand, Trung Sơn, Cư Xá Phú Lâm...',
-                        'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
-                    ])->label('Khu Vực', ['class' => 'text-sm font-medium text-gray-700']) ?>
+                        'class' => 'block w-full rounded-md border-2 border-gray-400 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base p-2'
+                    ])->label('Khu Vực', ['class' => 'text-base font-medium text-gray-700']) ?>
                 </div>
             </div>
 
@@ -457,7 +457,6 @@ $csrfToken = Yii::$app->request->getCsrfToken();
         </div>
     </div>
 </div>
-
 <script>
     const openDialogButton = document.getElementById('openDialog');
     const dialog = document.getElementById('dialog');
