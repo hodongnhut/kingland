@@ -19,22 +19,6 @@ return [
     ],
     'language' => 'vi',
     'components' => [
-        'request' => [
-            'csrfParam' => '_csrf-backend',
-            // 'enableCsrfValidation' => true,
-            'parsers' => [
-                'application/json' => 'yii\web\JsonParser',
-            ],
-            'secureHeaders' => [
-                'X-Forwarded-For',
-                'X-Forwarded-Host',
-                'X-Forwarded-Proto',
-                'X-Forwarded-Port',
-            ],
-            'secureProtocolHeaders' => [
-                'X-Forwarded-Proto' => ['https'],
-            ],
-        ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,

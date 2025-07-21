@@ -1,11 +1,11 @@
 <?php
-
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use common\widgets\CustomLinkPager;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
+use common\helpers\FavoriteHelper;
 
 $this->title = 'Dữ Liệu Nhà Đất';
 $this->params['breadcrumbs'][] = $this->title;
@@ -268,8 +268,22 @@ $csrfToken = Yii::$app->request->getCsrfToken();
                 'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
                 'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
                 'format' => 'raw',
-                'value' => function () {
-                    return Html::tag('i', '', ['class' => 'far fa-heart text-gray-400']);
+                'value' => function ($model) {
+                    $propertyId = $model->property_id; 
+                    $isFavorited = FavoriteHelper::isPropertyFavorited($propertyId); 
+
+                    $iconClass = $isFavorited ? 'fas fa-heart text-red-500' : 'far fa-heart text-gray-400';
+                    $title = $isFavorited ? 'Bỏ lưu' : 'Lưu';
+                    $dataAttributes = [
+                        'data-property-id' => $propertyId,
+                        'data-favorited' => (int)$isFavorited,
+                        'data-url' => Url::to(['/property/toggle-favorite']),
+                    ];
+
+                    return Html::tag('span', Html::tag('i', '', ['class' => $iconClass]), [
+                        'class' => 'favorite-toggle cursor-pointer',
+                        'title' => $title,
+                    ] + $dataAttributes);
                 },
             ],
             [
@@ -752,3 +766,52 @@ $('#propertiesfrom-districts').on('change', function() {
 JS;
 $this->registerJs($script);
 ?>
+<?php
+$script = <<<JS
+$(document).on('click', '.favorite-toggle', function(event) {
+    var \$this = \$(this);
+    var propertyId = \$this.data('property-id');
+    var isFavorited = \$this.data('favorited');
+    var toggleUrl = \$this.data('url');
+
+    \$this.addClass('opacity-50 cursor-not-allowed').prop('disabled', true);
+
+    \$.ajax({
+        url: toggleUrl,
+        type: 'POST',
+        data: {
+            property_id: propertyId,
+            _csrf: yii.getCsrfToken()
+        },
+        dataType: 'json',
+        success: function(response) {
+            if (response.success) {
+                var iconElement = \$this.find('i');
+                if (response.status === 'added') {
+                    iconElement.removeClass('far fa-heart text-gray-400').addClass('fas fa-heart text-red-500');
+                    \$this.data('favorited', 1);
+                    \$this.attr('title', 'Bỏ lưu');
+                    console.log('Property added to favorites!');
+                } else if (response.status === 'removed') {
+                    iconElement.removeClass('fas fa-heart text-red-500').addClass('far fa-heart text-gray-400');
+                    \$this.data('favorited', 0);
+                    \$this.attr('title', 'Lưu');
+                    console.log('Property removed from favorites!');
+                }
+            } else {
+                console.error('Error toggling favorite:', response.message);
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('AJAX Error:', textStatus, errorThrown);
+        },
+        complete: function() {
+            \$this.removeClass('opacity-50 cursor-not-allowed').prop('disabled', false);
+        }
+    });
+});
+JS;
+$this->registerJs($script);
+?>
+
+

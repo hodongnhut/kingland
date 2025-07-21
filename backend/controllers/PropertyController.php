@@ -29,6 +29,8 @@ use yii\web\UploadedFile;
 use common\models\PropertyImages;
 use common\models\PropertiesUserSearch;
 use common\models\User;
+use yii\web\Response;
+use common\models\PropertyFavorite;
 
 class PropertyController extends Controller
 {
@@ -390,4 +392,50 @@ class PropertyController extends Controller
         return $response;
     }
 
+    /**
+     * Toggles a property as favorite/unfavorite for the current user via AJAX.
+     * @return array JSON response
+     */
+    public function actionToggleFavorite()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        if (!Yii::$app->request->isPost) {
+            return ['success' => false, 'message' => 'Yêu cầu không hợp lệ.'];
+        }
+
+        $propertyId = Yii::$app->request->post('property_id');
+        $userId = Yii::$app->user->id;
+
+        if (!is_numeric($propertyId) || $propertyId <= 0) {
+            return ['success' => false, 'message' => 'ID tài sản không hợp lệ.'];
+        }
+
+        if (!Properties::find()->where(['property_id' => $propertyId])->exists()) {
+             return ['success' => false, 'message' => 'Tài sản không tồn tại.'];
+        }
+
+        $favorite = PropertyFavorite::find()
+            ->where(['user_id' => $userId, 'property_id' => $propertyId])
+            ->one();
+
+        if ($favorite) {
+            if ($favorite->delete()) {
+                return ['success' => true, 'status' => 'removed', 'message' => 'Đã xóa khỏi mục yêu thích.'];
+            } else {
+                return ['success' => false, 'message' => 'Không thể xóa khỏi mục yêu thích.'];
+            }
+        } else {
+            $newFavorite = new PropertyFavorite();
+            $newFavorite->user_id = $userId;
+            $newFavorite->property_id = $propertyId;
+
+            if ($newFavorite->save()) {
+                return ['success' => true, 'status' => 'added', 'message' => 'Đã thêm vào mục yêu thích.'];
+            } else {
+                Yii::error('Failed to save favorite: ' . json_encode($newFavorite->getErrors()), __METHOD__);
+                return ['success' => false, 'message' => 'Không thể thêm vào mục yêu thích.'];
+            }
+        }
+    }
 }
