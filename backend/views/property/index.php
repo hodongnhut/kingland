@@ -331,9 +331,9 @@ $csrfToken = Yii::$app->request->getCsrfToken();
     <div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl">
             <div class="flex justify-between items-center p-4 border-b">
-                <h2 class="text-xl font-semibold text-gray-800">DỮ LIỆU NHÀ ĐẤT</h2>
+                <h2 class="text-lg font-semibold text-gray-800">DỮ LIỆU NHÀ ĐẤT</h2>
                 <button id="cancelIcon" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times-circle text-2xl"></i>
+                    <i class="fas fa-times-circle text-xl"></i>
                 </button>
             </div>
 
@@ -344,115 +344,114 @@ $csrfToken = Yii::$app->request->getCsrfToken();
                 'enableAjaxValidation' => false, 
                 'enableClientValidation' => true,
                 'fieldConfig' => [
-                    'errorOptions' => ['class' => 'invalid-feedback d-block'], 
+                    'errorOptions' => ['class' => 'text-red-500 text-sm mt-1'], 
                 ], 
             ]); ?>
 
-                <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-
-                    <div>
-                        <?= $form->field($model, 'listing_types_id', [
-                            'options' => ['class' => ''], // No extra div for this field
-                        ])->radioList([
-                            1 => 'Bán', 
-                            2 => 'Cho Thuê', 
-                        ], [
-                            'item' => function ($index, $label, $name, $checked, $value) {
-                                $check = $checked ? 'checked' : '';
-                                return "<label class='inline-flex items-center'>" .
-                                    "<input type='radio' class='form-radio text-blue-600' name='{$name}' value='{$value}' {$check}>" .
-                                    "<span class='ml-2 text-gray-700'>{$label}</span>" .
-                                    "</label>";
-                            }
-                        ])->label('<span class="text-red-500">*</span> Loại Giao Dịch') ?>
-                    </div>
-
-                    <div>
-                        <?= $form->field($model, 'property_type_id')->dropDownList(
-                            ArrayHelper::map($modelPropertyTypes, 'property_type_id', 'type_name'),
-                            [
-                                'prompt' => 'Chọn Loại BĐS',
-                                'class' => 'shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                            ]
-                        )->label('<span class="text-red-500">*</span> Loại BĐS') 
-                        ?>
-                    </div>
-
-                    <div>
-                        <?= $form->field($model, 'provinces')->dropDownList(
-                           ArrayHelper::map($modelProvinces, 'Name', 'Name'),
-                            [
-                                'prompt' => 'Chọn Tỉnh Thành', 
-                                'class' => 'shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                                ]
-                        )->label('<span class="text-red-500">*</span> Tỉnh Thành') ?>
-                    </div>
-
-                    <div>
-                        <?= $form->field($model, 'districts')->dropDownList(
-                            ArrayHelper::map($modelDistricts, 'Name', 'Name'),
-                            [
-                                'prompt' => 'Chọn Quận Huyện...', 
-                                'class' => 'shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline']
-                        )->label('<span class="text-red-500">*</span> Quận Huyện') ?>
-                    </div>
-
-                    <div>
-                        <?= $form->field($model, 'wards')->dropDownList(
-                            [], // Populate dynamically based on district
-                            [
-                                'prompt' => 'Chọn Phường / Xã', 
-                                'class' => 'shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline']
-                        )->label('<span class="text-red-500">*</span> Phường / Xã') ?>
-                    </div>
-
-                    <div>
-                        <?= $form->field($model, 'streets')->dropDownList(
-                            [], // Populate dynamically based on ward
-                            [
-                                'prompt' => 'Chọn Đường', 
-                                'class' => 'shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                                ]
-                        )->label('<span class="text-red-500">*</span> Đường') ?>
-                    </div>
-
-                    <div>
-                        <?= $form->field($model, 'house_number')->textInput([
-                            'class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                        ])->label('<span class="text-red-500">*</span> Số Nhà') ?>
-                    </div>
-
-                    <div>
-                        <?= $form->field($model, 'plot_number')->textInput([
-                            'class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                        ]) ?>
-                    </div>
-
-                    <div>
-                        <?= $form->field($model, 'sheet_number')->textInput([
-                            'class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                        ]) ?>
-                    </div>
-
-                    <div>
-                        <?= $form->field($model, 'lot_number')->textInput([
-                            'class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                        ]) ?>
-                    </div>
-
-                    <div class="md:col-span-2">
-                        <?= $form->field($model, 'region')->textInput([
-                            'placeholder' => 'Ví dụ: CityLand, Trung Sơn, Cư Xá Phú Lâm...',
-                            'class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                        ]) ?>
-                    </div>
-
+            <div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                    <?= $form->field($model, 'listing_types_id', [
+                        'options' => ['class' => ''],
+                    ])->radioList([
+                        1 => 'Bán', 
+                        2 => 'Cho Thuê', 
+                    ], [
+                        'item' => function ($index, $label, $name, $checked, $value) {
+                            $check = $checked ? 'checked' : '';
+                            return "<label class='inline-flex items-center space-x-2'>" .
+                                "<input type='radio' class='form-radio text-blue-600' name='{$name}' value='{$value}' {$check}>" .
+                                "<span class='text-gray-700 text-sm'>{$label}</span>" .
+                                "</label>";
+                        }
+                    ])->label('<span class="text-red-500">*</span> Loại Giao Dịch', ['class' => 'text-sm font-medium text-gray-700']) ?>
                 </div>
 
-                <div class="p-6 flex justify-center space-x-4 border-t">
-                    <?= Html::submitButton('<i class="fas fa-arrow-right mr-2"></i> TIẾP TỤC', ['id'=> 'createButton',  'class' => 'bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md inline-flex items-center']) ?>
-                    <?= Html::button('<i class="fas fa-times mr-2"></i> HỦY', ['id' => 'cancelButton', 'class' => 'bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md inline-flex items-center']) ?>
+                <div>
+                    <?= $form->field($model, 'property_type_id')->dropDownList(
+                        ArrayHelper::map($modelPropertyTypes, 'property_type_id', 'type_name'),
+                        [
+                            'prompt' => 'Chọn Loại BĐS',
+                            'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
+                        ]
+                    )->label('<span class="text-red-500">*</span> Loại BĐS', ['class' => 'text-sm font-medium text-gray-700']) ?>
                 </div>
+
+                <div>
+                    <?= $form->field($model, 'provinces')->dropDownList(
+                        ArrayHelper::map($modelProvinces, 'Name', 'Name'),
+                        [
+                            'prompt' => 'Chọn Tỉnh Thành', 
+                            'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
+                        ]
+                    )->label('<span class="text-red-500">*</span> Tỉnh Thành', ['class' => 'text-sm font-medium text-gray-700']) ?>
+                </div>
+
+                <div>
+                    <?= $form->field($model, 'districts')->dropDownList(
+                        ArrayHelper::map($modelDistricts, 'Name', 'Name'),
+                        [
+                            'prompt' => 'Chọn Quận Huyện...', 
+                            'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
+                        ]
+                    )->label('<span class="text-red-500">*</span> Quận Huyện', ['class' => 'text-sm font-medium text-gray-700']) ?>
+                </div>
+
+                <div>
+                    <?= $form->field($model, 'wards')->dropDownList(
+                        [],
+                        [
+                            'prompt' => 'Chọn Phường / Xã', 
+                            'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
+                        ]
+                    )->label('<span class="text-red-500">*</span> Phường / Xã', ['class' => 'text-sm font-medium text-gray-700']) ?>
+                </div>
+
+                <div>
+                    <?= $form->field($model, 'streets')->dropDownList(
+                        [],
+                        [
+                            'prompt' => 'Chọn Đường', 
+                            'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
+                        ]
+                    )->label('<span class="text-red-500">*</span> Đường', ['class' => 'text-sm font-medium text-gray-700']) ?>
+                </div>
+
+                <div>
+                    <?= $form->field($model, 'house_number')->textInput([
+                        'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
+                    ])->label('<span class="text-red-500">*</span> Số Nhà', ['class' => 'text-sm font-medium text-gray-700']) ?>
+                </div>
+
+                <div>
+                    <?= $form->field($model, 'plot_number')->textInput([
+                        'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
+                    ])->label('Số Thửa', ['class' => 'text-sm font-medium text-gray-700']) ?>
+                </div>
+
+                <div>
+                    <?= $form->field($model, 'sheet_number')->textInput([
+                        'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
+                    ])->label('Số Tờ', ['class' => 'text-sm font-medium text-gray-700']) ?>
+                </div>
+
+                <div>
+                    <?= $form->field($model, 'lot_number')->textInput([
+                        'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
+                    ])->label('Số Lô', ['class' => 'text-sm font-medium text-gray-700']) ?>
+                </div>
+
+                <div class="md:col-span-2">
+                    <?= $form->field($model, 'region')->textInput([
+                        'placeholder' => 'Ví dụ: CityLand, Trung Sơn, Cư Xá Phú Lâm...',
+                        'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
+                    ])->label('Khu Vực', ['class' => 'text-sm font-medium text-gray-700']) ?>
+                </div>
+            </div>
+
+            <div class="p-4 flex justify-center space-x-4 border-t">
+                <?= Html::submitButton('<i class="fas fa-arrow-right mr-2"></i> TIẾP TỤC', ['id' => 'createButton', 'class' => 'bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md flex items-center text-sm']) ?>
+                <?= Html::button('<i class="fas fa-times mr-2"></i> HỦY', ['id' => 'cancelButton', 'class' => 'bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-md flex items-center text-sm']) ?>
+            </div>
 
             <?php ActiveForm::end(); ?>
         </div>
