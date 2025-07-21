@@ -37,7 +37,7 @@ $this->title = 'Bản Đồ Quy Hoạch TP.HCM';
 .map-container {
     position: relative;
     width: 100%;
-    height: 95vh;
+    height: 92.5vh;
     overflow: hidden;
 }
 
@@ -1923,10 +1923,10 @@ hp_HeadCode([
                 </div>
                 <div class="GroupButtonZoom">
                     <div class="ButtonZone Zoom jZoomIn">
-                        <i class="far fa-plus"></i>
+                        <i class="fa fa-plus"></i>
                     </div>
                     <div class="ButtonZone Zoom jZoomOut">
-                        <i class="far fa-minus"></i>
+                        <i class="fa fa-minus"></i>
                     </div>
                 </div>
                 <div id="map" class="maplibregl-map">
