@@ -31,6 +31,7 @@ use common\models\PropertiesUserSearch;
 use common\models\User;
 use yii\web\Response;
 use common\models\PropertyFavorite;
+use yii\data\ActiveDataProvider;
 
 class PropertyController extends Controller
 {
@@ -437,5 +438,32 @@ class PropertyController extends Controller
                 return ['success' => false, 'message' => 'Không thể thêm vào mục yêu thích.'];
             }
         }
+    }
+
+    /**
+     * Displays a list of properties favorited by the current user.
+     * Hiển thị danh sách các tài sản được người dùng hiện tại yêu thích.
+     * @return string
+     */
+    public function actionMyFavorites()
+    {
+        $userId = Yii::$app->user->id;
+        $dataProvider = new ActiveDataProvider([
+            'query' => PropertyFavorite::find()
+                ->where(['user_id' => $userId])
+                ->with('property'),
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'created_at' => SORT_DESC,
+                ]
+            ],
+        ]);
+
+        return $this->render('my-favorites', [
+            'dataProvider' => $dataProvider,
+        ]);
     }
 }

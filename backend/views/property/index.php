@@ -37,11 +37,10 @@ $csrfToken = Yii::$app->request->getCsrfToken();
                 <i class="fas fa-database fa-sm"></i>
                 <span>Dữ Liệu Nhà Đất</span>
             </a>
-            <a href="<?= Url::to(['/property-folder']) ?>" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors duration-200 flex items-center space-x-1.5 text-sm">
-                <i class="fas fa-file-alt fa-sm"></i>
-                <span>Quản Lý Tệp</span>
+            <a href="<?= Url::to(['/property/my-favorites']) ?>" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors duration-200 flex items-center space-x-1.5 text-sm">
+                <i class="fas fa-heart fa-sm"></i>
+                <span>BĐS Đã Lưu</span>
             </a>
-            
         </div>
     </div>
     <div class="relative flex items-center space-x-4">
