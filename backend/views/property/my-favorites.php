@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </a>
             <a href="<?= Url::to(['/property/my-favorites']) ?>" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors duration-200 flex items-center space-x-1.5 text-sm">
                 <i class="fas fa-heart fa-sm"></i>
-                <span>BĐS Đã Lưu</span>
+                <span>BĐS Yêu Thích</span>
             </a>
         </div>
     </div>
