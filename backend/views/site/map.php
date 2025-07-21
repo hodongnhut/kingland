@@ -71,8 +71,11 @@ iframe {
 </style>
 
 <div class="map-container">
+    <div class="logo-overlay">
+        <img src="<?= Yii::$app->request->baseUrl ?>/img/logo.png" alt="King Land">
+    </div>
     <iframe
-        src="https://maps.onehousing.vn/quy-hoach/thanh-pho-ho-chi-minh"
+        src="https://appquyhoach.com/soi-quy-hoach/tp-ho-chi-minh"
         width="100%"
         height="100%"
         frameborder="0"
