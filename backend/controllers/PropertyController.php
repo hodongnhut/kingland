@@ -28,6 +28,7 @@ use common\models\ActivityLogs;
 use yii\web\UploadedFile;
 use common\models\PropertyImages;
 use common\models\PropertiesUserSearch;
+use common\models\User;
 
 class PropertyController extends Controller
 {
@@ -58,6 +59,16 @@ class PropertyController extends Controller
 
     public function actionIndex()
     {
+        $user = Yii::$app->user->identity;
+        // Refresh user model to ensure latest data
+        if ($user) {
+            $user = User::findOne($user->id);
+        }
+        $role_code = $user && $user->jobTitle ? $user->jobTitle->role_code : '';
+        // Show modal if force_location_update is set and user is not manager/super_admin
+        $locationRequired = $role_code && $role_code !== 'manager' && $role_code !== 'super_admin' 
+            && Yii::$app->session->get('force_location_update', false);
+
         $model = new PropertiesFrom();
         $model->provinces = 50;
         $searchModel = new PropertiesSearch();
@@ -75,7 +86,8 @@ class PropertyController extends Controller
             'dataProvider' => $dataProvider,
             'model' => $model,
             'modelProvinces' => Provinces::find()->all(),
-            'modelDistricts' => Districts::find()->where(['ProvinceId' => 50])->all()
+            'modelDistricts' => Districts::find()->where(['ProvinceId' => 50])->all(),
+            'locationRequired' => $locationRequired
         ]);
     }
 

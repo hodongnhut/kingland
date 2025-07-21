@@ -195,25 +195,25 @@ $this->registerCssFile(
 
 <!-- JavaScript for Dropdown Menu -->
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const button = document.getElementById('userMenuButton');
-    const menu = document.getElementById('userMenu');
+    document.addEventListener('DOMContentLoaded', function () {
+        const button = document.getElementById('userMenuButton');
+        const menu = document.getElementById('userMenu');
 
-    button.addEventListener('click', function (e) {
-        e.preventDefault();
-        const expanded = button.getAttribute('aria-expanded') === 'true';
-        button.setAttribute('aria-expanded', !expanded);
-        menu.classList.toggle('hidden');
-    });
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+            const expanded = button.getAttribute('aria-expanded') === 'true';
+            button.setAttribute('aria-expanded', !expanded);
+            menu.classList.toggle('hidden');
+        });
 
-    // Close menu when clicking outside
-    document.addEventListener('click', function (e) {
-        if (!button.contains(e.target) && !menu.contains(e.target)) {
-            menu.classList.add('hidden');
-            button.setAttribute('aria-expanded', 'false');
-        }
+        // Close menu when clicking outside
+        document.addEventListener('click', function (e) {
+            if (!button.contains(e.target) && !menu.contains(e.target)) {
+                menu.classList.add('hidden');
+                button.setAttribute('aria-expanded', 'false');
+            }
+        });
     });
-});
 
     // Location Prompt Logic
     const locationModal = document.getElementById('locationModal');
