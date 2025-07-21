@@ -68,6 +68,9 @@ iframe {
     max-height: 90%;
     object-fit: contain; 
 }
+.maplibregl-ctrl-bottom-right {
+    display: none;
+}
 </style>
 
 <div class="map-container">
