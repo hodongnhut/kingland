@@ -4,6 +4,7 @@ namespace common\models;
 
 
 use Yii;
+use yii\httpclient\Client;
 // use common\models\AssetTypes;
 
 /**
@@ -72,6 +73,46 @@ class Properties extends \yii\db\ActiveRecord
         return 'properties';
     }
 
+    public function init()
+    {
+        parent::init();
+        $this->on(self::EVENT_AFTER_INSERT, [$this, 'callWebhookAfterCreate']);
+    }
+
+    public function callWebhookAfterCreate($event)
+    {
+        $payload = [
+            'event_type' => 'property_created',
+            'timestamp' => time(),
+            'data' => $this->getAttributes()
+        ];
+
+        try {
+            $client = new Client();
+            $response = $client->createRequest()
+                ->setMethod('POST')
+                ->setUrl('https://n8n.kinglandgroup.vn/webhook/kingland')
+                ->setData($payload)
+                ->send();
+
+            if (!$response->isOk) {
+                Yii::error('Webhook for new property failed: ' . $response->getContent(), 'webhook');
+            }
+        } catch (\Exception $e) {
+            Yii::error('Exception during webhook call: ' . $e->getMessage(), 'webhook');
+        }
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => \yii\behaviors\TimestampBehavior::class,
+                'value' => date('Y-m-d H:i:s'),
+            ],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -85,12 +126,12 @@ class Properties extends \yii\db\ActiveRecord
 
             // Các trường bắt buộc
             [[
-                'user_id', 'created_at', 'updated_at', 'location_type_id', 'price', 'area_width', 'area_total',
+                'user_id','location_type_id', 'price', 'area_width', 'area_total',
                 'area_length', 'street_name', 'property_type_id', 'asset_type_id'
             ], 'required', 'message' => '{attribute} không được để trống'],
 
             // Kiểm tra kiểu dữ liệu số nguyên
-            [['user_id', 'property_type_id', 'listing_types_id', 'currency_id', 'has_vat_invoice', 'location_type_id', 'direction_id', 'num_toilets', 'num_bedrooms', 'num_basements', 'asset_type_id', 'has_deposit', 'transaction_status_id', 'has_rental_contract', 'is_active', 'num_floors', 'commission_types_id', 'commission_prices_id', 'property_images_id'], 'integer', 'message' => '{attribute} phải là số nguyên'],
+            [['user_id', 'property_type_id', 'listing_types_id', 'currency_id', 'has_vat_invoice', 'location_type_id', 'direction_id', 'num_toilets', 'num_bedrooms', 'num_basements', 'asset_type_id', 'has_deposit', 'transaction_status_id', 'has_rental_contract', 'is_active', 'num_floors', 'commission_types_id', 'commission_prices_id', 'property_images_id', 'land_type_id'], 'integer', 'message' => '{attribute} phải là số nguyên'],
 
             // Kiểm tra kiểu số thực
             [['price','final_price', 'area_width', 'area_length', 'area_total', 'planned_width', 'planned_length', 'planned_construction_area', 'area_back_side', 'wide_road', 'planned_back_side'], 'number', 'message' => '{attribute} phải là số'],
@@ -98,7 +139,7 @@ class Properties extends \yii\db\ActiveRecord
             // Kiểm tra kiểu chuỗi và độ dài tối đa
             [['description', 'transaction_description'], 'string', 'message' => '{attribute} phải là chuỗi ký tự'],
             [['title'], 'string', 'max' => 500, 'tooLong' => '{attribute} không được vượt quá 500 ký tự'],
-            [['price_unit', 'house_number', 'usable_area', 'land_type_id', 'plot_number', 'sheet_number', 'lot_number'], 'string', 'max' => 50, 'tooLong' => '{attribute} không được vượt quá 50 ký tự'],
+            [['price_unit', 'house_number', 'plot_number', 'sheet_number', 'lot_number'], 'string', 'max' => 50, 'tooLong' => '{attribute} không được vượt quá 50 ký tự'],
             [['street_name', 'compound_name', 'external_id', 'region'], 'string', 'max' => 255, 'tooLong' => '{attribute} không được vượt quá 255 ký tự'],
             [['ward_commune', 'district_county', 'city'], 'string', 'max' => 100, 'tooLong' => '{attribute} không được vượt quá 100 ký tự'],
 
