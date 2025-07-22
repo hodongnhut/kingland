@@ -96,7 +96,7 @@ $this->registerCssFile('/css/animate.css', [
 
         ]); 
     ?>
-
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 mb-4"></div>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'layout' => "{items}\n",
