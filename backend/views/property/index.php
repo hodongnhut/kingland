@@ -420,7 +420,8 @@ $this->registerCssFile('/css/animate.css', [
                     <?= $form->field($model, 'provinces')->dropDownList(
                         ArrayHelper::map($modelProvinces, 'Name', 'Name'),
                         [
-                            'prompt' => 'Chọn Tỉnh Thành', 
+                            'prompt' => 'Chọn Tỉnh Thành',
+                            'value' => 'Hồ Chí Minh',
                             'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
                         ]
                     )->label('<span class="text-red-500">*</span> Tỉnh Thành', ['class' => 'text-sm font-medium text-gray-700']) ?>
