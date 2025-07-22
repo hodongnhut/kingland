@@ -38,6 +38,7 @@ class SiteController extends Controller
                             'error', 
                             'reset-password', 
                             'request-password-reset', 
+                            'mobile-map'
                         ],
                         'allow' => true,
                     ],
@@ -382,6 +383,16 @@ class SiteController extends Controller
      */
     public function actionMap() {
         return $this->render('map');
+    }
+
+    /**
+     * Property user up.
+     *
+     * @return mixed
+     */
+    public function actionMobileMap() {
+        $this->layout = 'map';
+        return $this->render('mobile-map');
     }
     
 

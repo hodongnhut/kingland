@@ -83,6 +83,7 @@ return [
                 'news' => 'post',
                 'property-folder' => 'folder',
                 'ban-do-quy-hoach' => 'site/map',
+                'mobile-map' => 'site/mobile-map',
                 'property/<action:[\w-]+>' => 'property/<action>',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
