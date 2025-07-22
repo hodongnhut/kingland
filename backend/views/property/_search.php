@@ -221,9 +221,23 @@ foreach ($advancedFields as $field) {
             <?= Html::textInput('PropertiesSearch[plot_number]', $searchParams['plot_number'] ?? null, ['placeholder' => 'Số Thửa', 'class' => 'form-input border border-gray-300 rounded-md py-1 px-2 w-1/2 focus:ring-blue-500 focus:border-blue-500 text-sm']) ?>
             <?= Html::textInput('PropertiesSearch[sheet_number]', $searchParams['sheet_number'] ?? null, ['placeholder' => 'Số Tờ', 'class' => 'form-input border border-gray-300 rounded-md py-1 px-2 w-1/2 focus:ring-blue-500 focus:border-blue-500 text-sm']) ?>
         </div>
-        <div class="flex items-center space-x-1">
-            <?= Html::textInput('PropertiesSearch[city]', $searchParams['city'] ?? null, ['placeholder' => 'Hồ Chí Minh', 'class' => 'form-input border border-gray-300 rounded-md py-1 px-2 w-1/2 focus:ring-blue-500 focus:border-blue-500 text-sm']) ?>
-            <?= Html::textInput('PropertiesSearch[district_county]', $searchParams['district_county'] ?? null, ['placeholder' => 'Chọn Quận/Huyện', 'class' => 'form-input border border-gray-300 rounded-md py-1 px-2 w-1/2 focus:ring-blue-500 focus:border-blue-500 text-sm']) ?>
+        <div class="flex items-center space-x-2">
+            <?= $form->field($model, 'city')->dropDownList(
+                ArrayHelper::map($modelProvinces, 'Name', 'Name'),
+                [
+                    'prompt' => 'Chọn Tỉnh Thành',
+                    'value' => 'Hồ Chí Minh',
+                    'class' => 'w-full form-input border border-gray-300 rounded-md py-1 px-2 w-1/2 focus:ring-blue-500 focus:border-blue-500 text-sm'
+                ]
+            )->label('<span class="text-red-500">*</span> Tỉnh Thành', ['class' => 'text-sm font-medium text-gray-700']) ?>
+            
+            <?= $form->field($model, 'district_county')->dropDownList(
+                    ArrayHelper::map($modelDistricts, 'Name', 'Name'),
+                    [
+                        'prompt' => 'Chọn Quận Huyện...', 
+                        'class' => 'w-full form-input border border-gray-300 rounded-md py-1 px-2 w-1/2 focus:ring-blue-500 focus:border-blue-500 text-sm'
+                    ]
+                )->label('<span class="text-red-500">*</span> Quận Huyện', ['class' => 'text-sm font-medium text-gray-700']) ?>
         </div>
         <div class="flex items-center space-x-1">
             <?= Html::textInput('PropertiesSearch[ward_commune]', $searchParams['ward_commune'] ?? null, ['placeholder' => 'Chọn Phường/Xã', 'class' => 'form-input border border-gray-300 rounded-md py-1 px-2 w-1/2 focus:ring-blue-500 focus:border-blue-500 text-sm']) ?>
@@ -616,25 +630,41 @@ foreach ($advancedFields as $field) {
                 ) ?>
             </div>
             <div class="flex items-center space-x-1">
-                <?= Html::textInput(
-                    'PropertiesSearch[date_from]',
-                    $searchParams['date_from'] ?? null,
-                    [
-                        'placeholder' => 'Ngày tạo từ',
-                        'class' => 'form-input border border-gray-300 rounded-md py-1 px-2 w-1/2 focus:ring-blue-500 focus:border-blue-500 text-sm',
-                        'type' => 'date'
-                    ]
-                ) ?>
-                <span class="text-sm">đến</span>
-                <?= Html::textInput(
-                    'PropertiesSearch[date_to]',
-                    $searchParams['date_to'] ?? null,
-                    [
-                        'placeholder' => 'Ngày tạo đến',
-                        'class' => 'form-input border border-gray-300 rounded-md py-1 px-2 w-1/2 focus:ring-blue-500 focus:border-blue-500 text-sm',
-                        'type' => 'date'
-                    ]
-                ) ?>
+                <div class="relative">
+                    <?= $form->field($model, 'date_from')
+                        ->widget(\yii\jui\DatePicker::class, [
+                            'dateFormat' => 'dd/MM/yyyy',
+                            'options' => [
+                                'class' => 'form-control',
+                                'placeholder' => 'Ngày Bắt Đầu'
+                            ],
+                            'clientOptions' => [
+                                'changeMonth' => true,
+                                'changeYear' => true,
+                                'showButtonPanel' => true,
+                                'yearRange' => '1900:2099',
+                            ],
+                        ])->label(false) ?>
+                    <i class="fas fa-calendar-alt absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                </div>
+                    <span class="text-sm">đến</span>
+                    <div class="relative">
+                    <?= $form->field($model, 'date_to')
+                        ->widget(\yii\jui\DatePicker::class, [
+                            'dateFormat' => 'dd/MM/yyyy',
+                            'options' => [
+                                'class' => 'form-control',
+                                'placeholder' => 'Ngày Bắt Đầu'
+                            ],
+                            'clientOptions' => [
+                                'changeMonth' => true,
+                                'changeYear' => true,
+                                'showButtonPanel' => true,
+                                'yearRange' => '1900:2099',
+                            ],
+                        ])->label(false) ?>
+                    <i class="fas fa-calendar-alt absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                </div>
             </div>
         </div>
     </div>

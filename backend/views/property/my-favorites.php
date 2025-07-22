@@ -13,16 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <header class="bg-white shadow-md p-2 flex items-center justify-between rounded-bl-lg">
     <div class="text-lg font-semibold text-gray-800">
-        <div class="flex space-x-2">
-            <a href="<?= Url::to(['/property']) ?>" class="px-4 py-2 rounded-lg bg-white text-blue-600 shadow-md flex items-center space-x-1.5 text-sm">
-                <i class="fas fa-database fa-sm"></i>
-                <span>Dữ Liệu Nhà Đất</span>
-            </a>
-            <a href="<?= Url::to(['/property/my-favorites']) ?>" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors duration-200 flex items-center space-x-1.5 text-sm">
-                <i class="fas fa-heart fa-sm"></i>
-                <span>BĐS Yêu Thích</span>
-            </a>
-        </div>
+        BĐS yêu thích của tôi
     </div>
     <div class="relative flex items-center space-x-4">
         <button
