@@ -109,7 +109,7 @@ $this->registerCssFile('/css/animate.css', [
             'class' => 'min-w-full divide-y divide-gray-200',
         ],
         'headerRowOptions' => [
-            'class' => 'bg-blue-100 shadow-md',
+            'class' => 'bg-blue-50 shadow-md',
         ],
         'options' => [
             'class' => 'table-container bg-white rounded-lg shadow-md',
