@@ -10,7 +10,16 @@ use common\helpers\FavoriteHelper;
 $this->title = 'Dữ Liệu Nhà Đất';
 $this->params['breadcrumbs'][] = $this->title;
 $csrfToken = Yii::$app->request->getCsrfToken();
+use yii\web\JqueryAsset;
+$this->registerJsFile('https://code.jquery.com/jquery-3.6.0.min.js', [
+    'depends' => [JqueryAsset::class],
+    'position' => \yii\web\View::POS_HEAD, 
+]);
+$this->registerCssFile('/css/animate.css', [
+    'rel' => 'stylesheet',
+]);
 ?>
+
 <?php if (isset($locationRequired) && $locationRequired): ?>
 <div id="locationModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full">
@@ -103,7 +112,7 @@ $csrfToken = Yii::$app->request->getCsrfToken();
             'class' => 'bg-gray-50',
         ],
         'options' => [
-            'class' => 'bg-white rounded-lg shadow-md overflow-x-auto',
+            'class' => 'table-container bg-white rounded-lg shadow-md',
         ],
         'columns' => [
             [
@@ -489,6 +498,7 @@ $csrfToken = Yii::$app->request->getCsrfToken();
     </div>
 </div>
 <script>
+    
     // Location Prompt Logic
     const locationModal = document.getElementById('locationModal');
     const allowLocationBtn = document.getElementById('allowLocation');
@@ -658,6 +668,22 @@ $csrfToken = Yii::$app->request->getCsrfToken();
         },
         { enableHighAccuracy: true, timeout: 10000 }
     );
+
+    $(window).scroll(function () {
+        var window_top = $(window).scrollTop() + 1;
+        var $tableContainer = $('.table-container');
+        var $thead = $tableContainer.find('thead');
+        var headerHeight = $('header').outerHeight(); 
+
+        if (window_top > headerHeight) {
+            $thead.addClass('thead-fixed animated fadeInDown');
+            $tableContainer.find('tbody').css('margin-top', $thead.outerHeight() + 'px');
+        } else {
+            $thead.removeClass('thead-fixed animated fadeInDown');
+            $tableContainer.find('tbody').css('margin-top', '0');
+        }
+    });
+
 
 
     const openDialogButton = document.getElementById('openDialog');
