@@ -6,6 +6,7 @@ use Yii;
 use yii\rest\Controller;
 use yii\filters\auth\HttpBearerAuth;
 use common\models\User;
+use common\models\UserLocations;
 
 class AuthController extends Controller
 {
@@ -83,6 +84,42 @@ class AuthController extends Controller
             'msg' => $msg,
             'data' => $data,
         ];
+    }
+
+    public function actionSaveLocation()
+    {
+        $request = Yii::$app->request;
+        $user = Yii::$app->user->identity;
+
+        $latitude =  $request->post('latitude');
+        $longitude =  $request->post('longitude');
+        $deviceType =  $request->post('device_type');
+        $os =  $request->post('os');
+        $browser =  $request->post('browser');
+        $sessionId =  $request->post('session_id');
+
+        if ($latitude !== null && $longitude !== null && is_numeric($latitude) && is_numeric($longitude)) {
+            
+            $location = new UserLocations();
+            $location->user_id = $user->id;
+            $location->latitude = $latitude;
+            $location->longitude = $longitude;
+            $location->device_type = $deviceType;
+            $location->os = $os;
+            $location->browser = $browser;
+            $location->session_id = $sessionId;
+
+            if ($location->save()) {
+                $user->latitude = $latitude;
+                $user->longitude = $longitude;
+                $user->save(false);
+                return ['success' => true, 'message' => 'Lưu vị trí thành công'];
+            } else {
+                return ['success' => false, 'message' => 'Không thể lưu vị trí', 'errors' => $location->getErrors()];
+            }
+        }
+
+        return ['success' => false, 'message' => 'Dữ liệu vị trí không hợp lệ'];
     }
 
 }
