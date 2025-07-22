@@ -1,401 +1,487 @@
-/* Base styling */
-body {
-    font-family: 'Inter', sans-serif;
-}
+ /* Base styling */
+ body {
+     font-family: 'Inter', sans-serif;
+ }
 
-/* Sidebar styling */
-aside {
-    width: 64px;
-    /* Collapsed width */
-    background: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: width 0.3s ease;
-    /* Smooth transition for width */
-    position: relative;
-    z-index: 10;
-}
+ /* Custom styles to ensure sidebar background is visible */
+ aside {
+     background-color: white;
+     /* Explicitly set background */
+     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+     /* Ensure shadow is visible */
+     transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+     /* Smooth transition for slide and width */
+ }
 
-aside:hover {
-    width: 200px;
-    /* Expanded width */
-}
+ /* Mobile specific styling for aside */
+ @media (max-width: 767.98px) {
+     aside {
+         /* Initially off-screen */
+         transform: translateX(-100%);
+         /* Fixed position for mobile overlay */
+         position: fixed;
+         height: 100vh;
+         /* Full height on mobile */
+         width: 200px;
+         /* Fixed width when open on mobile */
+         /* Ensure it's above content but below toggle button */
+         z-index: 40;
+     }
 
-/* Navigation items */
-nav .nav-item {
-    display: flex;
-    align-items: center;
-    padding: 12px 16px;
-    color: #4b5563;
-    /* text-gray-600 */
-    transition: color 0.2s ease;
-}
+     /* Class to show sidebar on mobile */
+     aside.aside-open {
+         transform: translateX(0);
+     }
 
-nav .nav-item:hover {
-    color: #2563eb;
-    /* text-blue-600 */
-    background: #eff6ff;
-    /* bg-blue-100 */
-    border-radius: 8px;
-}
+     /* Nav item span should always be visible on mobile when sidebar is open */
+     aside.aside-open .nav-item span {
+         opacity: 1;
+         pointer-events: auto;
+         /* Make text clickable */
+     }
+ }
 
-/* Icon and text */
-nav .nav-item i {
-    font-size: 1.25rem;
-    /* text-xl */
-    width: 24px;
-    text-align: center;
-}
+ /* Desktop specific styling for aside */
+ @media (min-width: 768px) {
+     aside {
+         /* Reset transform for desktop */
+         transform: translateX(0);
+         position: relative;
+         /* Back to normal flow */
+         width: 64px;
+         /* Default collapsed width (w-16 in Tailwind) */
+         box-shadow: none;
+         /* No shadow by default on desktop, or adjust as needed */
+     }
 
-nav .nav-item span {
-    margin-left: 12px;
-    opacity: 0;
-    /* Hidden by default */
-    transition: opacity 0.3s ease;
-    white-space: nowrap;
-    pointer-events: none;
-}
+     aside:hover {
+         width: 200px;
+         /* Expanded width on hover */
+     }
 
-aside:hover .nav-item span {
-    opacity: 1;
-    /* Show text on hover */
-}
+     aside:hover .nav-item span {
+         opacity: 1;
+         pointer-events: auto;
+     }
 
-/* Table container styling */
-.table-container {
-    overflow-x: hidden;
-    /* Prevent horizontal scrollbar */
-    width: 100%;
-}
+     /* Initially hide span on desktop */
+     .nav-item span {
+         margin-left: 12px;
+         /* Keep margin for spacing */
+         opacity: 0;
+         transition: opacity 0.3s ease;
+         white-space: nowrap;
+         pointer-events: none;
+     }
+ }
 
-/* Table styling */
-table {
-    table-layout: auto;
-    /* Dynamic column widths */
-    width: 100%;
-    max-width: 100%;
-    /* Ensure table fits container */
-}
+ /* Backdrop for mobile */
+ #sidebar-backdrop {
+     background-color: rgba(0, 0, 0, 0.5);
+     position: fixed;
+     inset: 0;
+     z-index: 30;
+     display: none;
+     /* Hidden by default */
+ }
 
-/* Table cell styling */
-td,
-th {
-    white-space: normal;
-    /* Allow text wrapping */
-    word-break: break-word;
-    /* Break long words */
-    padding: 12px 16px;
-    text-align: left;
-    max-width: 150px;
-    /* Limit cell width */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    /* Truncate with ellipsis if needed */
-}
+ #sidebar-backdrop.show {
+     display: block;
+ }
 
-/* Ensure header alignment */
-th {
-    font-size: 0.75rem;
-    /* Match original text-xs */
-    font-weight: 500;
-    text-transform: uppercase;
-    color: #6b7280;
-    /* text-gray-500 */
-}
+ /* Mobile toggle button */
+ #mobile-sidebar-toggle {
+     display: none;
+     /* Hidden on desktop */
+ }
 
-/* Header dropdown menu styling */
-#user-menu-btn {
-    display: block;
-}
+ @media (max-width: 767.98px) {
+     #mobile-sidebar-toggle {
+         display: block;
+         /* Show on mobile */
+     }
 
-.group:hover #user-menu {
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.2s ease, visibility 0s linear;
-    /* Smooth transition */
-}
+     .img-logo {
+         display: none;
+     }
+ }
 
-/* Custom scrollbar (optional, if needed) */
-.overflow-x-auto::-webkit-scrollbar {
-    height: 8px;
-}
+ /* Adjust main content area to prevent content from being under sidebar on mobile */
+ .flex-1.flex.flex-col {
+     /* On mobile, if sidebar is fixed, content doesn't need margin.
+       If sidebar pushes content, then margin is needed.
+       Given the `fixed` position of aside on mobile, content should flow normally.
+       We just need to ensure the toggle button doesn't overlap content. */
+     padding-top: 4rem;
+     /* To account for fixed toggle button */
+ }
 
-.overflow-x-auto::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
-}
-
-.overflow-x-auto::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 10px;
-}
-
-.overflow-x-auto::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
-.chart-container {
-    position: relative;
-    width: 100%;
-    height: 400px;
-}
-
-@media (min-width: 768px) {
-    .chart-container {
-        height: 450px;
-    }
-}
-
-.main-content-area {
-    flex: 1;
-    /* flex-1 */
-    display: flex;
-    flex-direction: column;
-}
-
-.main-content-padding {
-    padding: 1.5rem;
-    /* p-6 */
-    overflow: auto;
-}
-
-.card-container {
-    background-color: #ffffff;
-    /* bg-white */
-    padding: 1.5rem;
-    /* p-6 */
-    border-radius: 0.5rem;
-    /* rounded-lg */
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    /* shadow-md */
-    margin-bottom: 1.5rem;
-    /* mb-6 */
-    max-width: 48rem;
-    /* max-w-2xl */
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.card-title {
-    font-size: 1.5rem;
-    /* text-2xl */
-    font-weight: 700;
-    /* font-bold */
-    color: #1f2937;
-    /* text-gray-800 */
-    margin-bottom: 1.5rem;
-    /* mb-6 */
-    text-align: center;
-}
-
-.form-spacing>div {
-    margin-bottom: 1rem;
-    /* Equivalent to space-y-4 */
-}
-
-.submit-button {
-    padding: 0.625rem 1.25rem;
-    /* px-5 py-2 */
-    border-width: 1px;
-    /* border */
-    border-color: transparent;
-    /* border-transparent */
-    border-radius: 0.375rem;
-    /* rounded-md */
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    /* shadow-sm */
-    font-size: 0.875rem;
-    /* text-sm */
-    font-weight: 500;
-    /* font-medium */
-    color: #ffffff;
-    /* text-white */
-    background-color: #2563eb;
-    /* bg-blue-600 */
-    transition-property: background-color;
-    transition-duration: 200ms;
-}
-
-.submit-button:hover {
-    background-color: #1d4ed8;
-    /* hover:bg-blue-700 */
-}
-
-.submit-button:focus {
-    outline: 2px solid transparent;
-    outline-offset: 2px;
-    box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #3b82f6;
-    /* focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 */
-}
+ @media (min-width: 768px) {
+     .flex-1.flex.flex-col {
+         padding-top: 0;
+         /* No padding needed on desktop */
+     }
+ }
 
 
-#map {
-    height: 500px;
-    /* Chiều cao cố định cho bản đồ */
-    width: 100%;
-    border-radius: 0.5rem;
-    /* rounded-lg */
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    /* shadow-md */
-}
+ /* Navigation items */
+ .nav-item {
+     display: flex;
+     align-items: center;
+     padding: 12px 16px;
+     color: #4b5563;
+     transition: color 0.2s ease;
+ }
 
-/* Custom styles for alert box, replacing alert() */
-.custom-alert {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #f8d7da;
-    color: #721c24;
-    padding: 15px 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    z-index: 1000;
-    display: none;
-    /* Hidden by default */
-    font-size: 0.9rem;
-    border: 1px solid #f5c6cb;
-    animation: fadeOut 0.5s ease-out 2.5s forwards;
-    /* Fade out after 2.5s */
-}
+ .nav-item:hover {
+     color: #2563eb;
+     background: #eff6ff;
+     border-radius: 8px;
+ }
 
-.custom-alert.show {
-    display: block;
-    animation: fadeIn 0.3s ease-in forwards;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateX(-50%) translateY(-20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-    }
-}
-
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
-    }
-}
-
-#map {
-    height: 100vh;
-    width: 100%;
-}
-
-label.required::after {
-    content: ' *';
-    color: red;
-}
-
-/* Styles for the modal dialog */
-.modal {
-    display: none;
-    /* Hidden by default */
-    position: fixed;
-    /* Stay in place */
-    z-index: 1000;
-    /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%;
-    /* Full width */
-    height: 100%;
-    /* Full height */
-    overflow: auto;
-    /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0.4);
-    /* Black w/ opacity */
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: auto;
-    padding: 20px;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    width: 90%;
-    max-width: 600px;
-    position: relative;
-}
-
-.close-button {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    position: absolute;
-    top: 10px;
-    right: 20px;
-}
-
-.close-button:hover,
-.close-button:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.image-container .delete-btn {
-    opacity: 1 !important;
-}
+ .nav-item i {
+     font-size: 1.25rem;
+     width: 24px;
+     text-align: center;
+ }
 
 
-.thead-fixed {
-    position: fixed;
-    z-index: 9999 !important;
-    width: 92.5%;
-    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.05);
-    top: 0;
-}
+ /* Table container styling */
+ .table-container {
+     overflow-x: hidden;
+     /* Prevent horizontal scrollbar */
+     width: 100%;
+ }
 
-.thead-fixed tr .px-6 {
-    width: 145px;
-}
+ /* Table styling */
+ table {
+     table-layout: auto;
+     /* Dynamic column widths */
+     width: 100%;
+     max-width: 100%;
+     /* Ensure table fits container */
+ }
+
+ /* Table cell styling */
+ td,
+ th {
+     white-space: normal;
+     /* Allow text wrapping */
+     word-break: break-word;
+     /* Break long words */
+     padding: 12px 16px;
+     text-align: left;
+     max-width: 150px;
+     /* Limit cell width */
+     overflow: hidden;
+     text-overflow: ellipsis;
+     /* Truncate with ellipsis if needed */
+ }
+
+ /* Ensure header alignment */
+ th {
+     font-size: 0.75rem;
+     /* Match original text-xs */
+     font-weight: 500;
+     text-transform: uppercase;
+     color: #6b7280;
+     /* text-gray-500 */
+ }
+
+ /* Header dropdown menu styling */
+ #user-menu-btn {
+     display: block;
+ }
+
+ .group:hover #user-menu {
+     opacity: 1;
+     visibility: visible;
+     transition: opacity 0.2s ease, visibility 0s linear;
+     /* Smooth transition */
+ }
+
+ /* Custom scrollbar (optional, if needed) */
+ .overflow-x-auto::-webkit-scrollbar {
+     height: 8px;
+ }
+
+ .overflow-x-auto::-webkit-scrollbar-track {
+     background: #f1f1f1;
+     border-radius: 10px;
+ }
+
+ .overflow-x-auto::-webkit-scrollbar-thumb {
+     background: #888;
+     border-radius: 10px;
+ }
+
+ .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+     background: #555;
+ }
+
+ .chart-container {
+     position: relative;
+     width: 100%;
+     height: 400px;
+ }
+
+ @media (min-width: 768px) {
+     .chart-container {
+         height: 450px;
+     }
+ }
+
+ .main-content-area {
+     flex: 1;
+     /* flex-1 */
+     display: flex;
+     flex-direction: column;
+ }
+
+ .main-content-padding {
+     padding: 1.5rem;
+     /* p-6 */
+     overflow: auto;
+ }
+
+ .card-container {
+     background-color: #ffffff;
+     /* bg-white */
+     padding: 1.5rem;
+     /* p-6 */
+     border-radius: 0.5rem;
+     /* rounded-lg */
+     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+     /* shadow-md */
+     margin-bottom: 1.5rem;
+     /* mb-6 */
+     max-width: 48rem;
+     /* max-w-2xl */
+     margin-left: auto;
+     margin-right: auto;
+ }
+
+ .card-title {
+     font-size: 1.5rem;
+     /* text-2xl */
+     font-weight: 700;
+     /* font-bold */
+     color: #1f2937;
+     /* text-gray-800 */
+     margin-bottom: 1.5rem;
+     /* mb-6 */
+     text-align: center;
+ }
+
+ .form-spacing>div {
+     margin-bottom: 1rem;
+     /* Equivalent to space-y-4 */
+ }
+
+ .submit-button {
+     padding: 0.625rem 1.25rem;
+     /* px-5 py-2 */
+     border-width: 1px;
+     /* border */
+     border-color: transparent;
+     /* border-transparent */
+     border-radius: 0.375rem;
+     /* rounded-md */
+     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+     /* shadow-sm */
+     font-size: 0.875rem;
+     /* text-sm */
+     font-weight: 500;
+     /* font-medium */
+     color: #ffffff;
+     /* text-white */
+     background-color: #2563eb;
+     /* bg-blue-600 */
+     transition-property: background-color;
+     transition-duration: 200ms;
+ }
+
+ .submit-button:hover {
+     background-color: #1d4ed8;
+     /* hover:bg-blue-700 */
+ }
+
+ .submit-button:focus {
+     outline: 2px solid transparent;
+     outline-offset: 2px;
+     box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #3b82f6;
+     /* focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 */
+ }
 
 
-.animated {
-    -webkit-animation-duration: 1s;
-    animation-duration: 1s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-}
+ #map {
+     height: 500px;
+     /* Chiều cao cố định cho bản đồ */
+     width: 100%;
+     border-radius: 0.5rem;
+     /* rounded-lg */
+     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+     /* shadow-md */
+ }
 
-.animated.infinite {
-    -webkit-animation-iteration-count: infinite;
-    animation-iteration-count: infinite;
-}
+ /* Custom styles for alert box, replacing alert() */
+ .custom-alert {
+     position: fixed;
+     top: 20px;
+     left: 50%;
+     transform: translateX(-50%);
+     background-color: #f8d7da;
+     color: #721c24;
+     padding: 15px 20px;
+     border-radius: 8px;
+     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+     z-index: 1000;
+     display: none;
+     /* Hidden by default */
+     font-size: 0.9rem;
+     border: 1px solid #f5c6cb;
+     animation: fadeOut 0.5s ease-out 2.5s forwards;
+     /* Fade out after 2.5s */
+ }
 
-.animated.fast {
-    -webkit-animation-duration: 800ms;
-    animation-duration: 800ms;
-}
+ .custom-alert.show {
+     display: block;
+     animation: fadeIn 0.3s ease-in forwards;
+ }
 
-.animated.slow {
-    -webkit-animation-duration: 2s;
-    animation-duration: 2s;
-}
+ @keyframes fadeIn {
+     from {
+         opacity: 0;
+         transform: translateX(-50%) translateY(-20px);
+     }
 
-.animated.slower {
-    -webkit-animation-duration: 3s;
-    animation-duration: 3s;
-}
+     to {
+         opacity: 1;
+         transform: translateX(-50%) translateY(0);
+     }
+ }
 
-@media (print),
-(prefers-reduced-motion) {
-    .animated {
-        -webkit-animation: unset !important;
-        animation: unset !important;
-        -webkit-transition: none !important;
-        transition: none !important;
-    }
-}
+ @keyframes fadeOut {
+     from {
+         opacity: 1;
+     }
+
+     to {
+         opacity: 0;
+     }
+ }
+
+ #map {
+     height: 100vh;
+     width: 100%;
+ }
+
+ label.required::after {
+     content: ' *';
+     color: red;
+ }
+
+ /* Styles for the modal dialog */
+ .modal {
+     display: none;
+     /* Hidden by default */
+     position: fixed;
+     /* Stay in place */
+     z-index: 1000;
+     /* Sit on top */
+     left: 0;
+     top: 0;
+     width: 100%;
+     /* Full width */
+     height: 100%;
+     /* Full height */
+     overflow: auto;
+     /* Enable scroll if needed */
+     background-color: rgba(0, 0, 0, 0.4);
+     /* Black w/ opacity */
+     align-items: center;
+     justify-content: center;
+ }
+
+ .modal-content {
+     background-color: #fefefe;
+     margin: auto;
+     padding: 20px;
+     border-radius: 0.5rem;
+     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+     width: 90%;
+     max-width: 600px;
+     position: relative;
+ }
+
+ .close-button {
+     color: #aaa;
+     float: right;
+     font-size: 28px;
+     font-weight: bold;
+     position: absolute;
+     top: 10px;
+     right: 20px;
+ }
+
+ .close-button:hover,
+ .close-button:focus {
+     color: black;
+     text-decoration: none;
+     cursor: pointer;
+ }
+
+ .image-container .delete-btn {
+     opacity: 1 !important;
+ }
+
+
+ .thead-fixed {
+     position: fixed;
+     z-index: 9999 !important;
+     width: 92.5%;
+     box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.05);
+     top: 0;
+ }
+
+ .thead-fixed tr .px-6 {
+     width: 145px;
+ }
+
+
+ .animated {
+     -webkit-animation-duration: 1s;
+     animation-duration: 1s;
+     -webkit-animation-fill-mode: both;
+     animation-fill-mode: both;
+ }
+
+ .animated.infinite {
+     -webkit-animation-iteration-count: infinite;
+     animation-iteration-count: infinite;
+ }
+
+ .animated.fast {
+     -webkit-animation-duration: 800ms;
+     animation-duration: 800ms;
+ }
+
+ .animated.slow {
+     -webkit-animation-duration: 2s;
+     animation-duration: 2s;
+ }
+
+ .animated.slower {
+     -webkit-animation-duration: 3s;
+     animation-duration: 3s;
+ }
+
+ @media (print),
+ (prefers-reduced-motion) {
+     .animated {
+         -webkit-animation: unset !important;
+         animation: unset !important;
+         -webkit-transition: none !important;
+         transition: none !important;
+     }
+ }

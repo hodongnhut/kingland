@@ -26,11 +26,13 @@ AppAsset::register($this);
 </head>
 <body class="flex min-h-screen bg-gray-100">
 <?php $this->beginBody() ?>
-
-    <aside class="flex flex-col items-start py-4">
+    <button id="mobile-sidebar-toggle" class="md:hidden fixed top-4 left-4 z-50 p-2 rounded-full bg-blue-600 text-white shadow-lg">
+        <i class="fas fa-bars"></i>
+    </button>
+    <aside id="main-sidebar" class="flex flex-col items-start py-4">
         <div class="mb-8 px-3">
             <div class="h-10 w-10 rounded-lg flex items-center justify-center text-white text-xl font-bold overflow-hidden">
-            <img src="<?= Yii::$app->request->baseUrl ?>/img/logo.png" alt="King Land" class="h-full w-full object-contain">
+                <img src="<?= Yii::$app->request->baseUrl ?>/img/logo.png" alt="King Land" class="h-full w-full object-contain img-logo">
             </div>
         </div>
         <nav class="flex flex-col space-y-2 w-full">
@@ -64,6 +66,8 @@ AppAsset::register($this);
         </nav>
     </aside>
 
+    <div id="sidebar-backdrop" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden md:hidden"></div>
+
     <div class="flex-1 flex flex-col">
         <?= $content ?>
     </div>
@@ -95,6 +99,35 @@ AppAsset::register($this);
             userMenuButton.setAttribute('aria-expanded', 'false');
         }, 300);
     });
+    // New sidebar toggle script
+    const mobileSidebarToggle = document.getElementById('mobile-sidebar-toggle');
+    const mainSidebar = document.getElementById('main-sidebar');
+    const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+
+    function toggleSidebar() {
+        mainSidebar.classList.toggle('aside-open');
+        sidebarBackdrop.classList.toggle('show');
+    }
+
+    if (mobileSidebarToggle && mainSidebar && sidebarBackdrop) {
+        mobileSidebarToggle.addEventListener('click', toggleSidebar);
+        sidebarBackdrop.addEventListener('click', toggleSidebar); // Close when clicking backdrop
+
+        // Close sidebar on ESC key
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && mainSidebar.classList.contains('aside-open')) {
+                toggleSidebar();
+            }
+        });
+
+        // Handle resize to ensure correct state on desktop
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) { // Desktop breakpoint
+                mainSidebar.classList.remove('aside-open');
+                sidebarBackdrop.classList.remove('show');
+            }
+        });
+    }
 </script>
 <?php $this->endBody() ?>
 </body>
