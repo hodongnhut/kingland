@@ -71,6 +71,9 @@ iframe {
 .maplibregl-ctrl-bottom-right {
     display: none;
 }
+.Page-ZoningMapVer2-Container .GroupSearch {
+    top: 35px;
+}
 </style>
 
 <div class="map-container">
