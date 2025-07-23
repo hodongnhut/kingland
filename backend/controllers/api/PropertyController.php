@@ -37,15 +37,17 @@ class PropertyController extends Controller
 
         $properties = $dataProvider->getModels();
 
-        // Format response data
+
+        $imageDomain = Yii::$app->params['imageDomain'] ?? 'https://kinglandgroup.vn';
+
+
         $data = [];
         foreach ($properties as $property) {
-            // Get images
             $images = [];
             foreach ($property->propertyImages as $image) {
                 $images[] = [
                     'image_id' => $image->image_id,
-                    'image_path' => $image->image_path,
+                    'image_path' => rtrim($imageDomain, '/') . '/' . ltrim($image->image_path, '/'),
                     'is_main' => $image->is_main,
                     'sort_order' => $image->sort_order,
                 ];
