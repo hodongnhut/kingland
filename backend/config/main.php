@@ -63,12 +63,6 @@ return [
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/post',
-                    'extraPatterns' => [
-                        'GET view-property/<external_id:[\w-]+>' => 'view-property',
-                        'POST create-property' => 'create-property',
-                        'PUT update-property/<external_id:[\w-]+>' => 'update-property',
-                        'POST properties/<property_id:\d+>/add-contact' => 'add-owner-contact',
-                    ]
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
@@ -86,6 +80,10 @@ return [
                         'GET index'  => 'index',
                     ],
                 ],
+                'GET api/post/view-property/<external_id:[\w-]+>' => 'api/post/view-property',
+                'POST api/post/create-property' => 'api/post/create-property',
+                'PUT api/post/update-property/<external_id:[\w-]+>' => 'api/post/update-property',
+                'POST api/properties/<property_id:\d+>/add-contact' => 'api/post/add-owner-contact',
                 
                 'property-folder' => 'site/property-folder',
                 'property-user' => 'site/property-user',
