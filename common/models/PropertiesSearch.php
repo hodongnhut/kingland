@@ -197,12 +197,14 @@ class PropertiesSearch extends Properties
               ->andFilterWhere(['like', 'properties.sheet_number', $this->sheet_number]);
 
         if (!empty($this->keyword)) {
-            $query->andWhere([
+            $query->leftJoin('owner_contacts', 'owner_contacts.property_id = properties.property_id')
+            ->andWhere([
                 'or',
                 ['like', 'properties.title', $this->keyword],
                 ['like', 'properties.description', $this->keyword],
                 ['like', 'properties.street_name', $this->keyword],
                 ['like', 'properties.district_county', $this->keyword],
+                ['like', 'owner_contacts.phone_number', $this->keyword],
             ]);
         }
         
