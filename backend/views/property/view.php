@@ -248,7 +248,7 @@ function formatNumber($number) {
                         echo "<img src='{$imageUrl}' alt='" . Html::encode($image->image_path) . "' class='object-cover w-full h-full'>";
 
                         // Overlay with view button
-                        echo "<div class='absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300'>";
+                        echo "<div class='absolute inset-0 bg-opacity-50 flex items-center justify-center'>";
                         echo "<button class='view-image-button p-3 bg-white text-gray-800 rounded-full shadow-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500' data-image-url='{$imageUrl}'>";
                         echo "<i class='fas fa-eye'></i>"; // Font Awesome eye icon
                         echo "</button>";
