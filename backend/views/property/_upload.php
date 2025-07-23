@@ -43,10 +43,13 @@ use yii\helpers\Html;
         foreach ($images as $image) {
             echo "<div class='relative group aspect-w-1 aspect-h-1 w-full rounded-lg overflow-hidden border border-gray-200 image-container' data-image-id='{$image->image_id}'>";
             echo "<img src='" . Html::encode(Yii::$app->urlManager->createAbsoluteUrl($image->image_path)) . "' alt='" . Html::encode($image->image_path) . "' class='object-cover w-full h-full'>";
-            echo "<button class='absolute top-2 right-2 text-white bg-red-500 hover:bg-red-600 p-2 rounded-full delete-btn opacity-0 group-hover:opacity-100 transition-opacity duration-200' data-image-id='{$image->image_id}'>";
-            echo "<svg class='w-5 h-5' fill='none' viewBox='0 0 24 24' stroke='currentColor'>";
-            echo "<path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'></path>";
-            echo "</svg></button></div>";
+            if (!Yii::$app->user->isGuest && in_array(Yii::$app->user->identity->jobTitle->role_code, ['manager', 'super_admin'])) {
+                echo "<button class='absolute top-2 right-2 text-white bg-red-500 hover:bg-red-600 p-2 rounded-full delete-btn opacity-0 group-hover:opacity-100 transition-opacity duration-200' data-image-id='{$image->image_id}'>";
+                echo "<svg class='w-5 h-5' fill='none' viewBox='0 0 24 24' stroke='currentColor'>";
+                echo "<path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'></path>";
+                echo "</svg></button>";
+            }
+            echo "</div>";
         }
         ?>
     </div>

@@ -73,6 +73,13 @@ return [
                         'GET me'      => 'me',
                     ],
                 ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/property',
+                    'extraPatterns' => [
+                        'GET index'  => 'index',
+                    ],
+                ],
                 'GET api/post/view-property/<external_id:[\w-]+>' => 'api/post/view-property',
                 'POST api/post/create-property' => 'api/post/create-property',
                 'PUT api/post/update-property/<external_id:[\w-]+>' => 'api/post/update-property',

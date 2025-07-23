@@ -96,7 +96,7 @@ $this->registerCssFile('/css/animate.css', [
 
         ]); 
     ?>
-
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 mb-4"></div>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'layout' => "{items}\n",
@@ -109,7 +109,7 @@ $this->registerCssFile('/css/animate.css', [
             'class' => 'min-w-full divide-y divide-gray-200',
         ],
         'headerRowOptions' => [
-            'class' => 'bg-blue-100 shadow-md',
+            'class' => 'bg-blue-50 shadow-md',
         ],
         'options' => [
             'class' => 'table-container bg-white rounded-lg shadow-md',
@@ -420,7 +420,8 @@ $this->registerCssFile('/css/animate.css', [
                     <?= $form->field($model, 'provinces')->dropDownList(
                         ArrayHelper::map($modelProvinces, 'Name', 'Name'),
                         [
-                            'prompt' => 'Chọn Tỉnh Thành', 
+                            'prompt' => 'Chọn Tỉnh Thành',
+                            'value' => 'Hồ Chí Minh',
                             'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
                         ]
                     )->label('<span class="text-red-500">*</span> Tỉnh Thành', ['class' => 'text-sm font-medium text-gray-700']) ?>

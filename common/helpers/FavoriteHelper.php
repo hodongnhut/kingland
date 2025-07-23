@@ -2,6 +2,7 @@
 namespace common\helpers;
 
 use common\models\PropertyFavorite;
+use yii\httpclient\Client;
 use Yii;
 
 class FavoriteHelper

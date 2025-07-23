@@ -220,12 +220,12 @@ function formatNumber($number) {
 
                 <div id="vi-tri-mat-tien" class="tab-sub-content space-y-4">
                     <div class="flex items-start justify-between">
-                        <p class="text-gray-700">Nhà có diện tích 4x20, khu trung tâm kinh doanh buôn bán ,tiện kinh doanh đa ngành nghề</p>
+                        <p class="text-gray-700">Nhà có diện tích <?= formatNumber($model->area_length) ?>m × <?= formatNumber($model->area_width) ?>m, khu trung tâm kinh doanh buôn bán ,tiện kinh doanh đa ngành nghề</p>
                         <button class="ml-4 text-gray-500 hover:text-gray-700 flex items-center text-sm">
                             <i class="far fa-copy mr-1"></i> Copy
                         </button>
                     </div>
-                    <p class="text-gray-700">50 tỷ (4.00 x 20.00)</p>
+                    <p class="text-gray-700"><?= formatPriceUnit($model->price) ?> tỷ (<?= formatNumber($model->area_length) ?>m × <?= formatNumber($model->area_width) ?>m)</p>
                     <button class="px-4 py-2 bg-red-100 text-red-700 text-sm font-medium rounded-full hover:bg-red-200">Đánh dấu Hot</button>
                 </div>
 
@@ -234,18 +234,38 @@ function formatNumber($number) {
                 </div>
             </div>
 
+            
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h3 class="text-md font-semibold text-gray-800 mb-3">Sổ Hồng & Hình Ảnh</h3>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 uploaded-images">
                     <?php
                     $images = $model->propertyImages;
                     foreach ($images as $image) {
-                        echo "<div class='relative group aspect-w-1 aspect-h-1 w-full rounded-lg overflow-hidden border border-gray-200 image-container' data-image-id='{$image->image_id}'>";
-                        echo "<img src='" . Html::encode(Yii::$app->urlManager->createAbsoluteUrl($image->image_path)) . "' alt='" . Html::encode($image->image_path) . "' class='object-cover w-full h-full'>";
-                        echo "</div>";
+                        // Get the absolute URL for the image
+                        $imageUrl = Html::encode(Yii::$app->urlManager->createAbsoluteUrl($image->image_path));
+
+                        echo "<div class='relative group aspect-w-1 aspect-h-1 w-full rounded-lg overflow-hidden border border-gray-200 image-container'>";
+                        echo "<img src='{$imageUrl}' alt='" . Html::encode($image->image_path) . "' class='object-cover w-full h-full'>";
+
+                        // Overlay with view button
+                        echo "<div class='absolute inset-0 bg-opacity-50 flex items-center justify-center'>";
+                        echo "<button class='view-image-button p-3 bg-white text-gray-800 rounded-full shadow-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500' data-image-url='{$imageUrl}'>";
+                        echo "<i class='fas fa-eye'></i>"; // Font Awesome eye icon
+                        echo "</button>";
+                        echo "</div>"; // End overlay
+
+                        echo "</div>"; // End image-container
                     }
                     ?>
                 </div>
+            </div>
+        </div>
+        <div id="imageViewModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 hidden">
+            <div class="relative max-w-3xl max-h-[90vh] p-4 bg-white rounded-lg shadow-xl overflow-auto">
+                <button id="closeImageViewModal" class="absolute top-2 right-2 p-2 text-gray-600 hover:text-gray-900 text-2xl">
+                    &times;
+                </button>
+                <img id="modalImageView" src="" alt="Property Image" class="max-w-full max-h-[85vh] object-contain mx-auto my-0">
             </div>
         </div>
 
@@ -282,8 +302,19 @@ function formatNumber($number) {
 
             <!-- Loại Tài Sản Card -->
             <div class="bg-white p-6 rounded-lg shadow-md space-y-4">
-                <p class="text-sm text-gray-500">Loại Tài Sản: <span class="font-semibold text-gray-800"><?= $model->assetType->type_name ?></span></p>
-                <p class="text-sm text-gray-500">Đánh dấu: <span class="font-semibold text-green-700"><?= $model->transactionStatus->status_name ?></span></p>
+            <p class="text-sm text-gray-500">
+                Loại Tài Sản:
+                <span class="font-semibold text-gray-800">
+                    <?= $model->assetType ? $model->assetType->type_name : '(Chưa xác định)' ?>
+                </span>
+            </p>
+            <p class="text-sm text-gray-500">
+                Đánh dấu:
+                <span class="font-semibold text-green-700">
+                    <?= $model->transactionStatus ? $model->transactionStatus->status_name : '(Chưa xác định)' ?>
+                </span>
+            </p>
+
                 <p class="text-sm text-gray-500">Mức giá: <span class="font-bold text-gray-800"><?= formatPriceUnit($model->price) ?></span> <i class="fas fa-arrow-up text-green-500 ml-1"></i></p>
                 <p class="text-sm text-gray-500">Giá trên m2: <span class="font-bold text-gray-800"><?= $pricePerSqM_Text ?> </span></p>
                 <button class="px-4 py-2 bg-green-100 text-green-700 text-sm font-medium rounded-full hover:bg-green-200 flex items-center space-x-2">
@@ -373,7 +404,60 @@ function formatNumber($number) {
         const cancelContactButton = document.getElementById('cancel-contact-button');
         const contactEntriesDiv = document.getElementById('contact-entries');
 
-        
+        // --- Image View Modal Logic ---
+        const imageViewModal = document.getElementById('imageViewModal');
+        const modalImageView = document.getElementById('modalImageView');
+        const closeImageViewModalButton = document.getElementById('closeImageViewModal');
+        const viewImageButtons = document.querySelectorAll('.view-image-button'); // Select all view buttons
+
+        // Function to open the image modal
+        function openImageViewModal(imageUrl) {
+            if (modalImageView && imageViewModal) {
+                modalImageView.src = imageUrl;
+                imageViewModal.classList.remove('hidden'); // Show the modal
+                document.body.style.overflow = 'hidden'; // Prevent scrolling of the body
+            }
+        }
+
+        // Function to close the image modal
+        function closeImageViewModal() {
+            if (imageViewModal) {
+                imageViewModal.classList.add('hidden'); // Hide the modal
+                modalImageView.src = ''; // Clear the image source
+                document.body.style.overflow = ''; // Restore body scrolling
+            }
+        }
+
+        // Add click listener to each view button
+        viewImageButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const imageUrl = this.getAttribute('data-image-url');
+                if (imageUrl) {
+                    openImageViewModal(imageUrl);
+                }
+            });
+        });
+
+        // Add click listener to the close button inside the modal
+        if (closeImageViewModalButton) {
+            closeImageViewModalButton.addEventListener('click', closeImageViewModal);
+        }
+
+        // Close modal if clicked outside the content (on the overlay)
+        if (imageViewModal) {
+            imageViewModal.addEventListener('click', function(event) {
+                if (event.target === imageViewModal) { // Check if the click was directly on the overlay
+                    closeImageViewModal();
+                }
+            });
+        }
+
+        // Close modal on Escape key press
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && !imageViewModal.classList.contains('hidden')) {
+                closeImageViewModal();
+            }
+        });
 
 
         // Show the modal when "Thêm Liên Hệ" button is clicked

@@ -27,7 +27,7 @@ class NewWardMapping extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'New_Ward_Mapping';
+        return 'new_ward_mapping';
     }
 
     /**

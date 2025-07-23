@@ -81,6 +81,7 @@ class Properties extends \yii\db\ActiveRecord
 
     public function callWebhookAfterCreate($event)
     {
+
         $payload = [
             'event_type' => 'property_created',
             'timestamp' => time(),
