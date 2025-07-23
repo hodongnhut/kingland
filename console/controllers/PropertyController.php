@@ -103,9 +103,7 @@ class PropertyController extends Controller
         // Nếu đã bắt đầu bằng "Quận", giữ nguyên
         if (preg_match('/^quận/i', $district)) {
             return $district;
-        }
-
-        // Các trường hợp khác: huyện, thị xã... giữ nguyên
+        
         return $district;
     }
 
