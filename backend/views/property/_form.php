@@ -32,7 +32,7 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
 <header class="bg-white shadow-md p-2 flex items-center justify-between rounded-bl-lg rounded-br-lg">
     <div class="text-lg font-semibold text-gray-800">
     <h2 class="text-lg font-semibold text-gray-800">
-            <a href="<?= \yii\helpers\Url::to(['/property']) ?>">Dữ Liệu Nhà Đất</a> / 
+            <a href="<?= \yii\helpers\Url::to(['/property']) ?>"><i class="fas fa-database text-xl"></i> Dữ Liệu Nhà Đất</a> / 
             Thêm Dữ Liệu Nhà Đất [Mã: <?= $model->property_id ?> - Loại Giao Dịch: <?= $model->listingType->name ?>]</h2>
     </div>
     <div class="relative flex items-center space-x-4">
