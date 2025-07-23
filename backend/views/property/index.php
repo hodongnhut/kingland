@@ -21,22 +21,22 @@ $this->registerCssFile('/css/animate.css', [
 ?>
 
 <?php if (isset($locationRequired) && $locationRequired): ?>
-<div id="locationModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full">
-        <h2 class="text-xl font-bold text-gray-800 mb-4">Yêu cầu vị trí</h2>
-        <p class="text-gray-600 mb-4">Vui lòng bật dịch vụ định vị để sử dụng ứng dụng. Điều này giúp chúng tôi cung cấp dịch vụ phù hợp với vị trí của bạn.</p>
-        <div class="flex justify-between">
-            <button id="allowLocation" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-md transition-colors duration-200">
-                Cho phép định vị
-            </button>
-            <button id="retryLocation" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md shadow-md transition-colors duration-200 hidden">
-                Thử lại
-            </button>
+    <div id="locationModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Yêu cầu vị trí</h2>
+            <p class="text-gray-600 mb-4">Vui lòng bật dịch vụ định vị để sử dụng ứng dụng. Điều này giúp chúng tôi cung cấp dịch vụ phù hợp với vị trí của bạn.</p>
+            <div class="flex justify-between">
+                <button id="allowLocation" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-md transition-colors duration-200">
+                    Cho phép định vị
+                </button>
+                <button id="retryLocation" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md shadow-md transition-colors duration-200 hidden">
+                    Thử lại
+                </button>
+            </div>
+            <p id="locationError" class="text-red-600 mt-4 hidden"></p>
+            <a href="<?= \yii\helpers\Url::to(['site/logout']) ?>" class="text-blue-600 hover:text-blue-900 mt-4 block" data-method="post">Đăng xuất</a>
         </div>
-        <p id="locationError" class="text-red-600 mt-4 hidden"></p>
-        <a href="<?= \yii\helpers\Url::to(['site/logout']) ?>" class="text-blue-600 hover:text-blue-900 mt-4 block" data-method="post">Đăng xuất</a>
     </div>
-</div>
 <?php endif; ?>
 
 <header class="bg-white shadow-md p-2 flex items-center justify-between rounded-bl-lg">
@@ -80,7 +80,7 @@ $this->registerCssFile('/css/animate.css', [
         </div>
     </div>
 </header>
-<main class="flex-1 p-6 overflow-auto">
+<main class="flex-1 p-2 overflow-auto">
     <?php
         echo $this->render('_search', [
             'model' => $searchModel, 
@@ -96,640 +96,643 @@ $this->registerCssFile('/css/animate.css', [
 
         ]); 
     ?>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 mb-4"></div>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'layout' => "{items}\n",
-        'summaryOptions' => [
-            'class' => 'text-sm text-gray-700',
-            'id' => 'DataTables_Table_0_info',
-        ],
-        'summary' => 'Hiển thị từ {begin} đến {end} trong tổng số {totalCount} mục',
-        'tableOptions' => [
-            'class' => 'min-w-full divide-y divide-gray-200',
-        ],
-        'headerRowOptions' => [
-            'class' => 'bg-blue-50 shadow-md',
-        ],
-        'options' => [
-            'class' => 'table-container bg-white rounded-lg shadow-md',
-        ],
-        'columns' => [
-            [
-                'class' => 'yii\grid\DataColumn',
-                'label' => '#',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'],
-                'format' => 'raw',
-                'value' => function ($model, $key, $index, $column) use ($dataProvider) {
-                    $pagination = $dataProvider->getPagination();
-                    $page = $pagination->getPage();
-                    $pageSize = $pagination->pageSize;
-                    $rowNumber = $index + 1 + ($page * $pageSize);
-                    return Html::tag('div', $rowNumber, ['class' => 'flex items-center space-x-2']);
-                },
+   
+        <?= GridView::widget([
+            'dataProvider' => $dataProvider,
+            'layout' => "{items}\n",
+            'summaryOptions' => [
+                'class' => 'text-sm text-gray-700',
+                'id' => 'DataTables_Table_0_info',
             ],
-            [
-                'attribute' => 'title',
-                'label' => 'Số Nhà',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
-                'format' => 'raw',
-                'value' => function ($model) {
-
-                    $processedTitle = $model->title; 
-                    if ($processedTitle && strpos($processedTitle, ',') !== false) {
-                        $processedTitle = trim(explode(',', $processedTitle)[0]);
-                    }
-
-                    return 
-                        Html::tag('div', $model->listingType->name ?? null, ['class' => 'font-semibold']) .
-                        Html::tag('div', $model->propertyType->type_name ?? null, ['class' => 'text-xs text-gray-600']) .
-                        Html::tag('div', $model->house_number ?? $processedTitle ?? '') .
-                        ($model->plot_number ? Html::tag('div', 'Thửa: '. $model->plot_number) : '').
-                        ($model->sheet_number ? Html::tag('div', 'Tờ: '.$model->sheet_number): '');
-                },
+            'summary' => 'Hiển thị từ {begin} đến {end} trong tổng số {totalCount} mục',
+            'tableOptions' => [
+                'class' => 'min-w-full divide-y divide-gray-200',
             ],
-            [
-                'attribute' => 'street_name',
-                'label' => 'Đường Phố',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
-                'format' => 'raw',
-                'value' => function ($model) {
+            'headerRowOptions' => [
+                'class' => 'bg-blue-50 shadow-md',
+            ],
+            'options' => [
+                'class' => 'table-container bg-white rounded-lg shadow-md',
+            ],
+            'columns' => [
+                [
+                    'class' => 'yii\grid\DataColumn',
+                    'label' => '#',
+                    'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'],
+                    'format' => 'raw',
+                    'value' => function ($model, $key, $index, $column) use ($dataProvider) {
+                        $pagination = $dataProvider->getPagination();
+                        $page = $pagination->getPage();
+                        $pageSize = $pagination->pageSize;
+                        $rowNumber = $index + 1 + ($page * $pageSize);
+                        return Html::tag('div', $rowNumber, ['class' => 'flex items-center space-x-2']);
+                    },
+                ],
+                [
+                    'attribute' => 'title',
+                    'label' => 'Số Nhà',
+                    'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
+                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
+                    'format' => 'raw',
+                    'value' => function ($model) {
 
-                    $displayStreet = $model->street_name;
-                    if (empty($displayStreet)) {
-                        if ($model->title && strpos($model->title, ',') !== false) {
-                            $parts = explode(',', $model->title);
-                            if (isset($parts[1])) {
-                                $displayStreet = trim($parts[1]);
+                        $processedTitle = $model->title; 
+                        if ($processedTitle && strpos($processedTitle, ',') !== false) {
+                            $processedTitle = trim(explode(',', $processedTitle)[0]);
+                        }
+
+                        return 
+                            Html::tag('div', $model->listingType->name ?? null, ['class' => 'font-semibold']) .
+                            Html::tag('div', $model->propertyType->type_name ?? null, ['class' => 'text-xs text-gray-600']) .
+                            Html::tag('div', $model->house_number ?? $processedTitle ?? '') .
+                            ($model->plot_number ? Html::tag('div', 'Thửa: '. $model->plot_number) : '').
+                            ($model->sheet_number ? Html::tag('div', 'Tờ: '.$model->sheet_number): '');
+                    },
+                ],
+                [
+                    'attribute' => 'street_name',
+                    'label' => 'Đường Phố',
+                    'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
+                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
+                    'format' => 'raw',
+                    'value' => function ($model) {
+
+                        $displayStreet = $model->street_name;
+                        if (empty($displayStreet)) {
+                            if ($model->title && strpos($model->title, ',') !== false) {
+                                $parts = explode(',', $model->title);
+                                if (isset($parts[1])) {
+                                    $displayStreet = trim($parts[1]);
+                                }
                             }
                         }
-                    }
 
-                    $localtionType = $model->locationType ? Html::tag('span', $model->locationType->type_name, [
-                        'class' => 'text-xs font-medium px-2.5 py-0.5 rounded-full bg-gray-100 text-gray-800',
-                    ]) : " ";
+                        $localtionType = $model->locationType ? Html::tag('span', $model->locationType->type_name, [
+                            'class' => 'text-xs font-medium px-2.5 py-0.5 rounded-full bg-gray-100 text-gray-800',
+                        ]) : " ";
 
-                    $treet = Html::tag('div', $displayStreet, ['class' => 'font-semibold']);
-                    return $localtionType . $treet;
-                },
-            ],
-            [
-                'attribute' => 'district_county',
-                'label' => 'Quận/Huyện',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
-                'format' => 'raw',
-                'value' => function ($model) {
-                    $new_district = $model->new_district
-                    ? Html::tag('div', $model->new_district, ['class' => 'capitalize text-xs font-medium px-2.5 py-0.5 rounded-full bg-green-100 text-green-800'])
-                    : '';
-                    $districtCounty = $model->district_county;
-                    if (!empty($districtCounty)) {
-                        $parts = explode(',', $districtCounty);
-                        if (isset($parts[1])) {
-                            return trim($parts[1]) . $new_district;
-                        }
-                        return trim($parts[0]) . $new_district;
-                    }
-
-                    $wardCommune = $model->ward_commune;
-                    if (!empty($wardCommune)) {
-                        $parts = explode(',', $wardCommune);
-
-                        if (isset($parts[1])) {
-                            return trim($parts[1]) .$new_district;
-                        }
-                    }
-
-                    return $new_district;
-                },
-            ],
-            [
-                'attribute' => 'price',
-                'label' => 'Giá',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
-                'format' => 'raw',
-                'value' => function ($model) {
-                    $price = number_format($model->price / 1e9, 1) . ' Tỷ ' . $model->currencies->code;
-                    $pricePerM2 = (!empty($model->area_total) && $model->area_total > 0) 
-                        ? number_format($model->price / $model->area_total / 1e6, 0) . ' Triệu/m2' 
-                        : '-';
-                    return Html::tag('div', $price, ['class' => 'font-semibold text-red-600']) .
-                        Html::tag('div', '-' . $pricePerM2, ['class' => 'text-xs text-gray-600']);
-                },
-            ],
-            [
-                'attribute' => 'area_total',
-                'label' => 'Diện Tích',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
-                'format' => 'raw',
-                'value' => function ($model) {
-                    $dimensions = ($model->area_width && $model->area_length) 
-                        ? "({$model->area_width}m × {$model->area_length}m)" 
+                        $treet = Html::tag('div', $displayStreet, ['class' => 'font-semibold']);
+                        return $localtionType . $treet;
+                    },
+                ],
+                [
+                    'attribute' => 'district_county',
+                    'label' => 'Quận/Huyện',
+                    'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
+                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
+                    'format' => 'raw',
+                    'value' => function ($model) {
+                        $new_district = $model->new_district
+                        ? Html::tag('div', $model->new_district, ['class' => 'capitalize text-xs font-medium px-2.5 py-0.5 rounded-full bg-green-100 text-green-800'])
                         : '';
-                    return Html::tag('div', $model->area_total . ' m2', ['class' => 'font-semibold']) .
-                        Html::tag('div', $dimensions, ['class' => 'text-xs text-gray-600']);
-                },
-            ],
-            [
-                'label' => 'Kết Cấu',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
-                'value' => function () { return ''; },
-            ],
-            [
-                'label' => 'HĐ Thuê',
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
-                'format' => 'raw',
-                'value' => function ($model) {
-                    if ($model->rentalContract) {
-                        $contract = $model->rentalContract;
-
-                        $priceText = number_format($contract->rent_price / 1e6) . ' Triệu';
-                        if ($contract->currency) {
-                            $priceText .= ' ' . $contract->currency->code;
+                        $districtCounty = $model->district_county;
+                        if (!empty($districtCounty)) {
+                            $parts = explode(',', $districtCounty);
+                            if (isset($parts[1])) {
+                                return trim($parts[1]) . $new_district;
+                            }
+                            return trim($parts[0]) . $new_district;
                         }
 
-                        $timeUnitText = '';
-                        if ($contract->price_time_unit === 'per_month') {
-                            $timeUnitText = '/Tháng';
-                        } elseif ($contract->price_time_unit === 'per_year') {
-                            $timeUnitText = '/Năm';
+                        $wardCommune = $model->ward_commune;
+                        if (!empty($wardCommune)) {
+                            $parts = explode(',', $wardCommune);
+
+                            if (isset($parts[1])) {
+                                return trim($parts[1]) .$new_district;
+                            }
                         }
 
-                        $priceHtml = Html::tag('div', $priceText, ['class' => 'font-semibold text-red-600']);
-                        $unitHtml = Html::tag('div', $timeUnitText, ['class' => 'text-xs text-gray-600']);
-
-                        return $priceHtml . $unitHtml;
-                    }
-
-                    return '';
-                },
-            ],
-            [
-                'label' => 'Lưu',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
-                'format' => 'raw',
-                'value' => function ($model) {
-                    $propertyId = $model->property_id; 
-                    $isFavorited = FavoriteHelper::isPropertyFavorited($propertyId); 
-
-                    $iconClass = $isFavorited ? 'fas fa-heart text-red-500' : 'far fa-heart text-gray-400';
-                    $title = $isFavorited ? 'Bỏ lưu' : 'Lưu';
-                    $dataAttributes = [
-                        'data-property-id' => $propertyId,
-                        'data-favorited' => (int)$isFavorited,
-                        'data-url' => Url::to(['/property/toggle-favorite']),
-                    ];
-
-                    return Html::tag('span', Html::tag('i', '', ['class' => $iconClass]), [
-                        'class' => 'favorite-toggle cursor-pointer',
-                        'title' => $title,
-                    ] + $dataAttributes);
-                },
-            ],
-            [
-                'attribute' => 'transaction_status_id',
-                'label' => 'Cập nhật',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
-                'format' => 'raw',
-                'value' => function ($model) {
-                    if (!$model->transactionStatus || $model->transactionStatus->transaction_status_id === 0) {
-                        $statusBadge = '';
-                    } else {
-                        $statusBadge = $model->transactionStatus ? Html::tag('span', $model->transactionStatus->status_name, [
-                        'class' => 'text-xs font-medium px-2.5 py-0.5 rounded-full ' . $model->transactionStatus->class_css,
-                    ]) : " ";
-                    }
-                    $relativeTime = Yii::$app->formatter->asRelativeTime($model->updated_at);
-                    $updateTimeDiv = Html::tag('div', $relativeTime, ['class' => 'text-xs text-gray-500 mt-1']);
-                    $editButton = $model->is_new ?? false ? Html::a(
-                        '<i class="fas fa-pencil-alt mr-1"></i>Sản Phẩm Mới',
-                        ['update', 'property_id' => $model->property_id],
-                        ['class' => 'mt-2 text-blue-600 hover:text-blue-800 text-xs flex items-center']
-                    ) : '';
-                    return $statusBadge . $updateTimeDiv . $editButton;
-                },
-            ],
-            [
-                'class' => 'yii\grid\ActionColumn',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
-                'urlCreator' => function ($action, $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'property_id' => $model->property_id]);
-                },
-                'template' => '{view} {update} {delete}',
-                'buttons' => [
-                    'view' => function ($url, $model) {
-                        return Html::a('<i class="fas fa-eye"></i>', $url, [
-                            'class' => 'text-blue-600 hover:text-blue-800 mx-1',
-                            'title' => 'Xem',
-                        ]);
+                        return $new_district;
                     },
-                    'update' => function ($url, $model) {
-                        return Html::a('<i class="fas fa-pencil-alt"></i>', $url, [
-                            'class' => 'text-blue-600 hover:text-blue-800 mx-1',
-                            'title' => 'Cập Nhật',
-                        ]);
+                ],
+                [
+                    'attribute' => 'price',
+                    'label' => 'Giá',
+                    'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
+                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
+                    'format' => 'raw',
+                    'value' => function ($model) {
+                        $price = number_format($model->price / 1e9, 1) . ' Tỷ ' . $model->currencies->code;
+                        $pricePerM2 = (!empty($model->area_total) && $model->area_total > 0) 
+                            ? number_format($model->price / $model->area_total / 1e6, 0) . ' Triệu/m2' 
+                            : '-';
+                        return Html::tag('div', $price, ['class' => 'font-semibold text-red-600']) .
+                            Html::tag('div', '-' . $pricePerM2, ['class' => 'text-xs text-gray-600']);
                     },
-                    'delete' => function ($url, $model) {
-                        if (Yii::$app->user->identity->jobTitle->role_code === 'manager' ||  Yii::$app->user->identity->jobTitle->role_code == 'super_admin') {
-                            return Html::a('<i class="fas fa-trash-alt"></i>', $url, [
-                                'class' => 'text-blue-600 hover:text-blue-800 mx-1',
-                                'title' => 'Xóa',
-                                'data' => [
-                                    'confirm' => 'Bạn có chắc chắn muốn xóa bài viết này?',
-                                    'method' => 'post',
-                                ],
-                        ]);
+                ],
+                [
+                    'attribute' => 'area_total',
+                    'label' => 'Diện Tích',
+                    'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
+                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
+                    'format' => 'raw',
+                    'value' => function ($model) {
+                        $dimensions = ($model->area_width && $model->area_length) 
+                            ? "({$model->area_width}m × {$model->area_length}m)" 
+                            : '';
+                        return Html::tag('div', $model->area_total . ' m2', ['class' => 'font-semibold']) .
+                            Html::tag('div', $dimensions, ['class' => 'text-xs text-gray-600']);
+                    },
+                ],
+                [
+                    'label' => 'Kết Cấu',
+                    'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
+                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
+                    'value' => function () { return ''; },
+                ],
+                [
+                    'label' => 'HĐ Thuê',
+                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
+                    'format' => 'raw',
+                    'value' => function ($model) {
+                        if ($model->rentalContract) {
+                            $contract = $model->rentalContract;
+
+                            $priceText = number_format($contract->rent_price / 1e6) . ' Triệu';
+                            if ($contract->currency) {
+                                $priceText .= ' ' . $contract->currency->code;
+                            }
+
+                            $timeUnitText = '';
+                            if ($contract->price_time_unit === 'per_month') {
+                                $timeUnitText = '/Tháng';
+                            } elseif ($contract->price_time_unit === 'per_year') {
+                                $timeUnitText = '/Năm';
+                            }
+
+                            $priceHtml = Html::tag('div', $priceText, ['class' => 'font-semibold text-red-600']);
+                            $unitHtml = Html::tag('div', $timeUnitText, ['class' => 'text-xs text-gray-600']);
+
+                            return $priceHtml . $unitHtml;
                         }
+
                         return '';
                     },
                 ],
-            ],
-        ],
-    ]);
+                [
+                    'label' => 'Lưu',
+                    'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
+                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
+                    'format' => 'raw',
+                    'value' => function ($model) {
+                        $propertyId = $model->property_id; 
+                        $isFavorited = FavoriteHelper::isPropertyFavorited($propertyId); 
 
-    echo CustomLinkPager::widget([
-        'pagination' => $dataProvider->pagination,
-        'options' => ['class' => ''],
-        'maxButtonCount' => 5,
-        'firstPageLabel' => false,
-        'lastPageLabel' => false,
-        'prevPageLabel' => '<i class="fas fa-chevron-left"></i>',
-        'nextPageLabel' => '<i class="fas fa-chevron-right"></i>',
-    ]);
-?>
+                        $iconClass = $isFavorited ? 'fas fa-heart text-red-500' : 'far fa-heart text-gray-400';
+                        $title = $isFavorited ? 'Bỏ lưu' : 'Lưu';
+                        $dataAttributes = [
+                            'data-property-id' => $propertyId,
+                            'data-favorited' => (int)$isFavorited,
+                            'data-url' => Url::to(['/property/toggle-favorite']),
+                        ];
 
-<div id="dialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
-    <div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl">
-            <div class="flex justify-between items-center p-4 border-b">
-                <h2 class="text-lg font-semibold text-gray-800">DỮ LIỆU NHÀ ĐẤT</h2>
-                <button id="cancelIcon" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times-circle text-xl"></i>
-                </button>
-            </div>
-
-            <?php $form = ActiveForm::begin([
-                'id' => 'property-form',
-                'action' => ['property/create'], 
-                'method' => 'post',
-                'enableAjaxValidation' => false, 
-                'enableClientValidation' => true,
-                'fieldConfig' => [
-                    'errorOptions' => ['class' => 'text-red-500 text-sm mt-1'], 
-                ], 
-            ]); ?>
-
-            <div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div>
-                    <?= $form->field($model, 'listing_types_id', [
-                        'options' => ['class' => ''],
-                    ])->radioList([
-                        1 => 'Bán', 
-                        2 => 'Cho Thuê', 
-                    ], [
-                        'item' => function ($index, $label, $name, $checked, $value) {
-                            $check = $checked ? 'checked' : '';
-                            return "<label class='inline-flex items-center space-x-2'>" .
-                                "<input type='radio' class='form-radio text-blue-600' name='{$name}' value='{$value}' {$check}>" .
-                                "<span class='text-gray-700 text-sm'>{$label}</span>" .
-                                "</label>";
+                        return Html::tag('span', Html::tag('i', '', ['class' => $iconClass]), [
+                            'class' => 'favorite-toggle cursor-pointer',
+                            'title' => $title,
+                        ] + $dataAttributes);
+                    },
+                ],
+                [
+                    'attribute' => 'transaction_status_id',
+                    'label' => 'Cập nhật',
+                    'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
+                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
+                    'format' => 'raw',
+                    'value' => function ($model) {
+                        if (!$model->transactionStatus || $model->transactionStatus->transaction_status_id === 0) {
+                            $statusBadge = '';
+                        } else {
+                            $statusBadge = $model->transactionStatus ? Html::tag('span', $model->transactionStatus->status_name, [
+                            'class' => 'text-xs font-medium px-2.5 py-0.5 rounded-full ' . $model->transactionStatus->class_css,
+                        ]) : " ";
                         }
-                    ])->label('<span class="text-red-500">*</span> Loại Giao Dịch', ['class' => 'text-sm font-medium text-gray-700']) ?>
+                        $relativeTime = Yii::$app->formatter->asRelativeTime($model->updated_at);
+                        $updateTimeDiv = Html::tag('div', $relativeTime, ['class' => 'text-xs text-gray-500 mt-1']);
+                        $editButton = $model->is_new ?? false ? Html::a(
+                            '<i class="fas fa-pencil-alt mr-1"></i>Sản Phẩm Mới',
+                            ['update', 'property_id' => $model->property_id],
+                            ['class' => 'mt-2 text-blue-600 hover:text-blue-800 text-xs flex items-center']
+                        ) : '';
+                        return $statusBadge . $updateTimeDiv . $editButton;
+                    },
+                ],
+                [
+                    'class' => 'yii\grid\ActionColumn',
+                    'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
+                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
+                    'urlCreator' => function ($action, $model, $key, $index, $column) {
+                        return Url::toRoute([$action, 'property_id' => $model->property_id]);
+                    },
+                    'template' => '{view} {update} {delete}',
+                    'buttons' => [
+                        'view' => function ($url, $model) {
+                            return Html::a('<i class="fas fa-eye"></i>', $url, [
+                                'class' => 'text-blue-600 hover:text-blue-800 mx-1',
+                                'title' => 'Xem',
+                            ]);
+                        },
+                        'update' => function ($url, $model) {
+                            return Html::a('<i class="fas fa-pencil-alt"></i>', $url, [
+                                'class' => 'text-blue-600 hover:text-blue-800 mx-1',
+                                'title' => 'Cập Nhật',
+                            ]);
+                        },
+                        'delete' => function ($url, $model) {
+                            if (Yii::$app->user->identity->jobTitle->role_code === 'manager' ||  Yii::$app->user->identity->jobTitle->role_code == 'super_admin') {
+                                return Html::a('<i class="fas fa-trash-alt"></i>', $url, [
+                                    'class' => 'text-blue-600 hover:text-blue-800 mx-1',
+                                    'title' => 'Xóa',
+                                    'data' => [
+                                        'confirm' => 'Bạn có chắc chắn muốn xóa bài viết này?',
+                                        'method' => 'post',
+                                    ],
+                            ]);
+                            }
+                            return '';
+                        },
+                    ],
+                ],
+            ],
+        ]);
+
+            echo CustomLinkPager::widget([
+                'pagination' => $dataProvider->pagination,
+                'options' => ['class' => ''],
+                'maxButtonCount' => 5,
+                'firstPageLabel' => false,
+                'lastPageLabel' => false,
+                'prevPageLabel' => '<i class="fas fa-chevron-left"></i>',
+                'nextPageLabel' => '<i class="fas fa-chevron-right"></i>',
+            ]);
+        ?>
+    </div>
+
+
+    <div id="dialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl">
+                <div class="flex justify-between items-center p-4 border-b">
+                    <h2 class="text-lg font-semibold text-gray-800">DỮ LIỆU NHÀ ĐẤT</h2>
+                    <button id="cancelIcon" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times-circle text-xl"></i>
+                    </button>
                 </div>
 
-                <div>
-                    <?= $form->field($model, 'property_type_id')->dropDownList(
-                        ArrayHelper::map($modelPropertyTypes, 'property_type_id', 'type_name'),
-                        [
-                            'prompt' => 'Chọn Loại BĐS',
-                            'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
-                        ]
-                    )->label('<span class="text-red-500">*</span> Loại BĐS', ['class' => 'text-sm font-medium text-gray-700']) ?>
+                <?php $form = ActiveForm::begin([
+                    'id' => 'property-form',
+                    'action' => ['property/create'], 
+                    'method' => 'post',
+                    'enableAjaxValidation' => false, 
+                    'enableClientValidation' => true,
+                    'fieldConfig' => [
+                        'errorOptions' => ['class' => 'text-red-500 text-sm mt-1'], 
+                    ], 
+                ]); ?>
+
+                <div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div>
+                        <?= $form->field($model, 'listing_types_id', [
+                            'options' => ['class' => ''],
+                        ])->radioList([
+                            1 => 'Bán', 
+                            2 => 'Cho Thuê', 
+                        ], [
+                            'item' => function ($index, $label, $name, $checked, $value) {
+                                $check = $checked ? 'checked' : '';
+                                return "<label class='inline-flex items-center space-x-2'>" .
+                                    "<input type='radio' class='form-radio text-blue-600' name='{$name}' value='{$value}' {$check}>" .
+                                    "<span class='text-gray-700 text-sm'>{$label}</span>" .
+                                    "</label>";
+                            }
+                        ])->label('<span class="text-red-500">*</span> Loại Giao Dịch', ['class' => 'text-sm font-medium text-gray-700']) ?>
+                    </div>
+
+                    <div>
+                        <?= $form->field($model, 'property_type_id')->dropDownList(
+                            ArrayHelper::map($modelPropertyTypes, 'property_type_id', 'type_name'),
+                            [
+                                'prompt' => 'Chọn Loại BĐS',
+                                'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
+                            ]
+                        )->label('<span class="text-red-500">*</span> Loại BĐS', ['class' => 'text-sm font-medium text-gray-700']) ?>
+                    </div>
+
+                    <div>
+                        <?= $form->field($model, 'provinces')->dropDownList(
+                            ArrayHelper::map($modelProvinces, 'Name', 'Name'),
+                            [
+                                'prompt' => 'Chọn Tỉnh Thành',
+                                'value' => 'Hồ Chí Minh',
+                                'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
+                            ]
+                        )->label('<span class="text-red-500">*</span> Tỉnh Thành', ['class' => 'text-sm font-medium text-gray-700']) ?>
+                    </div>
+
+                    <div>
+                        <?= $form->field($model, 'districts')->dropDownList(
+                            ArrayHelper::map($modelDistricts, 'Name', 'Name'),
+                            [
+                                'prompt' => 'Chọn Quận Huyện...', 
+                                'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
+                            ]
+                        )->label('<span class="text-red-500">*</span> Quận Huyện', ['class' => 'text-sm font-medium text-gray-700']) ?>
+                    </div>
+
+                    <div>
+                        <?= $form->field($model, 'wards')->dropDownList(
+                            [],
+                            [
+                                'prompt' => 'Chọn Phường / Xã', 
+                                'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
+                            ]
+                        )->label('<span class="text-red-500">*</span> Phường / Xã', ['class' => 'text-sm font-medium text-gray-700']) ?>
+                    </div>
+
+                    <div>
+                        <?= $form->field($model, 'streets')->dropDownList(
+                            [],
+                            [
+                                'prompt' => 'Chọn Đường', 
+                                'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
+                            ]
+                        )->label('<span class="text-red-500">*</span> Đường', ['class' => 'text-sm font-medium text-gray-700']) ?>
+                    </div>
+
+                    <div>
+                        <?= $form->field($model, 'house_number')->textInput([
+                            'class' => 'block w-full rounded-md border-2 border-gray-400 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base p-2'
+                        ])->label('<span class="text-red-500">*</span> Số Nhà', ['class' => 'text-base font-medium text-gray-700']) ?>
+                    </div>
+
+                    <div>
+                        <?= $form->field($model, 'plot_number')->textInput([
+                            'class' => 'block w-full rounded-md border-2 border-gray-400 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base p-2'
+                        ])->label('Số Thửa', ['class' => 'text-base font-medium text-gray-700']) ?>
+                    </div>
+
+                    <div>
+                        <?= $form->field($model, 'sheet_number')->textInput([
+                            'class' => 'block w-full rounded-md border-2 border-gray-400 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base p-2'
+                        ])->label('Số Tờ', ['class' => 'text-base font-medium text-gray-700']) ?>
+                    </div>
+
+                    <div>
+                        <?= $form->field($model, 'lot_number')->textInput([
+                            'class' => 'block w-full rounded-md border-2 border-gray-400 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base p-2'
+                        ])->label('Số Lô', ['class' => 'text-base font-medium text-gray-700']) ?>
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <?= $form->field($model, 'region')->textInput([
+                            'placeholder' => 'Ví dụ: CityLand, Trung Sơn, Cư Xá Phú Lâm...',
+                            'class' => 'block w-full rounded-md border-2 border-gray-400 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base p-2'
+                        ])->label('Khu Vực', ['class' => 'text-base font-medium text-gray-700']) ?>
+                    </div>
                 </div>
 
-                <div>
-                    <?= $form->field($model, 'provinces')->dropDownList(
-                        ArrayHelper::map($modelProvinces, 'Name', 'Name'),
-                        [
-                            'prompt' => 'Chọn Tỉnh Thành',
-                            'value' => 'Hồ Chí Minh',
-                            'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
-                        ]
-                    )->label('<span class="text-red-500">*</span> Tỉnh Thành', ['class' => 'text-sm font-medium text-gray-700']) ?>
+                <div class="p-4 flex justify-center space-x-4 border-t">
+                    <?= Html::submitButton('<i class="fas fa-arrow-right mr-2"></i> TIẾP TỤC', ['id' => 'createButton', 'class' => 'bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md flex items-center text-sm']) ?>
+                    <?= Html::button('<i class="fas fa-times mr-2"></i> HỦY', ['id' => 'cancelButton', 'class' => 'bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-md flex items-center text-sm']) ?>
                 </div>
 
-                <div>
-                    <?= $form->field($model, 'districts')->dropDownList(
-                        ArrayHelper::map($modelDistricts, 'Name', 'Name'),
-                        [
-                            'prompt' => 'Chọn Quận Huyện...', 
-                            'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
-                        ]
-                    )->label('<span class="text-red-500">*</span> Quận Huyện', ['class' => 'text-sm font-medium text-gray-700']) ?>
-                </div>
-
-                <div>
-                    <?= $form->field($model, 'wards')->dropDownList(
-                        [],
-                        [
-                            'prompt' => 'Chọn Phường / Xã', 
-                            'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
-                        ]
-                    )->label('<span class="text-red-500">*</span> Phường / Xã', ['class' => 'text-sm font-medium text-gray-700']) ?>
-                </div>
-
-                <div>
-                    <?= $form->field($model, 'streets')->dropDownList(
-                        [],
-                        [
-                            'prompt' => 'Chọn Đường', 
-                            'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
-                        ]
-                    )->label('<span class="text-red-500">*</span> Đường', ['class' => 'text-sm font-medium text-gray-700']) ?>
-                </div>
-
-                <div>
-                    <?= $form->field($model, 'house_number')->textInput([
-                        'class' => 'block w-full rounded-md border-2 border-gray-400 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base p-2'
-                    ])->label('<span class="text-red-500">*</span> Số Nhà', ['class' => 'text-base font-medium text-gray-700']) ?>
-                </div>
-
-                <div>
-                    <?= $form->field($model, 'plot_number')->textInput([
-                        'class' => 'block w-full rounded-md border-2 border-gray-400 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base p-2'
-                    ])->label('Số Thửa', ['class' => 'text-base font-medium text-gray-700']) ?>
-                </div>
-
-                <div>
-                    <?= $form->field($model, 'sheet_number')->textInput([
-                        'class' => 'block w-full rounded-md border-2 border-gray-400 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base p-2'
-                    ])->label('Số Tờ', ['class' => 'text-base font-medium text-gray-700']) ?>
-                </div>
-
-                <div>
-                    <?= $form->field($model, 'lot_number')->textInput([
-                        'class' => 'block w-full rounded-md border-2 border-gray-400 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base p-2'
-                    ])->label('Số Lô', ['class' => 'text-base font-medium text-gray-700']) ?>
-                </div>
-
-                <div class="md:col-span-2">
-                    <?= $form->field($model, 'region')->textInput([
-                        'placeholder' => 'Ví dụ: CityLand, Trung Sơn, Cư Xá Phú Lâm...',
-                        'class' => 'block w-full rounded-md border-2 border-gray-400 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base p-2'
-                    ])->label('Khu Vực', ['class' => 'text-base font-medium text-gray-700']) ?>
-                </div>
+                <?php ActiveForm::end(); ?>
             </div>
-
-            <div class="p-4 flex justify-center space-x-4 border-t">
-                <?= Html::submitButton('<i class="fas fa-arrow-right mr-2"></i> TIẾP TỤC', ['id' => 'createButton', 'class' => 'bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md flex items-center text-sm']) ?>
-                <?= Html::button('<i class="fas fa-times mr-2"></i> HỦY', ['id' => 'cancelButton', 'class' => 'bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-md flex items-center text-sm']) ?>
-            </div>
-
-            <?php ActiveForm::end(); ?>
         </div>
     </div>
-</div>
-<script>
-    
-    // Location Prompt Logic
-    const locationModal = document.getElementById('locationModal');
-    const allowLocationBtn = document.getElementById('allowLocation');
-    const retryLocationBtn = document.getElementById('retryLocation');
-    const locationError = document.getElementById('locationError');
-    const mainContent = document.querySelector('main');
 
-    if (locationModal && allowLocationBtn && retryLocationBtn && locationError && mainContent) {
-        if (!locationModal.classList.contains('hidden')) {
-            requestLocation();
-        }
+    <script>
+        
+        // Location Prompt Logic
+        const locationModal = document.getElementById('locationModal');
+        const allowLocationBtn = document.getElementById('allowLocation');
+        const retryLocationBtn = document.getElementById('retryLocation');
+        const locationError = document.getElementById('locationError');
+        const mainContent = document.querySelector('main');
 
-        allowLocationBtn.addEventListener('click', requestLocation);
-        retryLocationBtn.addEventListener('click', requestLocation);
-
-        function requestLocation() {
-            if (!navigator.geolocation) {
-                locationError.textContent = 'Trình duyệt của bạn không hỗ trợ định vị.';
-                locationError.classList.remove('hidden');
-                retryLocationBtn.classList.remove('hidden');
-                allowLocationBtn.classList.add('hidden');
-                return;
+        if (locationModal && allowLocationBtn && retryLocationBtn && locationError && mainContent) {
+            if (!locationModal.classList.contains('hidden')) {
+                requestLocation();
             }
 
-            locationError.classList.add('hidden');
-            retryLocationBtn.classList.add('hidden');
-            allowLocationBtn.classList.add('hidden');
+            allowLocationBtn.addEventListener('click', requestLocation);
+            retryLocationBtn.addEventListener('click', requestLocation);
 
-            navigator.geolocation.getCurrentPosition(
-                function(position) {
-                    const latitude = position.coords.latitude;
-                    const longitude = position.coords.longitude;
-
-                    // Detect device information (basic detection)
-                    const deviceType = /Mobi|Android|iPhone/i.test(navigator.userAgent) ? 'Điện thoại' : 'Máy Tính';
-                    const os = navigator.platform || 'Unknown';
-                    const browser = navigator.userAgent.match(/(Chrome|Firefox|Safari|Edge)/i)?.[1] || 'Unknown';
-                    const sessionId = '<?= Yii::$app->session->id ?>'; // Yii2 session ID
-
-                    fetch('<?= \yii\helpers\Url::to(['site/save-location']) ?>', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                            'X-CSRF-Token': '<?= Yii::$app->request->csrfToken ?>'
-                        },
-                        body: 'latitude=' + latitude + '&longitude=' + longitude +
-                              '&device_type=' + encodeURIComponent(deviceType) +
-                              '&os=' + encodeURIComponent(os) +
-                              '&browser=' + encodeURIComponent(browser) +
-                              '&session_id=' + encodeURIComponent(sessionId)
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            locationModal.classList.add('hidden');
-                            mainContent.classList.remove('hidden');
-                            fetch('<?= \yii\helpers\Url::to(['site/clear-location-prompt']) ?>', {
-                                method: 'POST',
-                                headers: {
-                                    'X-CSRF-Token': '<?= Yii::$app->request->csrfToken ?>'
-                                }
-                            }).then(() => {
-                                // Optional: Reload only if needed
-                                // window.location.reload();
-                            });
-                        } else {
-                            locationError.textContent = data.message || 'Không thể lưu vị trí. Vui lòng thử lại.';
-                            locationError.classList.remove('hidden');
-                            retryLocationBtn.classList.remove('hidden');
-                        }
-                    })
-                    .catch(error => {
-                        locationError.textContent = 'Lỗi khi lưu vị trí: ' + error.message;
-                        locationError.classList.remove('hidden');
-                        retryLocationBtn.classList.remove('hidden');
-                    });
-                },
-                function(error) {
-                    let errorMessage = 'Vui lòng bật dịch vụ định vị để tiếp tục.';
-                    switch (error.code) {
-                        case error.PERMISSION_DENIED:
-                            errorMessage = 'Bạn đã từ chối chia sẻ vị trí. Vui lòng bật định vị trong cài đặt trình duyệt.';
-                            break;
-                        case error.POSITION_UNAVAILABLE:
-                            errorMessage = 'Không thể lấy được vị trí. Vui lòng kiểm tra kết nối mạng.';
-                            break;
-                        case error.TIMEOUT:
-                            errorMessage = 'Yêu cầu vị trí đã hết thời gian. Vui lòng thử lại.';
-                            break;
-                    }
-                    locationError.textContent = errorMessage;
+            function requestLocation() {
+                if (!navigator.geolocation) {
+                    locationError.textContent = 'Trình duyệt của bạn không hỗ trợ định vị.';
                     locationError.classList.remove('hidden');
                     retryLocationBtn.classList.remove('hidden');
                     allowLocationBtn.classList.add('hidden');
-                },
-                { enableHighAccuracy: true, timeout: 10000 }
-            );
-        }
-    }
+                    return;
+                }
 
-    navigator.geolocation.getCurrentPosition(
-        function(position) {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
+                locationError.classList.add('hidden');
+                retryLocationBtn.classList.add('hidden');
+                allowLocationBtn.classList.add('hidden');
 
-            // Detect device information (basic detection)
-            const deviceType = /Mobi|Android|iPhone/i.test(navigator.userAgent) ? 'Điện thoại' : 'Máy Tính';
-            const os = navigator.platform || 'Unknown';
-            const browser = navigator.userAgent.match(/(Chrome|Firefox|Safari|Edge)/i)?.[1] || 'Unknown';
-            const sessionId = '<?= Yii::$app->session->id ?>'; // Yii2 session ID
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
 
-            fetch('<?= \yii\helpers\Url::to(['site/save-location']) ?>', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-CSRF-Token': '<?= Yii::$app->request->csrfToken ?>'
-                },
-                body: 'latitude=' + latitude + '&longitude=' + longitude +
-                        '&device_type=' + encodeURIComponent(deviceType) +
-                        '&os=' + encodeURIComponent(os) +
-                        '&browser=' + encodeURIComponent(browser) +
-                        '&session_id=' + encodeURIComponent(sessionId)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    locationModal.classList.add('hidden');
-                    mainContent.classList.remove('hidden');
-                    fetch('<?= \yii\helpers\Url::to(['site/clear-location-prompt']) ?>', {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-Token': '<?= Yii::$app->request->csrfToken ?>'
+                        // Detect device information (basic detection)
+                        const deviceType = /Mobi|Android|iPhone/i.test(navigator.userAgent) ? 'Điện thoại' : 'Máy Tính';
+                        const os = navigator.platform || 'Unknown';
+                        const browser = navigator.userAgent.match(/(Chrome|Firefox|Safari|Edge)/i)?.[1] || 'Unknown';
+                        const sessionId = '<?= Yii::$app->session->id ?>'; // Yii2 session ID
+
+                        fetch('<?= \yii\helpers\Url::to(['site/save-location']) ?>', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                                'X-CSRF-Token': '<?= Yii::$app->request->csrfToken ?>'
+                            },
+                            body: 'latitude=' + latitude + '&longitude=' + longitude +
+                                '&device_type=' + encodeURIComponent(deviceType) +
+                                '&os=' + encodeURIComponent(os) +
+                                '&browser=' + encodeURIComponent(browser) +
+                                '&session_id=' + encodeURIComponent(sessionId)
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                locationModal.classList.add('hidden');
+                                mainContent.classList.remove('hidden');
+                                fetch('<?= \yii\helpers\Url::to(['site/clear-location-prompt']) ?>', {
+                                    method: 'POST',
+                                    headers: {
+                                        'X-CSRF-Token': '<?= Yii::$app->request->csrfToken ?>'
+                                    }
+                                }).then(() => {
+                                    // Optional: Reload only if needed
+                                    // window.location.reload();
+                                });
+                            } else {
+                                locationError.textContent = data.message || 'Không thể lưu vị trí. Vui lòng thử lại.';
+                                locationError.classList.remove('hidden');
+                                retryLocationBtn.classList.remove('hidden');
+                            }
+                        })
+                        .catch(error => {
+                            locationError.textContent = 'Lỗi khi lưu vị trí: ' + error.message;
+                            locationError.classList.remove('hidden');
+                            retryLocationBtn.classList.remove('hidden');
+                        });
+                    },
+                    function(error) {
+                        let errorMessage = 'Vui lòng bật dịch vụ định vị để tiếp tục.';
+                        switch (error.code) {
+                            case error.PERMISSION_DENIED:
+                                errorMessage = 'Bạn đã từ chối chia sẻ vị trí. Vui lòng bật định vị trong cài đặt trình duyệt.';
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                errorMessage = 'Không thể lấy được vị trí. Vui lòng kiểm tra kết nối mạng.';
+                                break;
+                            case error.TIMEOUT:
+                                errorMessage = 'Yêu cầu vị trí đã hết thời gian. Vui lòng thử lại.';
+                                break;
                         }
-                    }).then(() => {
-                        // Optional: Reload only if needed
-                        // window.location.reload();
-                    });
-                } else {
-                    locationError.textContent = data.message || 'Không thể lưu vị trí. Vui lòng thử lại.';
+                        locationError.textContent = errorMessage;
+                        locationError.classList.remove('hidden');
+                        retryLocationBtn.classList.remove('hidden');
+                        allowLocationBtn.classList.add('hidden');
+                    },
+                    { enableHighAccuracy: true, timeout: 10000 }
+                );
+            }
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+
+                // Detect device information (basic detection)
+                const deviceType = /Mobi|Android|iPhone/i.test(navigator.userAgent) ? 'Điện thoại' : 'Máy Tính';
+                const os = navigator.platform || 'Unknown';
+                const browser = navigator.userAgent.match(/(Chrome|Firefox|Safari|Edge)/i)?.[1] || 'Unknown';
+                const sessionId = '<?= Yii::$app->session->id ?>'; // Yii2 session ID
+
+                fetch('<?= \yii\helpers\Url::to(['site/save-location']) ?>', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRF-Token': '<?= Yii::$app->request->csrfToken ?>'
+                    },
+                    body: 'latitude=' + latitude + '&longitude=' + longitude +
+                            '&device_type=' + encodeURIComponent(deviceType) +
+                            '&os=' + encodeURIComponent(os) +
+                            '&browser=' + encodeURIComponent(browser) +
+                            '&session_id=' + encodeURIComponent(sessionId)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        locationModal.classList.add('hidden');
+                        mainContent.classList.remove('hidden');
+                        fetch('<?= \yii\helpers\Url::to(['site/clear-location-prompt']) ?>', {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-Token': '<?= Yii::$app->request->csrfToken ?>'
+                            }
+                        }).then(() => {
+                            // Optional: Reload only if needed
+                            // window.location.reload();
+                        });
+                    } else {
+                        locationError.textContent = data.message || 'Không thể lưu vị trí. Vui lòng thử lại.';
+                        locationError.classList.remove('hidden');
+                        retryLocationBtn.classList.remove('hidden');
+                    }
+                })
+                .catch(error => {
+                    locationError.textContent = 'Lỗi khi lưu vị trí: ' + error.message;
                     locationError.classList.remove('hidden');
                     retryLocationBtn.classList.remove('hidden');
+                });
+            },
+            function(error) {
+                let errorMessage = 'Vui lòng bật dịch vụ định vị để tiếp tục.';
+                switch (error.code) {
+                    case error.PERMISSION_DENIED:
+                        errorMessage = 'Bạn đã từ chối chia sẻ vị trí. Vui lòng bật định vị trong cài đặt trình duyệt.';
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        errorMessage = 'Không thể lấy được vị trí. Vui lòng kiểm tra kết nối mạng.';
+                        break;
+                    case error.TIMEOUT:
+                        errorMessage = 'Yêu cầu vị trí đã hết thời gian. Vui lòng thử lại.';
+                        break;
                 }
-            })
-            .catch(error => {
-                locationError.textContent = 'Lỗi khi lưu vị trí: ' + error.message;
+                locationError.textContent = errorMessage;
                 locationError.classList.remove('hidden');
                 retryLocationBtn.classList.remove('hidden');
-            });
-        },
-        function(error) {
-            let errorMessage = 'Vui lòng bật dịch vụ định vị để tiếp tục.';
-            switch (error.code) {
-                case error.PERMISSION_DENIED:
-                    errorMessage = 'Bạn đã từ chối chia sẻ vị trí. Vui lòng bật định vị trong cài đặt trình duyệt.';
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    errorMessage = 'Không thể lấy được vị trí. Vui lòng kiểm tra kết nối mạng.';
-                    break;
-                case error.TIMEOUT:
-                    errorMessage = 'Yêu cầu vị trí đã hết thời gian. Vui lòng thử lại.';
-                    break;
+                allowLocationBtn.classList.add('hidden');
+            },
+            { enableHighAccuracy: true, timeout: 10000 }
+        );
+
+        $(window).scroll(function () {
+            var window_top = $(window).scrollTop() + 1;
+            var $tableContainer = $('.table-container');
+            var $thead = $tableContainer.find('thead');
+            var headerHeight = $('header').outerHeight(); 
+
+            if (window_top > headerHeight) {
+                $thead.addClass('thead-fixed animated fadeInDown');
+                $tableContainer.find('tbody').css('margin-top', $thead.outerHeight() + 'px');
+            } else {
+                $thead.removeClass('thead-fixed animated fadeInDown');
+                $tableContainer.find('tbody').css('margin-top', '0');
             }
-            locationError.textContent = errorMessage;
-            locationError.classList.remove('hidden');
-            retryLocationBtn.classList.remove('hidden');
-            allowLocationBtn.classList.add('hidden');
-        },
-        { enableHighAccuracy: true, timeout: 10000 }
-    );
+        });
 
-    $(window).scroll(function () {
-        var window_top = $(window).scrollTop() + 1;
-        var $tableContainer = $('.table-container');
-        var $thead = $tableContainer.find('thead');
-        var headerHeight = $('header').outerHeight(); 
 
-        if (window_top > headerHeight) {
-            $thead.addClass('thead-fixed animated fadeInDown');
-            $tableContainer.find('tbody').css('margin-top', $thead.outerHeight() + 'px');
+
+        const openDialogButton = document.getElementById('openDialog');
+        const dialog = document.getElementById('dialog');
+        const cancelButton = document.getElementById('cancelButton');
+        const cancelIcon = document.getElementById('cancelIcon');
+        const createButton = document.getElementById('createButton');
+        const inputField = document.getElementById('inputField');
+
+        // Open dialog
+        openDialogButton.addEventListener('click', () => {
+        dialog.classList.remove('hidden');
+        });
+
+        // Close dialog on cancel
+        cancelButton.addEventListener('click', () => {
+        dialog.classList.add('hidden');
+        inputField.value = ''; // Reset input
+        });
+
+        cancelIcon.addEventListener('click', () => {
+        dialog.classList.add('hidden');
+        inputField.value = ''; // Reset input
+        });
+
+        // Handle Tạo mới button click
+        createButton.addEventListener('click', () => {
+        const inputValue = inputField.value;
+        if (inputValue.trim()) {
+            alert(`Đã tạo mới với thông tin: ${inputValue}`);
+            dialog.classList.add('hidden');
+            inputField.value = ''; // Reset input
         } else {
-            $thead.removeClass('thead-fixed animated fadeInDown');
-            $tableContainer.find('tbody').css('margin-top', '0');
+            alert('Vui lòng nhập thông tin!');
         }
-    });
+        });
 
-
-
-    const openDialogButton = document.getElementById('openDialog');
-    const dialog = document.getElementById('dialog');
-    const cancelButton = document.getElementById('cancelButton');
-    const cancelIcon = document.getElementById('cancelIcon');
-    const createButton = document.getElementById('createButton');
-    const inputField = document.getElementById('inputField');
-
-    // Open dialog
-    openDialogButton.addEventListener('click', () => {
-      dialog.classList.remove('hidden');
-    });
-
-    // Close dialog on cancel
-    cancelButton.addEventListener('click', () => {
-      dialog.classList.add('hidden');
-      inputField.value = ''; // Reset input
-    });
-
-    cancelIcon.addEventListener('click', () => {
-      dialog.classList.add('hidden');
-      inputField.value = ''; // Reset input
-    });
-
-    // Handle Tạo mới button click
-    createButton.addEventListener('click', () => {
-      const inputValue = inputField.value;
-      if (inputValue.trim()) {
-        alert(`Đã tạo mới với thông tin: ${inputValue}`);
-        dialog.classList.add('hidden');
-        inputField.value = ''; // Reset input
-      } else {
-        alert('Vui lòng nhập thông tin!');
-      }
-    });
-
-    // Close dialog when clicking outside
-    dialog.addEventListener('click', (e) => {
-      if (e.target === dialog) {
-        dialog.classList.add('hidden');
-        inputField.value = ''; // Reset input
-      }
-    });
-  </script>
+        // Close dialog when clicking outside
+        dialog.addEventListener('click', (e) => {
+        if (e.target === dialog) {
+            dialog.classList.add('hidden');
+            inputField.value = ''; // Reset input
+        }
+        });
+    </script>
 </main>
 
 <?php

@@ -32,7 +32,7 @@ foreach ($advancedFields as $field) {
 ?>
 
 <!-- NÂNG CẤP: Logic giữ trạng thái mở được chuyển vào x-init bên dưới -->
-<div class="bg-white p-4 rounded-md shadow-sm mb-4"
+<div class="bg-white p-4 rounded-md shadow-sm mb-2"
      x-data="{ advancedSearchOpen: <?= $isAdvancedPanelOpen ? 'true' : 'false' ?> }"
 >
     <?php $form = ActiveForm::begin([
