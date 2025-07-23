@@ -73,6 +73,13 @@ return [
                         'GET me'      => 'me',
                     ],
                 ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/property',
+                    'extraPatterns' => [
+                        'GET index'  => 'index',
+                    ],
+                ],
                 'property-folder' => 'site/property-folder',
                 'property-user' => 'site/property-user',
                 'login-version' => 'site/login-version',
