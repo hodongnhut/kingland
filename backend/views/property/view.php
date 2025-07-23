@@ -220,12 +220,12 @@ function formatNumber($number) {
 
                 <div id="vi-tri-mat-tien" class="tab-sub-content space-y-4">
                     <div class="flex items-start justify-between">
-                        <p class="text-gray-700">Nhà có diện tích 4x20, khu trung tâm kinh doanh buôn bán ,tiện kinh doanh đa ngành nghề</p>
+                        <p class="text-gray-700">Nhà có diện tích <?= formatNumber($model->area_length) ?>m × <?= formatNumber($model->area_width) ?>m, khu trung tâm kinh doanh buôn bán ,tiện kinh doanh đa ngành nghề</p>
                         <button class="ml-4 text-gray-500 hover:text-gray-700 flex items-center text-sm">
                             <i class="far fa-copy mr-1"></i> Copy
                         </button>
                     </div>
-                    <p class="text-gray-700">50 tỷ (4.00 x 20.00)</p>
+                    <p class="text-gray-700"><?= formatPriceUnit($model->price) ?> tỷ (<?= formatNumber($model->area_length) ?>m × <?= formatNumber($model->area_width) ?>m)</p>
                     <button class="px-4 py-2 bg-red-100 text-red-700 text-sm font-medium rounded-full hover:bg-red-200">Đánh dấu Hot</button>
                 </div>
 
