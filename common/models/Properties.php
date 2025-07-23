@@ -85,10 +85,7 @@ class Properties extends \yii\db\ActiveRecord
         $payload = [
             'event_type' => 'property_created',
             'timestamp' => time(),
-            'data' => $this->getAttributes(),
-            'user' => [
-                'username' => $this->user->usename
-            ]
+            'data' => $this->getAttributes()
         ];
 
         try {
