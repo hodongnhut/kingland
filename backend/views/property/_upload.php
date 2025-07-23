@@ -4,7 +4,7 @@ use yii\helpers\Html;
 \yii\web\YiiAsset::register($this);
 ?>
 
-<div id="so-hong-content" class="tab-content bg-white p-6 rounded-lg shadow-md">
+<div id="so-hong-content" class="tab-content bg-white p-6 rounded-lg shadow-md mt-1">
     <h3 class="text-md font-semibold text-gray-800 mb-3">Hình ảnh đã tải lên</h3>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-white rounded-lg border border-gray-200 p-4">

@@ -29,33 +29,57 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
 /** @var yii\web\View $this */
 /** @var common\models\Properties $model */
 ?>
-
-<div class="bg-white p-6 rounded-lg shadow-md ">
-    <div class="flex items-center justify-between">
-        <h2 class="text-lg font-semibold text-gray-800">
-        <a href="<?= \yii\helpers\Url::to(['/property']) ?>">Màn hình chính</a> / 
-        Thêm Dữ Liệu Nhà Đất [Mã: <?= $model->property_id ?> - Loại Giao Dịch: <?= $model->listingType->name ?>]</h2>
-        <div class="flex space-x-2">
-            <?= Html::submitButton('<i class="fas fa-save"></i> Lưu Lại', [
-                'onclick' => 'submitPropertyForm()',
-                'class' => 'px-4 py-2 bg-orange-600 text-white rounded-md shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'
+<header class="bg-white shadow-md p-2 flex items-center justify-between rounded-bl-lg rounded-br-lg">
+    <div class="text-lg font-semibold text-gray-800">
+    <h2 class="text-lg font-semibold text-gray-800">
+            <a href="<?= \yii\helpers\Url::to(['/property']) ?>">Dữ Liệu Nhà Đất</a> / 
+            Thêm Dữ Liệu Nhà Đất [Mã: <?= $model->property_id ?> - Loại Giao Dịch: <?= $model->listingType->name ?>]</h2>
+    </div>
+    <div class="relative flex items-center space-x-4">
+    <div class="flex space-x-2">
+        <?= Html::submitButton('<i class="fas fa-save"></i> Lưu Lại', [
+            'onclick' => 'submitPropertyForm()',
+            'class' => 'px-4 py-2 bg-orange-600 text-white rounded-md shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'
+        ]) ?>
+        <?= Html::a('<i class="fas fa-arrow-left"></i> Quay lại', Yii::$app->request->referrer ?: ['index'], ['class' => 'px-4 py-2 bg-gray-200 text-gray-800 rounded-md shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500']) ?>
+    </div>
+        <button
+            id="userMenuButton"
+            class="w-10 h-10 bg-blue-500 hover:bg-blue-600 text-white rounded-full flex items-center justify-center shadow-md transition-colors duration-200"
+            aria-haspopup="true"
+            aria-expanded="false"
+        >
+            <i class="fas fa-user"></i>
+        </button>
+        <div
+            id="userMenu"
+            class="absolute right-0 mt-20 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-1 z-10 hidden"
+            role="menu"
+            aria-orientation="vertical"
+            aria-labelledby="userMenuButton"
+        >
+            <a href="<?= \yii\helpers\Url::to(['/login-version']) ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Phiên Đăng Nhập</a>
+            <a href="<?= \yii\helpers\Url::to(['/change-password']) ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Đổi Mật Khẩu</a>
+            <?= Html::a('Đăng Xuất', ['/site/logout'], [
+                'data-method' => 'post',
+                'class' => 'block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100',
+                'role' => 'menuitem'
             ]) ?>
-            <?= Html::a('<i class="fas fa-arrow-left"></i> Quay lại', Yii::$app->request->referrer ?: ['index'], ['class' => 'px-4 py-2 bg-gray-200 text-gray-800 rounded-md shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500']) ?>
         </div>
     </div>
-</div>
-
-<div class="bg-white mt-2 p-4 shadow-md flex items-center justify-between rounded-bl-lg rounded-br-lg rounded-tr-lg rounded-tl-lg">
-    <nav class="flex space-x-4">
-        <button id="thong-tin-tab" class="px-4 py-2 text-orange-600 border-b-2 border-orange-600 font-medium rounded-t-md">Thông Tin</button>
-        <button id="so-hong-tab" class="px-4 py-2 text-gray-600 hover:text-orange-600 hover:border-b-2 hover:border-orange-600 transition-colors duration-200 rounded-t-md">Sổ Hồng & Hình Ảnh</button>
-    </nav>
-    <div class="text-lg font-semibold text-gray-800">
-        Địa Chỉ <span class="text-gray-500 text-sm">→ <?= Html::encode($model->title) ?></span>
+</header>
+<main class="flex-1 p-2 overflow-auto">
+   
+    <div class="bg-white mt-2 p-4 shadow-md flex items-center justify-between rounded-bl-lg rounded-br-lg rounded-tr-lg rounded-tl-lg">
+        <nav class="flex space-x-4">
+            <button id="thong-tin-tab" class="px-4 py-2 text-orange-600 border-b-2 border-orange-600 font-medium rounded-t-md">Thông Tin</button>
+            <button id="so-hong-tab" class="px-4 py-2 text-gray-600 hover:text-orange-600 hover:border-b-2 hover:border-orange-600 transition-colors duration-200 rounded-t-md">Sổ Hồng & Hình Ảnh</button>
+        </nav>
+        <div class="text-lg font-semibold text-gray-800">
+            Địa Chỉ <span class="text-gray-500 text-sm">→ <?= Html::encode($model->title) ?></span>
+        </div>
     </div>
-</div>
 
-<main class="flex-1 mt-2 overflow-y-auto hide-scrollbar">
     <div id="thong-tin-content" class="tab-content">
         <?php $form = ActiveForm::begin([
             'id'=> 'property',
@@ -81,7 +105,7 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                 <?= Yii::$app->session->getFlash('error') ?>
             </div>
         <?php endif; ?>
-         
+        
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-md space-y-6">
                 <label class="text-md font-semibold text-gray-800 required">Vị Trí BĐS</label>
@@ -277,7 +301,7 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                         <label for="district" class="block text-sm font-medium text-gray-700 mb-1 required">Quận / Huyện</label>
                         <?= $form->field($model, 'district_county')->label(label: false) ?>
                     </div>
-                   
+                
                     <div>
                         <label for="ward" class="block text-sm font-medium text-gray-700 mb-1 required">Phường / Xã</label>
                         <?= $form->field($model, 'ward_commune')->label(false) ?>
@@ -607,7 +631,7 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                     <label class="text-md font-semibold text-gray-800 mb-3 required">Loại Tài Sản</label>
                     <div class="flex flex-wrap gap-2">
                     <?= $form->field($model, 'asset_type_id', [
-                         'template' => '{input}{error}',
+                        'template' => '{input}{error}',
                     ])->radioList(
                             $assetTypes,
                             [
@@ -621,7 +645,7 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                             ]
                         ) ?>
                     </div>
-                   
+                
                 </div>
                 <!-- Commission Type Section -->
                 <div>
@@ -708,60 +732,60 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                     ]); ?>
                 </div>
             </div>
-         </div>
+        </div>
         <?php ActiveForm::end(); ?>
     </div>
+    
     <?= $this->render('_upload', [
         'model' => $model,
     ]) ?>
-</main>
 
-<div id="contact-modal" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-        <span class="close-button">&times;</span>
-        <h3 class="text-lg font-semibold text-gray-800 mb-4">Thêm Thông Tin Liên Hệ</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                <label for="contact-role" class="block text-sm font-medium text-gray-700 mb-1">Vai Trò</label>
-                <select id="contact-role" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
-                <option value="">Chọn Vai Trò</option>
-                    <option value="0">Không xác định</option>
-                    <option value="1">Chủ nhà</option>
-                    <option value="2">Độc Quyền</option>
-                    <option value="3">Môi Giới Hợp Tác</option>
-                    <option value="4">Người Thân Chủ Nhà</option>
-                    <option value="5">Trợ Lý Chủ Nhà</option>
-                    <option value="6">Đại Diện Công Ty</option>
-                    <option value="7">Đại Diện Chủ Nhà</option>
-                    <option value="8">Đầu Tư</option>
-                </select>
+    <div id="contact-modal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Thêm Thông Tin Liên Hệ</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="contact-role" class="block text-sm font-medium text-gray-700 mb-1">Vai Trò</label>
+                    <select id="contact-role" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                    <option value="">Chọn Vai Trò</option>
+                        <option value="0">Không xác định</option>
+                        <option value="1">Chủ nhà</option>
+                        <option value="2">Độc Quyền</option>
+                        <option value="3">Môi Giới Hợp Tác</option>
+                        <option value="4">Người Thân Chủ Nhà</option>
+                        <option value="5">Trợ Lý Chủ Nhà</option>
+                        <option value="6">Đại Diện Công Ty</option>
+                        <option value="7">Đại Diện Chủ Nhà</option>
+                        <option value="8">Đầu Tư</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="contact-name" class="block text-sm font-medium text-gray-700 mb-1">Tên</label>
+                    <input type="text" id="contact-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                </div>
+                <div>
+                    <label for="contact-phone" class="block text-sm font-medium text-gray-700 mb-1">Điện thoại</label>
+                    <input type="text" id="contact-phone" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                </div>
+                <div>
+                    <label for="contact-gender" class="block text-sm font-medium text-gray-700 mb-1">Giới tính</label>
+                    <select id="contact-gender" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                        <option >Chọn Giới tính</option>
+                        <option value="1">Nam</option>
+                        <option value="2">Nữ</option>
+                        <option value="0">Khác</option>
+                    </select>
+                </div>
             </div>
-            <div>
-                <label for="contact-name" class="block text-sm font-medium text-gray-700 mb-1">Tên</label>
-                <input type="text" id="contact-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+            <div class="flex justify-end mt-6 space-x-2">
+                <button id="save-contact-button" class="px-4 py-2 bg-orange-600 text-white rounded-md shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">Lưu</button>
+                <button id="cancel-contact-button" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">Hủy</button>
             </div>
-            <div>
-                <label for="contact-phone" class="block text-sm font-medium text-gray-700 mb-1">Điện thoại</label>
-                <input type="text" id="contact-phone" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
-            </div>
-            <div>
-                <label for="contact-gender" class="block text-sm font-medium text-gray-700 mb-1">Giới tính</label>
-                <select id="contact-gender" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
-                    <option >Chọn Giới tính</option>
-                    <option value="1">Nam</option>
-                    <option value="2">Nữ</option>
-                    <option value="0">Khác</option>
-                </select>
-            </div>
-        </div>
-        <div class="flex justify-end mt-6 space-x-2">
-            <button id="save-contact-button" class="px-4 py-2 bg-orange-600 text-white rounded-md shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">Lưu</button>
-            <button id="cancel-contact-button" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">Hủy</button>
         </div>
     </div>
-</div>
-
+</main>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
