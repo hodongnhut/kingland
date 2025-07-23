@@ -10,7 +10,7 @@ class PropertyController extends Controller
 {
     public function actionUpdateNewDistrict()
     {
-        $query = Properties::find();
+        $query = Properties::find()->where(['new_district' => null]);
         $batchSize = 500;
         $total = $query->count();
         $updated = 0;
