@@ -302,8 +302,19 @@ function formatNumber($number) {
 
             <!-- Loại Tài Sản Card -->
             <div class="bg-white p-6 rounded-lg shadow-md space-y-4">
-                <p class="text-sm text-gray-500">Loại Tài Sản: <span class="font-semibold text-gray-800"><?= $model->assetType->type_name ?></span></p>
-                <p class="text-sm text-gray-500">Đánh dấu: <span class="font-semibold text-green-700"><?= $model->transactionStatus->status_name ?></span></p>
+            <p class="text-sm text-gray-500">
+                Loại Tài Sản:
+                <span class="font-semibold text-gray-800">
+                    <?= $model->assetType ? $model->assetType->type_name : '(Chưa xác định)' ?>
+                </span>
+            </p>
+            <p class="text-sm text-gray-500">
+                Đánh dấu:
+                <span class="font-semibold text-green-700">
+                    <?= $model->transactionStatus ? $model->transactionStatus->status_name : '(Chưa xác định)' ?>
+                </span>
+            </p>
+
                 <p class="text-sm text-gray-500">Mức giá: <span class="font-bold text-gray-800"><?= formatPriceUnit($model->price) ?></span> <i class="fas fa-arrow-up text-green-500 ml-1"></i></p>
                 <p class="text-sm text-gray-500">Giá trên m2: <span class="font-bold text-gray-800"><?= $pricePerSqM_Text ?> </span></p>
                 <button class="px-4 py-2 bg-green-100 text-green-700 text-sm font-medium rounded-full hover:bg-green-200 flex items-center space-x-2">
