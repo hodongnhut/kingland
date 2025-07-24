@@ -81,11 +81,14 @@ class Properties extends \yii\db\ActiveRecord
 
     public function callWebhookAfterCreate($event)
     {
+        $model = $event->sender;
+        $message = '[BOT] Cần ' .$model->listingType->name . '-' . $model->propertyType->type_name . '-' . 
+            $model->title . ' Xem Tin (https://kinglandgroup.vn/property/view?property_id='.$model->property_id.')';
 
         $payload = [
             'event_type' => 'property_created',
             'timestamp' => time(),
-            'message' => $this->title
+            'message' => $message
         ];
 
         try {
