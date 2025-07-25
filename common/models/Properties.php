@@ -3,6 +3,7 @@
 namespace common\models;
 
 
+use phpseclib3\File\ASN1\Maps\PrivateKeyInfo;
 use Yii;
 use yii\httpclient\Client;
 // use common\models\AssetTypes;
@@ -76,17 +77,26 @@ class Properties extends \yii\db\ActiveRecord
     public function init()
     {
         parent::init();
-        $this->on(self::EVENT_AFTER_INSERT, [$this, 'callWebhookAfterCreate']);
+        $this->on(self::EVENT_AFTER_UPDATE, [$this, 'callWebhookAfterUpdate']);
     }
 
-    public function callWebhookAfterCreate($event)
+    public function callWebhookAfterUpdate($event)
     {
+     
         $model = $event->sender;
+        if (empty($model->area_total) || empty($model->area_length) || 
+                empty($model->area_width) || empty($model->price)) {
+            return;
+        }
+
+        $price = ' Mức Giá: ' . $this->formatPriceUnit($model->price);
+        $areaTotal = ', Diện Tích: '. $model->area_total . ' ('. $this->formatNumber($model->area_length) .'m × '. $this->formatNumber($model->area_width) .')';
+
         $message = '[KingLand][Tin Tự Động] Cần ' .$model->listingType->name . '-' . $model->propertyType->type_name . '-' . 
-            $model->title . ' Xem Tin (https://kinglandgroup.vn/property/view?property_id='.$model->property_id.')';
+            $model->title . '-' .  $price . $areaTotal;
 
         $payload = [
-            'event_type' => 'property_created',
+            'event_type' => 'property_updated',
             'timestamp' => time(),
             'message' => $message
         ];
@@ -115,6 +125,40 @@ class Properties extends \yii\db\ActiveRecord
                 'value' => date('Y-m-d H:i:s'),
             ],
         ];
+    }
+
+    private  function formatNumber($number) {
+        if ($number === null) {
+            return null;
+        }
+        if ($number == (int)$number) {
+            return (int)$number;
+        }
+        
+        return (float)$number;
+    }
+
+    private  function formatPriceUnit($number) {
+        if (!is_numeric($number) || $number <= 0) {
+            return 'Thỏa thuận';
+        }
+    
+        $billion = 1000000000;
+        $million = 1000000;
+    
+        if ($number >= $billion) {
+            $result = $number / $billion;
+            $formatted_result = rtrim(rtrim(number_format($result, 1, '.', ''), '0'), '.');
+            return $formatted_result . ' Tỷ';
+        }
+    
+        if ($number >= $million) {
+            $result = $number / $million;
+            $formatted_result = round($result);
+            return $formatted_result . ' Triệu';
+        }
+        
+        return number_format($number) . ' VNĐ';
     }
 
     /**

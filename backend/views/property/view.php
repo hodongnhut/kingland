@@ -10,6 +10,7 @@ $this->title = "Xem Dữ Liệu Nhà Đất [". $model->property_id . "]";
 $this->params['breadcrumbs'][] = ['label' => 'Properties', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
+
 function formatPriceUnit($number) {
     if (!is_numeric($number) || $number <= 0) {
         return 'Thỏa thuận';
