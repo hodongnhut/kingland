@@ -85,15 +85,15 @@ class Properties extends \yii\db\ActiveRecord
      
         $model = $event->sender;
         if (empty($model->area_total) || empty($model->area_length) || 
-                empty($model->area_width) || empty($model->price)) {
+            empty($model->area_width) || empty($model->price)) {
+            Yii::warning('Webhook skipped: Missing required fields for property ID ' . $model->property_id, 'webhook');
             return;
         }
 
-        $price = ' Mức Giá: ' . $this->formatPriceUnit($model->price);
-        $areaTotal = ', Diện Tích: '. $model->area_total . ' ('. $this->formatNumber($model->area_length) .'m × '. $this->formatNumber($model->area_width) .')';
+        $price = 'Giá: ' . $this->formatPriceUnit($model->price);
+        $areaTotal = 'Diện Tích: '. $model->area_total . ' ('. $this->formatNumber($model->area_length) .'m × '. $this->formatNumber($model->area_width) .')';
 
-        $message = '[KingLand][Tin Tự Động] Cần ' .$model->listingType->name . '-' . $model->propertyType->type_name . '-' . 
-            $model->title . '-' .  $price . $areaTotal;
+        $message = $model->title . "\n" . $areaTotal . "\n" . $price;
 
         $payload = [
             'event_type' => 'property_updated',
