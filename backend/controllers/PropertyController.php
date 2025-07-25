@@ -32,6 +32,7 @@ use common\models\User;
 use yii\web\Response;
 use common\models\PropertyFavorite;
 use yii\data\ActiveDataProvider;
+use common\models\OwnerContacts;
 
 class PropertyController extends Controller
 {
@@ -465,5 +466,28 @@ class PropertyController extends Controller
         return $this->render('my-favorites', [
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionGetPhone()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        // Get contact_id from request
+        $contactId = Yii::$app->request->post('contact_id');
+        if (!$contactId) {
+            return ['success' => false, 'error' => 'Contact ID is required.'];
+        }
+
+        // Find the contact
+        $contact = OwnerContacts::findOne($contactId);
+        if (!$contact) {
+            return ['success' => false, 'error' => 'Contact not found.'];
+        }
+        \common\models\UserActivities::logActivity(Yii::$app->user->id, 'view_phone');
+        // Optional: Add permission check (e.g., only authenticated users can access)
+        if (Yii::$app->user->isGuest) {
+            return ['success' => false, 'error' => 'Unauthorized access.'];
+        }
+
+        return ['success' => true, 'phone_number' => $contact->phone_number];
     }
 }
