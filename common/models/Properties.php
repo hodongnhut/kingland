@@ -91,7 +91,7 @@ class Properties extends \yii\db\ActiveRecord
         }
 
         $price = 'Giá: ' . $this->formatPriceUnit($model->price);
-        $areaTotal = 'Diện Tích: '. $model->area_total . ' ('. $this->formatNumber($model->area_width) .'m × '. $this->formatNumber($model->area_length) .'m)';
+        $areaTotal = 'Diện Tích: '. $this->formatNumber($model->area_total) . 'm2 ('. $this->formatNumber($model->area_width) .'m × '. $this->formatNumber($model->area_length) .'m)';
 
         $message = $model->title . "\n" . $areaTotal . "\n" . $price;
 
