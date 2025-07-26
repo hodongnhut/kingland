@@ -82,13 +82,16 @@ class Properties extends \yii\db\ActiveRecord
     }
     public function updateChart($event) {
         $model = $event->sender;
+         // Add log create property
         UserActivities::logActivity(Yii::$app->user->id, 'add_new');
         return;
     }
 
     public function callWebhookAfterUpdate($event)
     {
+        // Add log update property
         UserActivities::logActivity(Yii::$app->user->id, 'update_property');
+
         $model = $event->sender;
         if (empty($model->area_total) || empty($model->area_length) || 
             empty($model->area_width) || empty($model->price)) {
