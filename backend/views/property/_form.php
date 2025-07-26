@@ -137,12 +137,16 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                         ])->textInput([
                             'id' => 'price',
                             'maxlength' => true,
+                            'value' => ($model->price !== null && floor($model->price) == $model->price) ? (int)$model->price : $model->price,
                             'class' => 'mt-1 block w-full border rounded-md shadow-sm py-2 px-3 sm:text-sm ' .
                                 ($model->hasErrors('price') 
                                     ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
                                     : 'border-gray-300 focus:border-orange-500 focus:ring-orange-500'),
                         ]) ?>
+                        
+                        <p id="price-display" class="inline-block mt-2 px-4 py-2 text-sm font-medium rounded-full bg-gray-100 text-orange-700"></p>
                     </div>
+
                     <div>
                         <label for="final_price" class="block text-sm font-medium text-gray-700 mb-1">Giá chốt</label>
                         <?= $form->field($model, 'final_price', [
@@ -150,11 +154,14 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                         ])->textInput([
                             'id' => 'final_price',
                             'maxlength' => true,
+                            'value' => ($model->final_price !== null && floor($model->final_price) == $model->final_price) ? (int)$model->final_price : $model->final_price,
                             'class' => 'mt-1 block w-full border rounded-md shadow-sm py-2 px-3 sm:text-sm ' .
                                 ($model->hasErrors('final_price') 
                                     ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
                                     : 'border-gray-300 focus:border-orange-500 focus:ring-orange-500'),
                         ]) ?>
+                        
+                        <p id="final-price-display" class="inline-block mt-2 px-4 py-2 text-sm font-medium rounded-full bg-gray-100 text-orange-700"></p>
                     </div>
                 </div>
                 <?php if ($model->listing_types_id != 2) : ?>
@@ -805,6 +812,51 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
         const rentalCheckbox = document.getElementById('has_rental_contract');
         const rentalDetailsContainer = document.getElementById('rental-details-container');
 
+        const priceInput = document.getElementById('price');
+        const priceDisplay = document.getElementById('price-display');
+
+        function formatVNCurrency(number) {
+            if (isNaN(number) || number <= 0) {
+                return '';
+            }
+            if (number >= 1000000000) {
+                const value = (number / 1000000000).toFixed(2).replace(/\.00$/, '').replace(/\.([1-9])0$/, '.$1');
+                return value + ' tỷ';
+            }
+            if (number >= 1000000) {
+                const value = (number / 1000000).toFixed(2).replace(/\.00$/, '').replace(/\.([1-9])0$/, '.$1');
+                return value + ' triệu';
+            }
+            return new Intl.NumberFormat('vi-VN').format(number) + ' đ';
+        }
+
+        function setupPriceFormatting(inputId, displayId) {
+            const inputElement = document.getElementById(inputId);
+            const displayElement = document.getElementById(displayId);
+
+            if (inputElement && displayElement) {
+                inputElement.addEventListener('input', function() {
+                    const rawValue = this.value.replace(/,/g, '');
+                    const numberValue = parseFloat(rawValue);
+                    
+                    const formattedText = formatVNCurrency(numberValue);
+
+                    if (formattedText) {
+                        displayElement.textContent = formattedText;
+                        displayElement.classList.remove('hidden');
+                    } else {
+                        displayElement.textContent = '';
+                        displayElement.classList.add('hidden');
+                    }
+                });
+
+                inputElement.dispatchEvent(new Event('input'));
+            }
+        }
+
+        setupPriceFormatting('price', 'price-display');
+        setupPriceFormatting('final_price', 'final-price-display');
+
         if (rentalCheckbox && rentalDetailsContainer) {
             function toggleRentalDetails() {
                 if (rentalCheckbox.checked) {
@@ -818,7 +870,6 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
             toggleRentalDetails(); 
         }
 
-         // Event listeners for tab clicks
          thongTinTab.addEventListener('click', function() {
                 activateTab(thongTinTab, thongTinContent);
             });
@@ -827,12 +878,10 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                 activateTab(soHongTab, soHongContent);
             });
 
-            // Show the modal when "Thêm Liên Hệ" button is clicked
             addContactButton.addEventListener('click', function() {
                 contactModal.style.display = 'flex'; // Use flex to center the modal
             });
 
-            // Hide the modal when close button or Cancel is clicked
             closeButton.addEventListener('click', function() {
                 contactModal.style.display = 'none';
             });
@@ -841,7 +890,6 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                 contactModal.style.display = 'none';
             });
 
-            // Hide the modal if user clicks outside of it
             window.addEventListener('click', function(event) {
                 if (event.target == contactModal) {
                     contactModal.style.display = 'none';
