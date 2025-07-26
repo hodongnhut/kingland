@@ -95,6 +95,7 @@ return [
                 'news' => 'post',
                 'property-folder' => 'folder',
                 'ban-do-quy-hoach' => 'site/map',
+                'ban-do-quy-hoach-ho-chi-minh' => 'site/map-ho-chi-minh',
                 'mobile-map' => 'site/mobile-map',
                 'property/<action:[\w-]+>' => 'property/<action>',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',

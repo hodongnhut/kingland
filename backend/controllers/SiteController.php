@@ -54,7 +54,8 @@ class SiteController extends Controller
                             'save-location',
                             'clear-location-prompt',
                             'map',
-                            'activity-data'
+                            'activity-data',
+                            'map-ho-chi-minh'
                         ],
                         'allow' => true,
                         'roles' => ['@'],
@@ -384,6 +385,16 @@ class SiteController extends Controller
     public function actionMap() {
         return $this->render('map');
     }
+
+    /**
+     * Property user up.
+     *
+     * @return mixed
+     */
+    public function actionMapHoChiMinh() {
+        return $this->render('map-ho-chi-minh');
+    }
+    
 
     /**
      * Property user up.
