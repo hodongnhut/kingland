@@ -8,6 +8,12 @@ $this->title = 'Bản Đồ Quy Hoạch TP.HCM';
 <header class="bg-white shadow-md p-2 flex items-center justify-between rounded-bl-lg">
     <div class="text-lg font-semibold text-gray-800">Bản Đồ Quy Hoạch TP.HCM</div>
     <div class="relative flex items-center space-x-4">
+        <a href="<?= \yii\helpers\Url::to(['/ban-do-quy-hoach']) ?>" 
+        class="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white shadow-md flex items-center space-x-1.5 text-sm transition-colors duration-200"
+            aria-label="BĐ Quy Hoạch">
+            <i class="fas fa-map text-xl"></i>
+            <span>BĐ Quy Hoạch</span>
+        </a>
         <button
             id="userMenuButton"
             class="w-10 h-10 bg-blue-500 hover:bg-blue-600 text-white rounded-full flex items-center justify-center shadow-md transition-colors duration-200"

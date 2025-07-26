@@ -10,7 +10,7 @@ $this->title = 'Bản Đồ Quy Hoạch TP.HCM';
         
     </div>
     <div class="relative flex items-center space-x-4">
-    <a href="<?= \yii\helpers\Url::to(['/ban-do-quy-hoach-ho-chi-minh']) ?>" 
+        <a href="<?= \yii\helpers\Url::to(['/ban-do-quy-hoach-ho-chi-minh']) ?>" 
         class="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white shadow-md flex items-center space-x-1.5 text-sm transition-colors duration-200"
             aria-label="BĐ Quy Hoạch">
             <i class="fas fa-map text-xl"></i>
