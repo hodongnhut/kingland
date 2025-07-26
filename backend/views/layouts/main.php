@@ -56,10 +56,6 @@ AppAsset::register($this);
                 <i class="fas fa-map text-xl"></i>
                 <span>BĐ Quy Hoạch</span>
             </a>
-            <a href="<?= \yii\helpers\Url::to(['/ban-do-quy-hoach-ho-chi-minh']) ?>" class="nav-item <?= Yii::$app->controller->action->id === 'map-ho-chi-minh' ? 'bg-blue-100 text-blue-600' : '' ?>" aria-label="BĐ Quy Hoạch">
-                <i class="fas fa-map text-xl"></i>
-                <span>BĐ Quy Hoạch Mới</span>
-            </a>
             <?php if (!Yii::$app->user->isGuest && in_array(Yii::$app->user->identity->jobTitle->role_code, ['manager', 'super_admin'])): ?>
                 <a href="<?= \yii\helpers\Url::to(['/property/users']) ?>" class="nav-item <?= Yii::$app->controller->action->id === 'users' ? 'bg-blue-100 text-blue-600' : '' ?>" aria-label="Quản Lý Nhân Viên">
                     <i class="fas fa-users text-xl"></i>
