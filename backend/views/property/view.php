@@ -48,8 +48,8 @@ function formatNumber($number) {
 
 <header class="bg-white shadow-md p-2 flex items-center justify-between rounded-bl-lg">
     <div class="text-lg font-semibold text-gray-800">
-    <?= Html::a('<i class="fas fa-arrow-left"></i> Quay lại', Yii::$app->request->referrer ?: ['index'], [
-        'class' => 'px-4 py-2 bg-gray-200 text-gray-800 rounded-md  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500']) ?>    
+        <?= Html::a('<i class="fas fa-arrow-left"></i>', Yii::$app->request->referrer ?: ['index'], [
+        'class' => 'px-4 py-2 bg-blue-500 text-white rounded-full  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500']) ?>    
         <i class="fas fa-database text-xl"></i> Dữ Liệu Nhà Đất [Mã: <?= $model->property_id ?> - Loại Giao Dịch: <?= $model->listingType->name ?>]
     </div>
     <div class="relative flex items-center space-x-4">
