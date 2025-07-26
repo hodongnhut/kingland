@@ -89,5 +89,33 @@ class UserActivities extends ActiveRecord
             return false;
         }
     }
+
+    public static function logActivityPhone($userId, $actionType, $limit = null)
+    {
+        $today = date('Y-m-d');
+        
+        $activity = self::find()
+            ->where(['user_id' => $userId, 'action_type' => $actionType])
+            ->andWhere(['between', 'created_at', "$today 00:00:00", "$today 23:59:59"])
+            ->one();
+
+        if ($limit !== null && $activity && $activity->count >= $limit) {
+            return false; 
+        }
+
+        if ($activity) {
+            $activity->count += 1;
+            $activity->save(false);
+        } else {
+            $activity = new self();
+            $activity->user_id = $userId;
+            $activity->action_type = $actionType;
+            $activity->count = 1;
+            $activity->created_at = date('Y-m-d H:i:s');
+            $activity->save(false);
+        }
+        return true; 
+    }
+
 }
 ?>

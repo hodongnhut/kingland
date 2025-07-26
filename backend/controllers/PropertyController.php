@@ -116,7 +116,7 @@ class PropertyController extends Controller
             ->one();
 
         // Nếu đã đủ 300 lượt xem -> chặn
-        if ($activity && $activity->count >= 2) {
+        if ($activity && $activity->count >= 300) {
             throw new ForbiddenHttpException('Bạn đã xem đủ 300 căn hôm nay. Vui lòng quay lại vào ngày mai.');
         }
 
@@ -513,8 +513,10 @@ class PropertyController extends Controller
         if (!$contact) {
             return ['success' => false, 'error' => 'Contact not found.'];
         }
-        \common\models\UserActivities::logActivity(Yii::$app->user->id, 'view_phone');
-        // Optional: Add permission check (e.g., only authenticated users can access)
+        $logResult = UserActivities::logActivityPhone(Yii::$app->user->id, 'view_phone', 2);
+        if (!$logResult) {
+            return ['success' => false, 'error' => 'Bạn đã xem đủ 300 số điện thoại hôm nay. Vui lòng quay lại vào ngày mai.'];
+        }
         if (Yii::$app->user->isGuest) {
             return ['success' => false, 'error' => 'Unauthorized access.'];
         }

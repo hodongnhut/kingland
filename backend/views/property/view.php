@@ -196,7 +196,9 @@ function formatNumber($number) {
                         <div class="flex items-center font-medium contact-entry" data-contact-id="<?= Html::encode($contact->contact_id) ?>">
                             <i class="<?= $iconClass ?> mr-2 w-4 text-center"></i>
                             <span class="text-gray-800 contact-info cursor-pointer hover:text-blue-600" title="Click to reveal phone number">
-                                <?= Html::encode($contact->contact_name) ?> <span class="phone-display">•••••••<?= substr($contact->phone_number, -3) ?></span>
+                                <?= Html::encode($contact->contact_name) ?> 
+                                <span class="phone-display">•••••••<?= substr($contact->phone_number, -3) ?></span>
+                                <span class="error-message text-red-600 text-xs ml-2 hidden"></span>
                             </span>
                             <span class="ml-2 px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
                                 <?= Html::encode($contact->role->name ?? 'Chủ nhà') ?>
@@ -490,16 +492,15 @@ function formatNumber($number) {
             contactInfo.addEventListener('click', function() {
                 const contactId = entry.getAttribute('data-contact-id');
                 const phoneDisplay = entry.querySelector('.phone-display');
+                const errorMessage = entry.querySelector('.error-message');
+                const originalPhoneText = phoneDisplay.textContent; 
 
-                // Prevent multiple requests if already revealed
                 if (phoneDisplay.classList.contains('revealed')) {
                     return;
                 }
 
-                // Show loading state
                 phoneDisplay.textContent = 'Đang tải...';
 
-                // Ajax request to get full phone number
                 fetch('/property/get-phone', {
                     method: 'POST',
                     headers: {
@@ -516,17 +517,26 @@ function formatNumber($number) {
                         phoneDisplay.textContent = data.phone_number;
                         phoneDisplay.classList.add('revealed');
                     } else {
-                        phoneDisplay.textContent = 'Lỗi: Không lấy được số điện thoại';
+                        phoneDisplay.textContent = originalPhoneText; 
+                        if (errorMessage) {
+                            errorMessage.textContent = data.error || 'Không thể lấy số điện thoại';
+                            errorMessage.classList.remove('hidden');
+                        }
                         console.error('Error:', data.error || 'Unknown error');
                     }
                 })
                 .catch(error => {
-                    phoneDisplay.textContent = 'Lỗi kết nối';
+                    phoneDisplay.textContent = originalPhoneText; 
+                    if (errorMessage) {
+                        errorMessage.textContent = 'Lỗi kết nối máy chủ';
+                        errorMessage.classList.remove('hidden');
+                    }
                     console.error('Fetch error:', error);
                 });
             });
         });
     });
+    
 
     document.getElementById('save-contact-button').addEventListener('click', function () {
         const role = document.getElementById('contact-role').value;
@@ -570,6 +580,5 @@ function formatNumber($number) {
             alert('Lỗi kết nối máy chủ.');
         });
     });
-
 
 </script>
