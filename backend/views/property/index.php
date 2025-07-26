@@ -114,6 +114,12 @@ $this->registerCssFile('/css/animate.css', [
             'options' => [
                 'class' => 'table-container bg-white rounded-lg shadow-md',
             ],
+            'rowOptions' => function ($model, $key, $index, $grid) {
+                return [
+                    'class' => 'cursor-pointer hover:bg-gray-100',
+                    'onclick' => 'window.location.href="' . Url::to(['view', 'property_id' => $model->property_id]) . '"', // Redirect to view page
+                ];
+            },
             'columns' => [
                 [
                     'class' => 'yii\grid\DataColumn',
