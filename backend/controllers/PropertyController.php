@@ -513,7 +513,7 @@ class PropertyController extends Controller
         if (!$contact) {
             return ['success' => false, 'error' => 'Contact not found.'];
         }
-        $logResult = UserActivities::logActivityPhone(Yii::$app->user->id, 'view_phone', 2);
+        $logResult = UserActivities::logActivityPhone(Yii::$app->user->id, 'view_phone', 300);
         if (!$logResult) {
             return ['success' => false, 'error' => 'Bạn đã xem đủ 300 số điện thoại hôm nay. Vui lòng quay lại vào ngày mai.'];
         }
