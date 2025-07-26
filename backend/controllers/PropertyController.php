@@ -259,7 +259,7 @@ class PropertyController extends Controller
 
                         \common\models\UserActivities::logActivity(Yii::$app->user->id, 'update_property');
                         
-                        return $this->redirect(['update', 'property_id' => $model->property_id]);
+                        return $this->redirect(['view', 'property_id' => $model->property_id]);
 
                     } else {
                         $transaction->rollBack();
