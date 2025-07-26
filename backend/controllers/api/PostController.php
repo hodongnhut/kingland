@@ -20,7 +20,8 @@ class PostController extends Controller
             'create-property' => ['POST'],
             'view-property' => ['GET'],
             'update-property' => ['PUT', 'PATCH'],
-            'add-owner-contact' => ['POST']
+            'add-owner-contact' => ['POST'],
+            'properties-without-contacts' => ['GET'],
         ];
     }
 
@@ -416,6 +417,35 @@ class PostController extends Controller
                 'successful_creations' => $successfulCreations,
                 'failed_creations' => $failedCreations
             ]
+        ];
+    }
+
+    public function actionPropertiesWithoutContacts($page = 1, $limit = 20)
+    {
+        $query = Properties::find()
+            ->select('{{properties}}.property_id, {{properties}}.external_id')
+            
+            ->leftJoin('owner_contacts', '{{properties}}.property_id = {{owner_contacts}}.property_id')
+            ->where(['{{owner_contacts}}.property_id' => null])
+            ->orderBy(['{{properties}}.property_id' => SORT_ASC]);
+
+        $totalCount = $query->count();
+        
+        $properties = $query
+            ->offset(($page - 1) * $limit)
+            ->limit($limit)
+            ->asArray()
+            ->all();
+
+        return [
+            'success' => true,
+            'data' => $properties,
+            'pagination' => [
+                'totalCount' => (int)$totalCount,
+                'page' => (int)$page,
+                'limit' => (int)$limit,
+                'pageCount' => ceil($totalCount / $limit),
+            ],
         ];
     }
     
