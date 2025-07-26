@@ -88,7 +88,7 @@ class Properties extends \yii\db\ActiveRecord
 
     public function callWebhookAfterUpdate($event)
     {
-     
+        UserActivities::logActivity(Yii::$app->user->id, 'update_property');
         $model = $event->sender;
         if (empty($model->area_total) || empty($model->area_length) || 
             empty($model->area_width) || empty($model->price)) {
