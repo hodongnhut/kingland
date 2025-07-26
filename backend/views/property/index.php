@@ -106,10 +106,10 @@ $this->registerCssFile('/css/animate.css', [
             ],
             'summary' => 'Hiển thị từ {begin} đến {end} trong tổng số {totalCount} mục',
             'tableOptions' => [
-                'class' => 'min-w-full divide-y divide-gray-200',
+                'class' => 'min-w-full divide-y divide-gray-200 table table-striped table-bordered',
             ],
             'headerRowOptions' => [
-                'class' => 'bg-blue-50 shadow-md',
+                'class' => 'bg-yellow-500 hover:bg-yellow-600 shadow-md text-white ',
             ],
             'options' => [
                 'class' => 'table-container bg-white rounded-lg shadow-md',
