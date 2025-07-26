@@ -33,6 +33,9 @@ use yii\web\Response;
 use common\models\PropertyFavorite;
 use yii\data\ActiveDataProvider;
 use common\models\OwnerContacts;
+use yii\web\ForbiddenHttpException;
+use yii\db\Expression;
+use common\models\UserActivities;
 
 class PropertyController extends Controller
 {
@@ -95,7 +98,7 @@ class PropertyController extends Controller
         ]);
     }
 
-     /**
+    /**
      * Displays a single Properties model.
      * @param int $property_id Property ID
      * @return string
@@ -103,6 +106,34 @@ class PropertyController extends Controller
      */
     public function actionView($property_id)
     {
+        $userId = Yii::$app->user->id;
+        $today = date('Y-m-d');
+
+        // Tìm dòng user_activities hôm nay với action_type = 'view_property'
+        $activity = UserActivities::find()
+            ->where(['user_id' => $userId, 'action_type' => 'view_property'])
+            ->andWhere(['between', 'created_at', $today . ' 00:00:00', $today . ' 23:59:59'])
+            ->one();
+
+        // Nếu đã đủ 300 lượt xem -> chặn
+        if ($activity && $activity->count >= 2) {
+            throw new ForbiddenHttpException('Bạn đã xem đủ 300 căn hôm nay. Vui lòng quay lại vào ngày mai.');
+        }
+
+        // Tăng hoặc tạo mới lượt xem
+        if ($activity) {
+            $activity->count += 1;
+            $activity->save(false);
+        } else {
+            $activity = new UserActivities();
+            $activity->user_id = $userId;
+            $activity->action_type = 'view_property';
+            $activity->count = 1;
+            $activity->created_at = date('Y-m-d H:i:s');
+            $activity->save(false);
+        }
+
+        // Lấy dữ liệu chi tiết BĐS
         $activityLogs = ActivityLogs::find()
             ->where(['property_id' => $property_id])
             ->with('user')
@@ -111,7 +142,7 @@ class PropertyController extends Controller
 
         return $this->render('view', [
             'model' => $this->findModel($property_id),
-            'modelActivityLogs' => $activityLogs
+            'modelActivityLogs' => $activityLogs,
         ]);
     }
 
