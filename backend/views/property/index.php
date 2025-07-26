@@ -109,7 +109,7 @@ $this->registerCssFile('/css/animate.css', [
                 'class' => 'min-w-full divide-y divide-gray-200 table table-striped table-bordered',
             ],
             'headerRowOptions' => [
-                'class' => 'bg-yellow-500 hover:bg-yellow-600 shadow-md text-white ',
+                'class' => 'shadow-md text-white ',
             ],
             'options' => [
                 'class' => 'table-container bg-white rounded-lg shadow-md',
@@ -119,6 +119,7 @@ $this->registerCssFile('/css/animate.css', [
                     'class' => 'yii\grid\DataColumn',
                     'label' => '#',
                     'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'],
+                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
                     'format' => 'raw',
                     'value' => function ($model, $key, $index, $column) use ($dataProvider) {
                         $pagination = $dataProvider->getPagination();
@@ -132,7 +133,7 @@ $this->registerCssFile('/css/animate.css', [
                     'attribute' => 'title',
                     'label' => 'Số Nhà',
                     'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
+                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
                     'format' => 'raw',
                     'value' => function ($model) {
 
@@ -153,7 +154,7 @@ $this->registerCssFile('/css/animate.css', [
                     'attribute' => 'street_name',
                     'label' => 'Đường Phố',
                     'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
+                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
                     'format' => 'raw',
                     'value' => function ($model) {
 
@@ -179,7 +180,7 @@ $this->registerCssFile('/css/animate.css', [
                     'attribute' => 'district_county',
                     'label' => 'Quận/Huyện',
                     'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
+                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
                     'format' => 'raw',
                     'value' => function ($model) {
                         $new_district = $model->new_district
@@ -210,7 +211,7 @@ $this->registerCssFile('/css/animate.css', [
                     'attribute' => 'price',
                     'label' => 'Giá',
                     'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
+                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
                     'format' => 'raw',
                     'value' => function ($model) {
                         $price = number_format($model->price / 1e9, 1) . ' Tỷ ' . $model->currencies->code;
@@ -225,7 +226,7 @@ $this->registerCssFile('/css/animate.css', [
                     'attribute' => 'area_total',
                     'label' => 'Diện Tích',
                     'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
+                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
                     'format' => 'raw',
                     'value' => function ($model) {
                         $dimensions = ($model->area_width && $model->area_length) 
@@ -238,7 +239,7 @@ $this->registerCssFile('/css/animate.css', [
                 [
                     'label' => 'Kết Cấu',
                     'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
+                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
                     'value' => function ($model) { 
                         if ($model->num_floors > 0) {
                             return $model->num_floors . ' tầng'; 
@@ -248,7 +249,7 @@ $this->registerCssFile('/css/animate.css', [
                 ],
                 [
                     'label' => 'HĐ Thuê',
-                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
+                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
                     'format' => 'raw',
                     'value' => function ($model) {
                         if ($model->rentalContract) {
@@ -278,7 +279,7 @@ $this->registerCssFile('/css/animate.css', [
                 [
                     'label' => 'Lưu',
                     'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
+                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
                     'format' => 'raw',
                     'value' => function ($model) {
                         $propertyId = $model->property_id; 
@@ -302,7 +303,7 @@ $this->registerCssFile('/css/animate.css', [
                     'attribute' => 'transaction_status_id',
                     'label' => 'Cập nhật',
                     'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
+                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
                     'format' => 'raw',
                     'value' => function ($model) {
                         if (!$model->transactionStatus || $model->transactionStatus->transaction_status_id === 0) {
@@ -325,7 +326,7 @@ $this->registerCssFile('/css/animate.css', [
                 [
                     'class' => 'yii\grid\ActionColumn',
                     'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
+                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
                     'urlCreator' => function ($action, $model, $key, $index, $column) {
                         return Url::toRoute([$action, 'property_id' => $model->property_id]);
                     },

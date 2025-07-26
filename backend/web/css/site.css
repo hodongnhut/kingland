@@ -139,6 +139,10 @@
      border-radius: 8px;
  }
 
+ .bg-yellow-500 {
+     background-color: #CA8A04 !important;
+ }
+
  .nav-item i {
      font-size: 1.25rem;
      width: 24px;
