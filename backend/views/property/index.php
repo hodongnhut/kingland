@@ -239,7 +239,12 @@ $this->registerCssFile('/css/animate.css', [
                     'label' => 'Kết Cấu',
                     'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
                     'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'],
-                    'value' => function () { return ''; },
+                    'value' => function ($model) { 
+                        if ($model->num_floors > 0) {
+                            return $model->num_floors . ' tầng'; 
+                        }
+                        return '';
+                    },
                 ],
                 [
                     'label' => 'HĐ Thuê',
