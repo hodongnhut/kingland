@@ -22,8 +22,9 @@ class PropertyImages extends ActiveRecord
         return [
             [['property_id', 'image_path'], 'required'],
             [['property_id', 'sort_order', 'created_at', 'updated_at'], 'integer'],
-            [['is_main'], 'boolean'],
+            [['is_main', 'image_type'], 'boolean'],
             [['image_path'], 'string', 'max' => 255],
+            [['image_type'], 'default', 'value' => 0],
             [['property_id'], 'exist', 'skipOnError' => true, 'targetClass' => Properties::class, 'targetAttribute' => ['property_id' => 'property_id']],
         ];
     }
@@ -37,6 +38,7 @@ class PropertyImages extends ActiveRecord
             'image_id' => 'Image ID',
             'property_id' => 'Property ID',
             'image_path' => 'Image Path',
+            'image_type' => 'Image Type',
             'is_main' => 'Is Main',
             'sort_order' => 'Sort Order',
             'created_at' => 'Created At',
