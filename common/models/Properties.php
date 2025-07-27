@@ -89,7 +89,6 @@ class Properties extends \yii\db\ActiveRecord
 
     public function callWebhookAfterUpdate($event)
     {
-        // Add log update property
         UserActivities::logActivity(Yii::$app->user->id, 'update_property');
 
         $model = $event->sender;
@@ -99,10 +98,30 @@ class Properties extends \yii\db\ActiveRecord
             return;
         }
 
+        $parts = array_map('trim', explode(',', $model->title));
+        if (count($parts) >= 4) {
+            $street = $parts[0];
+
+            $ward = $parts[1];
+            if (!preg_match('/^(phường|xã)/i', $ward)) {
+                $ward = 'Phường ' . $ward;
+            }
+
+            $district = $parts[2];
+            if (!preg_match('/^(quận|huyện|thị xã|tp)/i', $district)) {
+                $district = 'Quận ' . $district;
+            }
+
+            $city = $parts[3];
+            $fullAddress = $street . ', ' . $ward . ', ' . $district . ', ' . $city;
+        } else {
+            $fullAddress = $model->title;
+        }
+
         $price = 'Giá: ' . $this->formatPriceUnit($model->price);
         $areaTotal = 'Diện Tích: '. $this->formatNumber($model->area_total) . 'm2 ('. $this->formatNumber($model->area_width) .'m × '. $this->formatNumber($model->area_length) .'m)';
 
-        $message = $model->title . "\n" . $areaTotal . "\n" . $price;
+        $message = $fullAddress . "\n" . $areaTotal . "\n" . $price;
 
         $payload = [
             'event_type' => 'property_updated',
