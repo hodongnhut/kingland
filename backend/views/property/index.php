@@ -195,48 +195,11 @@ $this->registerCssFile('/css/animate.css', [
                     'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white'],
                     'format' => 'raw',
                     'value' => function ($model) {
-                        // Process title for house number fallback
                         $processedTitle = !empty($model->title) ? trim(explode(',', $model->title)[0]) : '';
                 
-                        // Listing type
-                        $listingType = $model->listingType ? Html::encode($model->listingType->name) : '';
-                        $listingTypeHtml = $listingType ? Html::tag('div', $listingType, ['class' => 'font-semibold']) : '';
-                
-                        // Property type
-                        $propertyType = $model->propertyType ? Html::encode($model->propertyType->type_name) : '';
-                        $propertyTypeHtml = $propertyType ? Html::tag('div', $propertyType, ['class' => 'text-xs text-gray-600']) : '';
-                
-                        // Image indicator
-                        $imageHtml = '';
-                        $redBook = '';
-                        
-                        if (!empty($model->propertyImages)) {
-                            $icon = Html::tag('i', '', ['class' => 'fas fa-images text-lg']);
-                            $imageIcon = Html::tag('div', $icon, [
-                                'class' => 'bg-blue-600 text-white p-2 h-10 w-10 rounded-md flex items-center justify-center',
-                                'title' => count($model->propertyImages) . ' hình ảnh',
-                            ]);
-                        
-                            // Ảnh sổ hồng nếu có
-                            $mainImage = PropertyImages::getMainImage($model->property_id);
-                            if ($mainImage && $mainImage->image_type == 1) {
-                                $redBook = Html::img(Url::to(['img/so-hong2.webp']), [
-                                    'class' => 'h-10 w-10 object-cover rounded-md',
-                                    'alt' => 'Main Property Image',
-                                ]);
-                            }
-                        
-                            // Gộp chúng lại trong 1 dòng
-                            $imageHtml = Html::tag('div', $imageIcon . $redBook, [
-                                'class' => 'flex items-center space-x-2 mb-1',
-                            ]);
-                        }
-                
-                        // House number (use house_number if available, else processed title)
                         $houseNumber = !empty($model->house_number) ? Html::encode($model->house_number) : $processedTitle;
                         $houseNumberHtml = $houseNumber ? Html::tag('div', $houseNumber) : '';
                 
-                        // Plot and sheet numbers
                         $plotNumberHtml = !empty($model->plot_number) ? Html::tag('div', 'Thửa: ' . Html::encode($model->plot_number)) : '';
                         $sheetNumberHtml = !empty($model->sheet_number) ? Html::tag('div', 'Tờ: ' . Html::encode($model->sheet_number)) : '';
                 
