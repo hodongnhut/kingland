@@ -225,7 +225,7 @@ function formatNumber($number) {
 
                 <div id="vi-tri-mat-tien" class="tab-sub-content space-y-4">
                     <div class="flex items-start justify-between">
-                        <p class="text-gray-700">Nhà có diện tích <?= formatNumber($model->area_length) ?>m × <?= formatNumber($model->area_width) ?>m, khu trung tâm kinh doanh buôn bán ,tiện kinh doanh đa ngành nghề</p>
+                        <p class="text-gray-700">Nhà có diện tích <?= formatNumber($model->area_width) ?>m × <?= formatNumber($model->area_length) ?>m, khu trung tâm kinh doanh buôn bán ,tiện kinh doanh đa ngành nghề</p>
                         <button class="ml-4 text-gray-500 hover:text-gray-700 flex items-center text-sm">
                             <i class="far fa-copy mr-1"></i> Copy
                         </button>
