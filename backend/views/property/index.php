@@ -2,16 +2,16 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\grid\GridView;
-use common\widgets\CustomLinkPager;
+use yii\web\JqueryAsset;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
-use common\helpers\FavoriteHelper;
 use common\models\PropertyImages;
+use common\helpers\FavoriteHelper;
 
 $this->title = 'Dữ Liệu Nhà Đất';
 $this->params['breadcrumbs'][] = $this->title;
 $csrfToken = Yii::$app->request->getCsrfToken();
-use yii\web\JqueryAsset;
+use common\widgets\CustomLinkPager;
 $this->registerJsFile('https://code.jquery.com/jquery-3.6.0.min.js', [
     'depends' => [JqueryAsset::class],
     'position' => \yii\web\View::POS_HEAD, 
@@ -98,337 +98,337 @@ $this->registerCssFile('/css/animate.css', [
         ]); 
     ?>
    
-        <?= GridView::widget([
-            'dataProvider' => $dataProvider,
-            'layout' => "{items}\n",
-            'summaryOptions' => [
-                'class' => 'text-sm text-gray-700',
-                'id' => 'DataTables_Table_0_info',
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'layout' => "{items}\n",
+        'summaryOptions' => [
+            'class' => 'text-sm text-gray-700',
+            'id' => 'DataTables_Table_0_info',
+        ],
+        'summary' => 'Hiển thị từ {begin} đến {end} trong tổng số {totalCount} mục',
+        'tableOptions' => [
+            'class' => 'min-w-full divide-y divide-gray-200 table table-striped table-bordered',
+        ],
+        'headerRowOptions' => [
+            'class' => 'shadow-md text-white ',
+        ],
+        'options' => [
+            'class' => 'table-container bg-white rounded-lg shadow-md',
+        ],
+        'rowOptions' => function ($model, $key, $index, $grid) {
+            return [
+                'class' => 'cursor-pointer hover:bg-gray-100',
+                'onclick' => 'window.location.href="' . Url::to(['view', 'property_id' => $model->property_id]) . '"', // Redirect to view page
+            ];
+        },
+        'columns' => [
+            [
+                'class' => 'yii\grid\DataColumn',
+                'label' => '#',
+                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'],
+                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+                'format' => 'raw',
+                'value' => function ($model, $key, $index, $column) use ($dataProvider) {
+                    $pagination = $dataProvider->getPagination();
+                    $page = $pagination->getPage();
+                    $pageSize = $pagination->pageSize;
+                    $rowNumber = $index + 1 + ($page * $pageSize);
+                    return Html::tag('div', $rowNumber, ['class' => 'flex items-center space-x-2']);
+                },
             ],
-            'summary' => 'Hiển thị từ {begin} đến {end} trong tổng số {totalCount} mục',
-            'tableOptions' => [
-                'class' => 'min-w-full divide-y divide-gray-200 table table-striped table-bordered',
-            ],
-            'headerRowOptions' => [
-                'class' => 'shadow-md text-white ',
-            ],
-            'options' => [
-                'class' => 'table-container bg-white rounded-lg shadow-md',
-            ],
-            'rowOptions' => function ($model, $key, $index, $grid) {
-                return [
-                    'class' => 'cursor-pointer hover:bg-gray-100',
-                    'onclick' => 'window.location.href="' . Url::to(['view', 'property_id' => $model->property_id]) . '"', // Redirect to view page
-                ];
-            },
-            'columns' => [
-                [
-                    'class' => 'yii\grid\DataColumn',
-                    'label' => '#',
-                    'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'],
-                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
-                    'format' => 'raw',
-                    'value' => function ($model, $key, $index, $column) use ($dataProvider) {
-                        $pagination = $dataProvider->getPagination();
-                        $page = $pagination->getPage();
-                        $pageSize = $pagination->pageSize;
-                        $rowNumber = $index + 1 + ($page * $pageSize);
-                        return Html::tag('div', $rowNumber, ['class' => 'flex items-center space-x-2']);
-                    },
-                ],
-                [
-                    'attribute' => 'title',
-                    'label' => '#',
-                    'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white'],
-                    'format' => 'raw',
-                    'value' => function ($model) {
-                        // Process title for house number fallback
-                        $processedTitle = !empty($model->title) ? trim(explode(',', $model->title)[0]) : '';
-                
-                        // Listing type
-                        $listingType = $model->listingType ? Html::encode($model->listingType->name) : '';
-                        $listingTypeHtml = $listingType ? Html::tag('div', $listingType, ['class' => 'font-semibold']) : '';
-                
-                        // Property type
-                        $propertyType = $model->propertyType ? Html::encode($model->propertyType->type_name) : '';
-                        $propertyTypeHtml = $propertyType ? Html::tag('div', $propertyType, ['class' => 'text-xs text-gray-600']) : '';
-                
-                        // Image indicator
-                        $imageHtml = '';
-                        $redBook = '';
-                        
-                        if (!empty($model->propertyImages)) {
-                            $icon = Html::tag('i', '', ['class' => 'fas fa-images text-lg']);
-                            $imageIcon = Html::tag('div', $icon, [
-                                'class' => 'bg-blue-600 text-white p-1 h-7 w-7 rounded-md flex items-center justify-center',
-                                'title' => count($model->propertyImages) . ' hình ảnh',
-                            ]);
-                        
-                            // Ảnh sổ hồng nếu có
-                            $mainImage = PropertyImages::getMainImage($model->property_id);
-                            if ($mainImage && $mainImage->image_type == 1) {
-                                $redBook = Html::img(Url::to(['img/so-hong2.webp']), [
-                                    'class' => 'h-7 w-7 object-cover rounded-md',
-                                    'alt' => 'Main Property Image',
-                                ]);
-                            }
-                        
-                            // Gộp chúng lại trong 1 dòng
-                            $imageHtml = Html::tag('div', $imageIcon . $redBook, [
-                                'class' => 'flex items-center space-x-1',
+            [
+                'attribute' => 'title',
+                'label' => '#',
+                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
+                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white'],
+                'format' => 'raw',
+                'value' => function ($model) {
+                    // Process title for house number fallback
+                    $processedTitle = !empty($model->title) ? trim(explode(',', $model->title)[0]) : '';
+            
+                    // Listing type
+                    $listingType = $model->listingType ? Html::encode($model->listingType->name) : '';
+                    $listingTypeHtml = $listingType ? Html::tag('div', $listingType, ['class' => 'font-semibold']) : '';
+            
+                    // Property type
+                    $propertyType = $model->propertyType ? Html::encode($model->propertyType->type_name) : '';
+                    $propertyTypeHtml = $propertyType ? Html::tag('div', $propertyType, ['class' => 'text-xs text-gray-600']) : '';
+            
+                    // Image indicator
+                    $imageHtml = '';
+                    $redBook = '';
+                    
+                    if (!empty($model->propertyImages)) {
+                        $icon = Html::tag('i', '', ['class' => 'fas fa-images text-lg']);
+                        $imageIcon = Html::tag('div', $icon, [
+                            'class' => 'bg-blue-600 text-white p-1 h-7 w-7 rounded-md flex items-center justify-center',
+                            'title' => count($model->propertyImages) . ' hình ảnh',
+                        ]);
+                    
+                        // Ảnh sổ hồng nếu có
+                        $mainImage = PropertyImages::getMainImage($model->property_id);
+                        if ($mainImage && $mainImage->image_type == 1) {
+                            $redBook = Html::img(Url::to(['img/so-hong2.webp']), [
+                                'class' => 'h-7 w-7 object-cover rounded-md',
+                                'alt' => 'Main Property Image',
                             ]);
                         }
-                
-                        // House number (use house_number if available, else processed title)
-                        $houseNumber = !empty($model->house_number) ? Html::encode($model->house_number) : $processedTitle;
-                        $houseNumberHtml = $houseNumber ? Html::tag('div', $houseNumber) : '';
-                
-  
-                        return $listingTypeHtml . $propertyTypeHtml . $imageHtml ;
-                    },
-                ],
-                [
-                    'attribute' => 'title',
-                    'label' => 'Số Nhà',
-                    'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white'],
-                    'format' => 'raw',
-                    'value' => function ($model) {
-                        $processedTitle = !empty($model->title) ? trim(explode(',', $model->title)[0]) : '';
-                
-                        $houseNumber = !empty($model->house_number) ? Html::encode($model->house_number) : $processedTitle;
-                        $houseNumberHtml = $houseNumber ? Html::tag('div', $houseNumber) : '';
-                
-                        $plotNumberHtml = !empty($model->plot_number) ? Html::tag('div', 'Thửa: ' . Html::encode($model->plot_number)) : '';
-                        $sheetNumberHtml = !empty($model->sheet_number) ? Html::tag('div', 'Tờ: ' . Html::encode($model->sheet_number)) : '';
-                
-                        return $houseNumberHtml . $plotNumberHtml . $sheetNumberHtml;
-                    },
-                ],
-                [
-                    'attribute' => 'street_name',
-                    'label' => 'Đường Phố',
-                    'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
-                    'format' => 'raw',
-                    'value' => function ($model) {
+                    
+                        // Gộp chúng lại trong 1 dòng
+                        $imageHtml = Html::tag('div', $imageIcon . $redBook, [
+                            'class' => 'flex items-center space-x-1',
+                        ]);
+                    }
+            
+                    // House number (use house_number if available, else processed title)
+                    $houseNumber = !empty($model->house_number) ? Html::encode($model->house_number) : $processedTitle;
+                    $houseNumberHtml = $houseNumber ? Html::tag('div', $houseNumber) : '';
+            
 
-                        $displayStreet = $model->street_name;
-                        if (empty($displayStreet)) {
-                            if ($model->title && strpos($model->title, ',') !== false) {
-                                $parts = explode(',', $model->title);
-                                if (isset($parts[1])) {
-                                    $displayStreet = trim($parts[1]);
-                                }
+                    return $listingTypeHtml . $propertyTypeHtml . $imageHtml ;
+                },
+            ],
+            [
+                'attribute' => 'title',
+                'label' => 'Số Nhà',
+                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
+                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white'],
+                'format' => 'raw',
+                'value' => function ($model) {
+                    $processedTitle = !empty($model->title) ? trim(explode(',', $model->title)[0]) : '';
+            
+                    $houseNumber = !empty($model->house_number) ? Html::encode($model->house_number) : $processedTitle;
+                    $houseNumberHtml = $houseNumber ? Html::tag('div', $houseNumber) : '';
+            
+                    $plotNumberHtml = !empty($model->plot_number) ? Html::tag('div', 'Thửa: ' . Html::encode($model->plot_number)) : '';
+                    $sheetNumberHtml = !empty($model->sheet_number) ? Html::tag('div', 'Tờ: ' . Html::encode($model->sheet_number)) : '';
+            
+                    return $houseNumberHtml . $plotNumberHtml . $sheetNumberHtml;
+                },
+            ],
+            [
+                'attribute' => 'street_name',
+                'label' => 'Đường Phố',
+                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
+                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+                'format' => 'raw',
+                'value' => function ($model) {
+
+                    $displayStreet = $model->street_name;
+                    if (empty($displayStreet)) {
+                        if ($model->title && strpos($model->title, ',') !== false) {
+                            $parts = explode(',', $model->title);
+                            if (isset($parts[1])) {
+                                $displayStreet = trim($parts[1]);
                             }
                         }
+                    }
 
-                        $localtionType = $model->locationType ? Html::tag('span', $model->locationType->type_name, [
-                            'class' => 'text-xs font-medium px-2.5 py-0.5 rounded-full bg-gray-100 text-gray-800',
-                        ]) : " ";
+                    $localtionType = $model->locationType ? Html::tag('span', $model->locationType->type_name, [
+                        'class' => 'text-xs font-medium px-2.5 py-0.5 rounded-full bg-gray-100 text-gray-800',
+                    ]) : " ";
 
-                        $treet = Html::tag('div', $displayStreet, ['class' => 'font-semibold']);
-                        return $localtionType . $treet;
-                    },
-                ],
-                [
-                    'attribute' => 'district_county',
-                    'label' => 'Quận/Huyện',
-                    'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
-                    'format' => 'raw',
-                    'value' => function ($model) {
-                        $new_district = $model->new_district
-                        ? Html::tag('div', $model->new_district, ['class' => 'capitalize text-xs font-medium px-2.5 py-0.5 rounded-full bg-green-100 text-green-800'])
+                    $treet = Html::tag('div', $displayStreet, ['class' => 'font-semibold']);
+                    return $localtionType . $treet;
+                },
+            ],
+            [
+                'attribute' => 'district_county',
+                'label' => 'Quận/Huyện',
+                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
+                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+                'format' => 'raw',
+                'value' => function ($model) {
+                    $new_district = $model->new_district
+                    ? Html::tag('div', $model->new_district, ['class' => 'capitalize text-xs font-medium px-2.5 py-0.5 rounded-full bg-green-100 text-green-800'])
+                    : '';
+                    $districtCounty = $model->district_county;
+                    if (!empty($districtCounty)) {
+                        $parts = explode(',', $districtCounty);
+                        if (isset($parts[1])) {
+                            return trim($parts[1]) . $new_district;
+                        }
+                        return trim($parts[0]) . $new_district;
+                    }
+
+                    $wardCommune = $model->ward_commune;
+                    if (!empty($wardCommune)) {
+                        $parts = explode(',', $wardCommune);
+
+                        if (isset($parts[1])) {
+                            return trim($parts[1]) .$new_district;
+                        }
+                    }
+
+                    return $new_district;
+                },
+            ],
+            [
+                'attribute' => 'price',
+                'label' => 'Giá',
+                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
+                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+                'format' => 'raw',
+                'value' => function ($model) {
+                    $price = number_format($model->price / 1e9, 1) . ' Tỷ ' . $model->currencies->code;
+                    $pricePerM2 = (!empty($model->area_total) && $model->area_total > 0) 
+                        ? number_format($model->price / $model->area_total / 1e6, 0) . ' Triệu/m2' 
+                        : '-';
+                    return Html::tag('div', $price, ['class' => 'font-semibold text-red-600']) .
+                        Html::tag('div', '-' . $pricePerM2, ['class' => 'text-xs text-gray-600']);
+                },
+            ],
+            [
+                'attribute' => 'area_total',
+                'label' => 'Diện Tích',
+                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
+                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+                'format' => 'raw',
+                'value' => function ($model) {
+                    $dimensions = ($model->area_width && $model->area_length) 
+                        ? "({$model->area_width}m × {$model->area_length}m)" 
                         : '';
-                        $districtCounty = $model->district_county;
-                        if (!empty($districtCounty)) {
-                            $parts = explode(',', $districtCounty);
-                            if (isset($parts[1])) {
-                                return trim($parts[1]) . $new_district;
-                            }
-                            return trim($parts[0]) . $new_district;
+                    return Html::tag('div', $model->area_total . ' m2', ['class' => 'font-semibold']) .
+                        Html::tag('div', $dimensions, ['class' => 'text-xs text-gray-600']);
+                },
+            ],
+            [
+                'label' => 'Kết Cấu',
+                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
+                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+                'value' => function ($model) { 
+                    if ($model->num_floors > 0) {
+                        return $model->num_floors . ' tầng'; 
+                    }
+                    return '';
+                },
+            ],
+            [
+                'label' => 'HĐ Thuê',
+                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+                'format' => 'raw',
+                'value' => function ($model) {
+                    if ($model->rentalContract) {
+                        $contract = $model->rentalContract;
+
+                        $priceText = number_format($contract->rent_price / 1e6) . ' Triệu';
+                        if ($contract->currency) {
+                            $priceText .= ' ' . $contract->currency->code;
                         }
 
-                        $wardCommune = $model->ward_commune;
-                        if (!empty($wardCommune)) {
-                            $parts = explode(',', $wardCommune);
-
-                            if (isset($parts[1])) {
-                                return trim($parts[1]) .$new_district;
-                            }
+                        $timeUnitText = '';
+                        if ($contract->price_time_unit === 'per_month') {
+                            $timeUnitText = '/Tháng';
+                        } elseif ($contract->price_time_unit === 'per_year') {
+                            $timeUnitText = '/Năm';
                         }
 
-                        return $new_district;
+                        $priceHtml = Html::tag('div', $priceText, ['class' => 'font-semibold text-red-600']);
+                        $unitHtml = Html::tag('div', $timeUnitText, ['class' => 'text-xs text-gray-600']);
+
+                        return $priceHtml . $unitHtml;
+                    }
+
+                    return '';
+                },
+            ],
+            [
+                'label' => 'Lưu',
+                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
+                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+                'format' => 'raw',
+                'value' => function ($model) {
+                    $propertyId = $model->property_id; 
+                    $isFavorited = FavoriteHelper::isPropertyFavorited($propertyId); 
+
+                    $iconClass = $isFavorited ? 'fas fa-heart text-red-500' : 'far fa-heart text-gray-400';
+                    $title = $isFavorited ? 'Bỏ lưu' : 'Lưu';
+                    $dataAttributes = [
+                        'data-property-id' => $propertyId,
+                        'data-favorited' => (int)$isFavorited,
+                        'data-url' => Url::to(['/property/toggle-favorite']),
+                    ];
+
+                    return Html::tag('span', Html::tag('i', '', ['class' => $iconClass]), [
+                        'class' => 'favorite-toggle cursor-pointer',
+                        'title' => $title,
+                    ] + $dataAttributes);
+                },
+            ],
+            [
+                'attribute' => 'transaction_status_id',
+                'label' => 'Cập nhật',
+                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
+                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+                'format' => 'raw',
+                'value' => function ($model) {
+                    if (!$model->transactionStatus || $model->transactionStatus->transaction_status_id === 0) {
+                        $statusBadge = '';
+                    } else {
+                        $statusBadge = $model->transactionStatus ? Html::tag('span', $model->transactionStatus->status_name, [
+                        'class' => 'text-xs font-medium px-2.5 py-0.5 rounded-full ' . $model->transactionStatus->class_css,
+                    ]) : " ";
+                    }
+                    $relativeTime = Yii::$app->formatter->asRelativeTime($model->updated_at);
+                    $updateTimeDiv = Html::tag('div', $relativeTime, ['class' => 'text-xs text-gray-500 mt-1']);
+                    $editButton = $model->is_new ?? false ? Html::a(
+                        '<i class="fas fa-pencil-alt mr-1"></i>Sản Phẩm Mới',
+                        ['update', 'property_id' => $model->property_id],
+                        ['class' => 'mt-2 text-blue-600 hover:text-blue-800 text-xs flex items-center']
+                    ) : '';
+                    return $statusBadge . $updateTimeDiv . $editButton;
+                },
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
+                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+                'urlCreator' => function ($action, $model, $key, $index, $column) {
+                    return Url::toRoute([$action, 'property_id' => $model->property_id]);
+                },
+                'template' => '{view} {update} {delete}',
+                'buttons' => [
+                    'view' => function ($url, $model) {
+                        return Html::a('<i class="fas fa-eye"></i>', $url, [
+                            'class' => 'text-blue-600 hover:text-blue-800 mx-1',
+                            'title' => 'Xem',
+                        ]);
                     },
-                ],
-                [
-                    'attribute' => 'price',
-                    'label' => 'Giá',
-                    'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
-                    'format' => 'raw',
-                    'value' => function ($model) {
-                        $price = number_format($model->price / 1e9, 1) . ' Tỷ ' . $model->currencies->code;
-                        $pricePerM2 = (!empty($model->area_total) && $model->area_total > 0) 
-                            ? number_format($model->price / $model->area_total / 1e6, 0) . ' Triệu/m2' 
-                            : '-';
-                        return Html::tag('div', $price, ['class' => 'font-semibold text-red-600']) .
-                            Html::tag('div', '-' . $pricePerM2, ['class' => 'text-xs text-gray-600']);
+                    'update' => function ($url, $model) {
+                        return Html::a('<i class="fas fa-pencil-alt"></i>', $url, [
+                            'class' => 'text-blue-600 hover:text-blue-800 mx-1',
+                            'title' => 'Cập Nhật',
+                        ]);
                     },
-                ],
-                [
-                    'attribute' => 'area_total',
-                    'label' => 'Diện Tích',
-                    'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
-                    'format' => 'raw',
-                    'value' => function ($model) {
-                        $dimensions = ($model->area_width && $model->area_length) 
-                            ? "({$model->area_width}m × {$model->area_length}m)" 
-                            : '';
-                        return Html::tag('div', $model->area_total . ' m2', ['class' => 'font-semibold']) .
-                            Html::tag('div', $dimensions, ['class' => 'text-xs text-gray-600']);
-                    },
-                ],
-                [
-                    'label' => 'Kết Cấu',
-                    'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
-                    'value' => function ($model) { 
-                        if ($model->num_floors > 0) {
-                            return $model->num_floors . ' tầng'; 
+                    'delete' => function ($url, $model) {
+                        if (Yii::$app->user->identity->jobTitle->role_code === 'manager' ||  Yii::$app->user->identity->jobTitle->role_code == 'super_admin') {
+                            return Html::a('<i class="fas fa-trash-alt"></i>', $url, [
+                                'class' => 'text-blue-600 hover:text-blue-800 mx-1',
+                                'title' => 'Xóa',
+                                'data' => [
+                                    'confirm' => 'Bạn có chắc chắn muốn xóa bài viết này?',
+                                    'method' => 'post',
+                                ],
+                        ]);
                         }
                         return '';
                     },
-                ],
-                [
-                    'label' => 'HĐ Thuê',
-                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
-                    'format' => 'raw',
-                    'value' => function ($model) {
-                        if ($model->rentalContract) {
-                            $contract = $model->rentalContract;
-
-                            $priceText = number_format($contract->rent_price / 1e6) . ' Triệu';
-                            if ($contract->currency) {
-                                $priceText .= ' ' . $contract->currency->code;
-                            }
-
-                            $timeUnitText = '';
-                            if ($contract->price_time_unit === 'per_month') {
-                                $timeUnitText = '/Tháng';
-                            } elseif ($contract->price_time_unit === 'per_year') {
-                                $timeUnitText = '/Năm';
-                            }
-
-                            $priceHtml = Html::tag('div', $priceText, ['class' => 'font-semibold text-red-600']);
-                            $unitHtml = Html::tag('div', $timeUnitText, ['class' => 'text-xs text-gray-600']);
-
-                            return $priceHtml . $unitHtml;
-                        }
-
-                        return '';
-                    },
-                ],
-                [
-                    'label' => 'Lưu',
-                    'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
-                    'format' => 'raw',
-                    'value' => function ($model) {
-                        $propertyId = $model->property_id; 
-                        $isFavorited = FavoriteHelper::isPropertyFavorited($propertyId); 
-
-                        $iconClass = $isFavorited ? 'fas fa-heart text-red-500' : 'far fa-heart text-gray-400';
-                        $title = $isFavorited ? 'Bỏ lưu' : 'Lưu';
-                        $dataAttributes = [
-                            'data-property-id' => $propertyId,
-                            'data-favorited' => (int)$isFavorited,
-                            'data-url' => Url::to(['/property/toggle-favorite']),
-                        ];
-
-                        return Html::tag('span', Html::tag('i', '', ['class' => $iconClass]), [
-                            'class' => 'favorite-toggle cursor-pointer',
-                            'title' => $title,
-                        ] + $dataAttributes);
-                    },
-                ],
-                [
-                    'attribute' => 'transaction_status_id',
-                    'label' => 'Cập nhật',
-                    'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
-                    'format' => 'raw',
-                    'value' => function ($model) {
-                        if (!$model->transactionStatus || $model->transactionStatus->transaction_status_id === 0) {
-                            $statusBadge = '';
-                        } else {
-                            $statusBadge = $model->transactionStatus ? Html::tag('span', $model->transactionStatus->status_name, [
-                            'class' => 'text-xs font-medium px-2.5 py-0.5 rounded-full ' . $model->transactionStatus->class_css,
-                        ]) : " ";
-                        }
-                        $relativeTime = Yii::$app->formatter->asRelativeTime($model->updated_at);
-                        $updateTimeDiv = Html::tag('div', $relativeTime, ['class' => 'text-xs text-gray-500 mt-1']);
-                        $editButton = $model->is_new ?? false ? Html::a(
-                            '<i class="fas fa-pencil-alt mr-1"></i>Sản Phẩm Mới',
-                            ['update', 'property_id' => $model->property_id],
-                            ['class' => 'mt-2 text-blue-600 hover:text-blue-800 text-xs flex items-center']
-                        ) : '';
-                        return $statusBadge . $updateTimeDiv . $editButton;
-                    },
-                ],
-                [
-                    'class' => 'yii\grid\ActionColumn',
-                    'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                    'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
-                    'urlCreator' => function ($action, $model, $key, $index, $column) {
-                        return Url::toRoute([$action, 'property_id' => $model->property_id]);
-                    },
-                    'template' => '{view} {update} {delete}',
-                    'buttons' => [
-                        'view' => function ($url, $model) {
-                            return Html::a('<i class="fas fa-eye"></i>', $url, [
-                                'class' => 'text-blue-600 hover:text-blue-800 mx-1',
-                                'title' => 'Xem',
-                            ]);
-                        },
-                        'update' => function ($url, $model) {
-                            return Html::a('<i class="fas fa-pencil-alt"></i>', $url, [
-                                'class' => 'text-blue-600 hover:text-blue-800 mx-1',
-                                'title' => 'Cập Nhật',
-                            ]);
-                        },
-                        'delete' => function ($url, $model) {
-                            if (Yii::$app->user->identity->jobTitle->role_code === 'manager' ||  Yii::$app->user->identity->jobTitle->role_code == 'super_admin') {
-                                return Html::a('<i class="fas fa-trash-alt"></i>', $url, [
-                                    'class' => 'text-blue-600 hover:text-blue-800 mx-1',
-                                    'title' => 'Xóa',
-                                    'data' => [
-                                        'confirm' => 'Bạn có chắc chắn muốn xóa bài viết này?',
-                                        'method' => 'post',
-                                    ],
-                            ]);
-                            }
-                            return '';
-                        },
-                    ],
                 ],
             ],
-        ]);
+        ],
+    ]); 
+    ?>
 
-            echo CustomLinkPager::widget([
-                'pagination' => $dataProvider->pagination,
-                'options' => ['class' => ''],
-                'maxButtonCount' => 5,
-                'firstPageLabel' => false,
-                'lastPageLabel' => false,
-                'prevPageLabel' => '<i class="fas fa-chevron-left"></i>',
-                'nextPageLabel' => '<i class="fas fa-chevron-right"></i>',
-            ]);
-        ?>
-    </div>
+    <?= CustomLinkPager::widget([
+            'pagination' => $dataProvider->pagination,
+            'options' => ['class' => ''],
+            'maxButtonCount' => 5,
+            'firstPageLabel' => false,
+            'lastPageLabel' => false,
+            'prevPageLabel' => '<i class="fas fa-chevron-left"></i>',
+            'nextPageLabel' => '<i class="fas fa-chevron-right"></i>',
+        ]);
+    ?>
 
 
     <div id="dialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
