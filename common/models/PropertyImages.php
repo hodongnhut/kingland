@@ -67,4 +67,17 @@ class PropertyImages extends ActiveRecord
         }
         return parent::beforeSave($insert);
     }
+
+    /**
+     * Get the main image for a property
+     * @param int $propertyId
+     * @return static|null
+     */
+    public static function getMainImage($propertyId)
+    {
+        return static::find()
+            ->where(condition: ['property_id' => $propertyId, 'image_type' => 1])
+            ->orderBy(['sort_order' => SORT_ASC])
+            ->one();
+    }
 }

@@ -329,59 +329,79 @@ class PropertyController extends Controller
      */
     public function actionUploadImage()
     {
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $response = ['success' => false, 'message' => '', 'images' => []];
+        try {
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            $response = ['success' => false, 'message' => '', 'images' => []];
+            
+            $files = UploadedFile::getInstancesByName('files');
+            $type = Yii::$app->request->post('type');
+            $propertyId = Yii::$app->request->post('property_id', 0);
 
-        $files = UploadedFile::getInstancesByName('files');
-        $type = Yii::$app->request->post('type');
-        $propertyId = Yii::$app->request->post('property_id', 0);
-
-        if (empty($files)) {
-            $response['message'] = 'Vui lòng chọn ít nhất một file để tải lên.';
-            return $response;
-        }
-
-        if ($propertyId == 0) {
-            $response['message'] = 'ID bất động sản không hợp lệ.';
-            return $response;
-        }
-
-        $sortOrder = PropertyImages::find()->where(['property_id' => $propertyId])->max('sort_order') + 1;
-
-        foreach ($files as $file) {
-            $allowedExtensions = ['pdf', 'jpg', 'png', 'jpeg', 'webp', 'heic'];
-            if (!in_array(strtolower($file->extension), $allowedExtensions)) {
-                $response['message'] = 'Định dạng file không hợp lệ: ' . $file->name;
+            if (empty($files)) {
+                $response['message'] = 'Vui lòng chọn ít nhất một file để tải lên.';
                 return $response;
             }
 
-            $imageModel = new PropertyImages();
-            $imageModel->property_id = $propertyId;
-            $imageModel->image_path = '/uploads/properties/' . time() . '_' . uniqid() . '.' . $file->extension;
-            $imageModel->is_main = 0;
-            $imageModel->sort_order = $sortOrder++;
+            if (count($files) > 10) {
+                $response['message'] = 'Chỉ được tải tối đa 10 file mỗi lần. Bạn đã chọn ' . count($files) . ' file.';
+                return $response;
+            }
 
-            $filePath = Yii::getAlias('@webroot') . $imageModel->image_path;
-            if ($file->saveAs($filePath)) {
-                if ($imageModel->save()) {
-                    $response['images'][] = [
-                        'id' => $imageModel->image_id,
-                        'url' => Yii::$app->urlManager->createAbsoluteUrl($imageModel->image_path),
-                        'name' => $file->name
-                    ];
-                } else {
-                    $response['message'] = 'Không thể lưu thông tin hình ảnh vào cơ sở dữ liệu: ' . implode(', ', $imageModel->getErrorSummary(true));
+            if ($propertyId == 0) {
+                $response['message'] = 'ID bất động sản không hợp lệ.';
+                return $response;
+            }
+
+            $sortOrder = PropertyImages::find()->where(['property_id' => $propertyId])->max('sort_order') + 1;
+
+            foreach ($files as $file) {
+                $allowedExtensions = ['pdf', 'jpg', 'png', 'jpeg', 'webp', 'heic'];
+                if (!in_array(strtolower($file->extension), $allowedExtensions)) {
+                    $response['message'] = 'Định dạng file không hợp lệ: ' . $file->name;
                     return $response;
                 }
-            } else {
-                $response['message'] = 'Không thể lưu file: ' . $file->name;
-                return $response;
-            }
-        }
 
-        $response['success'] = true;
-        $response['message'] = 'Tải lên thành công';
-        return $response;
+                $imageModel = new PropertyImages();
+                $imageModel->property_id = $propertyId;
+                $imageModel->image_path = '/uploads/properties/' . time() . '_' . uniqid() . '.' . $file->extension;
+                $imageModel->image_type = ($type === 'legal') ? 1 : 0;
+                $imageModel->is_main = 0;
+                $imageModel->sort_order = $sortOrder++;
+                
+                $filePath = Yii::getAlias('@webroot') . $imageModel->image_path;
+                if ($file->saveAs($filePath)) {
+                    if ($imageModel->save()) {
+                        $response['images'][] = [
+                            'id' => $imageModel->image_id,
+                            'url' => Yii::$app->urlManager->createAbsoluteUrl($imageModel->image_path),
+                            'name' => $file->name
+                        ];
+                    } else {
+                        $errors = $imageModel->getErrors();
+                        Yii::error("PropertyImages save errors: " . json_encode($errors), __METHOD__);
+                        $response['message'] = 'Không thể lưu thông tin hình ảnh vào cơ sở dữ liệu: ' . implode(', ', $imageModel->getErrorSummary(true));
+                        return $response;
+                    }
+                } else {
+                    $response['message'] = 'Không thể lưu file: ' . $file->name;
+                    return $response;
+                }
+            }
+
+            $response['success'] = true;
+
+            $response['message'] = 'Tải lên thành công';
+            return $response;
+            
+        } catch (\Exception $e) {
+            
+            return [
+                'success' => false,
+                'message' => 'Lỗi bạn Upload quá nhiều ảnh trong một lần',
+                'images' => []
+            ];
+        }
+       
     }
 
     /**
