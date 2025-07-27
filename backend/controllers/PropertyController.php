@@ -410,39 +410,49 @@ class PropertyController extends Controller
      */
     public function actionDeleteImage()
     {
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $response = ['success' => false, 'message' => ''];
+        try {
 
-        $imageId = Yii::$app->request->post('image_id');
-        $image = PropertyImages::findOne($imageId);
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            $response = ['success' => false, 'message' => ''];
 
-        if (!$image) {
-            $response['message'] = 'Hình ảnh không tồn tại.';
-            return $response;
-        }
+            $imageId = Yii::$app->request->post('image_id');
+            $image = PropertyImages::findOne($imageId);
 
-        $filePath = Yii::getAlias('@webroot') . $image->image_path;
-        if (file_exists($filePath) && unlink($filePath)) {
-            if ($image->delete()) {
-                $otherImage = PropertyImages::find()
-                    ->where(['property_id' => $image->property_id])
-                    ->andWhere(['!=', 'image_id', $imageId])
-                    ->orderBy(['sort_order' => SORT_ASC])
-                    ->one();
-                if ($otherImage && $image->is_main) {
-                    $otherImage->is_main = 1;
-                    $otherImage->save();
-                }
-                $response['success'] = true;
-                $response['message'] = 'Xóa hình ảnh thành công.';
-            } else {
-                $response['message'] = 'Không thể xóa thông tin hình ảnh khỏi cơ sở dữ liệu.';
+            if (!$image) {
+                $response['message'] = 'Hình ảnh không tồn tại.';
+                return $response;
             }
-        } else {
-            $response['message'] = 'Không thể xóa file hình ảnh.';
-        }
 
-        return $response;
+            $filePath = Yii::getAlias('@backend/web/' . $image->image_path);
+
+            if (file_exists($filePath) && unlink($filePath)) {
+                if ($image->delete()) {
+                    $otherImage = PropertyImages::find()
+                        ->where(['property_id' => $image->property_id])
+                        ->andWhere(['!=', 'image_id', $imageId])
+                        ->orderBy(['sort_order' => SORT_ASC])
+                        ->one();
+                    if ($otherImage && $image->is_main) {
+                        $otherImage->is_main = 1;
+                        $otherImage->save();
+                    }
+                    $response['success'] = true;
+                    $response['message'] = 'Xóa hình ảnh thành công.';
+                } else {
+                    $response['message'] = 'Không thể xóa thông tin hình ảnh khỏi cơ sở dữ liệu.';
+                }
+            } else {
+                $response['message'] = 'Không thể xóa file hình ảnh.';
+            }
+
+            return $response;
+        }catch (\Exception $e) {
+            return [
+                'success' => false,
+                'message' => $e->getMessage(),
+                'images' => []
+            ];
+        }
     }
 
     /**
