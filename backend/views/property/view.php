@@ -302,7 +302,7 @@ function formatNumber($number) {
                     <span>Thêm Thông Tin Liên Hệ</span>
                 </button>
                
-                <div class="space-y-2 flex flex-col text-blue-600 font-medium">
+                <div class="space-y-2 flex-col text-blue-600 font-medium">
                     <?php foreach ($model->ownerContacts as $contact): ?>
                         <?php
                         if ($contact->gender_id == 2) {
@@ -312,14 +312,17 @@ function formatNumber($number) {
                         }
                         ?>
                         
-                        <div class="flex items-center font-medium w-full">
-                            <i class="<?= $iconClass ?> mr-2 w-4 text-center"></i> <span class="text-gray-800">
-                                <?= Html::encode($contact->contact_name) ?> •••••••<?= substr($contact->phone_number, -3) ?>
+                        <div class="flex items-center font-medium contact-entry" data-contact-id="<?= Html::encode($contact->contact_id) ?>">
+                            <i class="<?= $iconClass ?> mr-2 w-4 text-center"></i>
+                            <span class="text-gray-800 contact-info cursor-pointer hover:text-blue-600" title="Click to reveal phone number">
+                                <?= Html::encode($contact->contact_name) ?> 
+                                <span class="phone-display">•••••••<?= substr($contact->phone_number, -3) ?></span>
+                                <span class="error-message text-red-600 text-xs ml-2 hidden"></span>
                             </span>
-                            <span class="ml-2 px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full"><?= Html::encode($contact->role->name ?? 'Chủ nhà') ?></span>
+                            <span class="ml-2 px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
+                                <?= Html::encode($contact->role->name ?? 'Chủ nhà') ?>
+                            </span>
                         </div>
-                        </br>
-
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -420,7 +423,6 @@ function formatNumber($number) {
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-
         const addContactButton = document.getElementById('add-contact-button');
         const contactModal = document.getElementById('contact-modal');
         const closeButton = contactModal.querySelector('.close-button');
@@ -627,6 +629,21 @@ function formatNumber($number) {
             if (event.key === 'Escape' && !imageViewModal.classList.contains('hidden')) {
                 closeImageViewModal();
             }
+        });
+
+        
+        // Show the modal when "Thêm Liên Hệ" button is clicked
+        addContactButton.addEventListener('click', function() {
+            contactModal.style.display = 'flex'; // Use flex to center the modal
+        });
+
+        // Hide the modal when close button or Cancel is clicked
+        closeButton.addEventListener('click', function() {
+            contactModal.style.display = 'none';
+        });
+
+        cancelContactButton.addEventListener('click', function() {
+            contactModal.style.display = 'none';
         });
 
 
