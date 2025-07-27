@@ -225,14 +225,23 @@ function formatNumber($number) {
 
                 <div id="vi-tri-mat-tien" class="tab-sub-content space-y-4">
                     <div class="flex items-start justify-between">
-                        <p class="text-gray-700">Nhà có diện tích <?= formatNumber($model->area_width) ?>m × <?= formatNumber($model->area_length) ?>m, khu trung tâm kinh doanh buôn bán ,tiện kinh doanh đa ngành nghề</p>
-                        <button class="ml-4 text-gray-500 hover:text-gray-700 flex items-center text-sm">
+                        <p class="text-gray-700 copy-text" id="vi-tri-text">
+                            Nhà có diện tích <?= formatNumber($model->area_width) ?>m × <?= formatNumber($model->area_length) ?>m, khu trung tâm kinh doanh buôn bán, tiện kinh doanh đa ngành nghề
+                        </p>
+                        <button class="ml-4 text-gray-500 hover:text-gray-700 flex items-center text-sm copy-btn" data-copy-target="#vi-tri-text">
                             <i class="far fa-copy mr-1"></i> Copy
                         </button>
                     </div>
-                    <p class="text-gray-700"><?= formatPriceUnit($model->price) ?>  (<?= formatNumber($model->area_width) ?>m × <?= formatNumber($model->area_length) ?>m)</p>
-                    <button class="px-4 py-2 bg-red-100 text-red-700 text-sm font-medium rounded-full hover:bg-red-200">Đánh dấu Hot</button>
+
+                    <p class="text-gray-700">
+                        <?= formatPriceUnit($model->price) ?> (<?= formatNumber($model->area_width) ?>m × <?= formatNumber($model->area_length) ?>m)
+                    </p>
+
+                    <button class="px-4 py-2 bg-red-100 text-red-700 text-sm font-medium rounded-full hover:bg-red-200">
+                        Đánh dấu Hot
+                    </button>
                 </div>
+
 
                 <div id="loai-tai-san-ca-nhan" class="tab-sub-content hidden space-y-4">
                     <p class="text-gray-700">Thông tin chi tiết về loại tài sản cá nhân sẽ được hiển thị tại đây.</p>
@@ -633,6 +642,21 @@ function formatNumber($number) {
             }
             updateTransform();
         }, { passive: false });
+
+        document.querySelectorAll('.copy-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const target = document.querySelector(button.getAttribute('data-copy-target'));
+                if (target) {
+                    const text = target.textContent;
+                    navigator.clipboard.writeText(text).then(() => {
+                        alert('Đã sao chép!');
+                    }).catch(err => {
+                        alert('Không thể sao chép!');
+                        console.error(err);
+                    });
+                }
+            });
+        });
 
 
 
