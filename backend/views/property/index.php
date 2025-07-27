@@ -168,7 +168,7 @@ $this->registerCssFile('/css/animate.css', [
                             // Ảnh sổ hồng nếu có
                             $mainImage = PropertyImages::getMainImage($model->property_id);
                             if ($mainImage && $mainImage->image_type == 1) {
-                                $redBook = Html::img('img/so-hong2.webp', [
+                                $redBook = Html::img(Url::to(['img/so-hong2.webp']), [
                                     'class' => 'h-10 w-10 object-cover rounded-md',
                                     'alt' => 'Main Property Image',
                                 ]);
