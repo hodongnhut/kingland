@@ -265,14 +265,29 @@ function formatNumber($number) {
                 </div>
             </div>
         </div>
+        
         <div id="imageViewModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 hidden">
-            <div class="relative max-w-3xl max-h-[90vh] p-4 bg-white rounded-lg shadow-xl overflow-auto">
-                <button id="closeImageViewModal" class="absolute top-2 right-2 p-2 text-gray-600 hover:text-gray-900 text-2xl">
+            <div class="relative max-w-3xl max-h-[90vh] p-4 bg-white rounded-lg shadow-xl overflow-auto flex flex-col">
+                <button id="closeImageViewModal" class="absolute top-2 right-2 p-2 text-gray-600 hover:text-gray-900 text-2xl z-10" aria-label="Close image modal">
                     &times;
                 </button>
-                <img id="modalImageView" src="" alt="Property Image" class="max-w-full max-h-[85vh] object-contain mx-auto my-0">
+                <div class="flex-grow flex items-center justify-center overflow-hidden relative">
+                    <img id="modalImageView" src="" alt="Property Image" class="max-w-full max-h-[80vh] object-contain mx-auto my-0 transition-transform duration-200 cursor-move" style="transform-origin: center;">
+                    <button id="downloadImageButton" class="absolute top-2 right-2 p-2 bg-gray-100 bg-opacity-75 text-gray-800 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 z-10" aria-label="Download image">
+                        <i class="fas fa-download"></i>
+                    </button>
+                </div>
+                <footer class="flex justify-center mt-4 space-x-4 py-2">
+                    <button id="zoomInButton" class="p-2 bg-gray-100 bg-opacity-75 text-gray-800 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500" aria-label="Zoom in">
+                        <i class="fas fa-search-plus"></i>
+                    </button>
+                    <button id="zoomOutButton" class="p-2 bg-gray-100 bg-opacity-75 text-gray-800 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500" aria-label="Zoom out">
+                        <i class="fas fa-search-minus"></i>
+                    </button>
+                </footer>
             </div>
         </div>
+
 
         <div class="lg:col-span-1 space-y-6">
              <!-- User Info Card -->
@@ -409,27 +424,54 @@ function formatNumber($number) {
         const cancelContactButton = document.getElementById('cancel-contact-button');
         const contactEntriesDiv = document.getElementById('contact-entries');
 
-        // --- Image View Modal Logic ---
         const imageViewModal = document.getElementById('imageViewModal');
         const modalImageView = document.getElementById('modalImageView');
         const closeImageViewModalButton = document.getElementById('closeImageViewModal');
-        const viewImageButtons = document.querySelectorAll('.view-image-button'); // Select all view buttons
+        const zoomInButton = document.getElementById('zoomInButton');
+        const zoomOutButton = document.getElementById('zoomOutButton');
+        const downloadImageButton = document.getElementById('downloadImageButton');
+        const viewImageButtons = document.querySelectorAll('.view-image-button');
+
+        let zoomLevel = 1; // Initial zoom level
+        const zoomStep = 0.2; // Zoom increment/decrement
+        const minZoom = 0.5; // Minimum zoom level
+        const maxZoom = 3; // Maximum zoom level
+        let isDragging = false;
+        let startX, startY, translateX = 0, translateY = 0;
+
+        // Function to update image transform
+        function updateTransform() {
+            if (modalImageView) {
+                // Apply scale and translation
+                modalImageView.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                // Update cursor based on zoom level
+                modalImageView.style.cursor = zoomLevel > 1 ? 'move' : 'default';
+            }
+        }
 
         // Function to open the image modal
         function openImageViewModal(imageUrl) {
             if (modalImageView && imageViewModal) {
                 modalImageView.src = imageUrl;
-                imageViewModal.classList.remove('hidden'); // Show the modal
-                document.body.style.overflow = 'hidden'; // Prevent scrolling of the body
+                zoomLevel = 1;
+                translateX = 0;
+                translateY = 0; // Reset translation
+                updateTransform();
+                imageViewModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
             }
         }
 
         // Function to close the image modal
         function closeImageViewModal() {
             if (imageViewModal) {
-                imageViewModal.classList.add('hidden'); // Hide the modal
-                modalImageView.src = ''; // Clear the image source
-                document.body.style.overflow = ''; // Restore body scrolling
+                imageViewModal.classList.add('hidden');
+                modalImageView.src = '';
+                zoomLevel = 1;
+                translateX = 0;
+                translateY = 0; // Reset translation
+                updateTransform();
+                document.body.style.overflow = '';
             }
         }
 
@@ -443,15 +485,85 @@ function formatNumber($number) {
             });
         });
 
-        // Add click listener to the close button inside the modal
+        // Zoom in button
+        if (zoomInButton) {
+            zoomInButton.addEventListener('click', function(event) {
+                event.stopPropagation();
+                zoomLevel = Math.min(zoomLevel + zoomStep, maxZoom);
+                updateTransform();
+            });
+        }
+
+        // Zoom out button
+        if (zoomOutButton) {
+            zoomOutButton.addEventListener('click', function(event) {
+                event.stopPropagation();
+                zoomLevel = Math.max(zoomLevel - zoomStep, minZoom);
+                translateX = 0; // Reset translation when zooming out to normal
+                translateY = 0;
+                updateTransform();
+            });
+        }
+
+        // Download button
+        if (downloadImageButton) {
+            downloadImageButton.addEventListener('click', function(event) {
+                event.stopPropagation();
+                const imageUrl = modalImageView.src;
+                if (imageUrl) {
+                    const link = document.createElement('a');
+                    link.href = imageUrl;
+                    link.download = 'property-image.jpg'; // Default filename
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            });
+        }
+
+        // Drag-and-drop logic
+        if (modalImageView) {
+            modalImageView.addEventListener('mousedown', function(event) {
+                if (zoomLevel > 1) {
+                    event.preventDefault();
+                    isDragging = true;
+                    startX = event.clientX - translateX;
+                    startY = event.clientY - translateY;
+                }
+            });
+
+            modalImageView.addEventListener('mousemove', function(event) {
+                if (isDragging && zoomLevel > 1) {
+                    translateX = event.clientX - startX;
+                    translateY = event.clientY - startY;
+
+                    // Limit dragging to prevent moving too far
+                    const maxTranslate = 100 * zoomLevel;
+                    translateX = Math.max(-maxTranslate, Math.min(maxTranslate, translateX));
+                    translateY = Math.max(-maxTranslate, Math.min(maxTranslate, translateY));
+
+                    updateTransform();
+                }
+            });
+
+            modalImageView.addEventListener('mouseup', function() {
+                isDragging = false;
+            });
+
+            modalImageView.addEventListener('mouseleave', function() {
+                isDragging = false;
+            });
+        }
+
+        // Close modal button
         if (closeImageViewModalButton) {
             closeImageViewModalButton.addEventListener('click', closeImageViewModal);
         }
 
-        // Close modal if clicked outside the content (on the overlay)
+        // Close modal if clicked outside the content
         if (imageViewModal) {
             imageViewModal.addEventListener('click', function(event) {
-                if (event.target === imageViewModal) { // Check if the click was directly on the overlay
+                if (event.target === imageViewModal) {
                     closeImageViewModal();
                 }
             });
@@ -465,26 +577,6 @@ function formatNumber($number) {
         });
 
 
-        // Show the modal when "Thêm Liên Hệ" button is clicked
-        addContactButton.addEventListener('click', function() {
-            contactModal.style.display = 'flex'; // Use flex to center the modal
-        });
-
-        // Hide the modal when close button or Cancel is clicked
-        closeButton.addEventListener('click', function() {
-            contactModal.style.display = 'none';
-        });
-
-        cancelContactButton.addEventListener('click', function() {
-            contactModal.style.display = 'none';
-        });
-
-        // Hide the modal if user clicks outside of it
-        window.addEventListener('click', function(event) {
-            if (event.target == contactModal) {
-                contactModal.style.display = 'none';
-            }
-        });
 
         const contactEntries = document.querySelectorAll('.contact-entry');
         contactEntries.forEach(entry => {
@@ -535,6 +627,94 @@ function formatNumber($number) {
                 });
             });
         });
+    });
+
+    const imageViewModal = document.getElementById('imageViewModal');
+    const modalImageView = document.getElementById('modalImageView');
+    const closeImageViewModalButton = document.getElementById('closeImageViewModal');
+    const zoomInButton = document.getElementById('zoomInButton');
+    const zoomOutButton = document.getElementById('zoomOutButton');
+    const viewImageButtons = document.querySelectorAll('.view-image-button');
+
+    let zoomLevel = 1; // Initial zoom level
+    const zoomStep = 0.2; // Zoom increment/decrement
+    const minZoom = 0.5; // Minimum zoom level
+    const maxZoom = 3; // Maximum zoom level
+
+    // Function to update zoom
+    function updateZoom() {
+        if (modalImageView) {
+            modalImageView.style.transform = `scale(${zoomLevel})`;
+        }
+    }
+
+    // Function to open the image modal
+    function openImageViewModal(imageUrl) {
+        if (modalImageView && imageViewModal) {
+            modalImageView.src = imageUrl;
+            zoomLevel = 1; // Reset zoom level when opening
+            updateZoom();
+            imageViewModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    // Function to close the image modal
+    function closeImageViewModal() {
+        if (imageViewModal) {
+            imageViewModal.classList.add('hidden');
+            modalImageView.src = '';
+            zoomLevel = 1; // Reset zoom level when closing
+            updateZoom();
+            document.body.style.overflow = '';
+        }
+    }
+
+    // Add click listener to each view button
+    viewImageButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const imageUrl = this.getAttribute('data-image-url');
+            if (imageUrl) {
+                openImageViewModal(imageUrl);
+            }
+        });
+    });
+
+    // Zoom in button
+    if (zoomInButton) {
+        zoomInButton.addEventListener('click', function() {
+            zoomLevel = Math.min(zoomLevel + zoomStep, maxZoom);
+            updateZoom();
+        });
+    }
+
+    // Zoom out button
+    if (zoomOutButton) {
+        zoomOutButton.addEventListener('click', function() {
+            zoomLevel = Math.max(zoomLevel - zoomStep, minZoom);
+            updateZoom();
+        });
+    }
+
+    // Close modal button
+    if (closeImageViewModalButton) {
+        closeImageViewModalButton.addEventListener('click', closeImageViewModal);
+    }
+
+    // Close modal if clicked outside the content
+    if (imageViewModal) {
+        imageViewModal.addEventListener('click', function(event) {
+            if (event.target === imageViewModal) {
+                closeImageViewModal();
+            }
+        });
+    }
+
+    // Close modal on Escape key press
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && !imageViewModal.classList.contains('hidden')) {
+            closeImageViewModal();
+        }
     });
     
 
