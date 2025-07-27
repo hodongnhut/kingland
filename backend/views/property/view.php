@@ -178,7 +178,7 @@ function formatNumber($number) {
                             <?= formatNumber($model->area_total) ?> m²
                         </p>
                         <p class="text-xs text-gray-500">
-                            (<?= formatNumber($model->area_length) ?>m × <?= formatNumber($model->area_width) ?>m)
+                            (<?= formatNumber($model->area_width) ?>m × <?= formatNumber($model->area_length) ?>m)
                         </p>
                     </div>
                 </div>
@@ -230,7 +230,7 @@ function formatNumber($number) {
                             <i class="far fa-copy mr-1"></i> Copy
                         </button>
                     </div>
-                    <p class="text-gray-700"><?= formatPriceUnit($model->price) ?> tỷ (<?= formatNumber($model->area_length) ?>m × <?= formatNumber($model->area_width) ?>m)</p>
+                    <p class="text-gray-700"><?= formatPriceUnit($model->price) ?>  (<?= formatNumber($model->area_width) ?>m × <?= formatNumber($model->area_length) ?>m)</p>
                     <button class="px-4 py-2 bg-red-100 text-red-700 text-sm font-medium rounded-full hover:bg-red-200">Đánh dấu Hot</button>
                 </div>
 
