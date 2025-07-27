@@ -246,20 +246,12 @@ function formatNumber($number) {
                     <?php
                     $images = $model->propertyImages;
                     foreach ($images as $image) {
-                        // Get the absolute URL for the image
+
                         $imageUrl = Html::encode(Yii::$app->urlManager->createAbsoluteUrl($image->image_path));
 
                         echo "<div class='relative group aspect-w-1 aspect-h-1 w-full rounded-lg overflow-hidden border border-gray-200 image-container'>";
-                        echo "<img src='{$imageUrl}' alt='" . Html::encode($image->image_path) . "' class='object-cover w-full h-full'>";
-
-                        // Overlay with view button
-                        echo "<div class='absolute inset-0 bg-opacity-50 flex items-center justify-center'>";
-                        echo "<button class='view-image-button p-3 bg-white text-gray-800 rounded-full shadow-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500' data-image-url='{$imageUrl}'>";
-                        echo "<i class='fas fa-eye'></i>"; // Font Awesome eye icon
-                        echo "</button>";
-                        echo "</div>"; // End overlay
-
-                        echo "</div>"; // End image-container
+                        echo "<img src='{$imageUrl}' alt='" . Html::encode($image->image_path) . "' class='view-image-button cursor-pointer object-cover w-full h-full' data-image-url='{$imageUrl}'>";
+                        echo "</div>";
                     }
                     ?>
                 </div>
@@ -630,6 +622,20 @@ function formatNumber($number) {
                 closeImageViewModal();
             }
         });
+
+        modalImageView.addEventListener('wheel', function(event) {
+            event.preventDefault();
+            const delta = event.deltaY > 0 ? -zoomStep : zoomStep; 
+            zoomLevel = Math.max(minZoom, Math.min(zoomLevel + delta, maxZoom));
+            if (zoomLevel <= 1) {
+                translateX = 0;
+                translateY = 0;
+            }
+            updateTransform();
+        }, { passive: false });
+
+
+
 
         
         // Show the modal when "Thêm Liên Hệ" button is clicked
