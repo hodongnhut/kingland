@@ -19,6 +19,14 @@ $this->registerJsFile('https://code.jquery.com/jquery-3.6.0.min.js', [
 $this->registerCssFile('/css/animate.css', [
     'rel' => 'stylesheet',
 ]);
+
+$this->registerCssFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css', [
+    'position' => \yii\web\View::POS_HEAD,
+]);
+$this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', [
+    'depends' => [\yii\web\JqueryAsset::class],
+    'position' => \yii\web\View::POS_END,
+]);
 ?>
 
 <?php if (isset($locationRequired) && $locationRequired): ?>
@@ -515,8 +523,9 @@ $this->registerCssFile('/css/animate.css', [
                         <?= $form->field($model, 'streets')->dropDownList(
                             [],
                             [
-                                'prompt' => 'Chọn Đường', 
-                                'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
+                                'prompt' => 'Chọn Đường',
+                                'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm js-select2',
+                                'aria-required' => 'true',
                             ]
                         )->label('<span class="text-red-500">*</span> Đường', ['class' => 'text-sm font-medium text-gray-700']) ?>
                     </div>
@@ -824,6 +833,8 @@ $this->registerJs($script);
 $script = <<< JS
 $('#propertiesfrom-districts').on('change', function() {
     var districtId = $(this).val();
+    var streetDropdown = $('select[name="PropertiesFrom[streets]"]');
+
     $.ajax({
         url: '/address/wards',
         type: 'GET',
@@ -846,7 +857,17 @@ $('#propertiesfrom-districts').on('change', function() {
             'X-CSRF-Token': '$csrfToken'
         },
         success: function(data) {
-            $('select[name="PropertiesFrom[streets]"]').html(data);
+            streetDropdown.html(data);
+            streetDropdown.select2({
+                placeholder: 'Chọn Đường',
+                allowClear: true,
+                width: '100%',
+                language: {
+                    noResults: function() {
+                        return 'Không tìm thấy đường';
+                    }
+                }
+            });
         },
         error: function(xhr, status, error) {
             console.error('AJAX error:', error);
