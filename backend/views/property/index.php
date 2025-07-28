@@ -833,7 +833,11 @@ $this->registerJs($script);
 $script = <<< JS
 $('#propertiesfrom-districts').on('change', function() {
     var districtId = $(this).val();
+    const wardDropdown = $('select[name="PropertiesFrom[wards]"]');
     var streetDropdown = $('select[name="PropertiesFrom[streets]"]');
+
+    wardDropdown.html('<option value="">Chọn Phường / Xã</option>');
+    streetDropdown.html('<option value="">Chọn Đường</option>');
 
     $.ajax({
         url: '/address/wards',
@@ -843,7 +847,7 @@ $('#propertiesfrom-districts').on('change', function() {
             'X-CSRF-Token': '$csrfToken'
         },
         success: function(data) {
-            $('select[name="PropertiesFrom[wards]"]').html(data);
+            wardDropdown.html(data);
         },
         error: function(xhr, status, error) {
             console.error('AJAX error:', error);

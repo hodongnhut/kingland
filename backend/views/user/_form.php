@@ -70,8 +70,19 @@ $departmentMap = ArrayHelper::map(Departments::find()->all(), 'department_id', '
             <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
 
             <?php if ($model->isNewRecord): ?>
-                <?= $form->field($model, 'password')->passwordInput(['maxlength' => true])
-                    ->hint('Mật khẩu người dùng') ?>
+                <?= $form->field($model, 'password', [
+                    'template' => "{label}\n<div class=\"input-group\">"
+                                . "<span class=\"input-group-text\"><i class=\"fas fa-key\"></i></span>"
+                                . "{input}"
+                                . "<button type=\"button\" class=\"btn btn-outline-secondary toggle-password\" tabindex=\"-1\">
+                                    <i class=\"fas fa-eye\"></i>
+                                </button>"
+                                . "</div>\n{hint}\n{error}",
+                ])->passwordInput([
+                    'placeholder' => '********',
+                    'class' => 'form-control password-input',
+                    'maxlength' => true
+                ])->label('Mật khẩu')->hint('Mật khẩu người dùng') ?>
             <?php endif; ?>
 
             <?= $form->field($model, 'job_title_id')->dropDownList(
@@ -100,3 +111,21 @@ $departmentMap = ArrayHelper::map(Departments::find()->all(), 'department_id', '
         </div>
     </div>
 </main>
+
+<?php
+$js = <<<JS
+$(document).on('click', '.toggle-password', function () {
+    var input = $(this).siblings('input');
+    var icon = $(this).find('i');
+    if (input.attr('type') === 'password') {
+        input.attr('type', 'text');
+        icon.removeClass('fa-eye').addClass('fa-eye-slash');
+    } else {
+        input.attr('type', 'password');
+        icon.removeClass('fa-eye-slash').addClass('fa-eye');
+    }
+});
+JS;
+$this->registerJs($js);
+?>
+
