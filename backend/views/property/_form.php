@@ -270,7 +270,21 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                         ]) ?>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label for="project_name" class="block text-sm font-medium text-gray-700 mb-1 required">Số Nhà</label>
+                        <?= $form->field($model, 'street_name', [
+                            'template' => '{input}{error}',
+                        ])->textInput([
+                            'id' => 'street_name',
+                            'maxlength' => true,
+                            'class' => 'mt-1 block w-full border rounded-md shadow-sm py-2 px-3 sm:text-sm ' .
+                                ($model->hasErrors('street_name')
+                                    ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-orange-500 focus:ring-orange-500'),
+                        ]) ?>
+                    </div>
+
                     <div>
                         <label for="project_name" class="block text-sm font-medium text-gray-700 mb-1 required">Số Nhà</label>
                         <?= $form->field($model, 'street_name', [
@@ -689,12 +703,14 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                             </label>
                         <?php endforeach; ?>
                     </div>
-
-                    <?= $form->field($model, 'transaction_description')->textarea([
-                        'rows' => 2,
-                        'placeholder' => 'Nhập Thông Tin Mô Tả',
-                        'class' => 'mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
-                    ]) ?>
+                    <div>
+                        <h3 class="text-md font-semibold text-gray-800 mb-3">Ghi Chú</h3>
+                        <?= $form->field($model, 'transaction_description')->textarea([
+                            'rows' => 2,
+                            'placeholder' => 'Nhập Thông Tin Mô Tả',
+                            'class' => 'mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
+                        ])->label(false) ?>
+                    </div>
                 </div>
                 <div>
                     <p class="text-xs text-gray-500 mt-3 mb-2">Nếu bạn có thông tin liên hệ chủ nhà thì hãy điền vào đây.</p>
