@@ -85,7 +85,11 @@ class PropertiesSearch extends Properties
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => ['pageSize' => 20],
-            'sort' => ['defaultOrder' => ['created_at' => SORT_DESC]],
+            'sort' => [
+                'defaultOrder' => [
+                    'updated_at' => SORT_DESC
+                ]
+            ],
         ]);
 
         $this->load($params);
