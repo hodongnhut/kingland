@@ -125,19 +125,20 @@ class Properties extends \yii\db\ActiveRecord
         
         $imageDomain = Yii::$app->params['imageDomain'] ?? 'https://kinglandgroup.vn';
         $images = [];
+
         if (count($model->propertyImages) > 0) {
             foreach ($model->propertyImages as $image) {
-                $images[] = [
-                    'image_path' => rtrim($imageDomain, '/') . '/' . ltrim($image->image_path, '/'),
-                ];
+                $fullUrl = rtrim($imageDomain, '/') . '/' . ltrim($image->image_path, '/');
+                $images[] = ['image' => $fullUrl];
             }
         }
+        
         
         $payload = [
             'event_type' => 'property_updated',
             'timestamp' => time(),
             'message' => $message,
-            'images' => $images
+            'images' =>  $images
         ];
 
         try {
