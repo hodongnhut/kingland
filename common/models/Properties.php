@@ -137,7 +137,7 @@ class Properties extends \yii\db\ActiveRecord
             'event_type' => 'property_updated',
             'timestamp' => time(),
             'message' => $message,
-            'images' =>  json_encode($images, true)
+            'images' =>  json_encode($images)
         ];
 
         try {
