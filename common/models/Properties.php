@@ -122,14 +122,15 @@ class Properties extends \yii\db\ActiveRecord
         $areaTotal = 'Diện Tích: '. $this->formatNumber($model->area_total) . 'm2 ('. $this->formatNumber($model->area_width) .'m × '. $this->formatNumber($model->area_length) .'m)';
 
         $message = $fullAddress . "\n" . $areaTotal . "\n" . $price;
-
+        
         $imageDomain = Yii::$app->params['imageDomain'] ?? 'https://kinglandgroup.vn';
         $images = [];
-        foreach ($model->propertyImages as $image) {
-            $images[] = [
-                'image_path' => rtrim($imageDomain, '/') . '/' . ltrim($image->image_path, '/'),
-            ];
+        if (count($model->propertyImages) > 0) {
+            foreach ($model->propertyImages as $image) {
+                array_push($images, rtrim($imageDomain, '/') . '/' . ltrim($image->image_path, '/'));
+            }
         }
+        
         $payload = [
             'event_type' => 'property_updated',
             'timestamp' => time(),
