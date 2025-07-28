@@ -432,216 +432,267 @@ function formatNumber($number) {
         const contactEntriesDiv = document.getElementById('contact-entries');
 
         const imageViewModal = document.getElementById('imageViewModal');
-        const modalContent = document.getElementById('modalContent');
-        const modalImageView = document.getElementById('modalImageView');
-        const closeImageViewModalButton = document.getElementById('closeImageViewModal');
-        const zoomInButton = document.getElementById('zoomInButton');
-        const zoomOutButton = document.getElementById('zoomOutButton');
-        const downloadImageButton = document.getElementById('downloadImageButton');
-        const rotateLeftButton = document.getElementById('rotateLeftButton');
-        const viewImageButtons = document.querySelectorAll('.view-image-button');
+    const modalContent = document.getElementById('modalContent');
+    const modalImageView = document.getElementById('modalImageView');
+    const closeImageViewModalButton = document.getElementById('closeImageViewModal');
+    const zoomInButton = document.getElementById('zoomInButton');
+    const zoomOutButton = document.getElementById('zoomOutButton');
+    const downloadImageButton = document.getElementById('downloadImageButton');
+    const rotateLeftButton = document.getElementById('rotateLeftButton');
+    const viewImageButtons = document.querySelectorAll('.view-image-button');
 
-        let zoomLevel = 1; // Initial zoom level
-        const zoomStep = 0.2; // Zoom increment/decrement
-        const minZoom = 0.5; // Minimum zoom level
-        const maxZoom = 3; // Maximum zoom level
-        let isDragging = false;
-        let startX, startY, translateX = 0, translateY = 0;
-        let rotation = 0; // Track rotation in degrees
+    let zoomLevel = 1; // Initial zoom level
+    const zoomStep = 0.2; // Zoom increment/decrement
+    const minZoom = 0.5; // Minimum zoom level
+    const maxZoom = 3; // Maximum zoom level
+    let isDragging = false;
+    let startX, startY, translateX = 0, translateY = 0;
+    let rotation = 0; // Track rotation in degrees
+    let currentImageIndex = 0; // Track current image
+    const imageUrls = Array.from(viewImageButtons).map(button => button.getAttribute('data-image-url')); // Array of image URLs
 
-        // Function to update modal size based on image dimensions
-        function updateModalSize() {
-            if (!modalImageView || !modalContent) return;
+    // Function to update modal size based on image dimensions
+    function updateModalSize() {
+        if (!modalImageView || !modalContent) return;
 
-            const img = modalImageView;
-            const naturalWidth = img.naturalWidth || 800; // Fallback width
-            const naturalHeight = img.naturalHeight || 600; // Fallback height
-            const angle = Math.abs(rotation % 360);
+        const img = modalImageView;
+        const naturalWidth = img.naturalWidth || 800; // Fallback width
+        const naturalHeight = img.naturalHeight || 600; // Fallback height
+        const angle = Math.abs(rotation % 360);
 
-            // Calculate bounding box after rotation
-            let width, height;
-            if (angle === 0 || angle === 180) {
-                width = naturalWidth * zoomLevel;
-                height = naturalHeight * zoomLevel;
-            } else {
-                width = naturalHeight * zoomLevel; // Swap for 90°/270°
-                height = naturalWidth * zoomLevel;
-            }
-
-            // Add padding (p-4 = 1rem = 16px on each side) and footer height (~60px)
-            const padding = 16 * 2; // Left + right
-            const footerHeight = 60; // Approximate footer height
-            const maxWidth = window.innerWidth * 0.9; // 90% of viewport width
-            const maxHeight = window.innerHeight * 0.9; // 90% of viewport height
-
-            // Set modal dimensions
-            modalContent.style.width = `${Math.min(width + padding, maxWidth)}px`;
-            modalContent.style.height = `${Math.min(height + padding + footerHeight, maxHeight)}px`;
+        let width, height;
+        if (angle === 0 || angle === 180) {
+            width = naturalWidth * zoomLevel;
+            height = naturalHeight * zoomLevel;
+        } else {
+            width = naturalHeight * zoomLevel; // Swap for 90°/270°
+            height = naturalWidth * zoomLevel;
         }
 
-        // Function to update image transform
-        function updateTransform() {
-            if (modalImageView) {
-                // Combine rotate, scale, and translate
-                modalImageView.style.transform = `rotate(${rotation}deg) scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
-                // Update cursor based on zoom level
-                modalImageView.style.cursor = zoomLevel > 1 ? 'move' : 'default';
-                // Update modal size
-                updateModalSize();
-            }
-        }
+        const padding = 16 * 2; // Left + right
+        const footerHeight = 60; // Approximate footer height
+        const maxWidth = window.innerWidth * 0.9; // 90% of viewport width
+        const maxHeight = window.innerHeight * 0.9; // 90% of viewport height
 
-        // Function to open the image modal
-        function openImageViewModal(imageUrl) {
-            if (modalImageView && imageViewModal) {
-                modalImageView.src = imageUrl;
-                zoomLevel = 1;
-                translateX = 0;
-                translateY = 0;
-                rotation = 0;
-                // Wait for image to load to get natural dimensions
-                modalImageView.onload = updateTransform;
-                imageViewModal.classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
-            }
-        }
+        modalContent.style.width = `${Math.min(width + padding, maxWidth)}px`;
+        modalContent.style.height = `${Math.min(height + padding + footerHeight, maxHeight)}px`;
+    }
 
-        // Function to close the image modal
-        function closeImageViewModal() {
-            if (imageViewModal) {
-                imageViewModal.classList.add('hidden');
-                modalImageView.src = '';
-                zoomLevel = 1;
-                translateX = 0;
-                translateY = 0;
-                rotation = 0;
-                modalContent.style.width = ''; // Reset modal size
-                modalContent.style.height = '';
-                updateTransform();
-                document.body.style.overflow = '';
-            }
+    // Function to update image transform
+    function updateTransform() {
+        if (modalImageView) {
+            modalImageView.style.transform = `rotate(${rotation}deg) scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+            modalImageView.style.cursor = zoomLevel > 1 ? 'move' : 'default';
+            updateModalSize();
         }
+    }
 
-        // Add click listener to each view button
-        viewImageButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const imageUrl = this.getAttribute('data-image-url');
-                if (imageUrl) {
-                    openImageViewModal(imageUrl);
-                }
-            });
+    // Function to open the image modal
+    function openImageViewModal(index) {
+        if (modalImageView && imageViewModal && imageUrls[index]) {
+            currentImageIndex = index;
+            modalImageView.src = imageUrls[index];
+            zoomLevel = 1;
+            translateX = 0;
+            translateY = 0;
+            rotation = 0;
+            modalImageView.onload = updateTransform;
+            imageViewModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    // Function to close the image modal
+    function closeImageViewModal() {
+        if (imageViewModal) {
+            imageViewModal.classList.add('hidden');
+            modalImageView.src = '';
+            zoomLevel = 1;
+            translateX = 0;
+            translateY = 0;
+            rotation = 0;
+            currentImageIndex = 0;
+            modalContent.style.width = '';
+            modalContent.style.height = '';
+            updateTransform();
+            document.body.style.overflow = '';
+        }
+    }
+
+    // Function to show previous image
+    function showPreviousImage() {
+        if (imageUrls.length > 0) {
+            currentImageIndex = (currentImageIndex - 1 + imageUrls.length) % imageUrls.length; // Wrap around
+            modalImageView.src = imageUrls[currentImageIndex];
+            zoomLevel = 1;
+            translateX = 0;
+            translateY = 0;
+            rotation = 0;
+            modalImageView.onload = updateTransform;
+        }
+    }
+
+    // Function to show next image
+    function showNextImage() {
+        if (imageUrls.length > 0) {
+            currentImageIndex = (currentImageIndex + 1) % imageUrls.length; // Wrap around
+            modalImageView.src = imageUrls[currentImageIndex];
+            zoomLevel = 1;
+            translateX = 0;
+            translateY = 0;
+            rotation = 0;
+            modalImageView.onload = updateTransform;
+        }
+    }
+
+    // Add navigation buttons
+    const footer = modalContent.querySelector('footer');
+    const prevButton = document.createElement('button');
+    prevButton.className = 'p-2 bg-gray-100 bg-opacity-75 text-gray-800 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500';
+    prevButton.innerHTML = '<i class="fas fa-arrow-left"></i>';
+    prevButton.setAttribute('aria-label', 'Previous image');
+    footer.insertBefore(prevButton, footer.firstChild);
+
+    const nextButton = document.createElement('button');
+    nextButton.className = 'p-2 bg-gray-100 bg-opacity-75 text-gray-800 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500';
+    nextButton.innerHTML = '<i class="fas fa-arrow-right"></i>';
+    nextButton.setAttribute('aria-label', 'Next image');
+    footer.appendChild(nextButton);
+
+    // Add click listener to each view button
+    viewImageButtons.forEach((button, index) => {
+        button.addEventListener('click', function() {
+            openImageViewModal(index);
+        });
+    });
+
+    // Previous button click
+    prevButton.addEventListener('click', function(event) {
+        event.stopPropagation();
+        showPreviousImage();
+    });
+
+    // Next button click
+    nextButton.addEventListener('click', function(event) {
+        event.stopPropagation();
+        showNextImage();
+    });
+
+    // Zoom in button
+    if (zoomInButton) {
+        zoomInButton.addEventListener('click', function(event) {
+            event.stopPropagation();
+            zoomLevel = Math.min(zoomLevel + zoomStep, maxZoom);
+            updateTransform();
+        });
+    }
+
+    // Zoom out button
+    if (zoomOutButton) {
+        zoomOutButton.addEventListener('click', function(event) {
+            event.stopPropagation();
+            zoomLevel = Math.max(zoomLevel - zoomStep, minZoom);
+            translateX = 0;
+            translateY = 0;
+            updateTransform();
+        });
+    }
+
+    // Download button
+    if (downloadImageButton) {
+        downloadImageButton.addEventListener('click', function(event) {
+            event.stopPropagation();
+            const imageUrl = modalImageView.src;
+            if (imageUrl) {
+                const link = document.createElement('a');
+                link.href = imageUrl;
+                link.download = `property-image-${currentImageIndex + 1}.jpg`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        });
+    }
+
+    // Rotate left button
+    if (rotateLeftButton) {
+        rotateLeftButton.addEventListener('click', function(event) {
+            event.stopPropagation();
+            rotation = (rotation - 90) % 360;
+            updateTransform();
+        });
+    }
+
+    // Drag-and-drop logic
+    if (modalImageView) {
+        modalImageView.addEventListener('mousedown', function(event) {
+            if (zoomLevel > 1) {
+                event.preventDefault();
+                isDragging = true;
+                startX = event.clientX - translateX;
+                startY = event.clientY - translateY;
+            }
         });
 
-        // Zoom in button
-        if (zoomInButton) {
-            zoomInButton.addEventListener('click', function(event) {
-                event.stopPropagation();
-                zoomLevel = Math.min(zoomLevel + zoomStep, maxZoom);
+        modalImageView.addEventListener('mousemove', function(event) {
+            if (isDragging && zoomLevel > 1) {
+                translateX = event.clientX - startX;
+                translateY = event.clientY - startY;
+                const maxTranslate = Math.max(modalImageView.naturalWidth, modalImageView.naturalHeight) * zoomLevel * 0.5;
+                translateX = Math.max(-maxTranslate, Math.min(maxTranslate, translateX));
+                translateY = Math.max(-maxTranslate, Math.min(maxTranslate, translateY));
                 updateTransform();
-            });
-        }
+            }
+        });
 
-        // Zoom out button
-        if (zoomOutButton) {
-            zoomOutButton.addEventListener('click', function(event) {
-                event.stopPropagation();
-                zoomLevel = Math.max(zoomLevel - zoomStep, minZoom);
-                translateX = 0; // Reset translation when zooming out to normal
-                translateY = 0;
-                updateTransform();
-            });
-        }
+        modalImageView.addEventListener('mouseup', function() {
+            isDragging = false;
+        });
 
-        // Download button
-        if (downloadImageButton) {
-            downloadImageButton.addEventListener('click', function(event) {
-                event.stopPropagation();
-                const imageUrl = modalImageView.src;
-                if (imageUrl) {
-                    const link = document.createElement('a');
-                    link.href = imageUrl;
-                    link.download = 'property-image.jpg'; // Default filename
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                }
-            });
-        }
+        modalImageView.addEventListener('mouseleave', function() {
+            isDragging = false;
+        });
+    }
 
-        // Rotate left button
-        if (rotateLeftButton) {
-            rotateLeftButton.addEventListener('click', function(event) {
-                event.stopPropagation();
-                rotation = (rotation - 90) % 360; // Rotate counterclockwise by 90 degrees
-                updateTransform();
-            });
-        }
+    // Close modal button
+    if (closeImageViewModalButton) {
+        closeImageViewModalButton.addEventListener('click', closeImageViewModal);
+    }
 
-        // Drag-and-drop logic
-        if (modalImageView) {
-            modalImageView.addEventListener('mousedown', function(event) {
-                if (zoomLevel > 1) {
-                    event.preventDefault();
-                    isDragging = true;
-                    startX = event.clientX - translateX;
-                    startY = event.clientY - translateY;
-                }
-            });
-
-            modalImageView.addEventListener('mousemove', function(event) {
-                if (isDragging && zoomLevel > 1) {
-                    translateX = event.clientX - startX;
-                    translateY = event.clientY - startY;
-
-                    // Limit dragging to prevent moving too far
-                    const maxTranslate = 100 * zoomLevel;
-                    translateX = Math.max(-maxTranslate, Math.min(maxTranslate, translateX));
-                    translateY = Math.max(-maxTranslate, Math.min(maxTranslate, translateY));
-
-                    updateTransform();
-                }
-            });
-
-            modalImageView.addEventListener('mouseup', function() {
-                isDragging = false;
-            });
-
-            modalImageView.addEventListener('mouseleave', function() {
-                isDragging = false;
-            });
-        }
-
-        // Close modal button
-        if (closeImageViewModalButton) {
-            closeImageViewModalButton.addEventListener('click', closeImageViewModal);
-        }
-
-        // Close modal if clicked outside the content
-        if (imageViewModal) {
-            imageViewModal.addEventListener('click', function(event) {
-                if (event.target === imageViewModal) {
-                    closeImageViewModal();
-                }
-            });
-        }
-
-        // Close modal on Escape key press
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape' && !imageViewModal.classList.contains('hidden')) {
+    // Close modal if clicked outside the content
+    if (imageViewModal) {
+        imageViewModal.addEventListener('click', function(event) {
+            if (event.target === imageViewModal) {
                 closeImageViewModal();
             }
         });
+    }
 
-        modalImageView.addEventListener('wheel', function(event) {
-            event.preventDefault();
-            const delta = event.deltaY > 0 ? -zoomStep : zoomStep; 
-            zoomLevel = Math.max(minZoom, Math.min(zoomLevel + delta, maxZoom));
-            if (zoomLevel <= 1) {
-                translateX = 0;
-                translateY = 0;
+    // Handle keyboard navigation
+    document.addEventListener('keydown', function(event) {
+        if (!imageViewModal.classList.contains('hidden')) {
+            if (event.key === 'Escape') {
+                closeImageViewModal();
+            } else if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                showPreviousImage();
+            } else if (event.key === 'ArrowRight') {
+                event.preventDefault();
+                showNextImage();
             }
-            updateTransform();
-        }, { passive: false });
+        }
+    });
+
+    modalImageView.addEventListener('wheel', function(event) {
+        event.preventDefault();
+        const delta = event.deltaY > 0 ? -zoomStep : zoomStep;
+        zoomLevel = Math.max(minZoom, Math.min(zoomLevel + delta, maxZoom));
+        if (zoomLevel <= 1) {
+            translateX = 0;
+            translateY = 0;
+        }
+        updateTransform();
+    }, { passive: false });
 
         document.querySelectorAll('.copy-btn').forEach(button => {
             button.addEventListener('click', () => {
