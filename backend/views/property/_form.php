@@ -273,20 +273,20 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label for="project_name" class="block text-sm font-medium text-gray-700 mb-1 required">Số Nhà</label>
-                        <?= $form->field($model, 'street_name', [
+                        <?= $form->field($model, 'house_number', [
                             'template' => '{input}{error}',
                         ])->textInput([
-                            'id' => 'street_name',
+                            'id' => 'house_number',
                             'maxlength' => true,
                             'class' => 'mt-1 block w-full border rounded-md shadow-sm py-2 px-3 sm:text-sm ' .
-                                ($model->hasErrors('street_name')
+                                ($model->hasErrors('house_number')
                                     ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
                                     : 'border-gray-300 focus:border-orange-500 focus:ring-orange-500'),
                         ]) ?>
                     </div>
 
                     <div>
-                        <label for="project_name" class="block text-sm font-medium text-gray-700 mb-1 required">Số Nhà</label>
+                        <label for="project_name" class="block text-sm font-medium text-gray-700 mb-1 required">Đường</label>
                         <?= $form->field($model, 'street_name', [
                             'template' => '{input}{error}',
                         ])->textInput([
