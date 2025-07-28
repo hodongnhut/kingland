@@ -706,7 +706,7 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                     <div>
                         <h3 class="text-md font-semibold text-gray-800 mb-3">Ghi Chú</h3>
                         <?= $form->field($model, 'transaction_description')->textarea([
-                            'rows' => 2,
+                            'rows' => 6,
                             'placeholder' => 'Nhập Thông Tin Mô Tả',
                             'class' => 'mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
                         ])->label(false) ?>
