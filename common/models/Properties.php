@@ -133,7 +133,6 @@ class Properties extends \yii\db\ActiveRecord
             }
         }
         
-        
         $payload = [
             'event_type' => 'property_updated',
             'timestamp' => time(),
