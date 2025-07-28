@@ -137,7 +137,7 @@ class Properties extends \yii\db\ActiveRecord
             'event_type' => 'property_updated',
             'timestamp' => time(),
             'message' => $message,
-            'images' =>  $images
+            'images' =>  json_encode($images, true)
         ];
 
         try {
@@ -145,8 +145,7 @@ class Properties extends \yii\db\ActiveRecord
             $response = $client->createRequest()
                 ->setMethod('POST')
                 ->setUrl('https://n8n.kinglandgroup.vn/webhook/kingland')
-                ->addHeaders(['Content-Type' => 'application/json']) 
-                ->setData(json_encode($payload))
+                ->setData($payload)
                 ->send();
 
             if (!$response->isOk) {
