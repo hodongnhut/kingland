@@ -127,7 +127,9 @@ class Properties extends \yii\db\ActiveRecord
         $images = [];
         if (count($model->propertyImages) > 0) {
             foreach ($model->propertyImages as $image) {
-                array_push($images, rtrim($imageDomain, '/') . '/' . ltrim($image->image_path, '/'));
+                $images[] = [
+                    'image_path' => rtrim($imageDomain, '/') . '/' . ltrim($image->image_path, '/'),
+                ];
             }
         }
         
@@ -135,9 +137,7 @@ class Properties extends \yii\db\ActiveRecord
             'event_type' => 'property_updated',
             'timestamp' => time(),
             'message' => $message,
-            'images' => [
-                'path_images' => $images
-            ]
+            'images' => $images
         ];
 
         try {
