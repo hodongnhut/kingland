@@ -36,7 +36,7 @@ class PropertyController extends Controller
 
         $imageDomain = Yii::$app->params['imageDomain'] ?? 'https://kinglandgroup.vn';
 
-        $noImage = [
+        $noImage[] = [
             'image_id' => 1,
             'image_path'=> 'https://kinglandgroup.vn/img/no-image.webp',
             'is_main' => 1,
