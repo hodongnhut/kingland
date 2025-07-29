@@ -7,6 +7,7 @@ use yii\rest\Controller;
 use yii\filters\auth\HttpBearerAuth;
 use common\models\Properties;
 use common\models\PropertiesSearch;
+use common\models\PropertiesFrom;
 
 class PropertyController extends Controller
 {
@@ -105,6 +106,33 @@ class PropertyController extends Controller
             ],
         ]);
     }
+
+    public function actionCreate()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->response(false, 'Unauthorized');
+        }
+
+        $model = new PropertiesFrom();
+
+        $data = Yii::$app->request->post();
+        if ($model->load($data, '')) {
+            if ($property = $model->save()) {
+                return $this->response(true, 'Property created successfully', [
+                    'property' => $property,
+                ]);
+            } else {
+                return $this->response(false, 'Failed to save property', [
+                    'errors' => $model->getErrors(),
+                ]);
+            }
+        }
+
+        return $this->response(false, 'Invalid input', [
+            'errors' => $model->getErrors(),
+        ]);
+    }
+
 
     private function response($status, $msg, $data = null)
     {
