@@ -40,6 +40,9 @@ class PropertyController extends Controller
 
         $imageDomain = Yii::$app->params['imageDomain'] ?? 'https://kinglandgroup.vn';
 
+        $noImage = [
+            'image_path'=> 'https://kinglandgroup.vn/no-image.webp'
+        ];
 
         $data = [];
         foreach ($properties as $property) {
@@ -85,8 +88,9 @@ class PropertyController extends Controller
                 'property_type' => $property->propertyType ? $property->propertyType->type_name : null,
                 'direction' => $property->direction ? $property->direction->name : null,
                 'asset_type' => $property->assetType ? $property->assetType->type_name : null,
-                'images' => $images,
+                'images' => count($images) > 0 ? $images : $noImage,
                 'owner_contacts' => $contacts,
+                'red_book' => $property->getRedbook()
             ];
         }
 

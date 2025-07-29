@@ -404,6 +404,14 @@ class Properties extends \yii\db\ActiveRecord
         return $this->hasMany(PropertyImages::class, ['property_id' => 'property_id']);
     }
 
+
+    public function getRedbook()
+    {
+        return PropertyImages::find()
+            ->where(['property_id' => $this->property_id, 'is_main' => 1])
+            ->exists();
+    }
+
     public function getRentalContract()
     {
         return $this->hasOne(RentalContracts::class, ['property_id' => 'property_id']);
