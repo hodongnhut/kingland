@@ -203,8 +203,8 @@ class PropertyController extends Controller
             ];
         }, $favorites);
 
-        return $this->response(true, 'Favorite properties retrieved successfully', [
-            'data' => $data,
+        return $this->response(true, 'Favorite properties retrieved successfully', data: [
+            'properties' => $data,
         ]);
     }
 
