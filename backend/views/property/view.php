@@ -84,21 +84,23 @@ function formatNumber($number) {
 <main class="flex-1 p-6 overflow-y-auto hide-scrollbar">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-        <div id="thong-tin-content" class="tab-content lg:col-span-2 space-y-6">
-            <div class="bg-white p-6 rounded-lg shadow-md flex items-center justify-between">
-                <div>                    
-                    <p class="text-sm text-gray-500">Mã BĐS: <span class="font-semibold text-gray-800"><?= Html::encode($model->property_id) ?></span></p>
-                    <p class="text-sm text-gray-500">Ngày Nhập: <span class="font-semibold text-gray-800"><?= Yii::$app->formatter->asRelativeTime($model->created_at) ?> (<?= Yii::$app->formatter->asDate($model->created_at, 'php:d-m-Y') ?>)</span></p>
-                </div>
-                <div class="flex items-center space-x-2">
-                    <div>
-                        <p class="text-sm text-gray-500">Người Nhập:</p>
-                        <p class="font-semibold text-gray-800"><?= Yii::$app->user->identity->username ?> <i class="fas fa-info-circle text-gray-400 text-xs"></i></p>
+        <div class="lg:col-span-2 space-y-6">
+            
+            <div class="bg-white p-6 rounded-lg shadow-md border-orange-600-custom">
+
+                <div class="bg-white rounded-lg mb-4 flex items-center justify-between">
+                    <div>                    
+                        <p class="text-sm text-gray-500">Mã BĐS: <span class="font-semibold text-gray-800"><?= Html::encode($model->property_id) ?></span></p>
+                        <p class="text-sm text-gray-500">Ngày Nhập: <span class="font-semibold text-gray-800"><?= Yii::$app->formatter->asRelativeTime($model->created_at) ?> (<?= Yii::$app->formatter->asDate($model->created_at, 'php:d-m-Y') ?>)</span></p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <div>
+                            <p class="text-sm text-gray-500">Người Nhập:</p>
+                            <p class="font-semibold text-gray-800"><?= Yii::$app->user->identity->username ?> <i class="fas fa-info-circle text-gray-400 text-xs"></i></p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="bg-white p-6 rounded-lg shadow-md border-orange-600-custom">
                 <div class="flex items-center justify-between mb-4">
                     <div class="flex items-center space-x-2">
                         <span class="text-lg font-bold text-orange-600"><?= Html::encode($model->listingType->name ?? '') ?></span>
@@ -113,9 +115,10 @@ function formatNumber($number) {
                         <?php endif; ?>
                     </div>
                 </div>
+
                 <p class="text-xl font-bold text-gray-800 mb-2"><?= Html::encode($model->title) ?></p>
-                <?= 
-                    Html::a(
+                
+                <?= Html::a(
                         '<i class="fas fa-map mr-1"></i> Xem bản đồ',
                         "https://maps.google.com/?q=".$model->title,
                         [
@@ -125,12 +128,12 @@ function formatNumber($number) {
                         ]
                     )
                 ?>
-                <?= 
-                    $model->new_district
+                <?= $model->new_district
                     ? Html::tag('span', $model->new_district, [
                         'class' => 'capitalize px-4 py-2 text-sm font-medium rounded-full bg-green-100 text-green-700'])
                     : '';
                 ?>
+                
                 <div class="grid grid-cols-3 gap-4 mb-4 mt-4">
                     <?php
                         $totalPrice = $model->price; 
@@ -207,49 +210,47 @@ function formatNumber($number) {
                         </div>
                     <?php endforeach; ?>
                 </div>
-            </div>
 
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <nav class="flex space-x-4 mb-4">
-                    <button class="tab-sub-button px-4 py-2 text-sm font-medium rounded-full bg-orange-100 text-orange-700" data-target="vi-tri-mat-tien">Vị Trí <?= Html::encode($model->locationTypes->type_name ?? '') ?></button>
-                    <?php
-                        $assetTypeName = 'chưa có thông tin';
-                        if ($model->assetType && $model->assetType->asset_type_id !== 0) {
-                            $assetTypeName = $model->assetType->type_name;
-                        }
-                    ?>
+                <div class="space-y-2  mb-4 mt-4" >
+                    <nav class="flex space-x-4 mb-4 ">
+                        <button class="tab-sub-button px-4 py-2 text-sm font-medium rounded-full bg-orange-100 text-orange-700" data-target="vi-tri-mat-tien">Vị Trí <?= Html::encode($model->locationTypes->type_name ?? '') ?></button>
+                        <?php
+                            $assetTypeName = 'chưa có thông tin';
+                            if ($model->assetType && $model->assetType->asset_type_id !== 0) {
+                                $assetTypeName = $model->assetType->type_name;
+                            }
+                        ?>
 
-                    <button class="tab-sub-button px-4 py-2 text-sm font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200" data-target="loai-tai-san-ca-nhan">
-                        Loại Tài Sản <?= Html::encode($assetTypeName) ?>
-                    </button>
-                </nav>
+                        <button class="tab-sub-button px-4 py-2 text-sm font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200" data-target="loai-tai-san-ca-nhan">
+                            Loại Tài Sản <?= Html::encode($assetTypeName) ?>
+                        </button>
+                    </nav>
+                    
+                    <div id="vi-tri-mat-tien" class="tab-sub-content space-y-4">
+                        <div class="flex items-start justify-between">
+                            <p class="text-gray-700 copy-text" id="vi-tri-text">
+                                Nhà có diện tích <?= formatNumber($model->area_width) ?>m × <?= formatNumber($model->area_length) ?>m, khu trung tâm kinh doanh buôn bán, tiện kinh doanh đa ngành nghề
+                            </p>
+                            <button class="ml-4 text-gray-500 hover:text-gray-700 flex items-center text-sm copy-btn" data-copy-target="#vi-tri-text">
+                                <i class="far fa-copy mr-1"></i> Copy
+                            </button>
+                        </div>
 
-                <div id="vi-tri-mat-tien" class="tab-sub-content space-y-4">
-                    <div class="flex items-start justify-between">
-                        <p class="text-gray-700 copy-text" id="vi-tri-text">
-                            Nhà có diện tích <?= formatNumber($model->area_width) ?>m × <?= formatNumber($model->area_length) ?>m, khu trung tâm kinh doanh buôn bán, tiện kinh doanh đa ngành nghề
+                        <p class="text-gray-700">
+                            <?= formatPriceUnit($model->price) ?> (<?= formatNumber($model->area_width) ?>m × <?= formatNumber($model->area_length) ?>m)
                         </p>
-                        <button class="ml-4 text-gray-500 hover:text-gray-700 flex items-center text-sm copy-btn" data-copy-target="#vi-tri-text">
-                            <i class="far fa-copy mr-1"></i> Copy
+
+                        <button class="px-4 py-2 bg-red-100 text-red-700 text-sm font-medium rounded-full hover:bg-red-200">
+                            Đánh dấu Hot
                         </button>
                     </div>
 
-                    <p class="text-gray-700">
-                        <?= formatPriceUnit($model->price) ?> (<?= formatNumber($model->area_width) ?>m × <?= formatNumber($model->area_length) ?>m)
-                    </p>
-
-                    <button class="px-4 py-2 bg-red-100 text-red-700 text-sm font-medium rounded-full hover:bg-red-200">
-                        Đánh dấu Hot
-                    </button>
-                </div>
-
-
-                <div id="loai-tai-san-ca-nhan" class="tab-sub-content hidden space-y-4">
-                    <p class="text-gray-700">Thông tin chi tiết về loại tài sản cá nhân sẽ được hiển thị tại đây.</p>
+                    <div id="loai-tai-san-ca-nhan" class="tab-sub-content hidden space-y-4">
+                        <p class="text-gray-700">Thông tin chi tiết về loại tài sản cá nhân sẽ được hiển thị tại đây.</p>
+                    </div>
                 </div>
             </div>
 
-            
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h3 class="text-md font-semibold text-gray-800 mb-3">Sổ Hồng & Hình Ảnh</h3>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 uploaded-images">
