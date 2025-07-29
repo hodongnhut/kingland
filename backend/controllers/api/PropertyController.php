@@ -21,7 +21,6 @@ class PropertyController extends Controller
 
     public function actionIndex()
     {
-        // Check if user is authenticated
         if (Yii::$app->user->isGuest) {
             return $this->response(false, 'Unauthorized');
         }
@@ -29,20 +28,17 @@ class PropertyController extends Controller
         $searchModel = new PropertiesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-
         if (!$searchModel->validate()) {
             return $this->response(false, 'Invalid search parameters', ['errors' => $searchModel->getErrors()]);
         }
 
-
         $properties = $dataProvider->getModels();
-
 
         $imageDomain = Yii::$app->params['imageDomain'] ?? 'https://kinglandgroup.vn';
 
         $noImage = [
             'image_id' => 1,
-            'image_path'=> 'https://kinglandgroup.vn/no-image.webp',
+            'image_path'=> 'https://kinglandgroup.vn/img/no-image.webp',
             'is_main' => 1,
             'sort_order' => 0
         ];
@@ -97,7 +93,6 @@ class PropertyController extends Controller
             ];
         }
 
-        // Pagination info
         $pagination = $dataProvider->getPagination();
 
         return $this->response(true, empty($data) ? 'No properties found' : 'Properties retrieved successfully', [
