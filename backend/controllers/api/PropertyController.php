@@ -219,7 +219,7 @@ class PropertyController extends Controller
         $propertyId = Yii::$app->request->post('property_id');
 
         if (!$propertyId) {
-            return $this->response(false, 'Missing property_id');
+            return $this->response(false, 'Missing Mã property_id BĐS');
         }
 
         $existing = PropertyFavorite::findOne([
@@ -228,7 +228,7 @@ class PropertyController extends Controller
         ]);
 
         if ($existing !== null) {
-            return $this->response(false, 'This property is already in your favorites');
+            return $this->response(false, 'Bất động sản này đã có trong mục yêu thích của bạn');
         }
 
         $model = new PropertyFavorite();
@@ -237,10 +237,10 @@ class PropertyController extends Controller
         $model->created_at = date('Y-m-d H:i:s');
 
         if ($model->save()) {
-            return $this->response(true, 'Added to favorites', $model);
+            return $this->response(true, 'Đã thêm vào mục yêu thích', $model);
         }
 
-        return $this->response(false, 'Failed to add to favorites', $model->getErrors());
+        return $this->response(false, 'Không thể thêm vào mục yêu thích', $model->getErrors());
     }
 
 
@@ -254,7 +254,7 @@ class PropertyController extends Controller
         $propertyId = Yii::$app->request->post('property_id');
 
         if (!$propertyId) {
-            return $this->response(false, 'Missing property_id');
+            return $this->response(false, 'Missing Mã property_id BĐS');
         }
 
         $model = PropertyFavorite::findOne([
@@ -263,14 +263,14 @@ class PropertyController extends Controller
         ]);
 
         if (!$model) {
-            return $this->response(false, 'Favorite not found');
+            return $this->response(false, 'không tìm thấy mục yêu thích');
         }
 
         if ($model->delete()) {
-            return $this->response(true, 'Removed from favorites');
+            return $this->response(true, 'Đã xóa khỏi mục yêu thích');
         }
 
-        return $this->response(false, 'Failed to remove from favorites');
+        return $this->response(false, 'Không thể xóa khỏi mục yêu thích');
     }
 
 
