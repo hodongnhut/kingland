@@ -16,7 +16,6 @@ use Yii;
 class PropertyFavorite extends \yii\db\ActiveRecord
 {
 
-
     /**
      * {@inheritdoc}
      */

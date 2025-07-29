@@ -78,7 +78,7 @@ class Properties extends \yii\db\ActiveRecord
     {
         parent::init();
         $this->on(self::EVENT_AFTER_INSERT, [$this, 'updateChart']);
-        $this->on(self::EVENT_AFTER_UPDATE, [$this, 'callWebhookAfterUpdate']);
+       // $this->on(self::EVENT_AFTER_UPDATE, [$this, 'callWebhookAfterUpdate']);
     }
     public function updateChart($event) {
         $model = $event->sender;

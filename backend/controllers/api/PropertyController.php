@@ -8,6 +8,7 @@ use yii\filters\auth\HttpBearerAuth;
 use common\models\Properties;
 use common\models\PropertiesSearch;
 use common\models\PropertiesFrom;
+use common\models\PropertyFavorite;
 
 class PropertyController extends Controller
 {
@@ -132,6 +133,146 @@ class PropertyController extends Controller
             'errors' => $model->getErrors(),
         ]);
     }
+
+    public function actionFavorites()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->response(false, 'Unauthorized');
+        }
+        $userId = Yii::$app->user->id;
+        $favorites = PropertyFavorite::find()
+            ->where(['user_id' => $userId])
+            ->with(['property'])
+            ->all();
+
+        
+        $data = array_map(function ($favorite) {
+            $property = $favorite->property;
+            $imageDomain = Yii::$app->params['imageDomain'] ?? 'https://kinglandgroup.vn';
+
+            $noImage[] = [
+                'image_id' => 1,
+                'image_path'=> 'https://kinglandgroup.vn/img/no-image.webp',
+                'is_main' => 1,
+                'sort_order' => 0
+            ];
+            $images = [];
+            foreach ($property->propertyImages as $image) {
+                $images[] = [
+                    'image_id' => $image->image_id,
+                    'image_path' => rtrim($imageDomain, '/') . '/' . ltrim($image->image_path, '/'),
+                    'is_main' => $image->is_main,
+                    'sort_order' => $image->sort_order,
+                ];
+            }
+
+            $contacts = [];
+            foreach ($property->ownerContacts as $contact) {
+                $contacts[] = [
+                    'contact_id' => $contact->contact_id,
+                    'contact_name' => $contact->contact_name,
+                    'phone_number' => $contact->phone_number,
+                    'role' => $contact->role ? $contact->role->name : null,
+                    'gender' => $contact->gender ? $contact->gender->name : null,
+                ];
+            }
+            return [
+                'property_id' => $property->property_id,
+                'title' => $property->title,
+                'listing' =>$property->listingType->name,
+                'property_type' => $property->propertyType ? $property->propertyType->type_name : null,
+                'location_type' => $property->locationType ? $property->locationType->type_name : null,
+                'price' => $property->price,
+                'final_price' => $property->final_price,
+                'area_total' => $property->area_total,
+                'area_length' => $property->area_length,
+                'area_width' => $property->area_width,
+                'street_name' => $property->street_name,
+                'ward_commune' => $property->ward_commune,
+                'district_county' => $property->district_county,
+                'city' => $property->city,
+                'created_at' => $property->created_at,
+                'updated_at' => $property->updated_at,
+                'transaction_status' => $property->transactionStatus ? $property->transactionStatus->status_name : null,
+                'property_type' => $property->propertyType ? $property->propertyType->type_name : null,
+                'direction' => $property->direction ? $property->direction->name : null,
+                'asset_type' => $property->assetType ? $property->assetType->type_name : null,
+                'images' => count($images) > 0 ? $images : $noImage,
+                'owner_contacts' => $contacts,
+                'red_book' => $property->getRedbook()
+            ];
+        }, $favorites);
+
+        return $this->response(true, 'Favorite properties retrieved successfully', [
+            'data' => $data,
+        ]);
+    }
+
+    // API to add a favorite
+    public function actionAddFavorite()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->response(false, 'Unauthorized');
+        }
+
+        $userId = Yii::$app->user->id;
+        $propertyId = Yii::$app->request->post('property_id');
+
+        if (!$propertyId) {
+            return $this->response(false, 'Missing property_id');
+        }
+
+        $existing = PropertyFavorite::findOne([
+            'user_id' => $userId,
+            'property_id' => $propertyId,
+        ]);
+
+        if ($existing !== null) {
+            return $this->response(false, 'This property is already in your favorites');
+        }
+
+        $model = new PropertyFavorite();
+        $model->user_id = $userId;
+        $model->property_id = $propertyId;
+        $model->created_at = date('Y-m-d H:i:s');
+
+        if ($model->save()) {
+            return $this->response(true, 'Added to favorites', $model);
+        }
+
+        return $this->response(false, 'Failed to add to favorites', $model->getErrors());
+    }
+
+
+    // API to remove a favorite
+    public function actionRemoveFavorite()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->response(false, 'Unauthorized');
+        }
+
+        $propertyId = Yii::$app->request->post('property_id');
+
+        if (!$propertyId) {
+            return $this->response(false, 'Missing property_id');
+        }
+
+        $model = PropertyFavorite::findOne([
+            'user_id' => Yii::$app->user->id,
+            'property_id' => $propertyId,
+        ]);
+
+        if (!$model) {
+            return $this->response(false, 'Favorite not found');
+        }
+
+        if ($model->delete()) {
+            return $this->response(true, 'Removed from favorites');
+        }
+
+        return $this->response(false, 'Failed to remove from favorites');
+    }
+
 
 
     private function response($status, $msg, $data = null)
