@@ -408,7 +408,7 @@ class Properties extends \yii\db\ActiveRecord
     public function getRedbook()
     {
         return PropertyImages::find()
-            ->where(['property_id' => $this->property_id, 'is_main' => 1])
+            ->where(['property_id' => $this->property_id, 'image_type' => 1])
             ->exists();
     }
 
