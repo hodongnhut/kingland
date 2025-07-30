@@ -37,14 +37,16 @@ class OwnerContacts extends \yii\db\ActiveRecord
     {
         return [
             [['contact_name', 'phone_number', 'role_id', 'gender_id'], 'default', 'value' => null],
-            [['property_id'], 'required'],
+            [['contact_name', 'phone_number'], 'trim'],
+            [['property_id'], 'required', 'message' => 'Vui lòng nhập ID bất động sản.'],
             [['property_id', 'role_id', 'gender_id'], 'integer'],
-            [['contact_name'], 'string', 'max' => 255],
-            [['phone_number'], 'string', 'max' => 20],
-            [['property_id', 'phone_number'], 'unique', 'targetAttribute' => ['property_id', 'phone_number']],
-            [['property_id'], 'exist', 'skipOnError' => true, 'targetClass' => Properties::class, 'targetAttribute' => ['property_id' => 'property_id']],
-            [['gender_id'], 'exist', 'skipOnError' => true, 'targetClass' => Genders::class, 'targetAttribute' => ['gender_id' => 'id']],
-            [['role_id'], 'exist', 'skipOnError' => true, 'targetClass' => ContactRoles::class, 'targetAttribute' => ['role_id' => 'id']],
+            [['contact_name'], 'string', 'max' => 255, 'tooLong' => 'Tên không được vượt quá 255 ký tự.'],
+            [['phone_number'], 'string', 'max' => 20, 'tooLong' => 'Số điện thoại không được vượt quá 20 ký tự.'],
+            [['phone_number'], 'match', 'pattern' => '/^(0[3|5|7|8|9][0-9]{8})$/', 'message' => 'Số điện thoại không hợp lệ. Vui lòng nhập số điện thoại Việt Nam (10 chữ số, bắt đầu bằng 03, 05, 07, 08, hoặc 09).'],
+            [['property_id', 'phone_number'], 'unique', 'targetAttribute' => ['property_id', 'phone_number'], 'message' => 'Số điện thoại này đã được sử dụng cho bất động sản này.'],
+            [['property_id'], 'exist', 'skipOnError' => true, 'targetClass' => Properties::class, 'targetAttribute' => ['property_id' => 'property_id'], 'message' => 'Bất động sản không tồn tại.'],
+            [['gender_id'], 'exist', 'skipOnError' => true, 'targetClass' => Genders::class, 'targetAttribute' => ['gender_id' => 'id'], 'message' => 'Giới tính không hợp lệ.'],
+            [['role_id'], 'exist', 'skipOnError' => true, 'targetClass' => ContactRoles::class, 'targetAttribute' => ['role_id' => 'id'], 'message' => 'Vai trò không hợp lệ.'],
         ];
     }
 

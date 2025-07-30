@@ -64,10 +64,23 @@ class OwnerContactController extends Controller
         $model->contact_name = $data['name'];
         $model->phone_number = $data['phone'];
         $model->gender_id = (int)$data['gender'];
-        $model->property_id = $data['propertyId'];
+        $model->property_id = (int)$data['propertyId'];
 
         if ($model->save()) {
-            return ['success' => true];
+            $contacts = OwnerContacts::find()
+                ->where(['property_id' => $model->property_id])
+                ->with(['role', 'gender']) 
+                ->all();
+                
+            $tableHtml = $this->renderPartial('_table', [
+                'contacts' => $contacts,
+            ]);
+
+            return [
+                'success' => true,
+                'data' => $tableHtml,
+            ];
+
         }
 
         return ['success' => false, 'errors' => $model->errors];

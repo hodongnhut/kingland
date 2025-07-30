@@ -716,43 +716,14 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                     <p class="text-xs text-gray-500 mt-3 mb-2">Nếu bạn có thông tin liên hệ chủ nhà thì hãy điền vào đây.</p>
                     <?= Html::a('<i class="fas fa-address-book "></i> Tạo Liên Hệ', 'javascript:void(0)', [
                         'id'=> 'add-contact-button',
-                        'onclick' => 'createContact()',
                         'class' => 'bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded mb-4 inline-block'
                     ]) ?>
                     <br>
-                    <?= GridView::widget([
-                        'dataProvider' => $dataProvider,
-                        'layout' => "{items}\n{summary}",
-                        'summary' => 'Hiển thị {begin} - {end} trên tổng số {totalCount} liên hệ',
-                        'emptyText' => 'Chưa Có Thông Tin Liên Hệ.',
-                        'columns' => [
-                            [
-                                'attribute' => 'role_id',
-                                'label' => 'Vai Trò',
-                                'value' => function ($model) {
-                                    return $model->role ? $model->role->name : 'Không xác định';
-                                },
-                            ],
-                            'contact_name',
-                            [
-                                'attribute' => 'phone_number',
-                                'value' => function ($model) {
-                                    $phone = $model->phone_number;
-                                    if (strlen($phone) >= 3) {
-                                        return '•••••••'. substr($phone, -3) ;
-                                    }
-                                    return '***';
-                                },
-                            ],
-                            [
-                                'attribute' => 'gender_id',
-                                'label' => 'Giới Tính',
-                                'value' => function ($model) {
-                                    return $model->gender ? $model->gender->name : 'Không xác định';
-                                },
-                            ],
-                        ],
-                    ]); ?>
+                    <div id="contacts-table-wrapper">
+                        <?php if (!empty($model->ownerContacts)): ?>
+                            <?= $this->render('/owner-contact/_table', ['contacts' => $model->ownerContacts]) ?>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1004,9 +975,27 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                location.reload();
+                document.getElementById('contacts-table-wrapper').innerHTML = '';
+                document.getElementById('contacts-table-wrapper').innerHTML =  data.data;
+                document.getElementById('contact-modal').style.display = 'none';
+                document.getElementById('contact-name').value = '';
+                document.getElementById('contact-phone').value = '';
+                document.getElementById('contact-role').selectedIndex = 0;
+                document.getElementById('contact-gender').selectedIndex = 0;
             } else {
-                alert('Có lỗi xảy ra khi lưu!');
+                let errorMessages = [];
+
+                if (data.errors) {
+                    for (const field in data.errors) {
+                        if (Array.isArray(data.errors[field])) {
+                            errorMessages.push(...data.errors[field]);
+                        } else {
+                            errorMessages.push(data.errors[field]);
+                        }
+                    }
+                }
+
+                alert('Lỗi:\n' + errorMessages.join('\n'));
             }
         })
         .catch(error => {

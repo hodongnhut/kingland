@@ -1,7 +1,6 @@
 <?php
 use yii\helpers\Html;
-use yii\widgets\DetailView;
-use common\models\PropertyImages;
+use common\models\Properties;
 
 /** @var yii\web\View $this */
 /** @var common\models\Properties $model */
@@ -188,10 +187,6 @@ function formatNumber($number) {
                 </div>
                 
                 <div class="space-y-2">
-                    <button id="add-contact-button" class="px-4 py-2 bg-gray-100 text-gray-700 py-6 rounded-md hover:bg-gray-200 flex items-center justify-center space-x-2">
-                        <i class="fas fa-address-book"></i>
-                        <span>Thêm Thông Tin Liên Hệ</span>
-                    </button>
                     <?php foreach ($model->ownerContacts as $contact): ?>
                         <?php
                         if ($contact->gender_id == 2) {
@@ -277,19 +272,23 @@ function formatNumber($number) {
 
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h3 class="text-md font-semibold text-gray-800 mb-3">Sổ Hồng & Hình Ảnh</h3>
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 uploaded-images">
-                    <?php
-                    $images = $model->propertyImages;
-                    foreach ($images as $image) {
-
-                        $imageUrl = Html::encode(Yii::$app->urlManager->createAbsoluteUrl($image->image_path));
-
-                        echo "<div class='relative group aspect-w-1 aspect-h-1 w-full rounded-lg overflow-hidden border border-gray-200 image-container'>";
-                        echo "<img src='{$imageUrl}' alt='" . Html::encode($image->image_path) . "' class='view-image-button cursor-pointer object-cover w-full h-full' data-image-url='{$imageUrl}'>";
-                        echo "</div>";
-                    }
-                    ?>
-                </div>
+                <?php if (!empty($model->propertyImages)): ?>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 uploaded-images">
+                        <?php
+                            $images = $model->propertyImages;
+                            foreach ($images as $image) {
+                                $imageUrl = Html::encode(Yii::$app->urlManager->createAbsoluteUrl($image->image_path));
+                                echo "<div class='relative group aspect-w-1 aspect-h-1 w-full rounded-lg overflow-hidden border border-gray-200 image-container'>";
+                                echo "<img src='{$imageUrl}' alt='" . Html::encode($image->image_path) . "' class='view-image-button cursor-pointer object-cover w-full h-full' data-image-url='{$imageUrl}'>";
+                                echo "</div>";
+                            }
+                        ?>
+                    </div>
+                <?php else: ?>
+                    <div class="alert alert-info">
+                        Chưa có hình ảnh nào cho BĐS này.
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
         
@@ -318,10 +317,7 @@ function formatNumber($number) {
             </div>
         </div>
 
-
-
         <div class="lg:col-span-1 space-y-6">
-
             <!-- Loại Tài Sản Card -->
             <div class="bg-white p-6 rounded-lg shadow-md space-y-4">
             <p class="text-sm text-gray-500">
@@ -345,26 +341,6 @@ function formatNumber($number) {
                     <span class="font-semibold"><?= Yii::$app->user->identity->username ?></span>
                 </button>
             </div>
-            <!-- Another similar section (TIN GÓC) -->
-           
-            <?php foreach ($modelActivityLogs as $log): ?>
-                <div class="bg-white p-6 rounded-lg shadow-md space-y-2">
-                    <p class="text-sm text-gray-500">
-                        <span class="font-medium text-gray-800">
-                            <?= $log->user ? Html::encode($log->user->username) : 'Hệ thống' ?>
-                        </span>
-                        <span class="text-gray-400 mx-1">•</span>
-                        <span><?= Yii::$app->formatter->asRelativeTime($log->created_at) ?></span>
-                    </p>
-
-                    <?php if (!empty($log->details)): ?>
-                        <p class="text-gray-700">
-                            <?= nl2br(Html::encode($log->details)) ?>
-                        </p>
-                    <?php endif; ?>
-
-                </div>
-            <?php endforeach; ?>
         </div>
     </div>
 </main>
@@ -904,5 +880,17 @@ function formatNumber($number) {
             alert('Lỗi kết nối máy chủ.');
         });
     });
+
+    function toggleDetails(element) {
+        const details = element.nextElementSibling;
+        const arrow = element.querySelector('.toggle-arrow');
+        if (details.classList.contains('hidden')) {
+            details.classList.remove('hidden');
+            arrow.textContent = '▲';
+        } else {
+            details.classList.add('hidden');
+            arrow.textContent = '▼';
+        }
+    }
 
 </script>
