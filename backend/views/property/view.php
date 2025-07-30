@@ -13,6 +13,10 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->registerCssFile('/css/history.css', [
     'rel' => 'stylesheet',
 ]);
+
+$this->registerCssFile('/css/Property.css', [
+    'rel' => 'stylesheet',
+]);
 function formatPriceUnit($number) {
     if (!is_numeric($number) || $number <= 0) {
         return 'Thỏa thuận';
@@ -323,9 +327,12 @@ function formatNumber($number) {
         </div>
 
         <div class="lg:col-span-1 space-y-6">
-            
             <?php if (!empty($model->propertyUpdateLogs)): ?>
                 <?= $this->render('_history', ['modelLog' => $model->propertyUpdateLogs]) ?>
+            <?php endif; ?>
+
+            <?php if (!empty($model->propertyLogs)): ?>
+                <?= $this->render('_history_extent', ['modelLog' => $model->propertyLogs]) ?>
             <?php endif; ?>
         </div>
     </div>

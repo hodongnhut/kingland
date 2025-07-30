@@ -488,4 +488,15 @@ class Properties extends \yii\db\ActiveRecord
     {
         return $this->hasMany(PropertyUpdateLog::class, ['property_id' => 'property_id']);
     }
+
+
+    /**
+     * Gets query for [[PropertyUpdateLogs]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPropertyLogs()
+    {
+        return $this->hasMany(PropertyLogs::class, ['property_id' => 'property_id']);
+    }
 }

@@ -1,0 +1,5527 @@
+:root .Page-Property {
+    --MaxWithContent: 1550px;
+    /*1000px*/
+}
+
+.Page-Property .HeadControl,
+.Page-Property.MainPageContainer {
+    margin: auto;
+    /*#pd*/
+}
+
+.Page-Property .BtnMoveToRealty {
+    color: var(--ColorHightline);
+}
+
+.Page-Property .BtnMoveToRealty i {}
+
+.Page-Property .RockerToolsGroup .BtnMoveToRealty:before {
+    background: linear-gradient(0deg, var(--ColorHightline) -16%, #ffffff 26%);
+}
+
+/*@media screen and (max-width: 600px) {
+    .Property.SlideModeArea .SMA-Area {
+        width: 100%;
+        padding: 5px 0 !important;
+    }
+}*/
+
+/*bg PropertyRightAdvanced*/
+.Page-Property .PropertyRightAdvanced {
+    background: #fff;
+    padding: 10px;
+    border-radius: var(--Radius_Input);
+    margin-bottom: 10px;
+    border: 1px solid var(--ColorHightline);
+    position: relative;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.Page-Property .PropertyRightAdvanced h2 {
+    font-size: 1rem;
+    color: #fff;
+    background: var(--ColorHightline);
+    width: max-content;
+    padding: 2px 10px;
+    border-radius: 5px;
+    font-weight: normal;
+    white-space: nowrap;
+}
+
+.Page-Property .PropertyRightAdvanced .Flex {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+    row-gap: 2px;
+}
+
+.Page-Property .PropertyRightAdvanced .Items {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+}
+
+.Page-Property .PropertyRightAdvanced .Items h3 {
+    font-size: 1rem;
+}
+
+.Page-Property .PropertyRightAdvanced .Items .iText {
+    display: flex;
+    gap: 5px;
+    align-items: baseline;
+}
+
+/*ed PropertyRightAdvanced*/
+
+
+/*bg IconNew*/
+.Page-Property .IconNew {
+    position: relative;
+    width: max-content;
+    border: 1px solid var(--ColorHightline);
+    padding: 5px;
+    border-radius: 5px;
+    padding-right: 26px;
+    font-weight: bold;
+    color: var(--ColorHightline);
+    margin-top: 5px;
+    background: #ffffff;
+    font-size: 11px;
+    margin-right: 12px;
+}
+
+.Page-Property .IconNew svg {
+    position: absolute;
+    right: -14px;
+    top: -1px;
+    width: 40px;
+    transform: rotate(35deg);
+}
+
+.Page-Property .IconNew svg .IconNewLine2,
+.Page-Property .IconNew svg .IconNewLine1 {
+    animation: rotateInfinite 1s infinite;
+}
+
+
+.Page-Property .iNameAdd {
+    right: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.Page-Property .iNameAdd .iNameAddName {
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.Page-Property .iNameAdd .Avatar {
+    padding: 1px;
+    width: 15px;
+    height: 15px;
+    padding: 0;
+    border: unset;
+}
+
+.Page-Property .iNameAdd .Avatar img {
+    width: 100%;
+    height: auto;
+    border-radius: 100%;
+}
+
+@keyframes rotateInfinite {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(5deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+/*ed IconNew*/
+
+/*bg TableShowProperty*/
+.TableShowProperty .tAreaUnit {
+    display: grid;
+    gap: 1px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.TableShowProperty .TDiCatName {
+    text-transform: uppercase;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+.TableShowProperty .ConstructionTypeNameText {}
+
+.TableShowProperty .TDiCatName b {
+    white-space: nowrap;
+}
+
+.TableShowProperty .TDiCatName span {}
+
+.TableShowProperty .TdiLocaName {
+    font-size: 10px;
+    background: #fff;
+    padding: 2px 5px;
+    width: max-content;
+    color: var(--Color1);
+    border-radius: 3px;
+    text-transform: uppercase;
+    box-shadow: 0px 0px 2px #ccc;
+    margin-bottom: 2px;
+    margin-top: -18px;
+}
+
+.TableShowProperty .iTextShow {
+    display: flex;
+    gap: 5px;
+    margin-top: 2px;
+    font-size: 1rem;
+    align-items: center;
+}
+
+.TableShowProperty .iTextShow .iCommentIcon {
+    color: var(--ColorHightline);
+}
+
+.TableShowProperty .iTextShow .iImageIcon {
+    color: var(--Color-Green);
+    height: max-content;
+}
+
+.TableShowProperty .iTextShow .iLegalImg {
+    width: 15px;
+    height: auto;
+}
+
+.TableShowProperty .iArea {
+    color: var(--ColorHightline);
+    font-weight: normal;
+    font-size: 1rem;
+}
+
+.TableShowProperty .iWidthLength {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.05rem;
+    font-weight: bold;
+
+}
+
+/*for StartHolding*/
+.StartHolding .TableShowProperty .iArea {
+    font-size: 1rem;
+}
+
+.StartHolding .TableShowProperty .iWidthLength {
+    font-size: 1.2rem;
+    font-weight: bold;
+    gap: 5px;
+}
+
+.StartHolding .TableShowProperty td.tHouseNo {
+    font-weight: bold;
+}
+
+/*ed for StartHolding*/
+
+.TableShowProperty .iWidthLength i {
+    font-size: 9px;
+}
+
+.TableShowProperty .fLastTime {
+    font-size: .8rem;
+}
+
+.TableShowProperty .fLastTime .sfTimeDay {
+    font-size: .9rem;
+    white-space: nowrap;
+    font-style: italic;
+}
+
+.TableShowProperty .fLastTime .sfAtTime {
+    font-size: .9rem;
+    white-space: nowrap;
+}
+
+.TableShowProperty .fLastTime p {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+}
+
+.TableShowProperty .tPrices b {
+    color: var(--ColorHightline);
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.TableShowProperty .tPrices span {
+    font-size: calc(100% - 4px);
+    line-height: 20px;
+    padding-left: 2px;
+}
+
+.TableShowProperty .Tlbl {
+    font-size: calc(100% - 2px);
+}
+
+.TableShowProperty .color-gray {
+    color: #5d5d5d;
+}
+
+.TableShowProperty .sGroupViewInfo {
+    margin-top: 2px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.TableShowProperty .sGroupViewInfo i {
+    font-size: 16px;
+}
+
+.TableShowProperty .sGroupViewInfo .imgColorTd {
+    color: #4caf50;
+    margin-left: 4px;
+}
+
+.TableShowProperty .abToolTip {
+    display: block;
+}
+
+.TableShowProperty .chipPricesStatus {
+    color: #fff;
+    padding: 2px 5px;
+    margin-top: 10px;
+    width: max-content;
+    border-radius: 100px;
+    font-size: .9rem;
+}
+
+.TableShowProperty .chipPricesStatus.green {
+    background: green;
+}
+
+.TableShowProperty .chipPricesStatus.red {
+    background: red;
+}
+
+.TableShowProperty .sViewLastInfo {
+    margin-top: 5px;
+}
+
+.Color-Blue {
+    color: var(--Color-Blue);
+}
+
+/*ed TableShowProperty*/
+
+
+
+.EP-Property .pTitle {
+    background: var(--BgHtml);
+    padding: 2px 15px;
+    border-radius: var(--Radius_Input);
+    width: max-content;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.EP-Property .BasicGroup {
+    display: grid;
+    gap: 20px;
+}
+
+.EP-Property .BetweenContentAddress {
+    margin-top: 10px;
+    background: #fff;
+    font-size: calc(100% + 3px);
+    box-shadow: none;
+    padding: 5px 20px;
+    border-radius: var(--Radius_Input);
+    color: var(--ColorHightline);
+}
+
+.EP-Property .GridContent {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 10px 0;
+}
+
+@media screen and (max-width: 900px) {
+    .EP-Property .GridContent {
+        grid-template-columns: 1fr;
+    }
+}
+
+.EP-Property .LCol {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.EP-Property .LBox {
+    background: #ffffffa3;
+    border-radius: var(--Radius_Input);
+    padding: 15px;
+    display: grid;
+    gap: 10px;
+    position: relative;
+    /* box-shadow: 5px 5px 5px var(--ShadowBg); */
+    border: 1px solid #fff;
+}
+
+.EP-Property .LBox.HasLabel {
+    padding-top: 30px;
+}
+
+.EP-Property .LCol .GroupPrices {
+    display: grid;
+    grid-template-columns: 1fr .8fr;
+    gap: 5px;
+    align-items: baseline;
+}
+
+.EP-Property .LCol .GroupPrices .FrmItems.Items-PricesType {
+    /*  grid-column: 1 /span 2; */
+    display: none;
+}
+
+.EP-Property .LCol .GroupPrices .FrmItems.Items-PricesType.Required .FrmLabel i.IconRequired {
+    visibility: hidden;
+}
+
+.EP-Property .LCol .GroupPrices .FrmItems.Items-PricesType .FrmInput {
+    border: none;
+    padding: 0;
+    min-height: unset;
+}
+
+.EP-Property .LCol .GroupPrices .FrmItems.FrmItems.Type-NumberHasUnit .FrmInput,
+.EP-Property .LCol .GroupPrices .FrmItems.FrmItems.Type-Number .FrmInput {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.EP-Property .LCol .GroupArea .AGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+}
+
+.EP-Property .LCol .GroupSpec {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+@media screen and (max-width: 900px) {
+    .EP-Property .LCol .GroupPrices {
+        grid-template-columns: 1fr;
+        row-gap: 10px;
+    }
+
+    .EP-Property .LCol .GroupSpec {
+        grid-template-columns: 1fr;
+    }
+
+    .EP-Property .LCol .GroupArea .AGrid {
+        grid-template-columns: 1fr 1fr;
+        row-gap: 10px;
+    }
+}
+
+.EP-Property .LCol .GroupSpec .FrmInput {
+    border: none;
+}
+
+.EP-Property .GroupRentContract {
+    display: none;
+    grid-template-columns: 1fr .5fr .5fr;
+    align-items: baseline;
+}
+
+.EP-Property.HasRentContracts .GroupRentContract {
+    display: grid;
+}
+
+.EP-Property .LCol .GroupRentContract .FrmItems.Items-RC_UnitTime {
+    grid-column: 1 /span 3;
+}
+
+.EP-Property .LCol .GroupRentContract .FrmItems.Items-RC_UnitTime.Required .FrmLabel i.IconRequired {
+    visibility: hidden;
+}
+
+.EP-Property .LCol .GroupRentContract .FrmItems.Items-RC_UnitTime .FrmInput {
+    border: none;
+    padding: 0;
+    min-height: unset;
+}
+
+.EP-Property .GroupOther {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.EP-Property .GroupInterior .FrmItems.Type-Radio-CheckBox .FrmInput {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+@media screen and (max-width: 900px) {
+    .EP-Property .GroupInterior .FrmItems.Type-Radio-CheckBox .FrmInput {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .EP-Property .GroupInterior .FrmItems.Type-Radio-CheckBox .FrmInput {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .EP-Property.HasRentContracts .GroupRentContract {
+        grid-template-columns: 1fr;
+    }
+
+    .EP-Property .LCol .GroupRentContract .FrmItems.Items-RC_UnitTime {
+        grid-column: initial;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .EP-Property .GroupInterior .FrmItems.Type-Radio-CheckBox .FrmInput {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+
+.EP-Property:not(.RoadLocationAlley) .ItemForAlley {
+    display: none;
+}
+
+.EP-Property.RoadLocationAlley .ItemForAlley {
+    display: block;
+}
+
+
+.EP-Property .GroupLeads .eLabelBox {
+    background: var(--ColorHightline);
+}
+
+.EP-Property .GroupLeads .DynColContent {
+    display: grid;
+    grid-template-columns: 160px 1fr 1fr 121px;
+    gap: 5px;
+}
+
+.EP-Property .GroupLeads .CheckCalHouseOwner .DynColContent {
+    grid-template-columns: 120px 1fr 1fr 111px 100px;
+}
+
+.EP-Property .GroupLeads .RollDyna:not(.CheckCalHouseOwner) .FrmItems.StatusCall {
+    display: none;
+}
+
+.EP-Property .GroupLeads .DynamicRowBoard .DynamicRows {
+    border-top: unset;
+    border-bottom: unset !important;
+}
+
+.EP-Property .GroupLeads .DynamicRowBoard .DynamicRows:last-child {
+    margin-bottom: 10px;
+}
+
+.EP-Property .GroupLeads .DynamicRowBoard .DynamicRows .DynCol {
+    border: unset;
+}
+
+.EP-Property .GroupNote .FrmItems textarea.FrmInput {
+    background: #fffbed;
+    border-style: dashed;
+}
+
+.EP-Property .GroupRoadLocation .FrmItems.Type-StatusCheckList .scItem.active {
+    background: var(--ColorHightline) !important;
+    border-color: var(--ColorHightline) !important;
+}
+
+
+.EP-Property .GroupGridImage {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 20px 0;
+    max-width: 900px;
+}
+
+.EP-Property .GroupGridImage .BoxImage {
+    background: #fff;
+    border-radius: var(--Radius_Input);
+}
+
+.EP-Property .GroupGridImage .BoxImage .iLabel {
+    padding: 5px;
+    background: var(--Color4);
+    color: #fff;
+    width: max-content;
+    border-bottom-right-radius: 10px;
+    position: relative;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.EP-Property .GroupGridImage .BoxImage.HasImgLabel .iLabel {
+    padding-left: 43px;
+}
+
+.EP-Property .GroupGridImage .BoxImage .iLabel.lLegal {
+    background: #7c3dbe;
+}
+
+.EP-Property .GroupGridImage .BoxImage .iLabel img {
+    width: 45px;
+    height: auto;
+    position: absolute;
+    top: -17px;
+    left: 0;
+}
+
+.EP-Property .GroupGridImage .BoxImage .FrmItems.Type-MultiUpload {
+    border: none;
+}
+
+
+.Page-Property.View .RockerToolsGroup .Disable {
+    display: none;
+}
+
+
+.EP-Property .GroupCommision .Grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+}
+
+.EP-Property .GroupCommision .Grid .CommisionValue {
+    display: none;
+}
+
+.EP-Property .GroupCommision .Grid .CommisionValue.active {
+    display: block;
+}
+
+.EP-Property .GroupLeads .RollDyna {}
+
+.EP-Property .GroupWardsEdit {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+}
+
+.EP-Property .GroupWardsEdit .FrmItems.Items-WardsId {
+    grid-column: 1 / -1;
+}
+
+@media screen and (max-width: 900px) {
+    .EP-Property .GroupGridImage {
+        grid-template-columns: 1fr;
+        row-gap: 2vh;
+    }
+
+    .EP-Property .GroupCommision .Grid {
+        grid-template-columns: 1fr;
+        row-gap: 10px;
+    }
+
+    .EP-Property .GroupOther {
+        grid-template-columns: 1fr 1fr;
+        row-gap: 10px;
+    }
+
+    .EP-Property .GroupLeads .DynColContent,
+    .EP-Property .GroupLeads .CheckCalHouseOwner .DynColContent {
+        grid-template-columns: 1fr;
+        row-gap: 20px;
+    }
+
+    .EP-Property .GroupLeads .DynamicRowBoard .DynamicDcent {
+        min-width: unset;
+    }
+
+    .EP-Property .GroupLeads .DynamicRowBoard .DynamicRows:nth-child(2n) {
+        background: var(--BgHtml);
+        padding-top: 2vh;
+        padding-bottom: 2vh;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .EP-Property .GuideDynamic {
+        font-size: .8rem;
+    }
+}
+
+/*bg BeforeGenerate-Property*/
+.BeforeGenerate-Property .GroupForm {
+    display: grid;
+    gap: 20px;
+}
+
+.BeforeGenerate-Property .fGroup {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 160px 1fr;
+}
+
+.BeforeGenerate-Property .fGroup.GroupCat-2 {
+    grid-template-columns: 170px 1fr;
+}
+
+.BeforeGenerate-Property .fGroup.GroupCat-3 {
+    grid-template-columns: 1fr 1fr;
+}
+
+.BeforeGenerate-Property .ZoneGroup {
+    display: grid;
+    grid-template-columns: 110px 1fr 1fr 1.5fr;
+    gap: 5px;
+}
+
+.BeforeGenerate-Property .PlanGroup {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.BeforeGenerate-Property .RegionGroup {
+    display: grid;
+    grid-template-columns: 170px 1fr;
+    gap: 10px;
+}
+
+.BeforeGenerate-Property:not(.TypeApartment) .InputForApartment {
+    display: none;
+}
+
+.RockerTableShow table.Table tr td .ApartmentCode {
+    width: max-content;
+    color: var(--ColorHightline);
+    font-style: normal;
+    font-style: italic;
+}
+
+.BeforeGenerate-Property.TypeApartment .InputNotForApartment {
+    display: none;
+}
+
+@media screen and (max-width: 600px) {
+    .BeforeGenerate-Property .fGroup {
+        grid-template-columns: 1fr;
+    }
+
+    .BeforeGenerate-Property .fGroup.GroupCat-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .BeforeGenerate-Property .fGroup.GroupCat-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .BeforeGenerate-Property .ZoneGroup {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .BeforeGenerate-Property .RegionGroup {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/*ed BeforeGenerate-Property*/
+
+
+/*bg for ViewSlideMode*/
+.SlideModeArea.Property .SMA-Area {
+    max-width: 1200px;
+    background: #fff;
+}
+
+.SlideModeArea.Property .RockerTab .Tab-content {
+    padding: 10px 0;
+}
+
+
+/*bg GroupTitle*/
+.PropertyRightView .GroupTitle {
+    /* margin-top: 2vh; */
+    border: 1px solid var(--ColorHightline);
+    border-radius: var(--Radius_Input);
+    margin-bottom: 20px;
+    /* box-shadow: 0px -4px 7px var(--ColorHightlineOpa); */
+    position: relative;
+}
+
+.PropertyRightView .GroupTitle.HasCommission {
+    /* margin-bottom: 30px; */
+    border-bottom-left-radius: 0;
+}
+
+.PropertyRightView .GroupTitle .Commission {
+    position: absolute;
+    bottom: -20px;
+    height: 20px;
+    background: var(--ColorHightline);
+    left: -1px;
+    color: #fff;
+    display: flex;
+    gap: 10px;
+    padding: 0 10px;
+    align-items: center;
+    border-bottom-left-radius: var(--Radius_Input);
+    border-bottom-right-radius: var(--Radius_Input);
+}
+
+.PropertyRightView .GroupTitle .Commission .cLabel {}
+
+.PropertyRightView .GroupTitle .Commission .cValue {
+    font-weight: bold;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.PropertyRightView .GroupTitle .Commission span {
+    background: #fff;
+    color: var(--ColorHightline);
+    border-radius: 3px;
+    font-size: .8rem;
+    padding: 0 5px;
+}
+
+.PropertyRightView .GroupTitle .iTop {
+    padding: 10px;
+    padding-bottom: 0;
+    position: relative;
+}
+
+.PropertyRightView .GroupTitle .iTop .iTitle {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.PropertyRightView .GroupTitle .iTop .iTitle .iTitleTop {
+    font-size: 1rem;
+    font-weight: bold;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.PropertyRightView .GroupTitle .iTop .iTitle .iTitleTop u {
+    text-decoration: unset;
+}
+
+.PropertyRightView .GroupTitle .iTop .iTitle .iTitleTop span {
+    font-weight: normal;
+    background: var(--BgHtml);
+    padding: 2px 7px;
+    border-radius: 100px;
+    font-size: .9rem;
+}
+
+.PropertyRightView .GroupTitle .iTop .iTitle .eNote {
+    font-size: 1rem;
+    font-weight: bold;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.PropertyRightView .GroupTitle .iTop .iTitle .eNote .eIcon {}
+
+.PropertyRightView .GroupTitle .gMa {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 2px;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--ColorHightline);
+}
+
+
+@media screen and (max-width:800px) {
+    .PropertyRightView .GroupTitle .gMa {
+        font-size: 1.1rem;
+    }
+
+    .PropertyRightView .GroupTitle .iTop .iTitle .iTitleTop {
+        font-size: 1.1rem;
+    }
+}
+
+.PropertyRightView .GroupTitle .gMa img {}
+
+.PropertyRightView .GroupTitle .gMa span.g-Regions {
+    display: inline-block;
+    padding: 0 5px;
+    color: #fff;
+    font-size: calc(100% - 5px);
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-right: 4px;
+    background: linear-gradient(-180deg, var(--Color1) 0%, var(--Color2) 100%);
+}
+
+.PropertyRightView .GroupTitle .iBottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr .8fr;
+    border-top: 1px solid;
+    border-color: #ccc;
+    padding: 5px 0;
+    padding: 10px;
+    padding-top: 5px;
+}
+
+.PropertyRightView .GroupTitle .iBottom.Grid4 {
+    grid-template-columns: 1fr 1fr 1fr 1.3fr;
+}
+
+.PropertyRightView .GroupTitle .iBottom.HasBottom {
+    border-bottom: 1px solid;
+}
+
+.PropertyRightView .GroupTitle .iBottom .iCol {}
+
+.PropertyRightView .GroupTitle .iBottom .iCol p.iLabel {
+    font-size: .9rem;
+}
+
+.PropertyRightView .GroupTitle .iBottom .iCol .iValue {}
+
+.PropertyRightView .GroupTitle .iBottom .iCol .iValue p.a {
+    font-weight: bold;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.PropertyRightView .GroupTitle .iBottom .iCol .iValue p.a .aUnit {
+    font-weight: normal;
+    font-size: .9rem;
+    background: var(--BgHtml);
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+
+.PropertyRightView .GroupTitle .iBottom .iCol .iValue p.b {
+    font-style: italic;
+}
+
+
+/*ed GroupTitle*/
+/*bg GroupCheckTool*/
+.PropertyRightView .GroupCheckTool {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    justify-content: left;
+    position: relative;
+}
+
+.PropertyRightView .GroupCheckTool .gmarquee {
+    width: 100px;
+    position: absolute;
+    top: -13px;
+    font-size: .8rem;
+    color: var(--ColorHightline);
+}
+
+.PropertyRightView .GroupCheckTool .iCheck {
+    border: 1px dashed #949494;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    padding-right: 10px;
+    border-radius: 23px;
+    gap: 5px;
+    /* font-weight: bold; */
+    /* background: linear-gradient(90deg, #d5d5d5 0%, #ffffff 100%); */
+}
+
+.PropertyRightView .GroupCheckTool .iCheck .iCountNum {
+    background: var(--ColorHightline);
+    color: #fff;
+    padding: 5px;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+}
+
+/* Khánh Sky */
+.PropertyRightView .GroupCheckTool .Lookup {
+    background: var(--GradientVerti);
+    border-radius: 23px;
+    padding: 5px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    color: #fff;
+}
+
+.PropertyRightView .GroupCheckTool .Notarization {
+    background: linear-gradient(90deg, #FF5A5A, #FF0000);
+    border-radius: 23px;
+    padding: 5px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    color: #fff;
+}
+
+
+
+/* End Khánh Sky */
+.PropertyRightView .GroupCheckTool .iCheck i {
+    font-size: 1.2rem;
+}
+
+.PropertyRightView .GroupCheckTool .iCheck span {}
+
+.PropertyRightView .GroupCheckTool .iCheck span b {
+    color: var(--ColorHightline);
+    font-weight: bold;
+}
+
+.PropertyRightView .GroupCheckTool .iCheck.RemoveCheck {
+    background: var(--ColorHightline);
+    color: #fff;
+    padding: 5px 15px;
+    border-style: solid;
+    border-color: var(--ColorHightline);
+}
+
+.PropertyRightView .GroupCheckTool .iCheck.RemoveCheck i {}
+
+.PropertyRightView .GroupCheckTool .iCheck.RemoveCheck span {}
+
+.PropertyRightView .GroupCheckTool .MyNoteInvest {
+    padding: 10px;
+    font-style: italic;
+    background: linear-gradient(0deg, #ffffc6, transparent);
+    border-radius: 3px;
+    font-size: .9rem;
+}
+
+/*ed GroupCheckTool*/
+/*bg PropertySaveCompanyFolder*/
+.PropertySaveCompanyFolder {}
+
+.PropertySaveCompanyFolder .GroupDes {
+    padding: 20px 0;
+}
+
+.PropertySaveCompanyFolder .GroupDes .BoxTitle {
+    color: var(--ColorHightline);
+    text-decoration: underline;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.PropertySaveCompanyFolder .GroupDes .RowDes {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #ccc;
+}
+
+.PropertySaveCompanyFolder .GroupDes .RowDes .Title {
+    font-size: 1rem;
+    margin-bottom: 5px;
+    border-left: 1px solid var(--ColorHightline);
+    padding-left: 10px;
+}
+
+.PropertySaveCompanyFolder .GroupDes .RowDes .Text {}
+
+/*ed PropertySaveCompanyFolder*/
+/*bg GroupHostContact*/
+.PropertyRightView .GroupHostContact {
+    padding: 10px;
+    border-radius: var(--Radius_Input);
+    background: var(--ColorHightlineOpa);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.PropertyRightView .GroupHostContact .iRows {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+}
+
+.PropertyRightView .GroupHostContact .iRows .iStt {
+    background: #fff;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border:1px solid; */
+}
+
+.PropertyRightView .GroupHostContact .iRows .iStt1 {
+    /*Male*/
+    color: var(--Color-Blue);
+}
+
+.PropertyRightView .GroupHostContact .iRows .iStt2 {
+    /*FeMale*/
+    color: var(--Color-Other);
+}
+
+.PropertyRightView .GroupHostContact .iRows .iName {
+    max-width: 95px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.PropertyRightView .GroupHostContact .iRows .iPhone {}
+
+.PropertyRightView .GroupHostContact .iRows .iPhone a {
+    cursor: pointer;
+    /* font-size: 1.1rem; */
+    font-weight: bold;
+    color: var(--ColorHightline);
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.PropertyRightView .GroupHostContact .iRows .iRole {
+    font-size: .9rem;
+    text-decoration: underline;
+}
+
+/*bg StatusCallHouseOwner*/
+.PropertyRightView .GroupHostContact .StatusCallHouseOwner.Called {
+    background: var(--Color-Green);
+}
+
+.PropertyRightView .GroupHostContact .StatusCallHouseOwner {
+    background: #585858;
+    padding: 5px 10px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    color: #fff;
+    border-radius: 3px;
+    font-weight: bold;
+    width: max-content;
+}
+
+/*ed StatusCallHouseOwner*/
+
+/*ed GroupHostContact*/
+/*bg GroupProducts*/
+.PropertyRightView .GroupProducts {
+    /* margin-bottom: 2vh; */
+}
+
+.PropertyRightView .GroupProducts .List {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    column-gap: 4px;
+}
+
+.PropertyRightView .GroupProducts .List .iRows {
+    display: flex;
+    white-space: nowrap;
+    gap: 5px;
+    border: 1px solid var(--fibc);
+    padding: 5px;
+    border-radius: var(--Radius_Input);
+    /* box-shadow: 1px 1px 2px var(--ColorGray); */
+    background: #fff;
+    font-size: .9rem;
+}
+
+.PropertyRightView .GroupProducts .List .iRows:nth-child(2n) {
+    background: #ffead4;
+    box-shadow: none;
+    border-color: #ffead4;
+}
+
+.PropertyRightView .GroupProducts .List .iRows:nth-child(2n) .iLabel {
+    font-weight: normal;
+}
+
+.PropertyRightView .GroupProducts .List .iValue {}
+
+.PropertyRightView .GroupProducts .List .iRows .iIcon {
+    font-size: 1rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* color: var(--ColorGray); */
+    display: none;
+}
+
+.PropertyRightView .GroupProducts .List .iLabel {
+    font-weight: bold;
+}
+
+.PropertyRightView .GroupProducts .List .iValue {}
+
+/*ed GroupProducts*/
+/*bg ImageAndRentContracts*/
+.PropertyRightView .ImageAndRentContracts {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.PropertyRightView .ImageAndRentContracts.iHasImage .GroupRentContracts {
+    margin-top: 10px;
+}
+
+/*ed ImageAndRentContracts*/
+/*bg GroupListImg*/
+
+.PropertyRightView .GroupListImg {
+    max-width: 220px;
+    height: auto;
+    display: flex;
+    gap: 5px;
+}
+
+.PropertyRightView .GroupListImg .Items {
+    width: 100px;
+}
+
+.PropertyRightView .GroupListImg .Items .iWrab {
+    border-radius: var(--Radius_Input);
+    overflow: hidden;
+    position: relative;
+    padding-top: 75%;
+}
+
+.PropertyRightView .GroupListImg .Items .iWrab img {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.PropertyRightView .GroupListImg .Items .Masked {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background: #00000094;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    font-size: 1rem;
+    padding: 0 5px;
+    width: max-content;
+}
+
+.PropertyRightView .GroupListImg .Items .Masked span {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+}
+
+.PropertyRightView .GroupListImg .Items .Masked span i {
+    font-size: 11px;
+}
+
+.PropertyRightView .GroupListImg .Items .iLabel {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 0;
+    font-weight: bold;
+    border-bottom: 1px solid var(--ColorGray);
+}
+
+.PropertyRightView .GroupListImg .Items .iLabel i {}
+
+.PropertyRightView .GroupListImg .Items .iOtherFileTop {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding-top: 5px;
+    justify-content: center;
+    font-size: 1.5rem;
+    position: absolute;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    border: 1px dashed var(--ColorGray);
+    border-radius: 5px;
+}
+
+.PropertyRightView .GroupListImg .Items .iOtherFileBottom {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding-top: 5px;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.PropertyRightView .GroupListImg .Items .iOtherFileTop .iTe,
+.PropertyRightView .GroupListImg .Items .iOtherFileBottom .iIe {
+    transition: all .2s;
+    cursor: pointer;
+}
+
+@media (hover: hover) and (pointer: fine) {
+
+    .PropertyRightView .GroupListImg .Items .iOtherFileTop .iTe:hover,
+    .PropertyRightView .GroupListImg .Items .iOtherFileBottom .iIe:hover {
+        transform: scale(1.2);
+    }
+}
+
+/*ed GroupListImg*/
+
+.PropertyRightView .ListInvestPersonnels .iTitle {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: var(--ColorHightline);
+    text-decoration: underline;
+}
+
+.PropertyRightView .ListInvestPersonnels .grList {
+    padding: 20px 0;
+}
+
+.PropertyRightView .ListInvestPersonnels .grList .iRows {
+    border-bottom: 1px dashed var(--BgHtml);
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.PropertyRightView .ListInvestPersonnels .iText {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.PropertyRightView .ListInvestPersonnels .Avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    padding: 2px;
+    background: #fff;
+    border: 1px solid var(--ColorGray);
+}
+
+.PropertyRightView .ListInvestPersonnels .Avatar img {
+    width: 100%;
+    height: auto;
+    border-radius: 100%;
+    background: #8e8e8e;
+}
+
+.PropertyRightView .ListInvestPersonnels .iRows .iPerInfo {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.PropertyRightView .ListInvestPersonnels .iRows .iPerInfo p.Name {}
+
+.PropertyRightView .ListInvestPersonnels .iRows .iPerInfo p.Code {
+    background: var(--BgHtml);
+    /* padding: 3px 3px; */
+    /* border-radius: 3px; */
+}
+
+.PropertyRightView .ListInvestPersonnels .iNote {
+    margin-left: 35px;
+    background: var(--OpaColor1);
+    padding: 5px;
+    border-bottom-right-radius: 10px;
+}
+
+.PropertyRightView .ListInvestPersonnels .iNote .iNoteFolder {
+    font-weight: bold;
+    text-decoration: underline;
+    margin-bottom: 5px;
+}
+
+.PropertyRightView .ListInvestPersonnels .iNote .iNoteText {}
+
+/*bg HotBoard*/
+
+.PropertyRightView .HotBoard .BoxTitle {
+    /* font-weight: bold; */
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    /* font-size: 1.2rem; */
+    text-decoration: underline;
+}
+
+.PropertyRightView .HotBoard .BoxTitle span {
+    color: var(--ColorHightline);
+    font-weight: bold;
+}
+
+.PropertyRightView .HotBoard .Avatar {
+    margin: auto;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    padding: 2px;
+    background: #fff;
+    border: 1px solid var(--ColorGray);
+}
+
+.PropertyRightView .HotBoard .Avatar img {
+    width: 100%;
+    height: auto;
+    border-radius: 100%;
+    background: #8e8e8e;
+}
+
+.PropertyRightView .HotBoard .iRows {
+    display: grid;
+    gap: 1vh;
+}
+
+.PropertyRightView .HotBoard .iRows .a {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    align-items: center;
+    position: relative;
+    width: max-content;
+    gap: 10px;
+}
+
+
+.PropertyRightView .HotBoard .iRows .a .fLastTime {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+    /* font-size: .9rem; */
+    /* font-style: italic; */
+}
+
+.PropertyRightView .HotBoard .iRows .a .Per {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    /* opacity: .2; */
+    border-left: 1px solid;
+    padding-left: 5px;
+    font-size: .9rem;
+}
+
+.PropertyRightView .HotBoard .iRows .a .Per p.Name {
+    /* font-weight: bold; */
+}
+
+.PropertyRightView .HotBoard .iRows .a .Per p.Code {
+    background: var(--BgHtml);
+    /* color: #fff; */
+    padding: 3px 3px;
+    border-radius: 3px;
+    /* font-weight: bold; */
+    /* font-size: .9rem; */
+}
+
+.PropertyRightView .HotBoard .iRows .a .Per p.Phone {
+    font-weight: bold;
+}
+
+.PropertyRightView .HotBoard .b {
+    position: relative;
+    /* border: 1px solid var(--ColorGray); */
+    padding: 10px;
+    border-radius: var(--Radius_Input);
+    width: max-content;
+    margin-left: 46px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    background: var(--BgHtml);
+}
+
+.PropertyRightView .HotBoard .b::before {
+    content: ' ';
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 15px solid var(--BgHtml);
+    position: absolute;
+    top: -14px;
+}
+
+.PropertyRightView .HotBoard .b .ListAdvantage {
+    display: grid;
+    gap: 5px;
+}
+
+.PropertyRightView .HotBoard .b .ListAdvantage p {}
+
+.PropertyRightView .HotBoard .b .ListAdvantage p i {
+    color: green;
+}
+
+.PropertyRightView .HotBoard .b .iNote {
+    font-style: italic;
+    color: var(--ColorHightline);
+    white-space: normal;
+    max-width: 220px;
+}
+
+/*ed HotBoard*/
+/*bg GroupRentContracts*/
+.PropertyRightView .GroupRentContracts {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    gap: 10px;
+}
+
+.PropertyRightView .GroupRentContracts .iImg {}
+
+.PropertyRightView .GroupRentContracts .iImg img {
+    width: 100%;
+    height: auto;
+}
+
+.PropertyRightView .GroupRentContracts .iText {}
+
+.PropertyRightView .GroupRentContracts .iText .iLabel {}
+
+.PropertyRightView .GroupRentContracts .iText .iNumber {
+    font-weight: bold;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.PropertyRightView .GroupRentContracts .iText .iNumber .iUnit {
+    font-weight: normal;
+    font-size: .9rem;
+    background: var(--BgHtml);
+    padding: 2px 5px;
+    border-radius: 5px;
+}
+
+.PropertyRightView .GroupRentContracts .iText .iExpireDay {
+    font-style: italic;
+}
+
+/*ed GroupRentContracts*/
+
+
+/*bg GroupAdvantageDefect*/
+.PropertyRightView .GroupAdvantageDefect {
+    display: grid;
+    /* grid-template-columns: 1fr 1fr; */
+    border: 1px dashed var(--ColorGray);
+    padding: 10px;
+    gap: 2vh;
+    /* margin-top: 2vh; */
+    border-radius: var(--Radius_Input);
+}
+
+.PropertyRightView .GroupAdvantageDefect .iTitle {
+    font-size: 1rem;
+    text-align: right;
+}
+
+.PropertyRightView .GroupAdvantageDefect .List {
+    display: flex;
+    /* flex-direction: column; */
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.PropertyRightView .GroupAdvantageDefect .List .Items {
+    display: flex;
+    gap: 5px;
+    width: max-content;
+}
+
+.PropertyRightView .GroupAdvantageDefect .List .Items i {}
+
+.PropertyRightView .GroupAdvantageDefect .gItem {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 10px;
+}
+
+@media screen and (max-width:800px) {
+    .PropertyRightView .GroupAdvantageDefect .gItem {
+        grid-template-columns: 1fr;
+        gap: 2px;
+    }
+
+    .PropertyRightView .GroupAdvantageDefect .iTitle {
+        text-align: left;
+    }
+}
+
+.PropertyRightView .GroupAdvantageDefect .AdvantageItem .List .Items i {
+    color: green;
+}
+
+.PropertyRightView .GroupAdvantageDefect .DefectItem .List .Items i {
+    color: orange;
+}
+
+/*ed GroupAdvantageDefect*/
+
+.PropertyRightView .GroupNote {
+    padding: 10px;
+    background: var(--BgHtml);
+    /* margin-top: 8px; */
+    position: relative;
+    padding-left: 34px;
+    border-radius: var(--Radius_Input);
+    /* margin-bottom: 2vh; */
+}
+
+.PropertyRightView .GroupNote i.IconComment {
+    color: var(--ColorHightline);
+    position: absolute;
+    left: 10px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    height: max-content;
+    font-size: 1.2rem;
+}
+
+.PropertyRightView .GroupInfo {
+    max-width: 800px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    padding: 0 20px;
+    display: grid;
+    gap: 2vh;
+}
+
+@media screen and (max-width:700px) {
+    .PropertyRightView .GroupInfo {
+        padding: 0 5px;
+        max-height: calc(100vh - 120px);
+    }
+}
+
+.PropertyRightView .GroupInfo .TitleInfo {
+    font-size: 1rem;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    border-bottom: 1px dashed #000;
+    width: max-content;
+    padding-bottom: 5px;
+}
+
+.PropertyRightView .GroupInfo .TitleInfo i {
+    font-size: 1.2rem;
+    margin-right: 5px;
+}
+
+.PropertyRightView .APro {
+    display: flex;
+    flex-wrap: wrap;
+    background: #fff;
+    /* padding: 5px 0; */
+    /* border-radius: var(--Radius_Input); */
+    gap: 10px;
+    align-items: center;
+    /* border-bottom: 1px dashed var(--Color1); */
+    /*box-shadow: 0px 5px 10px var(--OpaColor1-Level2);*/
+}
+
+.PropertyRightView .APro .a {}
+
+.PropertyRightView .APro .a .aCode {
+    display: flex;
+    gap: 5px;
+}
+
+.PropertyRightView .APro .a .aDay {
+    display: flex;
+    gap: 5px;
+}
+
+.PropertyRightView .APro .a .aDay .fLastTime {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    /* font-style: italic; */
+    font-weight: bold;
+}
+
+.PropertyRightView .APro .b {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+
+.PropertyRightView .APro .b .Avatar {
+    width: 45px;
+    background: var(--BgHtml);
+    border-radius: var(--Radius_Input);
+}
+
+.PropertyRightView .APro .b .Avatar img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--Radius_Input);
+}
+
+.PropertyRightView .APro .b .bText {}
+
+.PropertyRightView .RockerTab .Tab-nav .Tab-nav-items {
+    padding: 5px 10px;
+}
+
+.PropertyRightView .RockerTab .Tab-nav {
+    padding: 0 20px;
+}
+
+@media screen and (max-width:800px) {
+    .PropertyRightView .APro {
+        padding: 10px;
+    }
+
+    .PropertyRightView .RockerTab .Tab-nav {
+        padding: 0 5px;
+    }
+}
+
+body.BodySlideMode .SlideModeArea.Property .SMA-Area {
+    padding: 10px 0;
+}
+
+.PropertyRightView .ListFeeManage {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 2vh;
+}
+
+.PropertyRightView .ListFeeManage .Items {
+    border: 1px solid var(--ColorGray);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.PropertyRightView .ListFeeManage .Items p.iLabel {
+    font-size: .8rem;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--ColorGray);
+    padding: 2px 5px;
+}
+
+.PropertyRightView .ListFeeManage .Items p.iValue {
+    text-align: center;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--BgHtml);
+    min-height: 20px;
+}
+
+.PropertyRightView .ListFeeManage .Items p.iValue span {
+    color: var(--ColorHightline);
+    /* font-style: italic; */
+    font-size: .9rem;
+    font-weight: bold;
+}
+
+
+.PropertyRightView .ListInterior {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border: 1px dashed var(--ColorGray);
+    padding: 10px;
+    margin-bottom: 2vh;
+    flex-wrap: wrap;
+    border-radius: var(--Radius_Input);
+}
+
+.PropertyRightView .ListInterior .iTitle {
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+.PropertyRightView .ListInterior .List {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.PropertyRightView .ListInterior .List .Items {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.PropertyRightView .ListInterior .List .Items i {}
+
+.PropertyRightView .ListInterior .List .Items span {}
+
+
+.PropertyRightView .TabInfo.HasHistory {
+    display: grid;
+    gap: 2vw;
+    align-items: baseline;
+}
+
+
+/*bg PropertyHistoryList*/
+:root .PropertyRightView .PropertyHistoryList {
+    --WidthAvartar: 34px;
+    --LeftAvatar: -44px;
+}
+
+.PropertyRightView .PropertyHistoryList {
+    max-height: calc(100vh - 100px);
+    overflow: auto;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .PropertyRightView .PropertyHistoryList {
+        filter: grayscale(1) blur(1px);
+        opacity: .5;
+        transition: all .2s;
+    }
+
+    .PropertyRightView .PropertyHistoryList:hover {
+        opacity: 1;
+        filter: grayscale(0);
+    }
+
+}
+
+.PropertyRightView .PropertyHistoryList .GridList {
+    border-left: 1px dashed var(--ColorGray);
+    margin-left: calc(var(--WidthAvartar) / 2);
+    display: grid;
+    gap: 2.5vh;
+    padding-right: 2vw;
+}
+
+.PropertyRightView .PropertyHistoryList .GrItems {
+    position: relative;
+    /* margin-left: 17px; */
+    padding-left: 27px;
+}
+
+.PropertyRightView .PropertyHistoryList .GrItems.isDeleted {
+    opacity: .5;
+    filter: grayscale(1);
+}
+
+.PropertyRightView .PropertyHistoryList .GrItems:nth-child(2n) {
+    background: linear-gradient(to right, #f3f3f3 0%, #ffffff 50%);
+    padding-top: 1.5vh;
+    padding-bottom: 1.5vh;
+}
+
+.PropertyRightView .PropertyHistoryList .GrItems .Avatar {
+    position: absolute;
+    left: var(--LeftAvatar);
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: var(--WidthAvartar);
+    height: var(--WidthAvartar);
+    border-radius: 100%;
+    padding: 2px;
+    background: #fff;
+    border: 1px solid var(--ColorGray);
+}
+
+.PropertyRightView .PropertyHistoryList .GrItems .Avatar img {
+    width: 100%;
+    height: auto;
+    border-radius: 100%;
+    background: #8e8e8e;
+}
+
+.PropertyRightView .PropertyHistoryList .GrItems .Text {
+    display: grid;
+    gap: 1vh;
+}
+
+.PropertyRightView .PropertyHistoryList .GrItems .Text .a {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    align-items: center;
+    position: relative;
+    min-height: var(--WidthAvartar);
+}
+
+
+.PropertyRightView .PropertyHistoryList .GrItems .Text .a .fLastTime {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+    /* font-size: .9rem; */
+    /* font-style: italic; */
+}
+
+.PropertyRightView .PropertyHistoryList .GrItems .Text .a .Per {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    /* opacity: .2; */
+    border-left: 1px solid;
+    padding-left: 5px;
+    font-size: .9rem;
+}
+
+.PropertyRightView .PropertyHistoryList .GrItems .Text .a .Per p.Name {
+    /* font-weight: bold; */
+}
+
+.PropertyRightView .PropertyHistoryList .GrItems .Text .a .Per p.Code {
+    background: var(--BgHtml);
+    /* color: #fff; */
+    padding: 3px 3px;
+    border-radius: 3px;
+    /* font-weight: bold; */
+    /* font-size: .9rem; */
+}
+
+.PropertyRightView .PropertyHistoryList .GrItems .Text .a .Per p.Phone {
+    font-weight: bold;
+}
+
+.PropertyRightView .PropertyHistoryList .GrItems .Text .b {
+    display: grid;
+    gap: 1vh;
+}
+
+.PropertyRightView .PropertyHistoryList .GrItems .Text .b .Note {
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: var(--Radius_Input);
+    border-top-left-radius: 0;
+    background: linear-gradient(to right, #fff4d0 1%, #ffffff00 100%);
+    color: #ab6600;
+}
+
+.PropertyRightView .PropertyHistoryList .GrItems .PropertyRightView .GroupAdvantageDefect {
+    margin-top: unset;
+}
+
+.PropertyRightView .PropertyHistoryList .GrItems .iRemove {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--ColorHightline);
+    border-radius: var(--Radius_Input);
+    cursor: pointer;
+    gap: 3px;
+    height: 30px;
+    width: 70px;
+    padding: 0 10px;
+    background: #fff;
+    justify-content: space-around;
+    margin-top: 1vh;
+}
+
+.PropertyRightView .PropertyHistoryList .GrItems .iRemove i {
+    background: var(--ColorHightline);
+    color: #fff;
+    width: 15px;
+    height: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    right: -10px;
+    font-size: .7rem
+}
+
+.PropertyRightView .PropertyHistoryList .GrItems .iRemove b {}
+
+.PropertyRightView .PropertyHistoryList .GrItems .iRestore {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--ColorHightline);
+    border-radius: var(--Radius_Input);
+    cursor: pointer;
+    gap: 3px;
+    height: 30px;
+    width: max-content;
+    padding: 0 10px;
+    background: #fff;
+    justify-content: space-around;
+    margin-top: 1vh;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .PropertyRightView .PropertyHistoryList .GrItems .iRemove:hover {
+        background: var(--ColorHightline);
+        color: #fff;
+    }
+
+    .PropertyRightView .PropertyHistoryList .GrItems .iRemove:hover i {
+        background: #000;
+    }
+}
+
+.PropertyRightView .PropertyHistoryList .b .PHC {
+    padding: 10px;
+    border-radius: var(--Radius_Input);
+    background: var(--BgHtml);
+    max-width: 400px;
+    border-top-left-radius: 0;
+}
+
+.PropertyRightView .PropertyHistoryList .b .PHC .iRows {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+    border-bottom: 1px dashed var(--ColorGray);
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.PropertyRightView .PropertyHistoryList .b .PHC .iRows:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+/*bg StatusCallHouseOwner*/
+.PropertyRightView .PropertyHistoryList .b .PHC .StatusCallHouseOwner.Called {
+    background: var(--Color-Green);
+}
+
+.PropertyRightView .PropertyHistoryList .b .PHC .StatusCallHouseOwner {
+    background: #585858;
+    padding: 5px 10px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    color: #fff;
+    border-radius: 3px;
+    font-weight: bold;
+    width: max-content;
+}
+
+/*ed StatusCallHouseOwner*/
+
+.PropertyRightView .PropertyHistoryList .b .bTitle {
+    background: var(--BgHtml);
+    width: max-content;
+    padding: 5px;
+    font-size: .9rem;
+    border-bottom: 1px solid #fff;
+    border-top-left-radius: var(--Radius_Input);
+    border-top-right-radius: var(--Radius_Input);
+    color: var(--c);
+    gap: 5px;
+    display: flex;
+    align-items: center;
+    font-size: .9rem;
+}
+
+.PropertyRightView .PropertyHistoryList .b .PHC .iRows .iStt {
+    background: #fff;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border:1px solid; */
+}
+
+.PropertyRightView .PropertyHistoryList .b .PHC .iRows .iStt1 {
+    /*Male*/
+    color: var(--Color-Blue);
+}
+
+.PropertyRightView .PropertyHistoryList .b .PHC .iRows .iStt2 {
+    /*FeMale*/
+    color: var(--Color-Other);
+}
+
+.PropertyRightView .PropertyHistoryList .b .PHC .iRows .iName {
+    max-width: 95px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.PropertyRightView .PropertyHistoryList .b .PHC .iRows .iPhone {}
+
+.PropertyRightView .PropertyHistoryList .b .PHC .iRows .iPhone a {
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--ColorHightline);
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.PropertyRightView .PropertyHistoryList .b .PHC .iRows .iRole {
+    font-size: .9rem;
+    text-decoration: underline;
+}
+
+/*bg grPro*/
+.PropertyRightView .PropertyHistoryList .grPro {}
+
+.PropertyRightView .PropertyHistoryList .grPro .List {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    column-gap: 1vw;
+}
+
+.PropertyRightView .PropertyHistoryList .grPro .List .iRows {
+    display: flex;
+    white-space: nowrap;
+    gap: 5px;
+    padding: 5px;
+    border-radius: var(--Radius_Input);
+    border: 1px dashed var(--Color1);
+    background: #fff;
+}
+
+.PropertyRightView .PropertyHistoryList .iWardsNameChange {
+    margin-bottom: 10px;
+    box-shadow: inset 0px 0px 3px #ccc;
+    border-radius: var(--Radius_Input);
+    padding: 5px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    width: max-content;
+}
+
+.PropertyRightView .PropertyHistoryList .iWardsNameChange img {
+    display: inline-block;
+    width: 35px;
+    height: auto;
+}
+
+.PropertyRightView .PropertyHistoryList .grPro .List .iRows .iIcon {
+    font-size: 1rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.PropertyRightView .PropertyHistoryList .grPro .List .iLabel {
+    font-weight: bold;
+}
+
+.PropertyRightView .PropertyHistoryList .grPro .List .iValue {}
+
+/*ed grPro*/
+.PropertyRightView .PropertyHistoryList .iChangeStatus {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.PropertyRightView .PropertyHistoryList .iChangeStatus .eNote {
+    padding: 0 10px;
+    /* background: none; */
+    border-left: none;
+    font-weight: bold;
+    /* text-decoration: underline; */
+}
+
+.PropertyRightView .PropertyHistoryList .iList {
+    display: flex;
+    gap: 10px;
+    /*    width: max-content;*/
+    flex-wrap: wrap;
+    border: 1px dashed var(--ColorGray);
+    border-radius: var(--Radius_Input);
+    padding: 5px;
+    background: #fff
+}
+
+.PropertyRightView .PropertyHistoryList .iList .Rows {}
+
+.PropertyRightView .PropertyHistoryList .iList .Rows.pPrices {}
+
+.PropertyRightView .PropertyHistoryList .iList .Rows.pPrices .iValue span:not(.iUnit) {
+    color: var(--ColorHightline);
+    font-weight: bold;
+}
+
+.PropertyRightView .PropertyHistoryList .iList .Rows .iLabel {
+    font-size: .9rem;
+}
+
+.PropertyRightView .PropertyHistoryList .iList .Rows .iValue {
+    /* font-weight: bold; */
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.PropertyRightView .PropertyHistoryList .iList .Rows .iValue .iUnit {
+    background: var(--BgHtml);
+    border-radius: 3px;
+    padding: 2px;
+    font-weight: normal;
+    font-size: .9rem;
+}
+
+.PropertyRightView .PropertyHistoryList .GroupAccuracy {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 1vh;
+    justify-content: right;
+}
+
+.PropertyRightView .PropertyHistoryList .GrItems .BtnAccuracy {
+    display: block;
+    width: max-content;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: var(--Radius_Input);
+    font-weight: bold;
+    border: 1px solid #d8d8d8;
+    color: #222222;
+    background: linear-gradient(0deg, #d6d6d61a 0%, #ffffff1a 100%);
+}
+
+.PropertyRightView .PropertyHistoryList .GrItems .BtnAccuracy i {}
+
+.PropertyRightView .PropertyHistoryList .fOrigin {
+    background: var(--ColorHightline);
+    padding: 5px;
+    color: #fff;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    width: max-content;
+    border-radius: var(--Radius_Input);
+}
+
+.PropertyRightView .PropertyHistoryList .fOrigin i {}
+
+.PropertyRightView .PropertyHistoryList .fOrigin p {}
+
+.PropertyRightView .PropertyHistoryList .NotAccuracy,
+.PropertyRightView .PropertyHistoryList .iAccuracy {
+    padding: 0 4px;
+    font-size: .9rem;
+    position: relative;
+    display: flex;
+    gap: 5px;
+    border-radius: var(--Radius_Input);
+    flex-wrap: wrap;
+    max-width: max-content;
+    align-items: center;
+}
+
+.PropertyRightView .PropertyHistoryList .NotAccuracy {
+    background-color: #f2f2f2;
+    color: #d1473a;
+    padding: 4px 4px;
+}
+
+.PropertyRightView .PropertyHistoryList .iAccuracy {
+    background: #f9fff8;
+    margin-top: 1vh;
+    border: 1px solid #57a002;
+    padding: 2px 4px;
+    right: 0;
+}
+
+.PropertyRightView .PropertyHistoryList .iAccuracy p {
+    font-style: italic;
+}
+
+.PropertyRightView .PropertyHistoryList .iAccuracy p i {
+    color: #57a002;
+}
+
+.PropertyRightView .PropertyHistoryList .iAccuracy .Avatar {
+    position: relative;
+    left: unset;
+    top: unset;
+    padding: 1px;
+    border-color: green;
+    width: 15px;
+    height: 15px;
+    padding: 0;
+    border: unset;
+    opacity: .5;
+}
+
+/*ed PropertyHistoryList*/
+
+/*bg PropertyRightView Mobile*/
+@media screen and (max-width: 650px) {
+    .PropertyRightView .GroupTitle {
+        background-color: #FFFFFF;
+    }
+
+    .PropertyRightView .GroupTitle .iBottom {
+        grid-template-columns: 1fr 1fr;
+        row-gap: 10px;
+        padding: 10px;
+    }
+
+    .PropertyRightView .GroupTitle .GroupCheckTool {
+        grid-column: 1 / span 2;
+    }
+
+    .PropertyRightView .GroupTitle .GroupCheckTool .iCheck {
+        width: 100%;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .PropertyRightView .PropertyHistoryList {
+        padding: 0 16px;
+        max-height: calc(100vh - 120px);
+    }
+}
+
+/*ed PropertyRightView Mobile*/
+
+/*bg PropertyLogList*/
+.PropertyRightView .LoadLog {
+    content: ' ';
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    -webkit-transition: all .5s;
+    transition: all .5s;
+    transition-timing-function: ease-out;
+    opacity: 1;
+    visibility: visible;
+    background-image: url(../../img/processing.gif);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50px;
+}
+
+.PropertyLogList {
+    padding: 2vw;
+}
+
+
+.PropertyLogList .groupGrid {
+    display: grid;
+    gap: 2vh;
+    border-left: 1px dashed var(--ColorGray);
+    padding-left: 15px;
+}
+
+.PropertyLogList .Items {}
+
+.PropertyLogList .Items .a {
+    position: relative;
+    padding-left: 10px;
+    display: flex;
+    gap: 10px;
+    min-height: 40px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.PropertyLogList .Items .a .Avatar {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    left: -30px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background: var(--BgHtml);
+    border-radius: 100%;
+}
+
+
+.PropertyLogList .Items .a .Avatar img {
+    width: 100%;
+    height: auto;
+    border-radius: 100%;
+}
+
+.PropertyLogList .Items .a .fLastTime {
+    display: flex;
+    font-style: italic;
+}
+
+.PropertyLogList .Items .a .Per {
+    display: flex;
+    gap: 10px;
+}
+
+.PropertyLogList .Items .a .Per p.Name {
+    font-weight: bold;
+}
+
+.PropertyLogList .Items .a .Per p.Code {
+    background: var(--Color1);
+    color: #fff;
+    padding: 0 5px;
+    border-radius: 3px;
+}
+
+.PropertyLogList .Items .b .iLabelActi {
+    border: 1px solid var(--BgHtml);
+    width: max-content;
+    padding: 5px 10px;
+    border-radius: 40px;
+    box-shadow: 1px 2px 6px #ccc;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.PropertyLogList .Items .iPhone {}
+
+.PropertyLogList .Items .iPhone b {
+    font-weight: bold;
+    color: var(--ColorHightline);
+}
+
+.PropertyLogList .Items .b .iImg {
+    max-width: 100px;
+    height: auto;
+    border-radius: 3px;
+}
+
+@media screen and (max-width: 650px) {
+    .PropertyLogList .groupGrid {
+        padding-left: 22px;
+    }
+
+    .PropertyLogList {
+        padding: 2vw 20px;
+    }
+}
+
+/*ed PropertyLogList*/
+
+/*ed for View SlideMode*/
+
+/*bg CountStatusPhoneToolTip*/
+.CountStatusPhoneToolTip {
+    display: grid;
+    background: #fff;
+    border-radius: var(--Radius_Input);
+    overflow: hidden;
+}
+
+.CountStatusPhoneToolTip .tItems {}
+
+.CountStatusPhoneToolTip .tItems .eTagLabels {
+    width: 100%;
+    border-radius: unset;
+    border: unset;
+}
+
+.CountStatusPhoneToolTip .tItems:last-child {
+    border-bottom: none;
+}
+
+.CountStatusPhoneToolTip .tItems .tLabel {}
+
+.CountStatusPhoneToolTip .tItems .tValue {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/*ed CountStatusPhoneToolTip*/
+
+
+/*bg Popup-ViewPhoneProperty*/
+.RockerPopup.Popup-ViewPhoneProperty {
+    -webkit-backdrop-filter: unset;
+    backdrop-filter: unset;
+    background: #505050c9;
+}
+
+.RockerPopup.Popup-ViewPhoneProperty .Close:not(.Small) {
+    display: none;
+}
+
+.RockerPopup.Popup-ViewPhoneProperty .Content {
+    max-width: 1200px;
+    background: none;
+    box-shadow: none;
+    border: none;
+    width: 100%;
+    padding: 5px;
+}
+
+.PanelViewPhoneProperty {}
+
+.PanelViewPhoneProperty .GroupMain {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1vw;
+    align-items: center;
+}
+
+.PanelViewPhoneProperty .GroupBox {
+    background: #fff;
+    border-radius: var(--Radius_Input);
+    padding: 20px;
+    box-shadow: 0px 8px 13px 1px #00000047;
+    transition: all .2s;
+}
+
+.PanelViewPhoneProperty .GroupBox.GroupListProperty {
+    max-height: 35vh;
+    overflow-y: auto;
+}
+
+.PanelViewPhoneProperty .GroupMain .Left {
+    position: relative;
+    display: grid;
+    gap: 10px;
+}
+
+.PanelViewPhoneProperty .GroupMain .Left .GroupPhone {
+    position: relative;
+    display: grid;
+    gap: 20px;
+}
+
+.PanelViewPhoneProperty .GroupMain .Left .GroupForm {
+    display: grid;
+    gap: 10px;
+}
+
+.PanelViewPhoneProperty .GroupMain .Left .GroupForm .FrmItems.Note {
+    /*display: none;*/
+
+}
+
+.PanelViewPhoneProperty .GroupMain .Left .GroupForm .FrmItems.Note .FrmInput {
+    min-height: 50px;
+    background: #fffbe3;
+}
+
+.PanelViewPhoneProperty .GroupMain .Left .GroupForm.ShowNote .FrmItems.Note {
+    display: block;
+}
+
+.PanelViewPhoneProperty .GroupMain .Left .Top {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: baseline;
+}
+
+.PanelViewPhoneProperty .GroupMain .Left .Top .a {
+    border: 1px solid var(--ColorHightline);
+    padding: 5px;
+    border-radius: var(--Radius_Input);
+    position: relative;
+}
+
+.PanelViewPhoneProperty .GroupMain .Left .Top .a::after {
+    position: absolute;
+    display: block;
+    content: ' ';
+    width: 0;
+    bottom: -10px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #f44336d1;
+    border-left: 10px solid transparent;
+    top: 100%;
+    -webkit-animation-name: ErrorTagsZoomAfterTop;
+    animation-name: ErrorTagsZoomAfterTop;
+}
+
+.PanelViewPhoneProperty .GroupMain .Left .Top .a .Name {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.PanelViewPhoneProperty .GroupMain .Left .Top .a .Name i {}
+
+.PanelViewPhoneProperty .GroupMain .Left .Top .a .Name p {}
+
+.PanelViewPhoneProperty .GroupMain .Left .Top .a .Name span {
+    /* background: #1ace00; */
+    /* color: #fff; */
+    padding: 3px 5px;
+    border-radius: 8px;
+    /* font-weight: bold; */
+    font-style: italic;
+    background: var(--BgHtml);
+    font-size: .9rem;
+}
+
+.PanelViewPhoneProperty .GroupMain .Left .Top .a .Phone {}
+
+.PanelViewPhoneProperty .GroupMain .Left .Top .a .Phone a {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.PanelViewPhoneProperty .GroupMain .Left .Top .a .Phone i {
+    color: var(--Color1)
+}
+
+.PanelViewPhoneProperty .GroupMain .Left .Top .a .Phone span {
+    color: var(--ColorHightline);
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.PanelViewPhoneProperty .GroupMain .Left .Top .b {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    gap: 5px;
+}
+
+.PanelViewPhoneProperty .GroupMain .Left .Top .b .Avatar {}
+
+.PanelViewPhoneProperty .GroupMain .Left .Top .b .Avatar img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.PanelViewPhoneProperty .GroupMain .Left .Top .b .bText {}
+
+.PanelViewPhoneProperty .GroupMain .Left .Top .b .bText .fLastTime {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.PanelViewPhoneProperty .GroupMain .Left form .fFoot {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    row-gap: 20px;
+}
+
+.PanelViewPhoneProperty .GroupMain .Left form .BtnLink {}
+
+.PanelViewPhoneProperty .GroupMain .Right {}
+
+.PanelViewPhoneProperty .GroupMain .Right .Top {}
+
+.PanelViewPhoneProperty .GroupMain .Right .BoxTitle {
+    font-size: 1rem;
+    /* text-decoration: underline; */
+}
+
+.PanelViewPhoneProperty .GroupMain .Right .Top .GroupNumber {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 5px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    /* background: var(--BgHtml); */
+    padding: 10px;
+    border-radius: var(--Radius_Input);
+    margin-top: 5px;
+    box-shadow: 0px 4px 4px var(--BgHtml);
+    border: 1px solid var(--ColorGray);
+}
+
+.PanelViewPhoneProperty:not(.CheckBroker) .GroupMain .Right .Top .GroupNumber {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.PanelViewPhoneProperty .GroupMain .Right .Top .GroupNumber .Item {}
+
+.PanelViewPhoneProperty .GroupMain .Right .Top .GroupNumber .Item .Number {
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.PanelViewPhoneProperty .GroupMain .Right .Top .GroupNumber .Item .Number span {
+    font-size: .8rem;
+    background: #fff;
+    padding: 0 5px;
+    border-radius: 3px;
+    opacity: .5;
+}
+
+.PanelViewPhoneProperty .GroupMain .Right .Top .GroupNumber .Item .Text {
+    font-style: italic;
+}
+
+.PanelViewPhoneProperty .GroupMain .Right .History {}
+
+
+.PanelViewPhoneProperty .GroupMain .Right .History .ScrollList {
+    max-height: calc(100vh - 300px);
+    overflow-y: auto;
+    padding-bottom: 20px;
+    padding-top: 5px;
+}
+
+.PanelViewPhoneProperty .GroupMain .Right .History .List {
+    border-left: 1px dashed var(--ColorGray);
+    margin-left: 20px;
+    display: grid;
+    gap: 30px;
+}
+
+.PanelViewPhoneProperty .GroupMain .Right .History .List .Item {
+    margin-left: -20px;
+    position: relative;
+    padding-left: 50px;
+}
+
+.PanelViewPhoneProperty .GroupMain .Right .History .List .Item.ItemView {
+    display: none;
+}
+
+.PanelViewPhoneProperty .GroupMain .Right .History.ShowView .Item.ItemView {
+    display: block;
+}
+
+.PanelViewPhoneProperty .GroupMain .Right .History .List .Item .Avatar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--ColorGray);
+    border-radius: 100%;
+    padding: 2px;
+    background: #cacaca;
+}
+
+.PanelViewPhoneProperty .GroupMain .Right .History .List .Item .Avatar img {
+    width: 100%;
+    height: auto;
+    border-radius: 100%;
+}
+
+.PanelViewPhoneProperty .GroupMain .Right .History .List .Item .a {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    font-size: .9rem;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.PanelViewPhoneProperty .GroupMain .Right .History .List .Item .a .Time {}
+
+.PanelViewPhoneProperty .GroupMain .Right .History .List .Item .a .Name {
+    font-weight: bold;
+}
+
+.PanelViewPhoneProperty .GroupMain .Right .History .List .Item .a .Code {
+    background: var(--Color1);
+    color: #fff;
+    padding: 2px;
+}
+
+.PanelViewPhoneProperty .GroupMain .Right .History .List .Item .b {}
+
+.PanelViewPhoneProperty .GroupMain .Right .History .List .Item .b .Action {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.PanelViewPhoneProperty .GroupMain .Right .History .List .Item .b .Action span {}
+
+.PanelViewPhoneProperty .GroupMain .Right .History .List .Item .b .Action i {
+    font-size: .8rem;
+}
+
+.PanelViewPhoneProperty .GroupMain .Right .History .List .Item .b .Report {
+    margin-top: 1vh;
+    font-weight: bold;
+}
+
+.PanelViewPhoneProperty .GroupMain .Right .History .List .Item .b .Note {
+    background: var(--ColorHightlineOpa);
+    padding: 5px;
+    border-radius: var(--Radius_Input);
+    margin-top: 1vh;
+    color: var(--ColorHightline);
+    font-style: italic;
+}
+
+/*bg StatusCallHouseOwner*/
+.PanelViewPhoneProperty .StatusCallHouseOwner {
+    background: #585858;
+    padding: 5px 10px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    color: #fff;
+    border-radius: 3px;
+    font-weight: bold;
+    /* font-size: .8rem; */
+    width: max-content;
+}
+
+.PanelViewPhoneProperty .StatusCallHouseOwner.Called {
+    background: var(--Color-Green);
+}
+
+.PanelViewPhoneProperty .StatusCallHouseOwner i {}
+
+.PanelViewPhoneProperty .StatusCallHouseOwner span {}
+
+/*ed StatusCallHouseOwner*/
+
+/*.StatusProperty-CountCorrect{color: var(--Color-Green);}
+.StatusProperty-CountWrong{color: var(--Color-Pdf);}
+.StatusProperty-CountUnderfined{color: var(--Color-Zip);}*/
+
+.PanelViewPhoneProperty .GroupListProperty .gTitle {
+    font-size: 1.2rem;
+    text-decoration: underline;
+    margin-bottom: 10px;
+}
+
+.PanelViewPhoneProperty .GroupListProperty .Items {
+    display: grid;
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    grid-template-columns: 20px 1fr
+}
+
+.PanelViewPhoneProperty .GroupListProperty .Items .IconArrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.PanelViewPhoneProperty .GroupListProperty .Items .iCatName {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    text-transform: uppercase;
+    margin-right: 5px;
+    /* background: var(--BgHtml); */
+    /* padding: 0 5px; */
+    /* border-radius: var(--Radius_Input); */
+    font-weight: bold;
+    color: var(--Color1);
+}
+
+
+.PanelViewPhoneProperty .GroupListProperty .Items .iAddress {}
+
+.PanelViewPhoneProperty .GroupListProperty .Items .iGroupPrices {
+    display: flex;
+    justify-content: left;
+    align-items: baseline;
+}
+
+.PanelViewPhoneProperty .GroupListProperty .Items .iGroupPrices .iPrices {}
+
+.PanelViewPhoneProperty .GroupListProperty .Items .iGroupPrices .iPrices p.a {
+    font-weight: bold;
+}
+
+.PanelViewPhoneProperty .GroupListProperty .Items .iGroupPrices .iPrices p.a .aUnit {}
+
+.PanelViewPhoneProperty .GroupListProperty .Items .iGroupPrices .iArea {
+    display: flex;
+    gap: 3px;
+    border-left: 1px solid;
+    margin-left: 10px;
+    padding-left: 10px;
+}
+
+.PanelViewPhoneProperty .GroupListProperty .Items .iGroupPrices .iArea p.a {}
+
+.PanelViewPhoneProperty .GroupListProperty .Items .iGroupPrices .iArea p.b {}
+
+.PanelViewPhoneProperty .GroupCheckPhone {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.PanelViewPhoneProperty .GroupCheckPhone a {
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+}
+
+.PanelViewPhoneProperty .GroupCheckPhone img {
+    max-width: 100%;
+    height: auto;
+}
+
+@media screen and (max-width: 800px) {
+    .PanelViewPhoneProperty .GroupBox.GroupListProperty {
+        max-height: unset;
+    }
+
+    .PanelViewPhoneProperty {
+        /* max-height: calc(100vh - 50px);
+        overflow-y: auto;*/
+    }
+
+    .RockerPopup.Popup-ViewPhoneProperty .Close:not(.Small) {
+        display: flex;
+        top: 8px;
+        right: 10px;
+    }
+
+    .RockerPopup.Popup-ViewPhoneProperty .Close.Small {
+        display: none;
+    }
+
+    .PanelViewPhoneProperty .GroupMain {
+        grid-template-columns: 1fr;
+    }
+
+    .PanelViewPhoneProperty .GroupMain .Right .History .ScrollList {
+        max-height: unset;
+        padding-bottom: none;
+    }
+
+    .PanelViewPhoneProperty .GroupBox {
+        padding: 10px;
+        box-shadow: none;
+    }
+
+    .PanelViewPhoneProperty .GroupMain .Left .Top .a .Phone {
+        font-size: 1.2rem;
+    }
+
+    .PanelViewPhoneProperty .GroupMain .Left .Top .b {
+        grid-template-columns: 1fr;
+    }
+
+    .PanelViewPhoneProperty .GroupMain .Left .Top .b .Avatar {
+        display: none;
+    }
+
+    .PanelViewPhoneProperty .GroupMain .Left .Top .a .Name {
+        font-size: .9rem;
+    }
+
+    .PanelViewPhoneProperty .GroupMain .Left .Top .b .bText {
+        font-size: .9rem;
+    }
+}
+
+/*ed Popup-ViewPhoneProperty*/
+
+
+.PanelViewPhoneProperty:not(.CheckBroker) .Items-PhoneStatus .iICB-4 {
+    display: none;
+}
+
+.PanelViewPhoneProperty:not(.CheckBroker) .GroupMain .Right .Top .GroupNumber .Item.CountBroker {
+    display: none;
+}
+
+
+/*PopupCheckPropertyHot*/
+.PopupCheckPropertyHot .GridForm {
+    display: grid;
+    gap: 20px;
+}
+
+/*ed PopupCheckPropertyHot*/
+/*bg PropertyIsLock*/
+.PropertyIsLock {
+    position: absolute;
+    width: max-content;
+    height: max-content;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+    text-align: center;
+    background: #fff;
+    padding: 20px;
+    border-radius: var(--Radius_Input);
+}
+
+.PropertyIsLock i {
+    font-size: 1.5rem;
+}
+
+.PropertyIsLock .iAddress {
+    margin-top: 1vh;
+    color: var(--ColorHightline);
+}
+
+.PropertyIsLock .iTitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+    /* color: var(--ColorHightline); */
+}
+
+.PropertyIsLock .iDes {
+    font-style: italic;
+}
+
+/*ed PropertyIsLock*/
+
+
+
+
+
+/*bg Search-Property*/
+:root .Search-Property {
+    --gapinput: 5px;
+}
+
+.Search-Property .Grid {
+    display: grid;
+    gap: var(--gapinput);
+    position: relative;
+}
+
+.FormFolderCompany {
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: var(--BoxShadow);
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.FormFolderCompany .LabelBox {
+    font-weight: bold;
+
+}
+
+.Search-Property .ItemHotFolderSingle .scItem {
+    background-image: url(../../img/IconHot.webp);
+    background-repeat: no-repeat;
+    background-image: url(../../img/IconHot.webp);
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    background-position: 8px -5px;
+    padding-left: 18px;
+}
+
+.Search-Property .ItemHotFolderSingle.FrmItems.Type-StatusCheckList .scItem.active {
+    background-color: #019b01 !important;
+    border-color: #019b01 !important;
+}
+
+/*bg FormTop*/
+.Search-Property .FormTop {
+    display: grid;
+    grid-template-columns: 1fr 130px 1fr 150px 200px 200px 1fr;
+    gap: var(--gapinput);
+}
+
+.Search-Property.RightAdvanced_Cat .FormTop {
+    grid-template-columns: 1fr 1fr 150px 200px 200px 1fr;
+}
+
+.Search-Property .FormTop .FrmItems.Type-TreeCheckBox .TreeItems .iLabelb,
+.FrmItems.Type-TreeCheckBox .TreeItems label {
+    /*  padding:5px 0;*/
+}
+
+.GroupSearchExpand {
+    display: grid;
+    grid-template-columns: 1fr 35px;
+    gap: 5px;
+    align-items: center;
+}
+
+.GroupSearchExpand button {
+    width: unset;
+    min-width: unset;
+    height: var(--HeightInput);
+    padding: unset;
+}
+
+.GroupSearchExpand button span {}
+
+.GroupSearchExpand .bExpand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(360deg, #fffbad 0%, #ffffff 100%);
+    border-radius: var(--Radius_Input);
+    border: 1px dashed #a6a6a6;
+    height: 35px;
+    border-radius: 100%;
+}
+
+.GroupSearchExpand .bExpand i {
+    margin-top: 2px;
+    transition: all .2s
+}
+
+.ActiveExpand .GroupSearchExpand .bExpand i {
+    transform: rotate(180deg);
+    margin-top: 0;
+}
+
+.Search-Property .FrmItems.Items-Cat:not(.fsHasValue) .FrmInput {
+    background: var(--GradientVerti);
+    color: #fff;
+}
+
+.Search-Property .FrmItems.Items-Cat:not(.fsHasValue) .FrmInput option {
+    color: #000;
+}
+
+.Search-Property .FrmItems.FrmItems.Type-Select:not(.fsHasValue)::after {
+    font-family: var(--FontIconPro);
+    content: "\f078";
+    position: absolute;
+    right: 10px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background-position: center center;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    text-align: center;
+    height: max-content;
+    font-size: 12px;
+    color: #fff;
+}
+
+@media screen and (max-width:1200px) {
+    .Search-Property .FormTop {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .Search-Property.RightAdvanced_Cat .FormTop {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .Search-Property .FormTop .FrmItems.Items-q {
+        grid-column: 1 /span 2;
+    }
+}
+
+@media screen and (max-width:900px) {
+
+    .Search-Property.RightAdvanced_Cat .FormTop,
+    .Search-Property .FormTop {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .Search-Property .FormTop .FrmItems.Items-qt {
+        grid-column: 1 /span 2;
+    }
+}
+
+/*ed FormTop*/
+
+
+.Search-Property .FormMiddle {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: var(--gapinput);
+}
+
+@media screen and (max-width:1050px) {
+    .Search-Property .FormMiddle {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media screen and (max-width:900px) {
+    .Search-Property .FormMiddle {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .Search-Property .FormMiddle .Items-PersonnelsId {
+        grid-column: 1 /span 2;
+    }
+}
+
+.Search-Property .FormBottom.HasProjectSearch {
+    grid-template-columns: 1fr 150px 190px 1fr 1fr 1fr 1fr 120px;
+}
+
+.Search-Property .FormBottom {
+    display: grid;
+    grid-template-columns: 150px 190px 1fr 1fr 1fr 1fr 120px;
+    gap: var(--gapinput);
+}
+
+
+@media screen and (max-width:1050px) {
+
+    .Search-Property .FormBottom.HasProjectSearch,
+    .Search-Property .FormBottom {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media screen and (max-width:900px) {
+
+    .Search-Property .FormBottom,
+    .Search-Property .FormBottom.HasProjectSearch {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .Search-Property .FormBottom .FrmItems.Type-FromToDay,
+    .Search-Property .FormBottom.HasProjectSearch .FrmItems.Type-FromToDay {
+        grid-column: 1 /span 2;
+    }
+
+    .Search-Property .FormBottom .PENDING,
+    .Search-Property .FormBottom.HasProjectSearch .PENDING {
+        grid-column: 2 /span 1;
+    }
+}
+
+.Search-Property .BtnDk {
+    width: 100%;
+    height: var(--HeightInput);
+}
+
+.Search-Property:not(.ActiveExpand) .FormMiddle {
+    display: none;
+}
+
+.Search-Property .FormStatus {
+    display: flex;
+    gap: .5vw;
+    flex-wrap: wrap;
+}
+
+.Search-Property {
+    margin-bottom: 2vh;
+    display: grid;
+    gap: 1vh;
+}
+
+@media screen and (max-width:900px) {
+    .Search-Property:not(.ActiveExpand) .Grid {
+        grid-template-columns: 1fr 90px;
+        gap: 5px;
+    }
+
+    .Search-Property .FormStatus {}
+
+    .Search-Property:not(.ActiveExpand) .FormBottom {
+        display: block;
+    }
+
+    .Search-Property:not(.ActiveExpand) .BtnLink {
+        min-width: unset;
+    }
+
+    .Search-Property:not(.ActiveExpand) .BtnLink span {
+        display: none;
+    }
+
+    .Search-Property:not(.ActiveExpand) .Search-BtnExpand {
+        grid-column: 1 /span 2;
+    }
+
+    .Search-Property:not(.ActiveExpand) .FrmItems:not(.Items-q, .ItemsSearchStatus, .AlwayShow) {
+        display: none;
+    }
+
+    .Search-Property .FrmItems.Type-StatusCheckList {
+        font-size: .9rem;
+    }
+}
+
+/*ed Search-Property*/
+
+
+/*BG GroupPropertyFollowIcon*/
+.Page-Property .GroupPropertyFollowIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.Page-Property .GroupPropertyFollowIcon i {
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.Page-Property .GroupPropertyFollowIcon .iHasValue {
+    color: var(--ColorHightline);
+    position: relative;
+}
+
+.Page-Property .GroupPropertyFollowIcon .iNote {
+    font-size: .9rem;
+    background: yellow;
+    padding: 5px;
+    text-align: left;
+    max-width: 30vw;
+}
+
+.Page-Property .GroupPropertyFollowIcon .iHasValue .iCount {
+    color: #fff;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+/*ED GroupPropertyFollowIcon*/
+
+/*bg PropertyIsSpam*/
+.Page-Property .PropertyIsSpam {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.Page-Property .PropertyIsSpam.ActiveSpam {
+    color: var(--Color-Orange);
+}
+
+/*ed PropertyIsSpam*/
+
+/*bg PP-EditFollowProperty*/
+/*bg NotiNoFolderProperty*/
+.NotiNoFolderProperty {
+    text-align: center;
+    padding: 20px 0;
+    color: #fff;
+}
+
+.NotiNoFolderProperty i {
+    font-size: 3rem;
+    margin-bottom: 16px;
+}
+
+.NotiNoFolderProperty a {
+    font-weight: bold;
+    color: #f6ff00;
+    text-decoration: underline;
+}
+
+/*ed NotiNoFolderProperty*/
+
+.PP-EditFollowProperty {}
+
+.PP-EditFollowProperty .GroupTopInfo {
+    margin-bottom: 2vh;
+}
+
+.PP-EditFollowProperty .GroupTopInfo .iTitle {
+    font-style: italic;
+}
+
+.PP-EditFollowProperty .GroupTopInfo .igMa {
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-items: center;
+    color: var(--ColorHightline);
+}
+
+.PP-EditFollowProperty .BasicGroup {
+    display: grid;
+    gap: 20px;
+}
+
+/*ed PP-EditFollowProperty*/
+
+.Page-Property .GridItemList {
+    display: grid;
+    gap: 1.2vh;
+}
+
+
+/*bg ItemsPropertyVertical*/
+:root .ItemsPropertyVertical {
+    --borderbottom: 1px solid var(--ColorGray);
+    --spacebottom: 1vh;
+}
+
+.ItemsPropertyVertical {}
+
+.ItemsPropertyVertical .RockerToolsGroup {}
+
+.ItemsPropertyVertical .Items {
+    background: #fff;
+    padding: 2vw;
+    border-radius: var(--Radius_S);
+    position: relative;
+    display: grid;
+    gap: var(--spacebottom);
+}
+
+.ItemsPropertyVertical .Items .GridTopImg {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 10px;
+}
+
+.ItemsPropertyVertical .Items .RightImg {
+    display: grid;
+    gap: 10px;
+}
+
+.ItemsPropertyVertical .Items .GridTopImg .iA .c .iText .iProvinceName {
+    display: none;
+}
+
+.ItemsPropertyVertical .Items .iImg {
+    position: relative;
+    overflow: hidden;
+    background: #ccc;
+    border-radius: 5px;
+}
+
+.ItemsPropertyVertical .Items .iImg img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.Page-Property .GridItemList.ItemsPropertyVertical .Items:nth-child(2n) {}
+
+.ItemsPropertyVertical .Items .iA {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: var(--spacebottom);
+}
+
+.ItemsPropertyVertical .Items.HasStatus .iA {}
+
+.ItemsPropertyVertical .Items .iA .a {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.ItemsPropertyVertical .Items .iA .a .iCatName {
+    /* display: flex; */
+    gap: 5px;
+    align-items: center;
+}
+
+.ItemsPropertyVertical .Items .iA .a .iCatName .iTitle {
+    font-weight: bold;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+.ItemsPropertyVertical .Items .iA .a .iCatName .iLoca {
+    font-size: .9rem;
+}
+
+.ItemsPropertyVertical .Items .iA .iStatusLabel {
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-size: .9rem;
+    font-weight: bold;
+    height: max-content;
+}
+
+.ItemsPropertyVertical .Items .iA .b {}
+
+.ItemsPropertyVertical .Items .iA .c {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+    /* border: 1px dashed var(--fibc); */
+    /* padding: 2px; */
+    /* border-radius: var(--Radius_Input); */
+}
+
+.ItemsPropertyVertical .Items .iA .c .iText {
+    text-align: left;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.ItemsPropertyVertical .Items .iA .c i {
+    font-size: 1.3rem;
+}
+
+.ItemsPropertyVertical .Items .iA .c .iText .iDistrictName {
+    font-weight: bold;
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: var(--Color1);
+}
+
+.ItemsPropertyVertical .Items .iA .c .iText .iProvinceName {
+    font-size: .8rem;
+    opacity: .4;
+    margin-top: 3px;
+}
+
+.ItemsPropertyVertical .Items .iB {
+    border-bottom: var(--borderbottom);
+    padding-bottom: var(--spacebottom);
+}
+
+.ItemsPropertyVertical .Items .iB .iAddress {
+    /* font-weight: bold; */
+    display: block;
+    font-size: 1.1rem;
+    /* color: #006fff; */
+}
+
+.ItemsPropertyVertical .Items .iB .iFlexPrices {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.ItemsPropertyVertical .Items .iB .iFlexPrices .gPrices {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.ItemsPropertyVertical .Items .iB .iFlexPrices .gPrices .iPrices,
+.ItemsPropertyVertical .Items .iB .iFlexPrices .gArea .iArea {
+    font-weight: bold;
+    color: var(--ColorHightline);
+    font-size: 1.3rem;
+}
+
+.ItemsPropertyVertical .Items .iB .iFlexPrices .gPrices .pUnit {}
+
+.ItemsPropertyVertical .Items .iB .iFlexPrices .gPrices .pStatus {}
+
+.ItemsPropertyVertical .Items .iB .iFlexPrices .gPrices .pStatus span {
+    display: block;
+    padding: 4px 2px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    font-size: 11px;
+}
+
+.ItemsPropertyVertical .Items .iB .iFlexPrices .gPrices .pStatus .pUp {
+    background: green;
+    color: #fff;
+}
+
+.ItemsPropertyVertical .Items .iB .iFlexPrices .gPrices .pStatus .pDown {
+    background: red;
+    color: #fff;
+}
+
+.ItemsPropertyVertical .Items .iB .iFlexPrices .iPricesOnM2 {}
+
+.ItemsPropertyVertical .Items .iB .iFlexPrices .gArea {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.ItemsPropertyVertical .Items .iB .iFlexPrices .gArea .iArea {}
+
+.ItemsPropertyVertical .Items .iB .iFlexPrices .gArea .iWidthLength {
+    display: flex;
+    align-items: center;
+}
+
+.ItemsPropertyVertical .Items .iB .iFlexPrices .gArea .iWidthLength i {
+    font-size: 9px;
+}
+
+.ItemsPropertyVertical .Items .iC {
+    border-bottom: var(--borderbottom);
+    padding-bottom: var(--spacebottom);
+    background: linear-gradient(360deg, #f2f2f2 0%, #ffffff 100%);
+}
+
+.ItemsPropertyVertical .Items .iC .RentContract {
+    display: flex;
+    gap: 5px;
+}
+
+.ItemsPropertyVertical .Items .iC .RentContract img {
+    width: 40px;
+    height: auto;
+}
+
+.ItemsPropertyVertical .Items .iC .RentContract .iText {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.ItemsPropertyVertical .Items .iC .RentContract .iLabel {}
+
+.ItemsPropertyVertical .Items .iC .RentContract .iNumber {
+    font-weight: bold;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+.ItemsPropertyVertical .Items .iC .RentContract .iUnit {
+    font-weight: normal;
+    font-size: .9rem;
+    background: #ffffff;
+    padding: 2px 5px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--fibc);
+}
+
+.ItemsPropertyVertical .Items .iD {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-bottom: var(--borderbottom);
+    padding-bottom: var(--spacebottom);
+}
+
+.ItemsPropertyVertical .Items .iD .a {
+    display: flex;
+    justify-content: left;
+    flex-wrap: wrap;
+    gap: 3vw;
+}
+
+.ItemsPropertyVertical .Items .iD .iField {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.ItemsPropertyVertical .Items .iD .b {}
+
+.ItemsPropertyVertical .Items .iE {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ItemsPropertyVertical .Items .iE .fLastTime {
+    font-size: .8rem;
+}
+
+.ItemsPropertyVertical .Items .iE .fLastTime .sfTimeDay {
+    font-style: italic;
+}
+
+.ItemsPropertyVertical .Items .iE .bTools {}
+
+.ItemsPropertyVertical .Items .iE .bTools .iBtn {
+    /* text-decoration: underline; */
+    /* font-weight: bold; */
+    /* color: blue; */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.ItemsPropertyVertical .Items .iE .bTools .iBtn i {
+    margin-top: 4px;
+    color: blue;
+}
+
+.ItemsPropertyVertical .Items .iE .bTools .iBtn span {
+    text-decoration: underline;
+}
+
+/*ed ItemsPropertyVertical*/
+
+/*BG InfoHolder*/
+.PropertyRightView .ContactHolderHtml {
+    padding: 10px;
+    border-top: 1px solid var(--ColorHightline);
+}
+
+.PropertyRightView .ContactHolderHtml .HolderTitle {
+    /* font-weight: bold; */
+    text-transform: uppercase;
+    /* color: var(--ColorHightline); */
+    /* text-decoration: underline; */
+    /* background: var(--BgHtml); */
+    width: max-content;
+    border-radius: 3px;
+    font-size: .9rem;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-left: 55px;
+    display: none;
+}
+
+.PropertyRightView .InfoHolder {}
+
+.PropertyRightView .InfoHolder .Items {
+    display: grid;
+    grid-template-columns: 75px 1fr;
+    gap: 5px;
+    align-items: center;
+}
+
+.PropertyRightView .InfoHolder .Items .Avatar {
+    background: var(--BgHtml);
+    border-radius: var(--Radius_Input);
+}
+
+.PropertyRightView .InfoHolder .Items .Avatar .hiddenTip {}
+
+.PropertyRightView .InfoHolder .Items .Avatar .hiddenTip img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--Radius_Input);
+}
+
+.PropertyRightView .InfoHolder .Items .iText {
+    \: wrap;
+}
+
+.PropertyRightView .InfoHolder .Items .iText .iPositionDepartment {
+    font-size: .9rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.PropertyRightView .InfoHolder .Items .iText .iPositionName {
+    font-style: italic;
+}
+
+.PropertyRightView .InfoHolder .Items .iText .iDepartmentName {
+    font-weight: bold;
+}
+
+.PropertyRightView .InfoHolder .Items .iText .iName {
+    text-transform: uppercase;
+}
+
+.PropertyRightView .InfoHolder .Items .iText .iName .iCode {
+    display: none;
+}
+
+.PropertyRightView .InfoHolder .Items .iText .iEmail {
+    display: none;
+}
+
+.PropertyRightView .InfoHolder .Items .iText .iPhone {}
+
+.PropertyRightView .InfoHolder .Items .iText .iPhone a {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: var(--ColorHightline);
+}
+
+.PropertyRightView .InfoHolder .Items .iText .iFaceBookLink {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    color: #0b0bc8;
+    flex-basis: auto;
+}
+
+.PropertyRightView .InfoHolder .Items .iText .iFaceBookLink i {
+    background: #0b0bc8;
+    color: #fff;
+}
+
+/*ED InfoHolder*/
+
+/*bg IconHotProperty*/
+.IconHotProperty {
+    position: relative;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.IconHotProperty img {
+    width: 20px;
+    margin: auto;
+    position: relative;
+    left: 0;
+    right: 0;
+}
+
+.IconHotProperty .ilabel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #019b01;
+    text-shadow: 1px 1px #007000;
+    color: #fff;
+    font-weight: bold;
+    padding: 2px 3px;
+    white-space: nowrap;
+    font-size: 11px;
+    width: max-content;
+    margin: auto;
+    /* transform: rotate(352deg); */
+    /* border-radius: 50px; */
+    transform: skew(-10deg) rotate(350deg);
+    transform: skew(-10deg);
+}
+
+/*ed IconHotProperty*/
+
+/*bg HotTextProperty*/
+.HotTextProperty {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    width: max-content;
+    margin-bottom: 10px;
+}
+
+.HotTextProperty img {
+    width: 15px;
+    margin: auto;
+    position: relative;
+    left: 0;
+    right: 0;
+    margin-top: -8px;
+}
+
+.HotTextProperty .iLabel {
+    background: #019b01;
+    text-shadow: 1px 1px #007000;
+    color: #fff;
+    font-weight: bold;
+    padding: 2px 3px;
+    white-space: nowrap;
+    font-size: 11px;
+    width: max-content;
+    /* margin: auto; */
+    transform: skew(-10deg);
+}
+
+/*ed HotTextProperty*/
+
+/*bg PP-EditAddItemPropertyPage*/
+.PP-EditAddItemPropertyPage {
+    display: grid;
+    gap: 20px;
+}
+
+.PP-EditAddItemPropertyPage .WarningEmpty {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    border-radius: var(--Radius_Input);
+    text-align: center;
+    background: var(--ColorHightlineOpa);
+    border: 1px dashed var(--ColorHightline);
+}
+
+.PP-EditAddItemPropertyPage .WarningEmpty i {
+    font-size: 2rem;
+    color: var(--ColorHightline);
+}
+
+.PP-EditAddItemPropertyPage .CurListPP {
+    padding: 20px 0;
+    border: 1px dashed var(--fibc);
+    padding: 10px;
+    border-radius: var(--Radius_Input);
+}
+
+.PP-EditAddItemPropertyPage .CurListPP .Grid {
+    display: grid;
+    gap: 5px;
+}
+
+.PP-EditAddItemPropertyPage .CurListPP .iLbl {
+    text-decoration: underline;
+    margin-bottom: 10px;
+    color: var(--ColorHightline);
+    font-weight: bold;
+    font-style: italic;
+}
+
+.PP-EditAddItemPropertyPage .CurListPP .Items {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.PP-EditAddItemPropertyPage .CurListPP .Items i {}
+
+.PP-EditAddItemPropertyPage .CurListPP .Items h3 {
+    font-weight: normal;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+.PP-EditAddItemPropertyPage .CurListPP .Items .ItemColor {
+    padding: 3px;
+    padding-left: 10px;
+    font-size: .8rem;
+    border-left-width: 1px;
+    border-left-style: solid;
+    width: max-content;
+    padding-right: 10px;
+}
+
+.PP-EditAddItemPropertyPage .FormForChoose {
+    display: grid;
+    gap: 30px
+}
+
+.PP-EditAddItemPropertyPage.HasCreateNew .FormForCreate {
+    display: grid;
+    gap: 30px
+}
+
+.PP-EditAddItemPropertyPage:not(.HasCreateNew) .FormForCreate {
+    display: none;
+}
+
+.PP-EditAddItemPropertyPage.HasCreateNew .HideWhenCreate {
+    display: none;
+}
+
+/*ed PP-EditAddItemPropertyPage*/
+
+.PP-EditFollowProperty.HasCreateNew .FormForCreate {
+    display: grid;
+    gap: 30px
+}
+
+.PP-EditFollowProperty:not(.HasCreateNew) .FormForCreate {
+    display: none;
+}
+
+.PP-EditFollowProperty.HasCreateNew .HideWhenCreate {
+    display: none;
+}
+
+
+.PropertyRightView .Real {
+    margin-top: 10px;
+    width: 100%;
+    max-width: 600px;
+    margin-left: 20px;
+    border-radius: 10px;
+    padding-bottom: 50px;
+    max-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.PropertyRightView .Real::-webkit-scrollbar {
+    width: 1px;
+}
+
+
+.PropertyRightView .Real .Realw {
+    border: solid 0.5px rgb(247, 76, 9);
+    border-radius: 10px;
+    /* padding: 20px; */
+}
+
+.SizeIcon {
+    font-size: 1.2rem;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.SizeIcon.Edit {
+    color: red;
+}
+
+.PropertyRightView .Real .Realw .top {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    /* border-bottom: solid 1px rgb(167, 165, 165); */
+    /* padding-bottom: 15px; */
+    gap: 20px;
+    align-items: center;
+    padding: 10px;
+    background: var(--Def-BgThead);
+}
+
+@media screen and (max-width:500px) {
+    .PropertyRightView .Real .Realw .top {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.PropertyRightView .Real .Realw .top .right .SizeIcon span {
+    font-style: italic;
+}
+
+.PropertyRightView .Real .Realw .top .left {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    /* flex: 1; */
+}
+
+@media screen and (max-width:900px) {
+    .PropertyRightView .Real {
+        width: 90%;
+        margin: auto;
+    }
+}
+
+.PropertyRightView .Real .Realw .bdy {
+    margin-top: 15px;
+    margin-left: 15px;
+}
+
+.PropertyRightView .Real .Realw .bdy .Content .pText {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.PopupReal {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    border-radius: 5px;
+    height: auto;
+    visibility: hidden;
+    opacity: 0;
+    transition: all .3s;
+    z-index: 999999999999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #0000008f;
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+}
+
+.PopupReal.Show {
+
+    visibility: visible;
+    opacity: 1;
+}
+
+.PopupReal .W {
+    background: #fff;
+    border-radius: 5px;
+    padding: 50px;
+    position: relative;
+}
+
+.PopupReal .Close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: flex;
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: solid 1px red;
+    cursor: pointer;
+}
+
+.PopupReal .Close i {
+    font-size: 1.2rem;
+}
+
+.PopupReal .Grid {
+    /* margin-top: 10px; */
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.PopupReal .Grid .BtnLink {
+    margin-top: 10px;
+}
+
+
+
+.RealInfo {
+    width: 600px;
+    /* max-width: 600px; */
+    /* height: auto; */
+}
+
+.RealInfo .Top {
+    background: #7c3dbe;
+    padding: 20px;
+}
+
+.RealInfo .Top img {
+    width: 100%;
+}
+
+.RealInfo .Topx {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.RealInfo .Topx .pName {
+    background: green;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.RealInfo .Topx .pPhone {
+    background: rgb(161, 3, 3);
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.RealInfo .pAddress {
+    color: rgb(204, 7, 7);
+    text-transform: uppercase;
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+    width: 90%;
+    margin: auto;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+
+.RealInfo .pFot {
+    padding: 0 20px;
+    margin-bottom: 30px;
+}
+
+.RealInfo .pFot .Infomation {
+    border-bottom: solid 1px rgb(179, 6, 6);
+}
+
+.RealInfo .pFot .Infomation p {
+    color: #fff;
+    background: rgb(179, 6, 6);
+    width: 50%;
+    padding: 10px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.RealInfo .pMoney {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 20px;
+}
+
+.RealInfo .pMoney .pItems .tText {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.RealInfo .pMoney .pItems .tNum {
+    font-size: 2rem;
+    color: rgb(179, 6, 6);
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.RealInfo .iFBot {
+    margin: 20px 0;
+    padding: 0 20px;
+}
+
+.RealInfo .iFBot .pTx {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+
+
+.RealInfo .Banner {
+    position: relative;
+}
+
+.RealInfo .Banner .bImg {
+    position: relative;
+    max-height: 800px;
+    overflow: hidden;
+}
+
+.RealInfo .Banner .bImg img {
+    width: 100%;
+    height: auto;
+    /* height: 600px; */
+    max-width: unset;
+    object-fit: cover;
+    object-position: center;
+}
+
+.RealInfo .Banner .GroupPers {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50%;
+}
+
+.RealInfo .Banner .GroupPers .Logo {
+    background: #7c3dbe;
+    padding: 10px;
+}
+
+.RealInfo .Banner .GroupPers .Logo img {
+    width: 100%;
+}
+
+.RealInfo .Banner .GroupPers .Topx {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.RealInfo .Banner .GroupPers .Topx .pName,
+.RealInfo .Banner .GroupPers .Topx .pPhone {
+    font-size: 0.8rem !important;
+}
+
+.RealInfo .bAddress {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.RealInfo .bAddress p {
+    color: rgb(204, 7, 7);
+    text-transform: uppercase;
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+    width: 95%;
+    margin: auto;
+    text-align: center;
+}
+
+.RealInfo .bFoot {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 20px;
+}
+
+.RealInfo .bFoot .Left .Inforeal {
+    background: #0f6103;
+    color: #fff;
+    width: 70%;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 10px 20px;
+}
+
+.RealInfo .bFoot .Left .pPrices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 15px;
+}
+
+.RealInfo .bFoot .Left .pPrices .tNum {
+    color: rgb(206, 12, 12);
+    font-size: 1.3rem;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.RealInfo .bFoot .Right {
+    border-left: solid 1px red;
+}
+
+.RealInfo .bFoot .Right .gText {
+    margin-top: 30px;
+    margin-left: 30px;
+    margin-bottom: 30px;
+}
+
+.RealInfo .bFoot .Right .pTx {
+    margin-bottom: 10px;
+}
+
+
+
+.icon i.spin {
+    position: relative;
+}
+
+.icon i.spin::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -27px;
+    margin: auto;
+    width: 25px;
+    height: 25px;
+    bottom: 0;
+    margin-right: -7px;
+    margin-top: 20px;
+    border: 2px solid #cccccc;
+    border-top: 2px solid #046ea0;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* 
+@media screen and (min-width:1500px) {
+    .PropertyRightView .Real {
+        position: fixed;
+        left: 40px;
+        background: #fff;
+        top: 0;
+        height: max-content;
+        bottom: 0;
+        max-width: 500px;
+        margin: auto;
+        width: 500px;
+        margin-top: auto;
+    }
+
+    .PropertyRightView .Real .Realw .top {
+       grid-template-columns: 1fr 100px 1fr;
+    }
+    .PropertyRightView .Real .Realw .top .mid.None{
+       
+    }
+
+} */
+
+/* .Eff {
+    position: relative;
+    display: inline-block;
+    padding: 10px;
+}
+
+.Eff::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: 2px solid #000;
+    transform: translate(-50%, -50%);
+    animation: borderExpand 2s infinite;
+}
+
+@keyframes borderExpand {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    50% {
+        width: 100%;
+        height: 100%;
+        opacity: 0.5;
+    }
+    100% {
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+} */
+
+/* .Tab-nav-items.active .Eff {
+    font-size: 1rem;
+    font-weight: bold; 
+    color: #fff; 
+    display: inline-block; 
+    border-radius: 5px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+} */
+
+.WaMarketting {
+    position: relative;
+    width: 100px;
+}
+
+
+#dot {
+    width: 10px;
+    height: 10px;
+    background-color: #ce3227;
+    border-radius: 100%;
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+    display: block;
+}
+
+#dot .ping {
+    border: 1px solid #fff;
+    width: 10px;
+    height: 10px;
+    opacity: 1;
+    background-color: rgba(221, 52, 40, 0.45);
+    border-radius: 100%;
+    -webkit-animation-duration: 1.25s;
+    animation-duration: 1.25s;
+    -webkit-animation-name: sonar;
+    animation-name: sonar;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+    display: block;
+}
+
+@-webkit-keyframes sonar {
+    0% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+
+    100% {
+        -webkit-transform: scale(4);
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+@keyframes sonar {
+    0% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+
+    100% {
+        -webkit-transform: scale(4);
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+.PopupMarketting {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 50px;
+}
+
+.PopupMarketting .Marketting {
+    background: #fff;
+    width: 600px;
+    max-width: 600px;
+}
+
+.PopupMarketting .Marketting .GroupEs {
+    position: relative;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.PopupMarketting .Marketting .GroupEs .GroupTop {
+    position: relative;
+}
+
+
+.PopupMarketting .Marketting .GroupEs .GroupTop .EImg {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.PopupMarketting .Marketting .GroupEs .GroupTop .EImg .GroupImages {
+    /* display: flex;
+    transition: transform 0.3s ease-in-out;
+    width: 100%; */
+}
+
+.GroupImages .r-btn {
+    width: 30px;
+    height: 30px;
+    background: #ffff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    border: none;
+}
+
+.PopupMarketting .Marketting .GroupEs .GroupTop .EImg .GroupImages .owl-nav .r-prev {}
+
+.PopupMarketting .Marketting .GroupEs .GroupTop .EImg .GroupImages .owl-nav .r-next {}
+
+.PopupMarketting .Marketting .GroupEs .GroupTop .EImg .GroupImages img {
+    width: 100%;
+    max-height: 60vh;
+    object-fit: cover;
+}
+
+
+
+
+.PopupMarketting .Marketting .GroupEs .GroupTop .Logo {
+    position: absolute;
+    top: 46%;
+    z-index: 10;
+    cursor: move;
+    width: 50%;
+    left: 0;
+    right: 0;
+    margin: auto;
+
+}
+
+.PopupMarketting .Marketting .GroupEs .GroupTop .Logo img {
+    width: 100%;
+    height: auto;
+    opacity: 0.5;
+}
+
+.PopupMarketting .Marketting .GroupEs .GroupTop .Sales {
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    z-index: 10
+}
+
+.IndexHight {
+    z-index: 20 !important;
+}
+
+.PopupMarketting .Marketting .GroupEs .GroupTop .TypeTitle {
+    position: absolute;
+    top: 65%;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    margin: auto;
+    cursor: move;
+    width: 60%;
+}
+
+.PopupMarketting .Marketting .GroupEs .GroupTop .TypeTitle .Types {
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 2rem;
+    -webkit-text-stroke: 0.5px black;
+    text-shadow: 2px 2px 4px black;
+    width: 100%;
+    margin: auto;
+}
+
+
+.PopupMarketting .Marketting .GroupEs .GroupTop .GTitle {
+    position: absolute;
+    top: 72%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 10;
+    cursor: move;
+    width: 66%;
+}
+
+.PopupMarketting .Marketting .GroupEs .GroupTop .GTitle .pTitle {
+    color: #fff;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-top: 20px;
+    -webkit-text-stroke: 0.5px black;
+    text-shadow: 2px 2px 4px black;
+    width: 100%;
+    margin: auto;
+}
+
+.PopupMarketting .Marketting .GroupEs .GroupTop .Contract {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    top: 85%;
+    z-index: 10;
+    cursor: move;
+}
+
+.PopupMarketting .Marketting .GroupEs .GroupTop .Contract .GroupContract {
+    display: flex;
+    gap: 5px;
+    background: #fff;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.PopupMarketting .Marketting .GroupEs .GroupTop .Contract .GroupContract .ContractNumber {
+    font-weight: bold;
+
+}
+
+.PopupMarketting .Marketting .GroupEs .GroupTop .Contract .CName {
+    background: #ffff;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1.2rem;
+}
+
+.PopupMarketting .Marketting .GroupEs .GroupTop .Contract .cus-area.CName {
+    background: unset;
+    font-weight: bold;
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.PopupMarketting .Marketting .GroupEs .GroupTop .Cirl {
+    position: relative;
+}
+
+.PopupMarketting .Marketting .GroupEs .GroupTop .GroupCircle {
+    position: absolute;
+    right: 15%;
+    top: 75%;
+    z-index: 10;
+    cursor: move;
+}
+
+.PopupMarketting .Marketting .GroupEs .GroupTop .GroupCircle .GroupFix {
+    position: relative;
+}
+
+.PopupMarketting .Marketting .GroupEs .GroupTop .GroupCircle .GroupFix .CirlW {
+    position: absolute;
+    left: -15px;
+    background: var(--Color1);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    top: 0;
+}
+
+.PopupMarketting .Marketting .GroupEs .GroupTop .GroupCircle .GroupFix .CirlW .SNum {
+    font-weight: bold;
+    font-size: 2.2rem;
+    color: #fff;
+    padding: 0 5px;
+    text-align: center;
+}
+
+.PopupMarketting .Marketting .GroupEs .GroupTop .GroupCircle .GroupFix .CirlW .SNum .PricesUnit {
+    font-size: 1.2rem;
+}
+
+.PopupMarketting .Marketting .GroupEs .GroupTop .GroupCircle .GroupFix .ClilerTs {
+    width: 110px;
+    height: 110px;
+    background: #ffff;
+    opacity: 0.5;
+    border-radius: 50%;
+    position: absolute;
+    right: -110px;
+    top: -15px;
+    z-index: 2;
+}
+
+.TextSizeTitle {
+    color: #fff;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-top: 20px;
+    -webkit-text-stroke: 0.5px black;
+    text-shadow: 2px 2px 4px black;
+    width: 100%;
+    margin: auto;
+}
+
+.PopupMarketting .Marketting .GroupBot {
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    gap: 10px;
+}
+
+.PopupMarketting .Marketting .GroupBot .Personnels {
+    /* border-right: solid 1px #636161; */
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.PopupMarketting .Marketting .GroupBot .Personnels .PImg {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: solid 1px #ffff;
+    position: absolute;
+    z-index: 10;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: -5px;
+}
+
+.PopupMarketting .Marketting .GroupBot .Personnels .PImg img {
+    width: 100%;
+    height: 100px;
+    border-radius: 50%;
+    padding: 1px;
+}
+
+.PopupMarketting .Marketting .GroupBot .Personnels .GroupInfos {
+    margin-top: 50px;
+    margin-bottom: 15px;
+}
+
+.PopupMarketting .Marketting .GroupBot .Personnels .GroupInfos .pNames {
+    font-weight: bold;
+    font-size: 1.3rem;
+    text-align: center;
+}
+
+.PopupMarketting .Marketting .GroupBot .Personnels .GroupInfos .pPhone {
+    font-weight: bold;
+    font-size: 1.4rem;
+    text-align: center;
+}
+
+.PopupMarketting .Marketting .GroupBot .Personnels .Logof {
+    width: 90%;
+    margin: auto;
+}
+
+.PopupMarketting .Marketting .GroupBot .Personnels .Logof img {
+    width: 100%;
+    height: auto;
+}
+
+.PopupMarketting .Marketting .GroupBot .Content {
+    border-left: solid 1px var(--BgHtml);
+}
+
+.PopupMarketting .Marketting .GroupBot .Content .MContent {
+    padding: 30px 20px;
+}
+
+.PopupMarketting .Marketting .GroupBot .Content .MContent .pTx {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+
+
+
+.GroupClick .jprev {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    background-color: #ffff;
+
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.GroupClick .jnext {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background-color: #ffff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.GroupClick .slider-button i {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.PopupMarketting .Download .jAddText {
+    border: none;
+    /* border-radius: 50%; */
+    background: var(--Color3);
+    color: #fff;
+    /* height: 30px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-left: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.PopupMarketting .Download .Up {
+    border: none;
+    /* border-radius: 50%; */
+    background: var(--Color1);
+    color: #fff;
+    /* height: 30px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-left: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.PopupMarketting .PuMarkettingW .Download {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 5px;
+}
+
+
+
+
+.rwl.rwl-Banner .owl-stage-outer {}
+
+.rwl.rwl-Banner.owl-drag .owl-item {}
+
+.rwl.rwl-Banner.owl-drag .owl-item.active {
+    opacity: 1;
+    transition-delay: 0s;
+    filter: blur(0px);
+}
+
+.rwl-Banner.rwl {}
+
+.rwl-Banner.rwl .r-btn {
+    bottom: 0;
+    top: 0;
+    margin: auto;
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    position: absolute;
+    border: 1px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    cursor: pointer;
+}
+
+@media (hover:hover) and (pointer:fine) {
+    .rwl-Banner.rwl .r-btn:hover {}
+}
+
+.rwl-Banner.rwl .r-next {
+    right: 3%;
+}
+
+.rwl-Banner.rwl .r-prev {
+    left: 3%;
+}
+
+.rwl-Banner.rwl .owl-dots {
+    bottom: 3%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: max-content;
+    gap: 5px;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.rwl-Banner.rwl .r-btn span {
+    font-weight: bold;
+    font-size: 21px;
+    display: flex;
+    text-shadow: 1px 1px 8px #ccc;
+}
+
+.rwl-Banner.rwl .owl-dots .owl-dot span {
+    border-radius: 100%;
+    width: 15px;
+    height: 15px;
+    border: 1px solid;
+}
+
+.rwl-Banner.rwl .owl-dots .owl-dot.active span {
+    background: var(--Color1);
+    border-color: var(--Color1);
+}
+
+.WarapEditText {
+    margin-bottom: 40px;
+}
+
+.TextArea_Append {
+    width: 100% !important;
+    height: auto;
+    border: 1px dashed var(--BgHtml);
+    border-radius: 5px;
+    background: unset;
+    text-align: center;
+}
+
+.edit-container {
+    position: relative;
+}
+
+.edit-container .GroupKnt {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: auto;
+    display: flex;
+    gap: 10px;
+}
+
+.PlusT {
+    /* border: 1px dashed var(--BgHtml); */
+    width: 30px;
+    height: 30px;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: solid 0.5px #fff;
+    cursor: pointer;
+    font-size: 1rem !important;
+}
+
+.TextArea_Append:focus {
+    outline: none;
+    border: 1px dashed var(--BgHtml);
+}
+
+.MContent .mce-panel {
+    border: solid 0.5px var(--BgHtml);
+}
+
+.ContentText {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%);
+    z-index: 11;
+}
+
+.ContentText .TbsText {
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.8rem;
+    cursor: move;
+    -webkit-text-stroke: 0.5px black;
+    text-shadow: 2px 2px 4px black;
+}
+
+.btn-sm {
+    border: none;
+    padding: 10px;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.save-btn {
+    background: var(--Color1);
+}
+
+.cancel-btn {
+    background: rgb(172, 4, 4);
+}
+
+.Btn-Set {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+
+.gDownload i.spin {
+    position: relative;
+}
+
+.gDownload i.spin::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -28px;
+    margin: auto;
+    width: 25px;
+    height: 25px;
+    bottom: 0;
+    margin-right: -8px;
+    margin-top: 20px;
+    border: 2px solid #cccccc;
+    border-top: 2px solid #046ea0;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+.ImgPrinting .owl-nav {
+    display: none;
+}
+
+
+/* BG InfoSearchPersonnels   */
+.Search-Property .InfoSearchPersonnels {
+    display: grid;
+    align-items: center;
+    gap: 1vw;
+    background: #fff;
+    border-radius: var(--Radius_Input);
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 10px;
+    box-shadow: var(--BoxShadow);
+}
+
+
+.Search-Property .InfoSearchPersonnels .AvatarBox {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border-right: 1px solid var(--BgHtml);
+}
+
+.Search-Property .InfoSearchPersonnels .Avatar {
+    width: 45px;
+    background: var(--BgHtml);
+    border-radius: var(--Radius_Input);
+}
+
+.Search-Property .InfoSearchPersonnels .Avatar img {
+    width: 100%;
+    height: auto;
+}
+
+.Search-Property .InfoSearchPersonnels .bText {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.Search-Property .InfoSearchPersonnels .bText .pCode {
+    background: var(--Color1);
+    color: #fff;
+    padding: 2px;
+    border-radius: 3px;
+}
+
+.Search-Property .InfoSearchPersonnels .bText .pName {
+    font-weight: bold;
+}
+
+.Search-Property .InfoSearchPersonnels .bText .pPhone {}
+
+:root .InfoSearchPersonnels {
+    --ColorAddProperty: #ff1e00;
+    --ColorUpdateProperty: #0099ff;
+}
+
+.Search-Property .PerBoxChart {
+    display: grid;
+    gap: 10px;
+    align-items: center;
+    grid-template-columns: 92px 1fr;
+}
+
+.Search-Property .PerBoxChart .pChartTitle {}
+
+.Search-Property .PerBoxChart .pChart {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.Search-Property .PerBoxChart .pChartAdd,
+.Search-Property .PerBoxChart .pChartUpdate {
+    color: #fff;
+    height: 5px
+}
+
+.Search-Property .PerBoxChart .pChartAdd {
+    background: var(--ColorAddProperty);
+}
+
+.Search-Property .PerBoxChart .pChartUpdate {
+    background: var(--ColorUpdateProperty);
+}
+
+.Search-Property .PerBoxChart .pChartDes {
+    display: flex;
+    margin-top: 5px;
+    gap: 10px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.Search-Property .PerBoxChart .pChartDes .DesItem {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.Search-Property .PerBoxChart .pChartDes .DesItem span {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    border-radius: 100%;
+}
+
+.Search-Property .PerBoxChart .pChartDes .DesItem.DesAdd span {
+    background: var(--ColorAddProperty);
+}
+
+.Search-Property .PerBoxChart .pChartDes .DesItem.DesUpdate span {
+    background: var(--ColorUpdateProperty);
+}
+
+@media screen and (max-width:1050px) {
+    .Search-Property .InfoSearchPersonnels {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .Search-Property .PerBoxChart {
+        grid-column: 1 / -1;
+        border-top: 1px solid var(--BgHtml);
+        padding-top: 20px;
+    }
+}
+
+@media screen and (max-width:900px) {
+    .Search-Property .InfoSearchPersonnels {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .Search-Property .InfoSearchPersonnels .AvatarBox {
+        border-right: unset;
+        border-bottom: 1px solid var(--BgHtml);
+        padding-bottom: 20px;
+    }
+
+    .Search-Property .PerBoxChart {
+        grid-column: unset;
+    }
+}
+
+/* ED InfoSearchPersonnels   */
+
+
+/* Khánh Sky Popup */
+
+/* .SlideModeArea.Property .PopupLookup{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(44, 44, 44, 0.8);
+    opacity: 0;
+    visibility: hidden;
+    transition: .3s all
+}
+
+.SlideModeArea.Property .PopupLookup.active{
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+} */
+
+.PopupLookup .LookupContent {
+    background: #fff;
+    padding: 20px;
+}
+
+.PopupLookup .LookupContent .kWrap {}
+
+.RockerPopup.PopupLookup .Content .pBody {
+    background: unset !important;
+    padding: unset !important;
+}
+
+.PopupLookup .LookupContent .kWrap .navtop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgb(238, 235, 235);
+    padding: 8px 15px;
+}
+
+.PopupLookup .LookupContent .kWrap .navtop .jClose {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: grey;
+    cursor: pointer;
+    color: #fff;
+}
+
+.PopupLookup .LookupContent .kWrap .navtop .kTitle {
+    font-weight: bold;
+    font-size: .9rem;
+    text-transform: uppercase;
+}
+
+.PopupLookup .LookupContent .kWrap .kContentTop {
+    width: 95%;
+    margin: auto;
+    padding: 10px 0;
+    display: grid;
+    gap: 10px;
+}
+
+.PopupLookup .LookupContent .kWrap .kContentTop .kNic {
+    display: grid;
+    grid-template-columns: 25px 1fr;
+    gap: 5px;
+}
+
+.PopupLookup .LookupContent .kWrap .kContentTop .kNum {
+    color: #fff;
+    background: rgb(252, 37, 37);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.PopupLookup .LookupContent .kWrap .kContentTop .kText .kClored {
+    color: red;
+}
+
+
+.PopupLookup .LookupContent .kWrap .kContentTop .kText .kClored.Upc {
+    text-transform: uppercase;
+}
+
+.PopupLookup .LookupContent .kWrap .GroupBanking {
+    width: 95%;
+    margin: auto;
+    border: solid 0.5px var(--ColorGray);
+    padding: 0px 20px;
+    display: grid;
+    grid-template-columns: 1fr 150px;
+    gap: 10px;
+}
+
+@media screen and (max-width:900px) {
+    .PopupLookup .LookupContent .kWrap .GroupBanking {
+        grid-template-columns: 1fr;
+    }
+}
+
+.PopupLookup .LookupContent .kWrap .GroupBanking .gBankingImg {
+    display: inline-block;
+    border-bottom: solid 0.5px var(--ColorGray);
+    width: 302px;
+}
+
+.PopupLookup .LookupContent .kWrap .GroupBanking .gBankingImg .gLineBK {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    gap: 10px;
+    padding: 15px 0;
+    /* border-bottom: solid 0.5px var(--ColorGray); */
+}
+
+.PopupLookup .LookupContent .kWrap .GroupBanking .gBankingImg .kImg img {
+    width: 100%;
+    height: 100%;
+}
+
+.PopupLookup .LookupContent .kWrap .GroupBanking .gBankingImg .BankingName {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.PopupLookup .LookupContent .kWrap .GroupBanking .GridTransaction {
+    /* display: grid;
+    grid-template-columns: 1fr 150px;
+    gap: 10px; */
+}
+
+@media screen and (max-width:900px) {
+    .PopupLookup .LookupContent .kWrap .GroupBanking .GridTransaction {
+        grid-template-columns: 1fr .3fr;
+    }
+}
+
+.PopupLookup .LookupContent .kWrap .GroupBanking .GroupP {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+.PopupLookup .LookupContent .kWrap .GroupBanking .GroupP .kList {
+    display: grid;
+    grid-template-columns: .6fr 1fr;
+    gap: 10px;
+}
+
+@media screen and (max-width:900px) {
+    .PopupLookup .LookupContent .kWrap .GroupBanking .GroupP .kList {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.PopupLookup .LookupContent .kWrap .GroupBanking .BankQr {
+    margin-top: 12px;
+}
+
+.PopupLookup .LookupContent .kWrap .GroupBanking .BankQr img {
+    width: 100%;
+    height: auto;
+}
+
+@media screen and (max-width:900px) {
+    .PopupLookup .LookupContent .kWrap .GroupBanking .BankQr img {
+        width: 50%;
+        height: auto;
+    }
+}
+
+.PopupLookup .LookupContent .kWrap .kBot {
+    background: rgb(247, 245, 245);
+    padding: 10px 0;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* End Khánh Sky */
+
+/* BG Công */
+
+.SlideModeArea.Property .MorePerInfo {
+    vertical-align: middle;
+}
+
+#tooltip .ItemsPerToolTip {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    background: rgb(255 255 255 / 80%);
+    border-radius: 5px;
+    padding: 10px 5px;
+    gap: 5px;
+}
+
+#tooltip .StatusInfoPerToolTip {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.TableShowProperty .LocalNameBox {
+    display: flex;
+    gap: 5px;
+}
+
+.TableShowProperty .LocalNameBox .TdiLocaName.Highlight {
+    color: var(--ColorHightline);
+}
+
+/* ED Công */
