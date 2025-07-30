@@ -188,6 +188,10 @@ function formatNumber($number) {
                 </div>
                 
                 <div class="space-y-2">
+                    <button id="add-contact-button" class="px-4 py-2 bg-gray-100 text-gray-700 py-6 rounded-md hover:bg-gray-200 flex items-center justify-center space-x-2">
+                        <i class="fas fa-address-book"></i>
+                        <span>Thêm Thông Tin Liên Hệ</span>
+                    </button>
                     <?php foreach ($model->ownerContacts as $contact): ?>
                         <?php
                         if ($contact->gender_id == 2) {
@@ -229,20 +233,39 @@ function formatNumber($number) {
                     <div id="vi-tri-mat-tien" class="tab-sub-content space-y-4">
                         <div class="flex items-start justify-between">
                             <p class="text-gray-700 copy-text" id="vi-tri-text">
-                                Nhà có diện tích <?= formatNumber($model->area_width) ?>m × <?= formatNumber($model->area_length) ?>m, khu trung tâm kinh doanh buôn bán, tiện kinh doanh đa ngành nghề
+                                Nhà  <b><?= formatPriceUnit($model->price) ?> </b> có diện tích <?= formatNumber($model->area_width) ?>m × <?= formatNumber($model->area_length) ?>m, 
+                                <?php if (!empty($model->propertyAdvantages)): ?>
+                                    <?php
+                                        $advantages = array_map(function($item) {
+                                            return $item->advantage->name;
+                                        }, $model->propertyAdvantages);
+
+                                        echo implode(', ', $advantages);
+                                    ?>
+                                <?php endif; ?>
+                                <?php if (!empty($model->propertyDisadvantages)): ?>
+                                    <?php
+                                        echo ', ';
+                                        $advantages = array_map(function($item) {
+                                            return $item->disadvantage->disadvantage_name; 
+                                        }, $model->propertyDisadvantages);
+
+                                        echo implode(', ', $advantages);
+                                    ?>
+                                <?php endif; ?>
                             </p>
                             <button class="ml-4 text-gray-500 hover:text-gray-700 flex items-center text-sm copy-btn" data-copy-target="#vi-tri-text">
                                 <i class="far fa-copy mr-1"></i> Copy
                             </button>
                         </div>
-
-                        <p class="text-gray-700">
-                            <?= formatPriceUnit($model->price) ?> (<?= formatNumber($model->area_width) ?>m × <?= formatNumber($model->area_length) ?>m)
-                        </p>
-
-                        <button class="px-4 py-2 bg-red-100 text-red-700 text-sm font-medium rounded-full hover:bg-red-200">
-                            Đánh dấu Hot
-                        </button>
+                        <?php if (!empty($model->transaction_description)): ?>
+                            <div class="flex space-x-4 mb-4 ">
+                                <button class="tab-sub-button px-4 py-2 text-sm font-medium rounded-full bg-orange-100 text-orange-700">Ghi chú</button>
+                            </div>
+                            <div class="flex items-start" >
+                                <p  class="ml-4" > <?= \yii\helpers\Html::decode($model->transaction_description) ?> </p>
+                            </div>
+                        <?php endif; ?>
                     </div>
 
                     <div id="loai-tai-san-ca-nhan" class="tab-sub-content hidden space-y-4">
@@ -297,38 +320,6 @@ function formatNumber($number) {
 
 
         <div class="lg:col-span-1 space-y-6">
-             <!-- User Info Card -->
-            <div class="bg-white p-6 rounded-lg shadow-md space-y-4">
-                <p class="text-sm text-gray-500"><?=  Yii::$app->formatter->asRelativeTime(Yii::$app->user->identity->updated_at) ?> | <?= Yii::$app->user->identity->username ?> | <?= Yii::$app->user->identity->full_name ?> | <?= Yii::$app->user->identity->phone ?></p>
-                <button id="add-contact-button" class="w-full py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 flex items-center justify-center space-x-2">
-                    <i class="fas fa-address-book"></i>
-                    <span>Thêm Thông Tin Liên Hệ</span>
-                </button>
-               
-                <div class="space-y-2 flex-col text-blue-600 font-medium">
-                    <?php foreach ($model->ownerContacts as $contact): ?>
-                        <?php
-                        if ($contact->gender_id == 2) {
-                            $iconClass = 'fas fa-venus text-pink-500';
-                        } else {
-                            $iconClass = 'fas fa-mars text-blue-600';
-                        }
-                        ?>
-                        
-                        <div class="flex items-center font-medium contact-entry" data-contact-id="<?= Html::encode($contact->contact_id) ?>">
-                            <i class="<?= $iconClass ?> mr-2 w-4 text-center"></i>
-                            <span class="text-gray-800 contact-info cursor-pointer hover:text-blue-600" title="Click to reveal phone number">
-                                <?= Html::encode($contact->contact_name) ?> 
-                                <span class="phone-display">•••••••<?= substr($contact->phone_number, -3) ?></span>
-                                <span class="error-message text-red-600 text-xs ml-2 hidden"></span>
-                            </span>
-                            <span class="ml-2 px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
-                                <?= Html::encode($contact->role->name ?? 'Chủ nhà') ?>
-                            </span>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
 
             <!-- Loại Tài Sản Card -->
             <div class="bg-white p-6 rounded-lg shadow-md space-y-4">
