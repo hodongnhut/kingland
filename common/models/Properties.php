@@ -3,9 +3,10 @@
 namespace common\models;
 
 
-use phpseclib3\File\ASN1\Maps\PrivateKeyInfo;
+
 use Yii;
 use yii\httpclient\Client;
+use yii\helpers\Json;
 // use common\models\AssetTypes;
 
 /**
@@ -79,6 +80,49 @@ class Properties extends \yii\db\ActiveRecord
         parent::init();
         $this->on(self::EVENT_AFTER_INSERT, [$this, 'updateChart']);
         $this->on(self::EVENT_AFTER_UPDATE, [$this, 'callWebhookAfterUpdate']);
+        $this->on(self::EVENT_AFTER_UPDATE, [$this, 'logPropertyUpdate']);
+    }
+
+    public function logPropertyUpdate($event)
+    {
+        $model = $event->sender;
+        if (empty($event->changedAttributes)) {
+            Yii::warning('No changes detected for property ID ' . $model->property_id, 'property_update_log');
+            return;
+        }
+
+        $changedFields = [];
+        foreach ($event->changedAttributes as $field => $oldValue) {
+            $newValue = $this->attributes[$field] ?? null;
+            // Convert both values to strings for comparison
+            $oldValueStr = (string)($oldValue ?? '');
+            $newValueStr = (string)($newValue ?? '');
+            if ($oldValueStr !== $newValueStr) {
+                $changedFields[$field] = [
+                    'old' => $oldValue,
+                    'new' => $newValue
+                ];
+            }
+        }
+
+        if (empty($changedFields)) {
+            Yii::warning('No actual changes detected for property ID ' . $model->property_id, 'property_update_log');
+            return;
+        }
+        try {
+            $log = new PropertyUpdateLog();
+            $log->property_id = $model->property_id;
+            $log->data = $model->property_id;
+            $log->rendered_html_content = Json::encode(\common\helpers\HtmlLogHelper::renderHtmlLog($event));
+            $log->created_at = time();
+            $log->created_by = Yii::$app->user->id ?? null;
+            if (!$log->save(false)) {
+                Yii::error('Failed to save property update log: ' . json_encode($log->errors), 'property_update_log');
+            }
+        } catch (\Throwable $th) {
+            var_dump($th->getMessage()); die;
+            // Yii::error($th->getMessage());
+        }
     }
     public function updateChart($event) {
         $model = $event->sender;
@@ -92,6 +136,9 @@ class Properties extends \yii\db\ActiveRecord
         UserActivities::logActivity(Yii::$app->user->id, 'update_property');
 
         $model = $event->sender;
+
+        $changed = $event->changedAttributes;
+
         if (empty($model->area_total) || empty($model->area_length) || 
             empty($model->area_width) || empty($model->price)) {
             Yii::warning('Webhook skipped: Missing required fields for property ID ' . $model->property_id, 'webhook');
@@ -167,7 +214,7 @@ class Properties extends \yii\db\ActiveRecord
         ];
     }
 
-    private  function formatNumber($number) {
+    public  function formatNumber($number) {
         if ($number === null) {
             return null;
         }
@@ -178,7 +225,7 @@ class Properties extends \yii\db\ActiveRecord
         return (float)$number;
     }
 
-    private  function formatPriceUnit($number) {
+    public  function formatPriceUnit($number) {
         if (!is_numeric($number) || $number <= 0) {
             return 'Thỏa thuận';
         }
@@ -430,5 +477,15 @@ class Properties extends \yii\db\ActiveRecord
     public function getCurrencies()
     {
         return $this->hasOne(Currencies::class, ['id' => 'currency_id']);
+    }
+
+    /**
+     * Gets query for [[PropertyUpdateLogs]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPropertyUpdateLogs()
+    {
+        return $this->hasMany(PropertyUpdateLog::class, ['property_id' => 'property_id']);
     }
 }

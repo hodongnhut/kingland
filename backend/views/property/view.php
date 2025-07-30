@@ -103,114 +103,116 @@ function formatNumber($number) {
                     </div>
                 </div>
 
-                <div class="flex items-center justify-between mb-4">
-                    <div class="flex items-center space-x-2">
-                        <span class="text-lg font-bold text-orange-600"><?= Html::encode($model->listingType->name ?? '') ?></span>
-                        <?= Html::tag('div', $model->propertyType->type_name ?? null, [
-                            'class' => 'tab-sub-button px-4 text-sm font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200'
-                            ]) 
-                        ?>
-                        <?php if ($model->transactionStatus && $model->transactionStatus->transaction_status_id !== 0): ?>
-                            <span class="px-2 py-1 text-xs font-medium rounded-full <?= Html::encode($model->transactionStatus->class_css) ?>">
-                                <?= Html::encode($model->transactionStatus->status_name) ?>
-                            </span>
-                        <?php endif; ?>
+                <div class="flex-grow border border-red-500 p-4 rounded ">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-lg font-bold text-orange-600"><?= Html::encode($model->listingType->name ?? '') ?></span>
+                            <?= Html::tag('div', $model->propertyType->type_name ?? null, [
+                                'class' => 'tab-sub-button px-4 text-sm font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                ]) 
+                            ?>
+                            <?php if ($model->transactionStatus && $model->transactionStatus->transaction_status_id !== 0): ?>
+                                <span class="px-2 py-1 text-xs font-medium rounded-full <?= Html::encode($model->transactionStatus->class_css) ?>">
+                                    <?= Html::encode($model->transactionStatus->status_name) ?>
+                                </span>
+                            <?php endif; ?>
+                        </div>
                     </div>
-                </div>
 
-                <p class="text-xl font-bold text-gray-800 mb-2"><?= Html::encode($model->title) ?></p>
-                
-                <?= Html::a(
-                        '<i class="fas fa-map mr-1"></i> Xem bản đồ',
-                        "https://maps.google.com/?q=".$model->title,
-                        [
-                            'target' => '_blank',
-                            'class' => 'px-4 py-2 text-sm font-medium rounded-full bg-blue-100 text-blue-700',
-                            'encode' => false,
-                        ]
-                    )
-                ?>
-                <?= $model->new_district
-                    ? Html::tag('span', $model->new_district, [
-                        'class' => 'capitalize px-4 py-2 text-sm font-medium rounded-full bg-green-100 text-green-700'])
-                    : '';
-                ?>
-                
-                <div class="grid grid-cols-3 gap-4 mb-4 mt-4">
-                    <?php
-                        $totalPrice = $model->price; 
-                        $totalArea = $model->area_total;
-                        $pricePerSqM_Text = '';
-
-                        if ($totalArea > 0 && $totalPrice > 0) {
-                            $pricePerSqM_VND = $totalPrice / $totalArea;
-                            $pricePerSqM_Text = formatPriceUnit($pricePerSqM_VND);
-                        }
+                    <p class="text-xl font-bold text-gray-800 mb-2"><?= Html::encode($model->title) ?></p>
+                    
+                    <?= Html::a(
+                            '<i class="fas fa-map mr-1"></i> Xem bản đồ',
+                            "https://maps.google.com/?q=".$model->title,
+                            [
+                                'target' => '_blank',
+                                'class' => 'px-4 py-2 text-sm font-medium rounded-full bg-blue-100 text-blue-700',
+                                'encode' => false,
+                            ]
+                        )
                     ?>
-
-                    <div>
-                        <p class="text-sm text-gray-500">Mức giá</p>
-                        <p class="text-lg font-bold text-gray-800">
-                            <?= formatPriceUnit($model->price) ?>
-                        </p>
-                        <p class="text-xs text-gray-500">
-                            ~ <?= $pricePerSqM_Text ?>/m²
-                        </p>
-                    </div>
-                    <? if (!empty($model->final_price) && $model->final_price > 0):  ?>
+                    <?= $model->new_district
+                        ? Html::tag('span', $model->new_district, [
+                            'class' => 'capitalize px-4 py-2 text-sm font-medium rounded-full bg-green-100 text-green-700'])
+                        : '';
+                    ?>
+                    
+                    <div class="grid grid-cols-3 gap-4 mb-4 mt-4">
                         <?php
-                        $totalFinalPrice = $model->final_price; 
-                        $totalArea = $model->area_total;
-                        $pricePerSqM_Text = '';
+                            $totalPrice = $model->price; 
+                            $totalArea = $model->area_total;
+                            $pricePerSqM_Text = '';
 
-                        if ($totalArea > 0 && $totalFinalPrice > 0) {
-                            $pricePerSqM_VND = $totalFinalPrice / $totalArea;
-                            $pricePerSqM_Text = formatPriceUnit($pricePerSqM_VND);
-                        }
+                            if ($totalArea > 0 && $totalPrice > 0) {
+                                $pricePerSqM_VND = $totalPrice / $totalArea;
+                                $pricePerSqM_Text = formatPriceUnit($pricePerSqM_VND);
+                            }
                         ?>
+
                         <div>
-                            <p class="text-sm text-gray-500">Giá chốt</p>
+                            <p class="text-sm text-gray-500">Mức giá</p>
                             <p class="text-lg font-bold text-gray-800">
-                                <?= formatPriceUnit($model->final_price) ?>
+                                <?= formatPriceUnit($model->price) ?>
                             </p>
                             <p class="text-xs text-gray-500">
                                 ~ <?= $pricePerSqM_Text ?>/m²
                             </p>
                         </div>
-                    <?php endif; ?>
-                    <div>
-                        <p class="text-sm text-gray-500">Diện tích</p>
-                        <p class="text-lg font-bold text-gray-800">
-                            <?= formatNumber($model->area_total) ?> m²
-                        </p>
-                        <p class="text-xs text-gray-500">
-                            (<?= formatNumber($model->area_width) ?>m × <?= formatNumber($model->area_length) ?>m)
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="space-y-2">
-                    <?php foreach ($model->ownerContacts as $contact): ?>
-                        <?php
-                        if ($contact->gender_id == 2) {
-                            $iconClass = 'fas fa-venus text-pink-500';
-                        } else {
-                            $iconClass = 'fas fa-mars text-blue-600';
-                        }
-                        ?>
-                        
-                        <div class="flex items-center font-medium contact-entry" data-contact-id="<?= Html::encode($contact->contact_id) ?>">
-                            <i class="<?= $iconClass ?> mr-2 w-4 text-center"></i>
-                            <span class="text-gray-800 contact-info cursor-pointer hover:text-blue-600" title="Click to reveal phone number">
-                                <?= Html::encode($contact->contact_name) ?> 
-                                <span class="phone-display">•••••••<?= substr($contact->phone_number, -3) ?></span>
-                                <span class="error-message text-red-600 text-xs ml-2 hidden"></span>
-                            </span>
-                            <span class="ml-2 px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
-                                <?= Html::encode($contact->role->name ?? 'Chủ nhà') ?>
-                            </span>
+                        <? if (!empty($model->final_price) && $model->final_price > 0):  ?>
+                            <?php
+                            $totalFinalPrice = $model->final_price; 
+                            $totalArea = $model->area_total;
+                            $pricePerSqM_Text = '';
+
+                            if ($totalArea > 0 && $totalFinalPrice > 0) {
+                                $pricePerSqM_VND = $totalFinalPrice / $totalArea;
+                                $pricePerSqM_Text = formatPriceUnit($pricePerSqM_VND);
+                            }
+                            ?>
+                            <div>
+                                <p class="text-sm text-gray-500">Giá chốt</p>
+                                <p class="text-lg font-bold text-gray-800">
+                                    <?= formatPriceUnit($model->final_price) ?>
+                                </p>
+                                <p class="text-xs text-gray-500">
+                                    ~ <?= $pricePerSqM_Text ?>/m²
+                                </p>
+                            </div>
+                        <?php endif; ?>
+                        <div>
+                            <p class="text-sm text-gray-500">Diện tích</p>
+                            <p class="text-lg font-bold text-gray-800">
+                                <?= formatNumber($model->area_total) ?> m²
+                            </p>
+                            <p class="text-xs text-gray-500">
+                                (<?= formatNumber($model->area_width) ?>m × <?= formatNumber($model->area_length) ?>m)
+                            </p>
                         </div>
-                    <?php endforeach; ?>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <?php foreach ($model->ownerContacts as $contact): ?>
+                            <?php
+                            if ($contact->gender_id == 2) {
+                                $iconClass = 'fas fa-venus text-pink-500';
+                            } else {
+                                $iconClass = 'fas fa-mars text-blue-600';
+                            }
+                            ?>
+                            
+                            <div class="flex items-center font-medium contact-entry" data-contact-id="<?= Html::encode($contact->contact_id) ?>">
+                                <i class="<?= $iconClass ?> mr-2 w-4 text-center"></i>
+                                <span class="text-gray-800 contact-info cursor-pointer hover:text-blue-600" title="Click to reveal phone number">
+                                    <?= Html::encode($contact->contact_name) ?> 
+                                    <span class="phone-display">•••••••<?= substr($contact->phone_number, -3) ?></span>
+                                    <span class="error-message text-red-600 text-xs ml-2 hidden"></span>
+                                </span>
+                                <span class="ml-2 px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
+                                    <?= Html::encode($contact->role->name ?? 'Chủ nhà') ?>
+                                </span>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
 
                 <div class="space-y-2  mb-4 mt-4" >
@@ -321,88 +323,16 @@ function formatNumber($number) {
         </div>
 
         <div class="lg:col-span-1 space-y-6">
-            <!-- Loại Tài Sản Card -->
-            <div class="bg-white p-6 rounded-lg shadow-md space-y-4">
-            <p class="text-sm text-gray-500">
-                Loại Tài Sản:
-                <span class="font-semibold text-gray-800">
-                    <?= $model->assetType ? $model->assetType->type_name : '(Chưa xác định)' ?>
-                </span>
-            </p>
-            <p class="text-sm text-gray-500">
-                Đánh dấu:
-                <span class="font-semibold text-green-700">
-                    <?= $model->transactionStatus ? $model->transactionStatus->status_name : '(Chưa xác định)' ?>
-                </span>
-            </p>
-
-                <p class="text-sm text-gray-500">Mức giá: <span class="font-bold text-gray-800"><?= formatPriceUnit($model->price) ?></span> <i class="fas fa-arrow-up text-green-500 ml-1"></i></p>
-                <p class="text-sm text-gray-500">Giá trên m2: <span class="font-bold text-gray-800"><?= $pricePerSqM_Text ?> </span></p>
-                <button class="px-4 py-2 bg-green-100 text-green-700 text-sm font-medium rounded-full hover:bg-green-200 flex items-center space-x-2">
-                    <i class="fas fa-check-circle"></i>
-                    <span>Xác minh bởi</span>
-                    <span class="font-semibold"><?= Yii::$app->user->identity->username ?></span>
-                </button>
-            </div>
+            
+            <?php if (!empty($model->propertyUpdateLogs)): ?>
+                <?= $this->render('_history', ['modelLog' => $model->propertyUpdateLogs]) ?>
+            <?php endif; ?>
         </div>
     </div>
 </main>
 
-<div id="contact-modal" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-        <span class="close-button">&times;</span>
-        <h3 class="text-lg font-semibold text-gray-800 mb-4">Thêm Thông Tin Liên Hệ</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                <label for="contact-role" class="block text-sm font-medium text-gray-700 mb-1">Vai Trò</label>
-                <select id="contact-role" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
-                <option value="">Chọn Vai Trò</option>
-                    <option value="0">Không xác định</option>
-                    <option value="1">Chủ nhà</option>
-                    <option value="2">Độc Quyền</option>
-                    <option value="3">Môi Giới Hợp Tác</option>
-                    <option value="4">Người Thân Chủ Nhà</option>
-                    <option value="5">Trợ Lý Chủ Nhà</option>
-                    <option value="6">Đại Diện Công Ty</option>
-                    <option value="7">Đại Diện Chủ Nhà</option>
-                    <option value="8">Đầu Tư</option>
-                </select>
-            </div>
-            <div>
-                <label for="contact-name" class="block text-sm font-medium text-gray-700 mb-1">Tên</label>
-                <input type="text" id="contact-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
-            </div>
-            <div>
-                <label for="contact-phone" class="block text-sm font-medium text-gray-700 mb-1">Điện thoại</label>
-                <input type="text" id="contact-phone" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
-            </div>
-            <div>
-                <label for="contact-gender" class="block text-sm font-medium text-gray-700 mb-1">Giới tính</label>
-                <select id="contact-gender" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
-                    <option >Chọn Giới tính</option>
-                    <option value="1">Nam</option>
-                    <option value="2">Nữ</option>
-                    <option value="0">Khác</option>
-                </select>
-            </div>
-            <input type="hidden" id="properties-property_id" value="<?= $model->property_id ?>">
-        </div>
-        <div class="flex justify-end mt-6 space-x-2">
-            <button id="save-contact-button" class="px-4 py-2 bg-orange-600 text-white rounded-md shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">Lưu</button>
-            <button id="cancel-contact-button" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">Hủy</button>
-        </div>
-    </div>
-</div>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const addContactButton = document.getElementById('add-contact-button');
-        const contactModal = document.getElementById('contact-modal');
-        const closeButton = contactModal.querySelector('.close-button');
-        const saveContactButton = document.getElementById('save-contact-button');
-        const cancelContactButton = document.getElementById('cancel-contact-button');
-        const contactEntriesDiv = document.getElementById('contact-entries');
 
         const imageViewModal = document.getElementById('imageViewModal');
         const modalContent = document.getElementById('modalContent');
@@ -684,10 +614,6 @@ function formatNumber($number) {
 
 
 
-
-        
-
-
         const contactEntries = document.querySelectorAll('.contact-entry');
         contactEntries.forEach(entry => {
             const contactInfo = entry.querySelector('.contact-info');
@@ -820,57 +746,13 @@ function formatNumber($number) {
         });
     }
 
-    // Close modal on Escape key press
+
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Escape' && !imageViewModal.classList.contains('hidden')) {
             closeImageViewModal();
         }
     });
     
-
-    document.getElementById('save-contact-button').addEventListener('click', function () {
-        const role = document.getElementById('contact-role').value;
-        const name = document.getElementById('contact-name').value;
-        const phone = document.getElementById('contact-phone').value;
-        const gender = document.getElementById('contact-gender').value;
-        const propertyId = document.getElementById('properties-property_id').value;
-
-
-        // Kiểm tra dữ liệu cơ bản
-        if (!name || !phone || role === 'Chọn Vai Trò' || gender === 'Chọn Giới tính') {
-            alert('Vui lòng điền đầy đủ thông tin.');
-            return;
-        }
-
-        // Gửi Ajax
-        fetch('/owner-contact/create-ajax', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-Token': yii.getCsrfToken()
-            },
-            body: JSON.stringify({
-                role: role,
-                name: name,
-                phone: phone,
-                gender: gender,
-                propertyId: propertyId
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                location.reload();
-            } else {
-                alert('Có lỗi xảy ra khi lưu!');
-            }
-        })
-        .catch(error => {
-            console.error('Lỗi:', error);
-            alert('Lỗi kết nối máy chủ.');
-        });
-    });
-
     function toggleDetails(element) {
         const details = element.nextElementSibling;
         const arrow = element.querySelector('.toggle-arrow');

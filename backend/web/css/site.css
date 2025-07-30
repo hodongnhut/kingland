@@ -488,3 +488,38 @@
          transition: none !important;
      }
  }
+
+ .log-entry {
+     border: 1px solid #ccc;
+     border-left: 4px solid #007bff;
+     padding: 15px;
+     margin-bottom: 10px;
+     background-color: #f9f9f9;
+ }
+
+ .field-name {
+     font-weight: bold;
+     color: #333;
+ }
+
+ .old-value,
+ .new-value {
+     padding: 5px;
+     margin-top: 5px;
+ }
+
+ .old-value {
+     background-color: #ffecec;
+     color: #c00;
+ }
+
+ .new-value {
+     background-color: #e0ffe0;
+     color: #0a0;
+ }
+
+ .timestamp {
+     font-size: 0.9em;
+     color: #777;
+     margin-top: 5px;
+ }
