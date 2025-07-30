@@ -10,6 +10,9 @@ $this->params['breadcrumbs'][] = ['label' => 'Properties', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 
+$this->registerCssFile('/css/history.css', [
+    'rel' => 'stylesheet',
+]);
 function formatPriceUnit($number) {
     if (!is_numeric($number) || $number <= 0) {
         return 'Thỏa thuận';
@@ -683,19 +686,6 @@ function formatNumber($number) {
 
 
         
-        // Show the modal when "Thêm Liên Hệ" button is clicked
-        addContactButton.addEventListener('click', function() {
-            contactModal.style.display = 'flex'; // Use flex to center the modal
-        });
-
-        // Hide the modal when close button or Cancel is clicked
-        closeButton.addEventListener('click', function() {
-            contactModal.style.display = 'none';
-        });
-
-        cancelContactButton.addEventListener('click', function() {
-            contactModal.style.display = 'none';
-        });
 
 
         const contactEntries = document.querySelectorAll('.contact-entry');
