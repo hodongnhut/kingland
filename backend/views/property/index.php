@@ -156,9 +156,11 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                     };
         
                     $price = !empty($model->price) ? number_format($model->price / 1e9, 1) . ' Tỷ ' . ($model->currencies->code ?? 'VND') : 'N/A';
-                    $area = $model->area_total . ' m2' . ($model->area_width && $model->area_length) 
-                        ? "({$model->area_width}m × {$model->area_length}m)" 
-                        : '';
+                    $dimensions = ($model->area_width && $model->area_length) 
+                    ? "({$model->area_width}m × {$model->area_length}m)" 
+                    : '';
+                    $area = Html::tag('div', $model->area_total . ' m2', ['class' => 'font-semibold']) .
+                    Html::tag('div', $dimensions, ['class' => 'text-xs text-gray-600']);
                     $floors = !empty($model->num_floors) ? $model->num_floors . ' tầng' : 'N/A';
                     $listingType = $model->listingType ? Html::encode($model->listingType->name) : 'N/A';
                     $propertyType = $model->propertyType ? Html::encode($model->propertyType->type_name) : 'N/A';
@@ -180,7 +182,6 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                             'title' => count($model->propertyImages) . ' hình ảnh',
                         ]);
                     
-                        // Ảnh sổ hồng nếu có
                         $mainImage = PropertyImages::getMainImage($model->property_id);
                         if ($mainImage && $mainImage->image_type == 1) {
                             $redBook = Html::img(Url::to(['img/so-hong2.webp']), [
@@ -200,7 +201,6 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                         ]);
                     }
         
-                    // Format the data into a readable summary
                     $summary = Html::tag('div', "Địa chỉ: $model->title", ['class' => 'text-sm font-semibold']);
                     $summary .= Html::tag('div', "Giá tiền: $price", ['class' => 'text-sm text-gray-600']);
                     $summary .= Html::tag('div', "Diện Tích: $area", ['class' => 'text-sm text-gray-600']);
