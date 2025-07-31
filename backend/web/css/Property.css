@@ -2242,6 +2242,7 @@ body.BodySlideMode .SlideModeArea.Property .SMA-Area {
     align-items: center;
     margin-top: 1vh;
     justify-content: right;
+    display: none;
 }
 
 .PropertyRightView .PropertyHistoryList .GrItems .BtnAccuracy {
@@ -2300,6 +2301,7 @@ body.BodySlideMode .SlideModeArea.Property .SMA-Area {
     border: 1px solid #57a002;
     padding: 2px 4px;
     right: 0;
+    display: none;
 }
 
 .PropertyRightView .PropertyHistoryList .iAccuracy p {
