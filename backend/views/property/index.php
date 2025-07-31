@@ -181,9 +181,16 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                                 'alt' => 'Main Property Image',
                             ]);
                         }
+
+                        $iconPhone = '';
+                        if (!empty($model->propertyImages)) {
+                            $iconPhone = Html::tag('i', '', ['class' => 'fas fa-phone text-red-500']);
+                            
+
+                        }
                     
                         // Gộp chúng lại trong 1 dòng
-                        $imageHtml = Html::tag('div', $imageIcon . $redBook, [
+                        $imageHtml = Html::tag('div', $imageIcon . $redBook . $iconPhone, [
                             'class' => 'flex items-center space-x-1',
                         ]);
                     }

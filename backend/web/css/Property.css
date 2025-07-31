@@ -1898,6 +1898,7 @@ body.BodySlideMode .SlideModeArea.Property .SMA-Area {
     height: auto;
     border-radius: 100%;
     background: #8e8e8e;
+    display: none;
 }
 
 .PropertyRightView .PropertyHistoryList .GrItems .Text {
@@ -1931,10 +1932,11 @@ body.BodySlideMode .SlideModeArea.Property .SMA-Area {
     border-left: 1px solid;
     padding-left: 5px;
     font-size: .9rem;
+    display: none;
 }
 
 .PropertyRightView .PropertyHistoryList .GrItems .Text .a .Per p.Name {
-    /* font-weight: bold; */
+    display: none;
 }
 
 .PropertyRightView .PropertyHistoryList .GrItems .Text .a .Per p.Code {
