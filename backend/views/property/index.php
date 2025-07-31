@@ -156,7 +156,9 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                     };
         
                     $price = !empty($model->price) ? number_format($model->price / 1e9, 1) . ' Tỷ ' . ($model->currencies->code ?? 'VND') : 'N/A';
-                    $area = !empty($model->area_total) ? $model->area_total . ' m²' : 'N/A';
+                    $area = ($model->area_width && $model->area_length) 
+                        ? "({$model->area_width}m × {$model->area_length}m)" 
+                        : '';
                     $floors = !empty($model->num_floors) ? $model->num_floors . ' tầng' : 'N/A';
                     $listingType = $model->listingType ? Html::encode($model->listingType->name) : 'N/A';
                     $propertyType = $model->propertyType ? Html::encode($model->propertyType->type_name) : 'N/A';
