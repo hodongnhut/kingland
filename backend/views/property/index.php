@@ -155,10 +155,6 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                         return !empty($model->title) ? trim(explode(',', $model->title)[$index] ?? '') : 'N/A';
                     };
         
-                    // Collect key data points
-                    $houseNumber = !empty($model->house_number) ? Html::encode($model->house_number) : $getProcessedTitle(0);
-                    $streetName = !empty($model->street_name) ? Html::encode($model->street_name) : $getProcessedTitle(1);
-                    $district = !empty($model->district_county) ? trim(explode(',', $model->district_county)[1] ?? $model->district_county) : 'N/A';
                     $price = !empty($model->price) ? number_format($model->price / 1e9, 1) . ' Tỷ ' . ($model->currencies->code ?? 'VND') : 'N/A';
                     $area = !empty($model->area_total) ? $model->area_total . ' m²' : 'N/A';
                     $floors = !empty($model->num_floors) ? $model->num_floors . ' tầng' : 'N/A';
@@ -203,10 +199,8 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                     }
         
                     // Format the data into a readable summary
-                    $summary = Html::tag('div', "Số Nhà: $houseNumber", ['class' => 'text-sm font-semibold']);
-                    $summary .= Html::tag('div', "Đường: $streetName", ['class' => 'text-sm text-gray-600']);
-                    $summary .= Html::tag('div', "Quận: $district", ['class' => 'text-sm text-gray-600']);
-                    $summary .= Html::tag('div', "Giá: $price", ['class' => 'text-sm text-red-600']);
+                    $summary = Html::tag('div', "Địa chỉ: $model->title", ['class' => 'text-sm font-semibold']);
+                    $summary .= Html::tag('div', "Giá tiền: $price", ['class' => 'text-sm text-gray-600']);
                     $summary .= Html::tag('div', "Diện Tích: $area", ['class' => 'text-sm text-gray-600']);
                     $summary .= Html::tag('div', "Kết Cấu: $floors", ['class' => 'text-sm text-gray-600']);
                     $summary .= Html::tag('div', "Loại: $listingType", ['class' => 'text-sm text-gray-600']);
@@ -239,7 +233,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                     // Image indicator
                     $imageHtml = '';
                     $redBook = '';
-                    
+                    $iconPhone = '';
                     if (!empty($model->propertyImages)) {
                         $icon = Html::tag('i', '', ['class' => 'fas fa-images text-lg']);
                         $imageIcon = Html::tag('div', $icon, [
@@ -247,7 +241,6 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                             'title' => count($model->propertyImages) . ' hình ảnh',
                         ]);
                     
-                        // Ảnh sổ hồng nếu có
                         $mainImage = PropertyImages::getMainImage($model->property_id);
                         if ($mainImage && $mainImage->image_type == 1) {
                             $redBook = Html::img(Url::to(['img/so-hong2.webp']), [
@@ -256,12 +249,11 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                             ]);
                         }
 
-                        $iconPhone = '';
+                        
                         if (!empty($model->propertyImages)) {
                             $iconPhone = Html::tag('i', '', ['class' => 'fas fa-phone text-red-500']);
                         }
                     
-                        // Gộp chúng lại trong 1 dòng
                         $imageHtml = Html::tag('div', $imageIcon . $redBook . $iconPhone, [
                             'class' => 'flex items-center space-x-1',
                         ]);
