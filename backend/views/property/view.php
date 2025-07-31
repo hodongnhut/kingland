@@ -330,6 +330,8 @@ function formatNumber($number) {
             <?php if (!empty($model->propertyUpdateLogs)): ?>
                 <?= $this->render('_history', ['modelLog' => $model->propertyUpdateLogs]) ?>
             <?php endif; ?>
+            
+            <br>
 
             <?php if (!empty($model->propertyLogs)): ?>
                 <?= $this->render('_history_extent', ['modelLog' => $model->propertyLogs]) ?>

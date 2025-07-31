@@ -427,7 +427,7 @@ class PostController extends Controller
             
             ->leftJoin('owner_contacts', '{{properties}}.property_id = {{owner_contacts}}.property_id')
             ->where(['{{owner_contacts}}.property_id' => null])
-            ->orderBy(['{{properties}}.property_id' => SORT_ASC]);
+            ->orderBy(['{{properties}}.updated_at' => SORT_ASC]);
 
         $totalCount = $query->count();
         
