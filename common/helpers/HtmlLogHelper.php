@@ -53,7 +53,7 @@ class HtmlLogHelper
                 $contactHtml .= '
                     <div class="icon-text" style="margin-top: 5px;">
                         <i class="fas fa-user-alt"></i> ' . htmlspecialchars($contact->contact_name ?? 'N/A') . ' 
-                        <span style="color: #e74c3c;">****,****.440</span> 
+                        <span style="color: #e74c3c;">****,****.'.substr($contact->phone_number, -3).'</span> 
                         <span style="font-weight: bold;">' . htmlspecialchars($contact->contact_role ?? 'Chủ nhà') . '</span>
                     </div>';
             }
