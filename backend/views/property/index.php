@@ -121,7 +121,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
             'class' => 'shadow-md text-white ',
         ],
         'options' => [
-            'class' => 'table-container bg-white rounded-lg shadow-md',
+            'class' => 'table-container bg-white rounded-lg shadow-md overflow-x-auto',
         ],
         'rowOptions' => function ($model, $key, $index, $grid) {
             return [
