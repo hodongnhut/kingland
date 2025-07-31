@@ -188,7 +188,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                         }
 
                         $iconPhone = '';
-                        if (!empty($model->propertyImages)) {
+                        if (!empty($model->ownerContacts)) {
                             $iconPhone = Html::tag('i', '', ['class' => 'fas fa-phone text-red-500']);
                         }
                     
@@ -250,7 +250,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                         }
 
                         
-                        if (!empty($model->propertyImages)) {
+                        if (!empty($model->ownerContacts)) {
                             $iconPhone = Html::tag('i', '', ['class' => 'fas fa-phone text-red-500']);
                         }
                     
