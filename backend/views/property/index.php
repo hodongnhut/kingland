@@ -185,11 +185,6 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                         $iconPhone = '';
                         if (!empty($model->propertyImages)) {
                             $iconPhone = Html::tag('i', '', ['class' => 'fas fa-phone text-red-500']);
-                            $imageIcon = Html::tag('div', $iconPhone, [
-                                'class' => 'bg-blue-600 text-white p-1 h-7 w-7 rounded-md flex items-center justify-center',
-                                'title' => count($model->propertyImages) . ' hình ảnh',
-                            ]);
-
                         }
                     
                         // Gộp chúng lại trong 1 dòng
