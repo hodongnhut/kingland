@@ -146,7 +146,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
             ],
             [
                 'label' => 'Thông Tin',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 md:hidden'],
+                'contentOptions' => ['class' => 'px-6 py-4 text-sm text-gray-900 md:hidden'],
                 'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white md:hidden'],
                 'format' => 'raw',
                 'value' => function ($model) {
