@@ -760,6 +760,18 @@ function formatNumber($number) {
             closeImageViewModal();
         }
     });
+
+    document.querySelectorAll('.jCopyTextTarget').forEach(copyBtn => {
+        copyBtn.addEventListener('click', function() {
+        const targetSelector = this.dataset.target;
+        const targetText = document.querySelector(targetSelector)?.innerText || '';
+        navigator.clipboard.writeText(targetText).then(() => {
+            alert('Đã sao chép: ' + targetText);
+        }).catch(err => {
+            console.error('Không thể sao chép!', err);
+        });
+        });
+    });
     
     function toggleDetails(element) {
         const details = element.nextElementSibling;
