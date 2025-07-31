@@ -772,6 +772,21 @@ function formatNumber($number) {
         });
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.copy-info').forEach(function (el) {
+      el.addEventListener('click', function () {
+        const text = el.innerText.trim();
+
+        navigator.clipboard.writeText(text).then(() => {
+          alert('Đã sao chép: ' + text);
+        }).catch(err => {
+          console.error('Lỗi khi sao chép:', err);
+          alert('Không thể sao chép nội dung.');
+        });
+      });
+    });
+  });
     
     function toggleDetails(element) {
         const details = element.nextElementSibling;
