@@ -126,7 +126,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
         'rowOptions' => function ($model, $key, $index, $grid) {
             return [
                 'class' => 'cursor-pointer hover:bg-gray-100',
-                'onclick' => 'window.location.href="' . Url::to(['view', 'property_id' => $model->property_id]) . '"', // Redirect to view page
+                'onclick' => 'window.location.href="' . Url::to(['view', 'property_id' => $model->property_id]) . '"',
             ];
         },
         'columns' => [
@@ -145,10 +145,84 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                 },
             ],
             [
+                'label' => 'Thông Tin',
+                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 md:hidden'],
+                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white md:hidden'],
+                'format' => 'raw',
+                'value' => function ($model) {
+                    // Helper function to get processed title
+                    $getProcessedTitle = function ($index) use ($model) {
+                        return !empty($model->title) ? trim(explode(',', $model->title)[$index] ?? '') : 'N/A';
+                    };
+        
+                    // Collect key data points
+                    $houseNumber = !empty($model->house_number) ? Html::encode($model->house_number) : $getProcessedTitle(0);
+                    $streetName = !empty($model->street_name) ? Html::encode($model->street_name) : $getProcessedTitle(1);
+                    $district = !empty($model->district_county) ? trim(explode(',', $model->district_county)[1] ?? $model->district_county) : 'N/A';
+                    $price = !empty($model->price) ? number_format($model->price / 1e9, 1) . ' Tỷ ' . ($model->currencies->code ?? 'VND') : 'N/A';
+                    $area = !empty($model->area_total) ? $model->area_total . ' m²' : 'N/A';
+                    $floors = !empty($model->num_floors) ? $model->num_floors . ' tầng' : 'N/A';
+                    $listingType = $model->listingType ? Html::encode($model->listingType->name) : 'N/A';
+                    $propertyType = $model->propertyType ? Html::encode($model->propertyType->type_name) : 'N/A';
+                    $rentalPrice = $model->rentalContract 
+                        ? number_format($model->rentalContract->rent_price / 1e6) . ' Triệu' . 
+                          ($model->rentalContract->currency ? ' ' . $model->rentalContract->currency->code : '') . 
+                          ($model->rentalContract->price_time_unit === 'per_month' ? '/Tháng' : '/Năm')
+                        : 'N/A';
+                    $status = $model->transactionStatus ? Html::encode($model->transactionStatus->status_name) : 'N/A';
+                    $updatedAt = Yii::$app->formatter->asRelativeTime($model->updated_at);
+
+                    $imageHtml = '';
+                    $redBook = '';
+                    
+                    if (!empty($model->propertyImages)) {
+                        $icon = Html::tag('i', '', ['class' => 'fas fa-images text-lg']);
+                        $imageIcon = Html::tag('div', $icon, [
+                            'class' => 'bg-blue-600 text-white p-1 h-7 w-7 rounded-md flex items-center justify-center',
+                            'title' => count($model->propertyImages) . ' hình ảnh',
+                        ]);
+                    
+                        // Ảnh sổ hồng nếu có
+                        $mainImage = PropertyImages::getMainImage($model->property_id);
+                        if ($mainImage && $mainImage->image_type == 1) {
+                            $redBook = Html::img(Url::to(['img/so-hong2.webp']), [
+                                'class' => 'h-7 w-7 object-cover rounded-md',
+                                'alt' => 'Main Property Image',
+                            ]);
+                        }
+
+                        $iconPhone = '';
+                        if (!empty($model->propertyImages)) {
+                            $iconPhone = Html::tag('i', '', ['class' => 'fas fa-phone text-red-500']);
+                        }
+                    
+          
+                        $imageHtml = Html::tag('div', $imageIcon . $redBook . $iconPhone, [
+                            'class' => 'flex items-center space-x-1',
+                        ]);
+                    }
+        
+                    // Format the data into a readable summary
+                    $summary = Html::tag('div', "Số Nhà: $houseNumber", ['class' => 'text-sm font-semibold']);
+                    $summary .= Html::tag('div', "Đường: $streetName", ['class' => 'text-sm text-gray-600']);
+                    $summary .= Html::tag('div', "Quận: $district", ['class' => 'text-sm text-gray-600']);
+                    $summary .= Html::tag('div', "Giá: $price", ['class' => 'text-sm text-red-600']);
+                    $summary .= Html::tag('div', "Diện Tích: $area", ['class' => 'text-sm text-gray-600']);
+                    $summary .= Html::tag('div', "Kết Cấu: $floors", ['class' => 'text-sm text-gray-600']);
+                    $summary .= Html::tag('div', "Loại: $listingType", ['class' => 'text-sm text-gray-600']);
+                    $summary .= Html::tag('div', "Hạng Mục: $propertyType", ['class' => 'text-sm text-gray-600']);
+                    $summary .= Html::tag('div', "HĐ Thuê: $rentalPrice", ['class' => 'text-sm text-gray-600']);
+                    $summary .= Html::tag('div', "Trạng Thái: $status", ['class' => 'text-sm text-gray-600']);
+                    $summary .= Html::tag('div', "Cập Nhật: $updatedAt", ['class' => 'text-sm text-gray-500']);
+        
+                    return Html::tag('div', $summary .$imageHtml, ['class' => 'space-y-1']);
+                },
+            ],
+            [
                 'attribute' => 'title',
                 'label' => '#',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white'],
+                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
                 'format' => 'raw',
                 'value' => function ($model) {
                     // Process title for house number fallback
@@ -204,8 +278,8 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
             [
                 'attribute' => 'title',
                 'label' => 'Số Nhà',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white'],
+                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
                 'format' => 'raw',
                 'value' => function ($model) {
                     $processedTitle = !empty($model->title) ? trim(explode(',', $model->title)[0]) : '';
@@ -222,8 +296,8 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
             [
                 'attribute' => 'street_name',
                 'label' => 'Đường Phố',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
                 'format' => 'raw',
                 'value' => function ($model) {
 
@@ -248,12 +322,12 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
             [
                 'attribute' => 'district_county',
                 'label' => 'Quận/Huyện',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
                 'format' => 'raw',
                 'value' => function ($model) {
                     $new_district = $model->new_district
-                    ? Html::tag('div', $model->new_district, ['class' => 'capitalize text-xs font-medium px-2.5 py-0.5 rounded-full bg-green-100 text-green-800'])
+                    ? Html::tag('div', $model->new_district, ['class' => 'capitalize text-xs font-medium px-2.5 py-0.5 rounded-full bg-green-100 text-green-800 '])
                     : '';
                     $districtCounty = $model->district_county;
                     if (!empty($districtCounty)) {
@@ -279,8 +353,8 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
             [
                 'attribute' => 'price',
                 'label' => 'Giá',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
                 'format' => 'raw',
                 'value' => function ($model) {
                     $price = number_format($model->price / 1e9, 1) . ' Tỷ ' . $model->currencies->code;
@@ -294,8 +368,8 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
             [
                 'attribute' => 'area_total',
                 'label' => 'Diện Tích',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
                 'format' => 'raw',
                 'value' => function ($model) {
                     $dimensions = ($model->area_width && $model->area_length) 
@@ -307,8 +381,8 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
             ],
             [
                 'label' => 'Kết Cấu',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
                 'value' => function ($model) { 
                     if ($model->num_floors > 0) {
                         return $model->num_floors . ' tầng'; 
@@ -318,7 +392,8 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
             ],
             [
                 'label' => 'HĐ Thuê',
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
                 'format' => 'raw',
                 'value' => function ($model) {
                     if ($model->rentalContract) {
@@ -347,8 +422,8 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
             ],
             [
                 'label' => 'Lưu',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cel'],
+                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cel hidden md:table-cell'],
                 'format' => 'raw',
                 'value' => function ($model) {
                     $propertyId = $model->property_id; 
@@ -371,7 +446,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
             [
                 'attribute' => 'transaction_status_id',
                 'label' => 'Cập nhật',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
+                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
                 'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
                 'format' => 'raw',
                 'value' => function ($model) {
