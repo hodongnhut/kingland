@@ -514,7 +514,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
 
 
 <div id="dialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-    <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[80vh] overflow-y-auto mx-4 my-2 sm:mx-6 sm:my-4">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto mx-4 my-2 sm:mx-6 sm:my-4">
         <div class="flex justify-between items-center p-4 border-b">
             <h2 class="text-lg font-semibold text-gray-800">DỮ LIỆU NHÀ ĐẤT</h2>
             <button id="cancelIcon" class="text-gray-500 hover:text-gray-700" type="button" aria-label="Close dialog">

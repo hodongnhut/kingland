@@ -94,7 +94,6 @@ class Properties extends \yii\db\ActiveRecord
         $changedFields = [];
         foreach ($event->changedAttributes as $field => $oldValue) {
             $newValue = $this->attributes[$field] ?? null;
-            // Convert both values to strings for comparison
             $oldValueStr = (string)($oldValue ?? '');
             $newValueStr = (string)($newValue ?? '');
             if ($oldValueStr !== $newValueStr) {
@@ -120,13 +119,10 @@ class Properties extends \yii\db\ActiveRecord
                 Yii::error('Failed to save property update log: ' . json_encode($log->errors), 'property_update_log');
             }
         } catch (\Throwable $th) {
-            var_dump($th->getMessage()); die;
-            // Yii::error($th->getMessage());
+            Yii::error($th->getMessage());
         }
     }
     public function updateChart($event) {
-        $model = $event->sender;
-         // Add log create property
         UserActivities::logActivity(Yii::$app->user->id, 'add_new');
         return;
     }
@@ -136,8 +132,6 @@ class Properties extends \yii\db\ActiveRecord
         UserActivities::logActivity(Yii::$app->user->id, 'update_property');
 
         $model = $event->sender;
-
-        $changed = $event->changedAttributes;
 
         if (empty($model->area_total) || empty($model->area_length) || 
             empty($model->area_width) || empty($model->price)) {
