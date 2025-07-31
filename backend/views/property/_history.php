@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Json;
 ?>
-<div class="interaction-history-container hover-effect">
+<div class="interaction-history-container hover-effect mb-4">
 <div class="interaction-history-container">
     <div class="overlay-frame"></div>
     <div class="content-wrapper">
