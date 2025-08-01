@@ -197,8 +197,9 @@ class PropertiesSearch extends Properties
         $query->andFilterWhere(['between', 'properties.num_floors', $this->num_floors_from, $this->num_floors_to]);
         $query->andFilterWhere(['between', 'properties.num_bedrooms', $this->num_bedrooms_from, $this->num_bedrooms_to]);
         $query->andFilterWhere(['between', 'properties.price', $this->price_from, $this->price_to]);
-        $query->andFilterWhere(['like', 'properties.plot_number', $this->plot_number])
-              ->andFilterWhere(['like', 'properties.sheet_number', $this->sheet_number]);
+        $query->andFilterWhere(['like', 'properties.plot_number', $this->plot_number]);
+        $query->andFilterWhere(['like', 'properties.sheet_number', $this->sheet_number]);
+        $query->andFilterWhere(['=', 'properties.district_county', $this->district_county]);
 
         if (!empty($this->keyword)) {
             $query->leftJoin('owner_contacts', 'owner_contacts.property_id = properties.property_id')
