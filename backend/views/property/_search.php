@@ -240,8 +240,22 @@ foreach ($advancedFields as $field) {
                 )->label('<span class="text-red-500">*</span> Quận Huyện', ['class' => 'text-sm font-medium text-gray-700']) ?>
         </div>
         <div class="flex items-center space-x-1">
-            <?= Html::textInput('PropertiesSearch[ward_commune]', $searchParams['ward_commune'] ?? null, ['placeholder' => 'Chọn Phường/Xã', 'class' => 'form-input border border-gray-300 rounded-md py-1 px-2 w-1/2 focus:ring-blue-500 focus:border-blue-500 text-sm']) ?>
-            <?= Html::textInput('PropertiesSearch[street_name]', $searchParams['street_name'] ?? null, ['placeholder' => 'Chọn Đường Phố', 'class' => 'form-input border border-gray-300 rounded-md py-1 px-2 w-1/2 focus:ring-blue-500 focus:border-blue-500 text-sm']) ?>
+            <?= $form->field($model, 'ward_commune')->dropDownList(
+                [],
+                [
+                    'prompt' => 'Chọn Phường / Xã',
+                    'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm'
+                ]
+            )->label('<span class="text-red-500">*</span> Phường / Xã', ['class' => 'text-sm font-medium text-gray-700']) ?>
+           
+            <?= $form->field($model, 'street_name')->dropDownList(
+                    [],
+                    [
+                        'prompt' => 'Chọn Đường',
+                        'class' => 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm js-select2',
+                        'aria-required' => 'true',
+                    ]
+                )->label('<span class="text-red-500">*</span> Đường', ['class' => 'text-sm font-medium text-gray-700']) ?>
         </div>
         <div class="flex items-center space-x-1">
             <?= Html::textInput('PropertiesSearch[area_width_from]', $searchParams['area_width_from'] ?? null, ['placeholder' => 'Rộng từ', 'class' => 'form-input border border-gray-300 rounded-md py-1 px-2 w-1/2 focus:ring-blue-500 focus:border-blue-500 text-sm']) ?>

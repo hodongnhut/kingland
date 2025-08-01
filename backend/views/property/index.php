@@ -1001,4 +1001,54 @@ JS;
 $this->registerJs($script);
 ?>
 
+<?php
+$script = <<< JS
+$('#propertiessearch-district_county').on('change', function() {
+    var districtId = $(this).val();
+    const wardDropdown = $('select[name="PropertiesSearch[ward_commune]"]');
+    var streetDropdown = $('select[name="PropertiesSearch[street_name]"]');
+
+    $.ajax({
+        url: '/address/wards',
+        type: 'GET',
+        data: { DistrictId: districtId },
+        headers: {
+            'X-CSRF-Token': '$csrfToken'
+        },
+        success: function(data) {
+            wardDropdown.html(data);
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX error:', error);
+        }
+    });
+    $.ajax({
+        url: '/address/streets',
+        type: 'GET',
+        data: { DistrictId: districtId },
+        headers: {
+            'X-CSRF-Token': '$csrfToken'
+        },
+        success: function(data) {
+            streetDropdown.html(data);
+            streetDropdown.select2({
+                placeholder: 'Chọn Đường',
+                allowClear: true,
+                width: '100%',
+                language: {
+                    noResults: function() {
+                        return 'Không tìm thấy đường';
+                    }
+                }
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX error:', error);
+        }
+    });
+});
+JS;
+$this->registerJs($script);
+?>
+
 
