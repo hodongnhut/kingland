@@ -321,13 +321,30 @@ class SiteController extends Controller
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             $user = Yii::$app->user->identity;
-            $role_code = $user->jobTitle ? $user->jobTitle->role_code : '';
+            if ($user) {
 
-            // Set force_location_update for non-manager/super_admin users
-            if ($role_code && $role_code !== 'manager' && $role_code !== 'super_admin') {
-                Yii::$app->session->set('force_location_update', true);
+                $user->generateAuthKeySession();
+                $user->save(false); 
+
+                $duration = $model->rememberMe ? 30 * 60 : 0;
+                Yii::$app->user->login($user, $duration);
+
+                $role_code = !empty($user->jobTitle) && !empty($user->jobTitle->role_code) ? $user->jobTitle->role_code : '';
+                if ($role_code && !in_array($role_code, ['manager', 'super_admin'])) {
+                    Yii::$app->session->set('force_location_update', true);
+                }
+
+                Yii::$app->session->setFlash('success', 'Đăng nhập thành công!');
+
+                return $this->goBack();
+            } else {
+
+                Yii::$app->session->setFlash('error', 'Lỗi hệ thống. Vui lòng thử lại.');
             }
-            return $this->goBack();
+        }
+
+        if ($model->hasErrors()) {
+            Yii::$app->session->setFlash('error', 'Thông tin đăng nhập không chính xác.');
         }
 
         $model->password = '';

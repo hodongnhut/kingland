@@ -202,4 +202,23 @@ class User extends ActiveRecord implements IdentityInterface
         $this->verification_token = Yii::$app->security->generateRandomString() . '_' . time();
     }
 
+
+    public function generateAuthKeySession()
+    {
+        $this->auth_key_session = Yii::$app->security->generateRandomString();
+        return $this->auth_key_session;
+    }
+
+    public function updateAuthKeySession()
+    {
+        $this->generateAuthKeySession();
+        return $this->save(false);
+    }
+
+    public function validateAuthKeySession($authKey)
+    {
+        return $this->auth_key_session === $authKey;
+    }
+
+
 }

@@ -159,8 +159,6 @@ class HtmlLogHelper
                 <div><span>Rộng:</span> ' . $model->area_width . ' m</div>
                 <div><span>Dài:</span> ' . $model->area_length . ' m</div>
             </div>
-            <br>
-            <button class="entry-action-button">Bấm xác minh</button>
         </div>';
     
         return $html;

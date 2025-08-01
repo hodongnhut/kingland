@@ -39,6 +39,9 @@ return [
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
             'authTimeout' => 1800,
+            'as sessionChecker' => [
+                'class' => 'common\components\SessionChecker',
+            ],
         ],
         'session' => [
             'name' => 'advanced-backend',
@@ -105,5 +108,11 @@ return [
             ],
         ],
     ],
+    'on beforeAction' => function ($event) {
+        $sessionChecker = Yii::$app->user->getBehavior('sessionChecker');
+        if ($sessionChecker) {
+            $sessionChecker->checkAuthKeySession(); 
+        }
+    },
     'params' => $params,
 ];
