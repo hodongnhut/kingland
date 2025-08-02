@@ -325,3 +325,23 @@
     font-size: 12px;
     color: #777;
 }
+
+.image-list {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    overflow-x: auto;
+    /* Adds a scrollbar for many images */
+    padding-bottom: 5px;
+    /* Adds some padding for the scrollbar */
+}
+
+.history-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    /* Ensures the image fills the space without distortion */
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}

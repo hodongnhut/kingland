@@ -36,7 +36,8 @@ use common\models\OwnerContacts;
 use yii\web\ForbiddenHttpException;
 use yii\db\Expression;
 use common\models\UserActivities;
-
+use common\models\PropertyUpdateLog;
+use yii\helpers\Json;
 class PropertyController extends Controller
 {
 
@@ -386,6 +387,20 @@ class PropertyController extends Controller
                     $response['message'] = 'Không thể lưu file: ' . $file->name;
                     return $response;
                 }
+            }
+
+            try {
+                $log = new PropertyUpdateLog();
+                $log->property_id = $propertyId;
+                $log->data = $propertyId;
+                $log->rendered_html_content = Json::encode(\common\helpers\HtmlLogHelper::renderImagetHTML($propertyId));
+                $log->created_at = time();
+                $log->created_by = Yii::$app->user->id ?? null;
+                if (!$log->save(false)) {
+                    Yii::error('Failed to save property update log: ' . json_encode($log->errors), 'property_update_log');
+                }
+            } catch (\Throwable $th) {
+                Yii::error($th->getMessage());
             }
 
             $response['success'] = true;

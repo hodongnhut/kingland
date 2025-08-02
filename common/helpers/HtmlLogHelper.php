@@ -4,6 +4,7 @@ namespace common\helpers;
 use Yii;
 
 use common\models\PropertyUpdateLog;
+use common\models\PropertyImages;
 
 class HtmlLogHelper
 {
@@ -140,7 +141,7 @@ class HtmlLogHelper
     }
 
     public static function renderHistoryEntry($model) {
-        $createdAt = date('d-m-Y', strtotime($model->created_at));
+        $createdAt = date('d-m-Y', timestamp: strtotime($model->created_at));
         $timeAgo = Yii::$app->formatter->asRelativeTime($model->created_at);
         $createdBy = $model->created_by ?? 'Hệ thống';
     
@@ -199,4 +200,56 @@ class HtmlLogHelper
         
         return number_format($number) . ' VNĐ';
     }
+
+    public static function renderContactHTML($model) {
+        $date = date('d-m-Y h:i:s'); 
+        $contactHTML = '';
+        $contactHTML = $contactHTML . ' <div class="history-entry">
+                <div class="entry-header">
+                    <span>Cập Nhật Ngày '.$date . ' </span>
+                    <span>'.Yii::$app->user->identity->username.' <i class="info-icon">ⓘ</i></span>
+                </div>
+                <div class="entry-content">
+                    Thêm Thông Tin Liên Hệ
+                </div>
+                <div class="property-details-block">
+                    <div><span style="color: #e74c3c;">****,****'.substr($model->phone_number, -3).' </span> </div>
+                </div>
+            </div>';
+        return $contactHTML;
+    }
+
+    public static function renderImagetHTML($propertyId)
+    {
+        $imageModels = PropertyImages::find()
+            ->where(['property_id' => $propertyId])
+            ->orderBy(['sort_order' => SORT_ASC])
+            ->all();
+
+        $date = date('d-m-Y H:i:s'); 
+        $username = Yii::$app->user->identity->username ?? 'Hệ thống';
+
+        $html = '<div class="history-entry">
+            <div class="entry-header">
+                <span>Cập nhật ngày ' . $date . '</span>
+                <span>' . htmlspecialchars($username) . ' <i class="info-icon">ⓘ</i></span>
+            </div>
+            <div class="entry-content">
+                Thêm hình ảnh
+            </div>
+            <div class="image-list">';
+
+        if (!empty($imageModels)) {
+            foreach ($imageModels as $index => $image) {
+                $html .= '<img src="' . htmlspecialchars($image->image_path) . '" alt="Ảnh ' . ($index + 1) . '" class="history-image">';
+            }
+        } else {
+            $html .= '<span>Không có ảnh nào.</span>';
+        }
+
+        $html .= '</div></div>';
+
+        return $html;
+    }
+
 }

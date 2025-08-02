@@ -5,10 +5,12 @@ namespace backend\controllers;
 use Yii;
 use common\models\OwnerContacts;
 use common\models\OwnerContactSearch;
+use common\models\PropertyUpdateLog;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
+use yii\helpers\Json;
 
 /**
  * OwnerContactController implements the CRUD actions for OwnerContacts model.
@@ -75,6 +77,20 @@ class OwnerContactController extends Controller
             $tableHtml = $this->renderPartial('_table', [
                 'contacts' => $contacts,
             ]);
+            
+            try {
+                $log = new PropertyUpdateLog();
+                $log->property_id = $model->property_id;
+                $log->data = $model->property_id;
+                $log->rendered_html_content = Json::encode(\common\helpers\HtmlLogHelper::renderContactHTML($model));
+                $log->created_at = time();
+                $log->created_by = Yii::$app->user->id ?? null;
+                if (!$log->save(false)) {
+                    Yii::error('Failed to save property update log: ' . json_encode($log->errors), 'property_update_log');
+                }
+            } catch (\Throwable $th) {
+                Yii::error($th->getMessage());
+            }
 
             return [
                 'success' => true,
@@ -82,6 +98,7 @@ class OwnerContactController extends Controller
             ];
 
         }
+
 
         return ['success' => false, 'errors' => $model->errors];
     }
