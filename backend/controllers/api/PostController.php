@@ -7,6 +7,7 @@ use Yii;
 use common\models\PropertyImages;
 use common\models\Properties;
 use common\models\OwnerContacts;
+use common\models\PropertyLogs;
 use yii\helpers\FileHelper;
 
 class PostController extends Controller
@@ -22,6 +23,7 @@ class PostController extends Controller
             'update-property' => ['PUT', 'PATCH'],
             'add-owner-contact' => ['POST'],
             'properties-without-contacts' => ['GET'],
+            'add-property-history' => ['POST'],
         ];
     }
 
@@ -124,6 +126,7 @@ class PostController extends Controller
             'rentalContract',
             'interiors',
             'ownerContacts',
+            'propertyLogs'
         ])
         ->asArray()
         ->one();
@@ -447,6 +450,102 @@ class PostController extends Controller
                 'pageCount' => ceil($totalCount / $limit),
             ],
         ];
+    }
+
+    public function actionAddPropertyHistory($property_id)
+    {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        $property = Properties::findOne($property_id);
+        if ($property === null) {
+            Yii::$app->response->statusCode = 404;
+            return ['success' => false, 'message' => 'Property not found.'];
+        }
+
+        $historyEvents = Yii::$app->request->getBodyParam('history_events');
+        if (!is_array($historyEvents) || empty($historyEvents)) {
+            Yii::$app->response->statusCode = 400;
+            return ['success' => false, 'message' => 'Input "history_events" must be a non-empty array.'];
+        }
+
+        $existingHistoryIds = PropertyLogs::find()
+            ->select('history_external_id')
+            ->where(['property_id' => $property_id])
+            ->column();
+
+        $rowsToInsert = [];
+        $skippedEvents = [];
+        $now = new \yii\db\Expression('NOW()');
+
+        foreach ($historyEvents as $event) {
+            $historyId = $event['history_external_id'] ?? null;
+            $bodyHtml = $event['body_html'] ?? null;
+
+            if (empty($historyId) || empty($bodyHtml)) {
+                $skippedEvents[] = ['event' => $event, 'reason' => 'Missing required fields: history_external_id or body_html.'];
+                continue;
+            }
+
+            if (isset($existingHistoryIds[$historyId])) {
+                $skippedEvents[] = ['history_external_id' => $historyId, 'reason' => 'Duplicate entry.'];
+                continue;
+            }
+
+            $existingHistoryIds[$historyId] = true;
+
+            $rowsToInsert[] = [
+                'property_id' => $property_id,
+                'history_external_id' => $historyId,
+                'external_timestamp_text' => $event['timestamp'] ?? null,
+                'body_html' => $bodyHtml,
+                'created_at' => $now,
+                'last_updated_at' => $now,
+            ];
+        }
+
+        if (empty($rowsToInsert)) {
+            return [
+                'success' => true,
+                'message' => 'No new history events to add.',
+                'data' => [
+                    'inserted_count' => 0,
+                    'skipped_events' => $skippedEvents,
+                ]
+            ];
+        }
+
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            $insertedCount = Yii::$app->db->createCommand()
+                ->batchInsert(
+                    PropertyLogs::tableName(),
+                    ['property_id', 'history_external_id', 'external_timestamp_text', 'body_html', 'created_at', 'last_updated_at'],
+                    $rowsToInsert
+                )
+                ->execute();
+            
+            $transaction->commit();
+
+            return [
+                'success' => true,
+                'message' => 'Batch property history processing completed successfully.',
+                'data' => [
+                    'inserted_count' => $insertedCount,
+                    'skipped_events' => $skippedEvents,
+                ]
+            ];
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            Yii::$app->response->statusCode = 500;
+            return [
+                'success' => false,
+                'message' => 'An error occurred while saving history events.',
+                'error' => $e->getMessage(),
+                'data' => [
+                    'skipped_events' => $skippedEvents,
+                ]
+            ];
+        }
     }
     
 }
