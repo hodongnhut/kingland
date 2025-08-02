@@ -103,8 +103,8 @@ iframe {
         IsDevelop = "",
         _decl=false;
 </script>
-<script type="text/javascript" src="https://app.tapdoantoancau.com/refer/ast/js/script.min.js?v=2025.0.3.1"></script>
-<script type="text/javascript" src="https://app.tapdoantoancau.com/refer/ast/js/rocker.helper.js?v=2025.0.3.1"></script>
+<script type="text/javascript" src="https://kinglandgroup.vn/js/map/script.min.js"></script>
+<script type="text/javascript" src="https://kinglandgroup.vn/js/map/rocker.helper.js"></script>
 <!-- MapLibre GL JS and Turf.js -->
 <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
 <script src="https://unpkg.com/@turf/turf@6.5.0/turf.min.js"></script>
@@ -114,14 +114,14 @@ iframe {
    
 <script type="text/javascript">
 hp_HeadCode([
-    "https://app.tapdoantoancau.com/refer/ast/ex/ZoningMapVer2/css/maplibre-gl.css?v=2025.0.3.1",
-    "https://app.tapdoantoancau.com/refer/ast/css/pri_css/ZoningMapVer2.css?v=2025.0.3.1",
-    "https://app.tapdoantoancau.com/refer/ast/ex/zoningmap/css/stylezoning.css?v=2025.0.3.1",
+    "https://kinglandgroup.vn/css/map/maplibre-gl.css",
+    "https://kinglandgroup.vn/css/map/ZoningMapVer2.css",
+    "https://kinglandgroup.vn/css/map/stylezoning.css",
 ],"css");
 hp_HeadCode([
-    "https://app.tapdoantoancau.com/refer/ast/ex/ZoningMapVer2/js/maplibre-gl.js?v=2025.0.3.1",
-    "https://app.tapdoantoancau.com/refer/ast/ex/ZoningMapVer2/js/turf.js?v=2025.0.3.1",
-    "https://app.tapdoantoancau.com/refer/ast/js/Zone.js?v=2025.0.3.1"
+    "https://kinglandgroup.vn/js/map/maplibre-gl.js",
+    "https://kinglandgroup.vn/js/map/turf.js",
+    "https://kinglandgroup.vn/js/map/Zone.js"
 ],"js");
 </script>
     <section id="MainPageContainer" data-action="ZoningMapVer2" class="MainPageContainer  Page-ZoningMapVer2 View  ">
