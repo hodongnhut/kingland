@@ -447,7 +447,7 @@ class PropertyController extends Controller
 
             $filePath = Yii::getAlias('@backend/web/' . $image->image_path);
 
-            if (file_exists($filePath) && unlink($filePath)) {
+            if (file_exists($filePath)) {
                 if ($image->delete()) {
                     $otherImage = PropertyImages::find()
                         ->where(['property_id' => $image->property_id])
