@@ -349,7 +349,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                 'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
                 'format' => 'raw',
                 'value' => function ($model) {
-                    $price = number_format($model->price / 1e9, 1) . ' Tỷ ' . $model->currencies->code;
+                    $price = number_format($model->price / 1e9, 2) . ' Tỷ ' . $model->currencies->code;
                     $pricePerM2 = (!empty($model->area_total) && $model->area_total > 0) 
                         ? number_format($model->price / $model->area_total / 1e6, 0) . ' Triệu/m2' 
                         : '-';
