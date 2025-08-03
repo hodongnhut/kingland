@@ -28,7 +28,7 @@ function formatPriceUnit($number) {
 
     if ($number >= $billion) {
         $result = $number / $billion;
-        $formatted_result = rtrim(rtrim(number_format($result, 1, '.', ''), '0'), '.');
+        $formatted_result = rtrim(rtrim(number_format($result, 2, '.', ''), '0'), '.');
         return $formatted_result . ' Tỷ';
     }
 
