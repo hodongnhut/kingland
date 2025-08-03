@@ -189,8 +189,6 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                                 'alt' => 'Main Property Image',
                             ]);
                         }
-
-                    
           
                         $imageHtml = Html::tag('div', $imageIcon . $redBook , [
                             'class' => 'flex items-center space-x-1',

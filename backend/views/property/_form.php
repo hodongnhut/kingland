@@ -866,15 +866,24 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
             });
 
             addContactButton.addEventListener('click', function() {
-                contactModal.style.display = 'flex'; // Use flex to center the modal
+                contactModal.style.display = 'flex';
+                $("#save-contact-button").data("id", '');
             });
 
             closeButton.addEventListener('click', function() {
                 contactModal.style.display = 'none';
+                document.getElementById('contact-name').value = '';
+                document.getElementById('contact-phone').value = '';
+                document.getElementById('contact-role').selectedIndex = 0;
+                document.getElementById('contact-gender').selectedIndex = 0;
             });
 
             cancelContactButton.addEventListener('click', function() {
                 contactModal.style.display = 'none';
+                document.getElementById('contact-name').value = '';
+                document.getElementById('contact-phone').value = '';
+                document.getElementById('contact-role').selectedIndex = 0;
+                document.getElementById('contact-gender').selectedIndex = 0;
             });
 
             window.addEventListener('click', function(event) {
@@ -949,28 +958,36 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
         const phone = document.getElementById('contact-phone').value;
         const gender = document.getElementById('contact-gender').value;
         const propertyId = document.getElementById('properties-property_id').value;
+        const contactId = $("#save-contact-button").data("id");
+        
+        let url = '/owner-contact/create-ajax';
+        if (contactId != '') {
+            url = '/owner-contact/update-contact';
+        }
 
-
-        // Kiểm tra dữ liệu cơ bản
         if (!name || !phone || role === 'Chọn Vai Trò' || gender === 'Chọn Giới tính') {
             alert('Vui lòng điền đầy đủ thông tin.');
             return;
         }
 
-        // Gửi Ajax
-        fetch('/owner-contact/create-ajax', {
+        const postData = {
+            role: role,
+            name: name,
+            phone: phone,
+            gender: gender,
+            propertyId: propertyId
+        };
+        if (contactId != '') {
+            postData.id = contactId;
+        }
+
+        fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-Token': yii.getCsrfToken()
             },
-            body: JSON.stringify({
-                role: role,
-                name: name,
-                phone: phone,
-                gender: gender,
-                propertyId: propertyId
-            })
+            body: JSON.stringify(postData)
         })
         .then(response => response.json())
         .then(data => {
@@ -1022,6 +1039,33 @@ $('#properties-city').on('change', function() {
         },
         error: function(xhr, status, error) {
             console.error('AJAX error:', error);
+        }
+    });
+});
+$(document).on('click', '.btn-update-contact', function() {
+    var contactId = $(this).data("id");
+    var url = $(this).data("url");
+    $.ajax({
+        url: url,
+        type: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': yii.getCsrfToken()
+        },
+        success: function(data) {
+            if (data.success) {
+                $("#contact-role").val(data.contact.role_id || "");
+                $("#contact-name").val(data.contact.contact_name || "");
+                $("#contact-phone").val(data.contact.phone_number || "");
+                $("#contact-gender").val(data.contact.gender_id || "");
+                $("#contact-modal").css("display", "flex");
+                $("#save-contact-button").data("id", contactId);
+            } else {
+                alert("Không thể tải dữ liệu liên hệ: " + data.message);
+            }
+        },
+        error: function(xhr) {
+            alert("Lỗi khi tải dữ liệu: " + xhr.responseText);
         }
     });
 });

@@ -101,7 +101,7 @@ class PropertyController extends Controller
             'properties' => $data,
             'pagination' => [
                 'total' => $pagination->totalCount,
-                'page' => $pagination->getPage() + 1, // 1-based page number
+                'page' => $pagination->getPage() + 1,
                 'pageSize' => $pagination->pageSize,
                 'totalPages' => $pagination->pageCount,
             ],

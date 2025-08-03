@@ -53,6 +53,98 @@ class OwnerContactController extends Controller
         ]);
     }
 
+
+
+    public function actionGetContact($id)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $contact = OwnerContacts::findOne($id);
+
+        if ($contact) {
+            return [
+                'success' => true,
+                'contact' => [
+                    'role_id' => $contact->role_id,
+                    'contact_name' => $contact->contact_name,
+                    'phone_number' => $contact->phone_number,
+                    'gender_id' => $contact->gender_id,
+                ],
+            ];
+        }
+
+        return [
+            'success' => false,
+            'message' => 'Không tìm thấy liên hệ.',
+        ];
+    }
+
+    public function actionUpdateContact()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        if (!$data || !isset($data['role'])) {
+            return ['success' => false, 'message' => 'Dữ liệu gửi lên không hợp lệ.'];
+        }
+
+        $id = Yii::$app->request->post('id');
+        $model = OwnerContacts::findOne($id);
+        $model->role_id = (int)$data['role'];
+        $model->contact_name = $data['name'];
+        $model->phone_number = $data['phone'];
+        $model->gender_id = (int)$data['gender'];
+        $model->property_id = (int)$data['propertyId'];
+
+        if ($model->save()) {
+            $contacts = OwnerContacts::find()
+                ->where(['property_id' => $model->property_id])
+                ->with(['role', 'gender']) 
+                ->all();
+                
+            $tableHtml = $this->renderPartial('_table', [
+                'contacts' => $contacts,
+            ]);
+            
+            try {
+                $log = new PropertyUpdateLog();
+                $log->property_id = $model->property_id;
+                $log->data = $model->property_id;
+                $log->rendered_html_content = Json::encode(\common\helpers\HtmlLogHelper::renderContactHTML($model));
+                $log->created_at = time();
+                $log->created_by = Yii::$app->user->id ?? null;
+                if (!$log->save(false)) {
+                    Yii::error('Failed to save property update log: ' . json_encode($log->errors), 'property_update_log');
+                }
+            } catch (\Throwable $th) {
+                Yii::error($th->getMessage());
+            }
+
+            try {
+                $action = new PropertyActionPhone();
+                $action->property_id = $model->property_id;
+                $action->user_id = Yii::$app->user->id;
+                $action->action = 'create';
+                $action->phone_number = $model->phone_number;
+                if (!$action->save(false)) {
+                    Yii::error('Failed to save PropertyActionPhone: ' . json_encode($action->errors), 'property_update_log');
+                }
+            } catch (\Throwable $th) {
+                Yii::error($th->getMessage());
+            }
+
+            return [
+                'success' => true,
+                'data' => $tableHtml,
+            ];
+
+        }
+
+        return [
+            'success' => false,
+            'message' => $model ? implode(', ', $model->getFirstErrors()) : 'Không tìm thấy liên hệ.',
+        ];
+    }
+
     public function actionCreateAjax()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
