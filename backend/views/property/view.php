@@ -1,6 +1,6 @@
 <?php
 use yii\helpers\Html;
-use common\models\Properties;
+use common\helpers\HtmlLogHelper;
 
 /** @var yii\web\View $this */
 /** @var common\models\Properties $model */
@@ -94,7 +94,8 @@ function formatNumber($number) {
             
             <div class="bg-white p-6 rounded-lg shadow-md border-orange-600-custom">
 
-                <div class="bg-white rounded-lg mb-4 flex items-center justify-between">
+
+                <div class="bg-white rounded-lg mb-2 flex items-center justify-between">
                     <div>                    
                         <p class="text-sm text-gray-500">Mã BĐS: <span class="font-semibold text-gray-800"><?= Html::encode($model->property_id) ?></span></p>
                         <p class="text-sm text-gray-500">Ngày Nhập: <span class="font-semibold text-gray-800"><?= Yii::$app->formatter->asRelativeTime($model->created_at) ?> (<?= Yii::$app->formatter->asDate($model->created_at, 'php:d-m-Y') ?>)</span></p>
@@ -106,6 +107,11 @@ function formatNumber($number) {
                         </div>
                     </div>
                 </div>
+
+                <button id="openDialog" class="mb-2 px-3 py-1.5 rounded-lg bg-yellow-600 hover:bg-yellow-700 text-white shadow-md flex items-center space-x-1.5 text-sm transition-colors duration-200">
+                    <i class="fas fa-eye fa-sm mr-1"></i>
+                    <span>Lịch sử tương tác</span>
+                </button>
 
                 <div class="flex-grow border border-red-500 p-4 rounded ">
                     <div class="flex items-center justify-between mb-4">
@@ -339,8 +345,75 @@ function formatNumber($number) {
     </div>
 </main>
 
+<div id="dialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto mx-4 my-2 sm:mx-6 sm:my-4">
+        <div class="flex justify-between items-center p-4 border-b">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Lịch sử tương tác</h3>
+            <button id="cancelIcon" class="text-gray-500 hover:text-gray-700" type="button" aria-label="Close dialog">
+                <i class="fas fa-times-circle text-xl"></i>
+            </button>
+        </div>
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <div class="space-y-6">
+                <?php if (count($modelActionPhone)): ?>
+                    <?php foreach ($modelActionPhone as $action): ?>
+                        <div class="flex items-start space-x-4">
+                            <img src="https://placehold.co/40x40/E5E7EB/4B5563?text=<?= $action->user->username ?>" alt="Avatar" class="w-10 h-10 rounded-full object-cover">
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-gray-500 text-xs"><?= $action->timestamp ?></span>
+                                        <span class="font-semibold text-gray-900"><?= $action->user->full_name ?></span>
+                                        <span class="px-2 py-0.5 bg-gray-800 text-white text-xs rounded-md font-medium"><?= $action->user->username ?></span>
+                                    </div>
+                                </div>
+                                <div class="mt-2 pl-2 border-l-2 border-gray-200">
+                                    <div class="flex flex-col items-start p-2 bg-gray-50 rounded-lg">
+                                        <?php if ($action->action == 'create'): ?>
+                                            <button class="flex items-center text-blue-500 hover:text-blue-700 transition-colors mt-2">
+                                                <i class="fas fa-plus-square mr-2"></i>
+                                                Thêm mới
+                                            </button>
+                                        <?php else: ?>
+                                            <button class="flex items-center text-blue-500 hover:text-blue-700 transition-colors mb-2">
+                                                <i class="fas fa-phone-alt mr-2"></i>
+                                                Xem số điện thoại
+                                            </button>
+                                        <?php endif; ?>
+                                        <span class="text-gray-700"><?= $action->user->full_name ?>: <span class="text-red-600 font-medium"><?= HtmlLogHelper::maskPhoneNumber($action->phone_number)?></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        const openDialogButton = document.getElementById('openDialog');
+        const dialog = document.getElementById('dialog');
+        const cancelIcon = document.getElementById('cancelIcon');
+
+        openDialogButton.addEventListener('click', () => {
+            dialog.classList.remove('hidden');
+        });
+
+        cancelIcon.addEventListener('click', () => {
+            dialog.classList.add('hidden');
+            inputField.value = ''; 
+        });
+
+
+        dialog.addEventListener('click', (e) => {
+            if (e.target === dialog) {
+                dialog.classList.add('hidden');
+                inputField.value = ''; 
+            }
+        });
 
         const imageViewModal = document.getElementById('imageViewModal');
         const modalContent = document.getElementById('modalContent');

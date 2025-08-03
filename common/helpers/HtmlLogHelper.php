@@ -252,4 +252,26 @@ class HtmlLogHelper
         return $html;
     }
 
+
+    public static function maskPhoneNumber(string $phoneNumber): string
+    {
+        $digitsOnly = preg_replace('/\D/', '', $phoneNumber);
+
+        if (strlen($digitsOnly) === 10) {
+
+            $prefix = substr($digitsOnly, 0, 3);
+
+            $suffix = substr($digitsOnly, 6);
+
+            return "{$prefix}XXXX{$suffix}";
+        }
+
+        if (strlen($digitsOnly) === 9) {
+            $prefix = substr($digitsOnly, 0, 3);
+            $suffix = substr($digitsOnly, 6);
+            return "{$prefix}XXX{$suffix}";
+        }
+        return $phoneNumber;
+    }
+
 }

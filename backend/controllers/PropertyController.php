@@ -37,6 +37,7 @@ use yii\web\ForbiddenHttpException;
 use yii\db\Expression;
 use common\models\UserActivities;
 use common\models\PropertyUpdateLog;
+use common\models\PropertyActionPhone;
 use yii\helpers\Json;
 class PropertyController extends Controller
 {
@@ -141,9 +142,15 @@ class PropertyController extends Controller
             ->orderBy(['created_at' => SORT_DESC])
             ->all();
 
+        $modelActionPhone = PropertyActionPhone::find()
+            ->where(['property_id' => $property_id])
+            ->orderBy(['id' => SORT_DESC])
+            ->all();
+
         return $this->render('view', [
             'model' => $this->findModel($property_id),
             'modelActivityLogs' => $activityLogs,
+            'modelActionPhone' => $modelActionPhone,
         ]);
     }
 
@@ -547,17 +554,27 @@ class PropertyController extends Controller
     public function actionGetPhone()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        // Get contact_id from request
         $contactId = Yii::$app->request->post('contact_id');
         if (!$contactId) {
             return ['success' => false, 'error' => 'Contact ID is required.'];
         }
-
-        // Find the contact
         $contact = OwnerContacts::findOne($contactId);
         if (!$contact) {
             return ['success' => false, 'error' => 'Contact not found.'];
         }
+        try {
+            $action = new PropertyActionPhone();
+            $action->property_id = $contact->property_id;
+            $action->user_id = Yii::$app->user->id;
+            $action->action = 'view';
+            $action->phone_number = $contact->phone_number;
+            if (!$action->save(false)) {
+                Yii::error('Failed to save PropertyActionPhone: ' . json_encode($action->errors), 'property_update_log');
+            }
+        } catch (\Throwable $th) {
+            Yii::error($th->getMessage());
+        }
+
         $logResult = UserActivities::logActivityPhone(Yii::$app->user->id, 'view_phone', 300);
         if (!$logResult) {
             return ['success' => false, 'error' => 'Bạn đã xem đủ 300 số điện thoại hôm nay. Vui lòng quay lại vào ngày mai.'];

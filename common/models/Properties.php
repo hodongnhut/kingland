@@ -512,4 +512,14 @@ class Properties extends \yii\db\ActiveRecord
     {
         return $this->hasMany(PropertyLogs::class, ['property_id' => 'property_id']);
     }
+
+    /**
+     * Gets query for [[PropertyActionPhone]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPropertyActionPhone()
+    {
+        return $this->hasMany(PropertyActionPhone::class, ['property_id' => 'property_id']);
+    }
 }

@@ -6,11 +6,13 @@ use Yii;
 use common\models\OwnerContacts;
 use common\models\OwnerContactSearch;
 use common\models\PropertyUpdateLog;
+use common\models\PropertyActionPhone;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
 use yii\helpers\Json;
+
 
 /**
  * OwnerContactController implements the CRUD actions for OwnerContacts model.
@@ -87,6 +89,19 @@ class OwnerContactController extends Controller
                 $log->created_by = Yii::$app->user->id ?? null;
                 if (!$log->save(false)) {
                     Yii::error('Failed to save property update log: ' . json_encode($log->errors), 'property_update_log');
+                }
+            } catch (\Throwable $th) {
+                Yii::error($th->getMessage());
+            }
+
+            try {
+                $action = new PropertyActionPhone();
+                $action->property_id = $model->property_id;
+                $action->user_id = Yii::$app->user->id;
+                $action->action = 'create';
+                $action->phone_number = $model->phone_number;
+                if (!$action->save(false)) {
+                    Yii::error('Failed to save PropertyActionPhone: ' . json_encode($action->errors), 'property_update_log');
                 }
             } catch (\Throwable $th) {
                 Yii::error($th->getMessage());
