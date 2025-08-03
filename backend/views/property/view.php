@@ -388,7 +388,7 @@ function formatNumber($number) {
                     <?php endforeach; ?>
                 <?php else: ?>
                     <div class="flex items-start space-x-4">
-                        <h1 class="text-lg font-semibold text-gray-800 mb-4">Chưa có tương tác</h1>
+                        <span class="text-gray-700">Chưa có tương tác</span>
                     </div>
                 <?php endif; ?>
             </div>
