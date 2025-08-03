@@ -348,7 +348,7 @@ function formatNumber($number) {
 <div id="dialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
     <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto mx-4 my-2 sm:mx-6 sm:my-4">
         <div class="flex justify-between items-center p-4 border-b">
-        <h3 class="text-lg font-semibold text-gray-800 mb-4">Lịch sử tương tác</h3>
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Lịch sử tương tác</h3>
             <button id="cancelIcon" class="text-gray-500 hover:text-gray-700" type="button" aria-label="Close dialog">
                 <i class="fas fa-times-circle text-xl"></i>
             </button>
@@ -386,6 +386,10 @@ function formatNumber($number) {
                             </div>
                         </div>
                     <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="flex items-start space-x-4">
+                        <h1 class="text-lg font-semibold text-gray-800 mb-4">Chưa có tương tác</h1>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
