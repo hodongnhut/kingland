@@ -286,16 +286,40 @@ function formatNumber($number) {
             </div>
 
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-md font-semibold text-gray-800 mb-3">Sổ Hồng & Hình Ảnh</h3>
+                <h3 class="text-md font-semibold text-gray-800 mb-3">SỔ HỒNG | GIẤY TỜ PHÁP LÝ</h3>
                 <?php if (!empty($model->propertyImages)): ?>
                     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 uploaded-images">
                         <?php
                             $images = $model->propertyImages;
                             foreach ($images as $image) {
-                                $imageUrl = Html::encode(Yii::$app->urlManager->createAbsoluteUrl($image->image_path));
-                                echo "<div class='relative group aspect-w-1 aspect-h-1 w-full rounded-lg overflow-hidden border border-gray-200 image-container'>";
-                                echo "<img src='{$imageUrl}' alt='" . Html::encode($image->image_path) . "' class='view-image-button cursor-pointer object-cover w-full h-full' data-image-url='{$imageUrl}'>";
-                                echo "</div>";
+                                if ($image->image_type == 1) {
+                                    $imageUrl = Html::encode(Yii::$app->urlManager->createAbsoluteUrl($image->image_path));
+                                    echo "<div class='relative group aspect-w-1 aspect-h-1 w-full rounded-lg overflow-hidden border border-gray-200 image-container'>";
+                                    echo "<img src='{$imageUrl}' alt='" . Html::encode($image->image_path) . "' class='view-image-button cursor-pointer object-cover w-full h-full' data-image-url='{$imageUrl}'>";
+                                    echo "</div>";
+                                }
+                            }
+                        ?>
+                    </div>
+                <?php else: ?>
+                    <div class="alert alert-info">
+                        Chưa có hình ảnh nào cho BĐS này.
+                    </div>
+                <?php endif; ?>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-md font-semibold text-gray-800 mb-3">HÌNH ẢNH BỔ SUNG</h3>
+                <?php if (!empty($model->propertyImages)): ?>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 uploaded-images">
+                        <?php
+                            $images = $model->propertyImages;
+                            foreach ($images as $image) {
+                                if ($image->image_type == 0) {
+                                    $imageUrl = Html::encode(Yii::$app->urlManager->createAbsoluteUrl($image->image_path));
+                                    echo "<div class='relative group aspect-w-1 aspect-h-1 w-full rounded-lg overflow-hidden border border-gray-200 image-container'>";
+                                    echo "<img src='{$imageUrl}' alt='" . Html::encode($image->image_path) . "' class='view-image-button cursor-pointer object-cover w-full h-full' data-image-url='{$imageUrl}'>";
+                                    echo "</div>";
+                                }
                             }
                         ?>
                     </div>
