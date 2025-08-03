@@ -5,6 +5,7 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use yii\web\UnauthorizedHttpException;
 
 /**
  * User model
@@ -100,7 +101,7 @@ class User extends ActiveRecord implements IdentityInterface
             ->one();
 
         if (!$user) {
-            throw new NotSupportedException('Plz logout.');
+            throw new UnauthorizedHttpException('Tài Khoản của bạn đang đăng nhập ở thiết bị khác.');
         }
 
         return $user;
