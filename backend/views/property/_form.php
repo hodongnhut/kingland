@@ -1069,6 +1069,38 @@ $(document).on('click', '.btn-update-contact', function() {
         }
     });
 });
+
+$(document).on('click', '.btn-delete-contact', function() {
+    const contactId = $(this).data('id');
+    const url = $(this).data('url');
+
+    if (!confirm('Bạn có chắc chắn muốn xóa liên hệ này?')) {
+        return;
+    }
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': yii.getCsrfToken()
+        },
+        data: JSON.stringify({ id: contactId }),
+        success: function(data) {
+            if (data.success) {
+                $("#contacts-table-wrapper").html('');
+                $("#contacts-table-wrapper").html(data.data);
+                $("#save-contact-button").data("id", '');
+            } else {
+                alert("Không thể tải dữ liệu liên hệ: " + data.message);
+            }
+        },
+        error: function(xhr) {
+            console.error('AJAX error:', xhr.status, xhr.responseText);
+            alert('Lỗi khi xóa liên hệ: ' + xhr.responseText);
+        }
+    });
+});
 JS;
 $this->registerJs($script);
 ?>

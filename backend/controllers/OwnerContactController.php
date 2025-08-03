@@ -145,6 +145,39 @@ class OwnerContactController extends Controller
         ];
     }
 
+    public function actionDeleteContact($id)
+    {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        
+
+        if (!in_array(Yii::$app->user->identity->jobTitle->role_code ?? '', ['manager', 'super_admin'])) {
+            return ['success' => false, 'message' => 'Bạn không có quyền xóa liên hệ.'];
+        }
+
+        $contact = OwnerContacts::findOne($id);
+        if (!$contact) {
+            return ['success' => false, 'message' => 'Không tìm thấy liên hệ.'];
+        }
+
+        if ($contact->delete()) {
+            $contacts = OwnerContacts::find()
+                ->where(condition: ['property_id' => $contact->property_id])
+                ->with(['role', 'gender']) 
+                ->all();
+                
+            $tableHtml = $this->renderPartial('_table', [
+                'contacts' => $contacts,
+            ]);
+            
+            return [
+                'success' => true,
+                'data' => $tableHtml,
+            ];
+        } else {
+            return ['success' => false, 'message' => 'Không thể xóa liên hệ.'];
+        }
+    }
+
     public function actionCreateAjax()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;

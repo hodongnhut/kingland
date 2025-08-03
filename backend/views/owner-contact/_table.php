@@ -11,7 +11,7 @@ use yii\helpers\Url;
             <th>Số Điện Thoại</th>
             <th>Giới Tính</th>
             <?php if (in_array(Yii::$app->user->identity->jobTitle->role_code ?? '', ['manager', 'super_admin'])): ?>
-                <th>Hành động</th>
+                <th></th>
             <?php endif; ?>
         </tr>
     </thead>
@@ -30,6 +30,8 @@ use yii\helpers\Url;
                 <?php if (in_array(Yii::$app->user->identity->jobTitle->role_code ?? '', ['manager', 'super_admin'])): ?>
                     <td>
                         <a href="javascript:void(0);" class="btn btn-primary btn-update-contact" data-id="<?= $contact->contact_id ?>" data-url="<?= Url::to(['/owner-contact/get-contact', 'id' => $contact->contact_id]) ?>"><i class="fas fa-pencil-alt"></i></a>
+                </br>
+                        <a href="javascript:void(0);" class="btn btn-danger btn-delete-contact" data-id="<?= $contact->contact_id ?>" data-url="<?= Url::to(['/owner-contact/delete-contact', 'id' => $contact->contact_id]) ?>"><i class="fas fa-trash-alt"></i></a>
                     </td>
                 <?php endif; ?>
             </tr>
