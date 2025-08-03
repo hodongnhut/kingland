@@ -235,6 +235,12 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                     $imageHtml = '';
                     $redBook = '';
                     $iconPhone = '';
+
+                    $iconInOut = ' ';
+                    if (Yii::$app->user->identity->jobTitle->role_code == 'super_admin' && !empty($model->external_id)) {
+                        $iconInOut = ' ' . Html::tag('i', '', ['class' => 'fas fa-upload text-blue-500']);
+                    } 
+
                     if (!empty($model->propertyImages)) {
                         $icon = Html::tag('i', '', ['class' => 'fas fa-images text-lg']);
                         $imageIcon = Html::tag('div', $icon, [
@@ -258,7 +264,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                         $iconPhone = Html::tag('i', '', ['class' => 'fas fa-phone text-red-500']);
                     }
  
-                    return $listingTypeHtml . $propertyTypeHtml . $imageHtml . $iconPhone;
+                    return $listingTypeHtml . $propertyTypeHtml . $imageHtml . $iconPhone . $iconInOut;
                 },
             ],
             [
