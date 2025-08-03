@@ -190,15 +190,16 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                             ]);
                         }
 
-                        $iconPhone = '';
-                        if (!empty($model->ownerContacts)) {
-                            $iconPhone = Html::tag('i', '', ['class' => 'fas fa-phone text-red-500']);
-                        }
                     
           
-                        $imageHtml = Html::tag('div', $imageIcon . $redBook . $iconPhone, [
+                        $imageHtml = Html::tag('div', $imageIcon . $redBook , [
                             'class' => 'flex items-center space-x-1',
                         ]);
+                    }
+
+                    $iconPhone = '';
+                    if (!empty($model->ownerContacts)) {
+                        $iconPhone = Html::tag('i', '', ['class' => 'fas fa-phone text-red-500']);
                     }
         
                     $summary = Html::tag('div', "Địa chỉ: $model->title", ['class' => 'text-sm font-semibold']);
@@ -211,7 +212,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                     $summary .= Html::tag('div', "Trạng Thái: $status", ['class' => 'text-sm text-gray-600']);
                     $summary .= Html::tag('div', "Cập Nhật: $updatedAt", ['class' => 'text-sm text-gray-500']);
         
-                    return Html::tag('div', $summary .$imageHtml, ['class' => 'space-y-1']);
+                    return Html::tag('div', $summary .$imageHtml . $iconPhone, ['class' => 'space-y-1']);
                 },
             ],
             [
