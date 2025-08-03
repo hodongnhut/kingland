@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 use common\helpers\HtmlLogHelper;
 
 /** @var yii\web\View $this */
@@ -60,6 +61,11 @@ function formatNumber($number) {
         <i class="fas fa-database text-xl"></i> Dữ Liệu Nhà Đất [Mã: <?= $model->property_id ?> - Loại Giao Dịch: <?= $model->listingType->name ?>]
     </div>
     <div class="relative flex items-center space-x-4">
+        <div class="flex space-x-2">
+        <?= Html::a('<i class="fas fa-pencil-alt"></i> Cập Nhật', Url::to(['/property/update', 'property_id' => $model->property_id]), [
+                'class' => 'px-4 py-2 bg-orange-600 text-white rounded-md shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'
+            ]) ?>
+        </div>
         <button
             id="userMenuButton"
             class="w-10 h-10 bg-blue-500 hover:bg-blue-600 text-white rounded-full flex items-center justify-center shadow-md transition-colors duration-200"
