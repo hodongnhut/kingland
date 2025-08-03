@@ -251,22 +251,15 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                             ]);
                         }
 
-                        
-                        if (!empty($model->ownerContacts)) {
-                            $iconPhone = Html::tag('i', '', ['class' => 'fas fa-phone text-red-500']);
-                        }
-                    
-                        $imageHtml = Html::tag('div', $imageIcon . $redBook . $iconPhone, [
+                        $imageHtml = Html::tag('div', $imageIcon . $redBook , [
                             'class' => 'flex items-center space-x-1',
                         ]);
                     }
-            
-                    // House number (use house_number if available, else processed title)
-                    $houseNumber = !empty($model->house_number) ? Html::encode($model->house_number) : $processedTitle;
-                    $houseNumberHtml = $houseNumber ? Html::tag('div', $houseNumber) : '';
-            
-
-                    return $listingTypeHtml . $propertyTypeHtml . $imageHtml ;
+                    if (!empty($model->ownerContacts)) {
+                        $iconPhone = Html::tag('i', '', ['class' => 'fas fa-phone text-red-500']);
+                    }
+ 
+                    return $listingTypeHtml . $propertyTypeHtml . $imageHtml . $iconPhone;
                 },
             ],
             [
