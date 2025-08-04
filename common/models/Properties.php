@@ -124,11 +124,11 @@ class Properties extends \yii\db\ActiveRecord
     }
     public function updateChart($event) {
         UserActivities::logActivity(Yii::$app->user->id, 'add_new');
-        $model = $event->sender;
-        if (!empty($model->new_district)) {
-            $model->new_district = $this->findNewDistrict($model->city, $model->district_county, $model->ward_commune);
-            $model->save();
-        }
+        // $model = $event->sender;
+        // if (!empty($model->new_district)) {
+        //     $model->new_district = $this->findNewDistrict($model->city, $model->district_county, $model->ward_commune);
+        //     $model->save();
+        // }
         
         return;
     }
