@@ -124,27 +124,10 @@ class Properties extends \yii\db\ActiveRecord
     }
     public function updateChart($event) {
         UserActivities::logActivity(Yii::$app->user->id, 'add_new');
-        // $model = $event->sender;
-        // if (!empty($model->new_district)) {
-        //     $model->new_district = $this->findNewDistrict($model->city, $model->district_county, $model->ward_commune);
-        //     $model->save();
-        // }
-        
         return;
     }
 
-    private function findNewDistrict($province, $district, $ward) {
-        $result = NewWardMapping::find()
-            ->where(['like', 'Old_Cities', "%$province%", false])
-            ->andWhere(['like', 'Old_Districts', "%$district%", false])
-            ->andWhere(['like', 'Old_Names', "%$ward%", false])
-            ->one();
-        
-        if (!empty($result)) {
-            return $result->New_Type . ' '. $result->New_Name;
-        }
-        return;
-    }
+
 
     public function callWebhookAfterUpdate($event)
     {

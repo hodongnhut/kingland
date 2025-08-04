@@ -8,6 +8,7 @@ use common\models\PropertyImages;
 use common\models\Properties;
 use common\models\OwnerContacts;
 use common\models\PropertyLogs;
+use common\models\NewWardMapping;
 use yii\helpers\FileHelper;
 
 class PostController extends Controller
@@ -144,6 +145,19 @@ class PostController extends Controller
             ];
         }
     }
+
+    private function findNewDistrict($province, $district, $ward) {
+        $result = NewWardMapping::find()
+            ->where(['like', 'Old_Cities', "%$province%", false])
+            ->andWhere(['like', 'Old_Districts', "%$district%", false])
+            ->andWhere(['like', 'Old_Names', "%$ward%", false])
+            ->one();
+        
+        if (!empty($result)) {
+            return $result->New_Type . ' '. $result->New_Name;
+        }
+        return;
+    }
     public function actionCreateProperty()
     {
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -154,6 +168,11 @@ class PostController extends Controller
         try {
             $model = new Properties();
             $model->load($params, '');
+
+
+            if (!empty($model->new_district)) {
+                $model->new_district = $this->findNewDistrict($model->city, $model->district_county, $model->ward_commune);
+            }
 
             if (!$model->save()) {
                 throw new \Exception('Failed to save property details.');
