@@ -13,13 +13,6 @@ $this->title = 'Bản Đồ Quy Hoạch TP.HCM';
     overflow: hidden;
 }
 
-iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
-    display: block;
-}
-
 .logo-overlay {
     position: absolute;
     top: 2%;      
@@ -50,9 +43,7 @@ iframe {
 
 <div class="map-container">
     <script>
-    var site_url = "https://app.tapdoantoancau.com/",
-        UrlUl = "https://files.rockervietnam.com/",
-        RquiCLo = "1",
+    var RquiCLo = "1",
         jLanguage = "vi",
         _lade = "",
         _lode = "",
