@@ -5,11 +5,11 @@ namespace backend\controllers\api;
 use Yii;
 use yii\rest\Controller;
 use yii\filters\auth\HttpBearerAuth;
-use common\models\Properties;
 use common\models\PropertiesSearch;
 use common\models\PropertiesFrom;
 use common\models\PropertyFavorite;
-
+use common\models\Districts;
+use common\models\Wards;
 class PropertyController extends Controller
 {
     public function behaviors()
@@ -272,6 +272,24 @@ class PropertyController extends Controller
 
         return $this->response(false, 'Không thể xóa khỏi mục yêu thích');
     }
+    
+
+    public function actionAddress($address) {
+
+        $district = Districts::find()
+            ->where(['Name' => $address])
+            ->one();
+
+        $wards = Wards::find()
+            ->where(['DistrictId' => $district->id])
+            ->all();
+        if (!empty($wards)) {
+            return $this->response(true, 'Lấy danh sách Phường thành công ', $wards);
+        }
+        return $this->response(false, 'Không có Danh sách');
+    }
+
+    
 
 
 
