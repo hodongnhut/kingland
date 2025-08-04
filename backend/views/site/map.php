@@ -3365,9 +3365,9 @@ hp_HeadCode([
         </div>
     </section>
 </main>
-<script type="text/javascript" src="https://app.tapdoantoancau.com/refer/ast/js/Translator.js?v=2025.0.3.1"></script>
-<script type="text/javascript" src="https://app.tapdoantoancau.com/refer/ast/js/rocker.all.js?v=2025.0.3.1"></script>
-<script type="text/javascript" src="https://app.tapdoantoancau.com/refer/ast/js/jquery.history.js?v=2025.0.3.1"></script>
-<script type="text/javascript" src="https://app.tapdoantoancau.com/refer/ast/js/rocker.dtl.js?v=2025.0.3.1"></script>
-<script type="text/javascript" src="https://app.tapdoantoancau.com/refer/ast/js/rocker.fm.js?v=2025.0.3.1"></script>
+<script type="text/javascript" src="https://kinglandgroup.vn/js/map/Translator.js"></script>
+<script type="text/javascript" src="https://kinglandgroup.vn/js/map/rocker.all.js"></script>
+<script type="text/javascript" src="https://kinglandgroup.vn/js/map/jquery.history.js"></script>
+<script type="text/javascript" src="https://kinglandgroup.vn/js/map/rocker.dtl.js"></script>
+<script type="text/javascript" src="https://kinglandgroup.vn/js/map/rocker.fm.js"></script>
 </div>
