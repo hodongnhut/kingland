@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Properties;
@@ -34,6 +35,7 @@ class PropertiesSearch extends Properties
     public $date_from, $date_to;
     public $listing_types_id;
     public $has_rental_contract;
+    public $status_review;
 
     /**
      * {@inheritdoc}
@@ -44,7 +46,7 @@ class PropertiesSearch extends Properties
         [['property_id', 'user_id', 'has_vat_invoice', 'num_toilets', 'num_bedrooms', 
           'num_basements', 'has_deposit', 'transaction_status_id', 'has_rental_contract', 
           'is_active', 'created_at', 'updated_at', 'num_floors', 'commission_types_id', 
-          'commission_prices_id', 'property_images_id', 'num_floors_from', 'num_floors_to', 'num_bedrooms_from', 'num_bedrooms_to'], 'integer'],
+          'commission_prices_id', 'property_images_id', 'num_floors_from', 'num_floors_to', 'num_bedrooms_from', 'num_bedrooms_to', 'status_review'], 'integer'],
 
         [['title', 'selling_price', 'house_number', 'street_name', 'ward_commune', 'district_county', 'city', 
           'compound_name', 'usable_area', 'land_type', 'description', 'transaction_description', 'external_id', 
@@ -97,6 +99,7 @@ class PropertiesSearch extends Properties
         if (!$this->validate()) {
             return $dataProvider;
         }
+
 
         if (!empty($this->listing_types_id)) {
             $query->andWhere(['properties.listing_types_id' => $this->listing_types_id]);

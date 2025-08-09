@@ -36,13 +36,26 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
             Thêm Dữ Liệu Nhà Đất [Mã: <?= $model->property_id ?> - Loại Giao Dịch: <?= $model->listingType->name ?>]</h2>
     </div>
     <div class="relative flex items-center space-x-4">
-    <div class="flex space-x-2">
-        <?= Html::submitButton('<i class="fas fa-save"></i> Lưu Lại', [
-            'onclick' => 'submitPropertyForm()',
-            'class' => 'px-4 py-2 bg-orange-600 text-white rounded-md shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'
-        ]) ?>
-        <?= Html::a('<i class="fas fa-arrow-left"></i> Quay lại', Yii::$app->request->referrer ?: ['index'], ['class' => 'px-4 py-2 bg-gray-200 text-gray-800 rounded-md shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500']) ?>
-    </div>
+        <?php
+            if (!empty($model->external_id) || $model->status_review === 0 ) {
+                if (in_array(Yii::$app->user->identity->jobTitle->role_code ?? '', ['manager', 'super_admin']) && $model->status_review === 0) { ?>
+                    <?= Html::a('<i class="fas fa-check"></i> Duyệt', ['property/review', 'property_id' => $model->property_id], [
+                        'class' => 'px-4 py-2 bg-green-600 text-white rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500',
+                        'title' => 'Duyệt bài',
+                        'data' => [
+                            'method' => 'post',
+                            'confirm' => 'Vui lòng Kiểm tra thông tin Nhập . Bạn có chắc chắn muốn duyệt tin này?',
+                        ],
+                    ]); ?>
+            <?php }  ?>
+        <?php }  ?>
+        <div class="flex space-x-2">
+            <?= Html::submitButton('<i class="fas fa-save"></i> Lưu Lại', [
+                'onclick' => 'submitPropertyForm()',
+                'class' => 'px-4 py-2 bg-orange-600 text-white rounded-md shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'
+            ]) ?>
+            <?= Html::a('<i class="fas fa-arrow-left"></i> Quay lại', Yii::$app->request->referrer ?: ['index'], ['class' => 'px-4 py-2 bg-gray-200 text-gray-800 rounded-md shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500']) ?>
+        </div>
         <button
             id="userMenuButton"
             class="w-10 h-10 bg-blue-500 hover:bg-blue-600 text-white rounded-full flex items-center justify-center shadow-md transition-colors duration-200"

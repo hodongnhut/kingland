@@ -98,6 +98,7 @@ class PropertiesFrom extends Model
         $property->sheet_number = $this->sheet_number;
         $property->lot_number = $this->lot_number;
         $property->region = $this->region;
+        $property->status_review = 1;
 
         $property->created_at = date('Y-m-d H:i:s');
         $property->updated_at = date('Y-m-d H:i:s');

@@ -105,6 +105,434 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
 
         ]); 
     ?>
+
+    <?php
+
+    $columns = [
+        [
+            'class' => 'yii\grid\DataColumn',
+            'label' => '#',
+            'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+            'format' => 'raw',
+            'value' => function ($model, $key, $index, $column) use ($dataProvider) {
+                $pagination = $dataProvider->getPagination();
+                $page = $pagination->getPage();
+                $pageSize = $pagination->pageSize;
+                $rowNumber = $index + 1 + ($page * $pageSize);
+                return Html::tag('div', $rowNumber, ['class' => 'flex items-center space-x-2']);
+            },
+        ],
+        [
+            'label' => 'Thông Tin',
+            'contentOptions' => ['class' => 'px-6 py-4 text-sm text-gray-900 md:hidden'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white md:hidden'],
+            'format' => 'raw',
+            'value' => function ($model) {
+                // Helper function to get processed title
+                $getProcessedTitle = function ($index) use ($model) {
+                    return !empty($model->title) ? trim(explode(',', $model->title)[$index] ?? '') : 'N/A';
+                };
+
+                $price = !empty($model->price) ? number_format($model->price / 1e9, 1) . ' Tỷ ' . ($model->currencies->code ?? 'VND') : 'N/A';
+                $dimensions = ($model->area_width && $model->area_length) 
+                ? "({$model->area_width}m × {$model->area_length}m)" 
+                : '';
+                $area = Html::tag('div', $model->area_total . ' m2', ['class' => 'font-semibold']) .
+                Html::tag('div', $dimensions, ['class' => 'text-xs text-gray-600']);
+                $floors = !empty($model->num_floors) ? $model->num_floors . ' tầng' : 'N/A';
+                $listingType = $model->listingType ? Html::encode($model->listingType->name) : 'N/A';
+                $propertyType = $model->propertyType ? Html::encode($model->propertyType->type_name) : 'N/A';
+                $rentalPrice = $model->rentalContract 
+                    ? number_format($model->rentalContract->rent_price / 1e6) . ' Triệu' . 
+                    ($model->rentalContract->currency ? ' ' . $model->rentalContract->currency->code : '') . 
+                    ($model->rentalContract->price_time_unit === 'per_month' ? '/Tháng' : '/Năm')
+                    : 'N/A';
+                $status = $model->transactionStatus ? Html::encode($model->transactionStatus->status_name) : 'N/A';
+                $updatedAt = Yii::$app->formatter->asRelativeTime($model->updated_at);
+
+                $imageHtml = '';
+                $redBook = '';
+                
+                if (!empty($model->propertyImages)) {
+                    $icon = Html::tag('i', '', ['class' => 'fas fa-images text-lg']);
+                    $imageIcon = Html::tag('div', $icon, [
+                        'class' => 'bg-blue-600 text-white p-1 h-7 w-7 rounded-md flex items-center justify-center',
+                        'title' => count($model->propertyImages) . ' hình ảnh',
+                    ]);
+                
+                    $mainImage = PropertyImages::getMainImage($model->property_id);
+                    if ($mainImage && $mainImage->image_type == 1) {
+                        $redBook = Html::img(Url::to(['img/so-hong2.webp']), [
+                            'class' => 'h-7 w-7 object-cover rounded-md',
+                            'alt' => 'Main Property Image',
+                        ]);
+                    }
+    
+                    $imageHtml = Html::tag('div', $imageIcon . $redBook , [
+                        'class' => 'flex items-center space-x-1',
+                    ]);
+                }
+
+                $iconPhone = '';
+                if (!empty($model->ownerContacts)) {
+                    $iconPhone = Html::tag('i', '', ['class' => 'fas fa-phone text-red-500']);
+                }
+
+                $summary = Html::tag('div', "Địa chỉ: $model->title", ['class' => 'text-sm font-semibold']);
+                $summary .= Html::tag('div', "Giá tiền: $price", ['class' => 'text-sm text-gray-600']);
+                $summary .= Html::tag('div', "Diện Tích: $area", ['class' => 'text-sm text-gray-600']);
+                $summary .= Html::tag('div', "Kết Cấu: $floors", ['class' => 'text-sm text-gray-600']);
+                $summary .= Html::tag('div', "Loại: $listingType", ['class' => 'text-sm text-gray-600']);
+                $summary .= Html::tag('div', "Hạng Mục: $propertyType", ['class' => 'text-sm text-gray-600']);
+                $summary .= Html::tag('div', "HĐ Thuê: $rentalPrice", ['class' => 'text-sm text-gray-600']);
+                $summary .= Html::tag('div', "Trạng Thái: $status", ['class' => 'text-sm text-gray-600']);
+                $summary .= Html::tag('div', "Cập Nhật: $updatedAt", ['class' => 'text-sm text-gray-500']);
+
+                return Html::tag('div', $summary .$imageHtml . $iconPhone, ['class' => 'space-y-1']);
+            },
+        ],
+        [
+            'attribute' => 'title',
+            'label' => '#',
+            'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
+            'format' => 'raw',
+            'value' => function ($model) {
+                // Process title for house number fallback
+                $processedTitle = !empty($model->title) ? trim(explode(',', $model->title)[0]) : '';
+        
+                // Listing type
+                $listingType = $model->listingType ? Html::encode($model->listingType->name) : '';
+                $listingTypeHtml = $listingType ? Html::tag('div', $listingType, ['class' => 'font-semibold']) : '';
+        
+                // Property type
+                $propertyType = $model->propertyType ? Html::encode($model->propertyType->type_name) : '';
+                $propertyTypeHtml = $propertyType ? Html::tag('div', $propertyType, ['class' => 'text-xs text-gray-600']) : '';
+        
+                // Image indicator
+                $imageHtml = '';
+                $redBook = '';
+                $iconPhone = '';
+
+                $iconInOut = ' ';
+                if (Yii::$app->user->identity->jobTitle->role_code == 'super_admin' && !empty($model->external_id)) {
+                    $iconInOut = ' ' . Html::tag('i', '', ['class' => 'fas fa-upload text-blue-500']);
+                } 
+
+                if (!empty($model->propertyImages)) {
+                    $icon = Html::tag('i', '', ['class' => 'fas fa-images text-lg']);
+                    $imageIcon = Html::tag('div', $icon, [
+                        'class' => 'bg-blue-600 text-white p-1 h-7 w-7 rounded-md flex items-center justify-center',
+                        'title' => count($model->propertyImages) . ' hình ảnh',
+                    ]);
+                
+                    $mainImage = PropertyImages::getMainImage($model->property_id);
+                    if ($mainImage && $mainImage->image_type == 1) {
+                        $redBook = Html::img(Url::to(['img/so-hong2.webp']), [
+                            'class' => 'h-7 w-7 object-cover rounded-md',
+                            'alt' => 'Main Property Image',
+                        ]);
+                    }
+
+                    $imageHtml = Html::tag('div', $imageIcon . $redBook , [
+                        'class' => 'flex items-center space-x-1',
+                    ]);
+                }
+                if (!empty($model->ownerContacts)) {
+                    $iconPhone = Html::tag('i', '', ['class' => 'fas fa-phone text-red-500']);
+                }
+
+                return $listingTypeHtml . $propertyTypeHtml . $imageHtml . $iconPhone . $iconInOut;
+            },
+        ],
+        [
+            'attribute' => 'title',
+            'label' => 'Số Nhà',
+            'contentOptions' => ['class' => 'px-6 py-4 text-sm text-gray-900 hidden md:table-cell'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
+            'format' => 'raw',
+            'value' => function ($model) {
+                $processedTitle = !empty($model->title) ? trim(explode(',', $model->title)[0]) : '';
+        
+                $houseNumber = !empty($model->house_number) ? Html::encode($model->house_number) : $processedTitle;
+                $houseNumberHtml = $houseNumber ? Html::tag('div', $houseNumber) : '';
+        
+                $plotNumberHtml = !empty($model->plot_number) ? Html::tag('div', 'Thửa: ' . Html::encode($model->plot_number)) : '';
+                $sheetNumberHtml = !empty($model->sheet_number) ? Html::tag('div', 'Tờ: ' . Html::encode($model->sheet_number)) : '';
+        
+                return $houseNumberHtml . $plotNumberHtml . $sheetNumberHtml;
+            },
+        ],
+        [
+            'attribute' => 'street_name',
+            'label' => 'Đường Phố',
+            'contentOptions' => ['class' => 'px-6 py-4 text-sm text-gray-900 hidden md:table-cell'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
+            'format' => 'raw',
+            'value' => function ($model) {
+
+                $displayStreet = $model->street_name;
+                if (empty($displayStreet)) {
+                    if ($model->title && strpos($model->title, ',') !== false) {
+                        $parts = explode(',', $model->title);
+                        if (isset($parts[1])) {
+                            $displayStreet = trim($parts[1]);
+                        }
+                    }
+                }
+
+                $localtionType = $model->locationType ? Html::tag('span', $model->locationType->type_name, [
+                    'class' => 'text-xs font-medium px-2.5 py-0.5 rounded-full bg-gray-100 text-gray-800',
+                ]) : " ";
+
+                $treet = Html::tag('div', $displayStreet, ['class' => 'font-semibold']);
+                return $localtionType . $treet;
+            },
+        ],
+        [
+            'attribute' => 'district_county',
+            'label' => 'Quận/Huyện',
+            'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
+            'format' => 'raw',
+            'value' => function ($model) {
+                $new_district = $model->new_district
+                ? Html::tag('div', $model->new_district, ['class' => 'capitalize text-xs font-medium px-2.5 py-0.5 rounded-full bg-green-100 text-green-800 '])
+                : '';
+                $districtCounty = $model->district_county;
+                if (!empty($districtCounty)) {
+                    $parts = explode(',', $districtCounty);
+                    if (isset($parts[1])) {
+                        return trim($parts[1]) . $new_district;
+                    }
+                    return trim($parts[0]) . $new_district;
+                }
+
+                $wardCommune = $model->ward_commune;
+                if (!empty($wardCommune)) {
+                    $parts = explode(',', $wardCommune);
+
+                    if (isset($parts[1])) {
+                        return trim($parts[1]) .$new_district;
+                    }
+                }
+
+                return $new_district;
+            },
+        ],
+        [
+            'attribute' => 'price',
+            'label' => 'Giá',
+            'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
+            'format' => 'raw',
+            'value' => function ($model) {
+                $price = number_format($model->price / 1e9, 2) . ' Tỷ ' . $model->currencies->code;
+                $pricePerM2 = (!empty($model->area_total) && $model->area_total > 0) 
+                    ? number_format($model->price / $model->area_total / 1e6, 0) . ' Triệu/m2' 
+                    : '-';
+                return Html::tag('div', $price, ['class' => 'font-semibold text-red-600']) .
+                    Html::tag('div', '-' . $pricePerM2, ['class' => 'text-xs text-gray-600']);
+            },
+        ],
+        [
+            'attribute' => 'area_total',
+            'label' => 'Diện Tích',
+            'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
+            'format' => 'raw',
+            'value' => function ($model) {
+                $dimensions = ($model->area_width && $model->area_length) 
+                    ? "({$model->area_width}m × {$model->area_length}m)" 
+                    : '';
+                return Html::tag('div', $model->area_total . ' m2', ['class' => 'font-semibold']) .
+                    Html::tag('div', $dimensions, ['class' => 'text-xs text-gray-600']);
+            },
+        ],
+        [
+            'label' => 'Kết Cấu',
+            'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
+            'value' => function ($model) { 
+                if ($model->num_floors > 0) {
+                    return $model->num_floors . ' tầng'; 
+                }
+                return '';
+            },
+        ],
+        [
+            'label' => 'HĐ Thuê',
+            'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
+            'format' => 'raw',
+            'value' => function ($model) {
+                if ($model->rentalContract) {
+                    $contract = $model->rentalContract;
+
+                    $priceText = number_format($contract->rent_price / 1e6) . ' Triệu';
+                    if ($contract->currency) {
+                        $priceText .= ' ' . $contract->currency->code;
+                    }
+
+                    $timeUnitText = '';
+                    if ($contract->price_time_unit === 'per_month') {
+                        $timeUnitText = '/Tháng';
+                    } elseif ($contract->price_time_unit === 'per_year') {
+                        $timeUnitText = '/Năm';
+                    }
+
+                    $priceHtml = Html::tag('div', $priceText, ['class' => 'font-semibold text-red-600']);
+                    $unitHtml = Html::tag('div', $timeUnitText, ['class' => 'text-xs text-gray-600']);
+
+                    return $priceHtml . $unitHtml;
+                }
+
+                return '';
+            },
+        ],
+        [
+            'label' => 'Lưu',
+            'contentOptions' => ['class' => 'px-6 py-4  text-sm text-gray-900'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+            'format' => 'raw',
+            'value' => function ($model) {
+                $propertyId = $model->property_id; 
+                $isFavorited = FavoriteHelper::isPropertyFavorited($propertyId); 
+
+                $iconClass = $isFavorited ? 'fas fa-heart text-red-500' : 'far fa-heart text-gray-400';
+                $title = $isFavorited ? 'Bỏ lưu' : 'Lưu';
+                $dataAttributes = [
+                    'data-property-id' => $propertyId,
+                    'data-favorited' => (int)$isFavorited,
+                    'data-url' => Url::to(['/property/toggle-favorite']),
+                ];
+
+                return Html::tag('span', Html::tag('i', '', ['class' => $iconClass]), [
+                    'class' => 'favorite-toggle cursor-pointer',
+                    'title' => $title,
+                ] + $dataAttributes);
+            },
+        ],
+        [
+            'attribute' => 'transaction_status_id',
+            'label' => 'Cập nhật',
+            'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+            'format' => 'raw',
+            'value' => function ($model) {
+                if (!$model->transactionStatus || $model->transactionStatus->transaction_status_id === 0) {
+                    $statusBadge = '';
+                } else {
+                    $statusBadge = $model->transactionStatus ? Html::tag('span', $model->transactionStatus->status_name, [
+                    'class' => 'text-xs font-medium px-2.5 py-0.5 rounded-full ' . $model->transactionStatus->class_css,
+                ]) : " ";
+                }
+                $relativeTime = Yii::$app->formatter->asRelativeTime($model->updated_at);
+                $updateTimeDiv = Html::tag('div', $relativeTime, ['class' => 'text-xs text-gray-500 mt-1']);
+                $editButton = $model->is_new ?? false ? Html::a(
+                    '<i class="fas fa-pencil-alt mr-1"></i>Sản Phẩm Mới',
+                    ['update', 'property_id' => $model->property_id],
+                    ['class' => 'mt-2 text-blue-600 hover:text-blue-800 text-xs flex items-center']
+                ) : '';
+                return $statusBadge . $updateTimeDiv . $editButton;
+            },
+        ],
+        [
+            'attribute' => 'status_review',
+            'label' => 'Cập nhật',
+            'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+            'format' => 'raw',
+            'value' => function ($model) {
+                if (!$model->transactionStatus || $model->transactionStatus->transaction_status_id === 0) {
+                    $statusBadge = '';
+                } else {
+                    $statusBadge = $model->transactionStatus ? Html::tag('span', $model->transactionStatus->status_name, [
+                    'class' => 'text-xs font-medium px-2.5 py-0.5 rounded-full ' . $model->transactionStatus->class_css,
+                ]) : " ";
+                }
+                $relativeTime = Yii::$app->formatter->asRelativeTime($model->updated_at);
+                $updateTimeDiv = Html::tag('div', $relativeTime, ['class' => 'text-xs text-gray-500 mt-1']);
+                $editButton = $model->is_new ?? false ? Html::a(
+                    '<i class="fas fa-pencil-alt mr-1"></i>Sản Phẩm Mới',
+                    ['update', 'property_id' => $model->property_id],
+                    ['class' => 'mt-2 text-blue-600 hover:text-blue-800 text-xs flex items-center']
+                ) : '';
+                return $statusBadge . $updateTimeDiv . $editButton;
+            },
+        ],
+        [
+            'class' => 'yii\grid\ActionColumn',
+            'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+            'urlCreator' => function ($action, $model, $key, $index, $column) {
+                return Url::toRoute([$action, 'property_id' => $model->property_id]);
+            },
+            'template' => '{view} {update} {delete}',
+            'buttons' => [
+                'view' => function ($url, $model) {
+                    return Html::a('<i class="fas fa-eye"></i>', $url, [
+                        'class' => 'text-blue-600 hover:text-blue-800 mx-1',
+                        'title' => 'Xem',
+                    ]);
+                },
+                'update' => function ($url, $model) {
+                    return Html::a('<i class="fas fa-pencil-alt"></i>', $url, [
+                        'class' => 'text-blue-600 hover:text-blue-800 mx-1',
+                        'title' => 'Cập Nhật',
+                    ]);
+                },
+                'delete' => function ($url, $model) {
+                    if (Yii::$app->user->identity->jobTitle->role_code === 'manager' ||  Yii::$app->user->identity->jobTitle->role_code == 'super_admin') {
+                        return Html::a('<i class="fas fa-trash-alt"></i>', $url, [
+                            'class' => 'text-blue-600 hover:text-blue-800 mx-1',
+                            'title' => 'Xóa',
+                            'data' => [
+                                'confirm' => 'Bạn có chắc chắn muốn xóa bài viết này?',
+                                'method' => 'post',
+                            ],
+                    ]);
+                    }
+                    return '';
+                },
+            ],
+        ],
+    ];
+
+    if (in_array(Yii::$app->user->identity->jobTitle->role_code ?? '', ['manager', 'super_admin'])) {
+        $columns[] = [
+            'attribute' => 'status_review',
+            'label' => 'Duyệt Tin',
+            'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white'],
+            'format' => 'raw',
+            'value' => function ($model) {
+                $status = $model->status_review ?? 0;
+                $statusMap = [
+                    0 => ['text' => 'Chờ duyệt', 'class' => 'bg-yellow-100 text-yellow-800'],
+                    1 => ['text' => 'Đã duyệt', 'class' => 'bg-green-100 text-green-800'],
+                ];
+
+                $statusInfo = $statusMap[$status] ?? ['text' => 'Chưa xác định', 'class' => 'bg-gray-100 text-gray-800'];
+                $statusBadge = Html::tag('span', $statusInfo['text'], options: [
+                    'class' => 'text-xs font-medium px-2.5 py-0.5 rounded-full ' . $statusInfo['class'],
+                ]);
+
+                $buttons = '';
+                if ($status == 0) {
+                    $buttons = Html::a('<i class="fas fa-check"></i> Vào Duyệt', ['property/update', 'property_id' => $model->property_id], [
+                        'class' => 'text-green-600 hover:text-green-800 mx-1',
+                        'title' => 'Duyệt bài'
+                    ]);
+                }
+
+                return $statusBadge . Html::tag('div', $buttons, ['class' => 'mt-1']);
+            },
+        ];
+    }
+
+?>
    
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -129,373 +557,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                 'onclick' => 'window.location.href="' . Url::to(['view', 'property_id' => $model->property_id]) . '"',
             ];
         },
-        'columns' => [
-            [
-                'class' => 'yii\grid\DataColumn',
-                'label' => '#',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
-                'format' => 'raw',
-                'value' => function ($model, $key, $index, $column) use ($dataProvider) {
-                    $pagination = $dataProvider->getPagination();
-                    $page = $pagination->getPage();
-                    $pageSize = $pagination->pageSize;
-                    $rowNumber = $index + 1 + ($page * $pageSize);
-                    return Html::tag('div', $rowNumber, ['class' => 'flex items-center space-x-2']);
-                },
-            ],
-            [
-                'label' => 'Thông Tin',
-                'contentOptions' => ['class' => 'px-6 py-4 text-sm text-gray-900 md:hidden'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white md:hidden'],
-                'format' => 'raw',
-                'value' => function ($model) {
-                    // Helper function to get processed title
-                    $getProcessedTitle = function ($index) use ($model) {
-                        return !empty($model->title) ? trim(explode(',', $model->title)[$index] ?? '') : 'N/A';
-                    };
-        
-                    $price = !empty($model->price) ? number_format($model->price / 1e9, 1) . ' Tỷ ' . ($model->currencies->code ?? 'VND') : 'N/A';
-                    $dimensions = ($model->area_width && $model->area_length) 
-                    ? "({$model->area_width}m × {$model->area_length}m)" 
-                    : '';
-                    $area = Html::tag('div', $model->area_total . ' m2', ['class' => 'font-semibold']) .
-                    Html::tag('div', $dimensions, ['class' => 'text-xs text-gray-600']);
-                    $floors = !empty($model->num_floors) ? $model->num_floors . ' tầng' : 'N/A';
-                    $listingType = $model->listingType ? Html::encode($model->listingType->name) : 'N/A';
-                    $propertyType = $model->propertyType ? Html::encode($model->propertyType->type_name) : 'N/A';
-                    $rentalPrice = $model->rentalContract 
-                        ? number_format($model->rentalContract->rent_price / 1e6) . ' Triệu' . 
-                          ($model->rentalContract->currency ? ' ' . $model->rentalContract->currency->code : '') . 
-                          ($model->rentalContract->price_time_unit === 'per_month' ? '/Tháng' : '/Năm')
-                        : 'N/A';
-                    $status = $model->transactionStatus ? Html::encode($model->transactionStatus->status_name) : 'N/A';
-                    $updatedAt = Yii::$app->formatter->asRelativeTime($model->updated_at);
-
-                    $imageHtml = '';
-                    $redBook = '';
-                    
-                    if (!empty($model->propertyImages)) {
-                        $icon = Html::tag('i', '', ['class' => 'fas fa-images text-lg']);
-                        $imageIcon = Html::tag('div', $icon, [
-                            'class' => 'bg-blue-600 text-white p-1 h-7 w-7 rounded-md flex items-center justify-center',
-                            'title' => count($model->propertyImages) . ' hình ảnh',
-                        ]);
-                    
-                        $mainImage = PropertyImages::getMainImage($model->property_id);
-                        if ($mainImage && $mainImage->image_type == 1) {
-                            $redBook = Html::img(Url::to(['img/so-hong2.webp']), [
-                                'class' => 'h-7 w-7 object-cover rounded-md',
-                                'alt' => 'Main Property Image',
-                            ]);
-                        }
-          
-                        $imageHtml = Html::tag('div', $imageIcon . $redBook , [
-                            'class' => 'flex items-center space-x-1',
-                        ]);
-                    }
-
-                    $iconPhone = '';
-                    if (!empty($model->ownerContacts)) {
-                        $iconPhone = Html::tag('i', '', ['class' => 'fas fa-phone text-red-500']);
-                    }
-        
-                    $summary = Html::tag('div', "Địa chỉ: $model->title", ['class' => 'text-sm font-semibold']);
-                    $summary .= Html::tag('div', "Giá tiền: $price", ['class' => 'text-sm text-gray-600']);
-                    $summary .= Html::tag('div', "Diện Tích: $area", ['class' => 'text-sm text-gray-600']);
-                    $summary .= Html::tag('div', "Kết Cấu: $floors", ['class' => 'text-sm text-gray-600']);
-                    $summary .= Html::tag('div', "Loại: $listingType", ['class' => 'text-sm text-gray-600']);
-                    $summary .= Html::tag('div', "Hạng Mục: $propertyType", ['class' => 'text-sm text-gray-600']);
-                    $summary .= Html::tag('div', "HĐ Thuê: $rentalPrice", ['class' => 'text-sm text-gray-600']);
-                    $summary .= Html::tag('div', "Trạng Thái: $status", ['class' => 'text-sm text-gray-600']);
-                    $summary .= Html::tag('div', "Cập Nhật: $updatedAt", ['class' => 'text-sm text-gray-500']);
-        
-                    return Html::tag('div', $summary .$imageHtml . $iconPhone, ['class' => 'space-y-1']);
-                },
-            ],
-            [
-                'attribute' => 'title',
-                'label' => '#',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
-                'format' => 'raw',
-                'value' => function ($model) {
-                    // Process title for house number fallback
-                    $processedTitle = !empty($model->title) ? trim(explode(',', $model->title)[0]) : '';
-            
-                    // Listing type
-                    $listingType = $model->listingType ? Html::encode($model->listingType->name) : '';
-                    $listingTypeHtml = $listingType ? Html::tag('div', $listingType, ['class' => 'font-semibold']) : '';
-            
-                    // Property type
-                    $propertyType = $model->propertyType ? Html::encode($model->propertyType->type_name) : '';
-                    $propertyTypeHtml = $propertyType ? Html::tag('div', $propertyType, ['class' => 'text-xs text-gray-600']) : '';
-            
-                    // Image indicator
-                    $imageHtml = '';
-                    $redBook = '';
-                    $iconPhone = '';
-
-                    $iconInOut = ' ';
-                    if (Yii::$app->user->identity->jobTitle->role_code == 'super_admin' && !empty($model->external_id)) {
-                        $iconInOut = ' ' . Html::tag('i', '', ['class' => 'fas fa-upload text-blue-500']);
-                    } 
-
-                    if (!empty($model->propertyImages)) {
-                        $icon = Html::tag('i', '', ['class' => 'fas fa-images text-lg']);
-                        $imageIcon = Html::tag('div', $icon, [
-                            'class' => 'bg-blue-600 text-white p-1 h-7 w-7 rounded-md flex items-center justify-center',
-                            'title' => count($model->propertyImages) . ' hình ảnh',
-                        ]);
-                    
-                        $mainImage = PropertyImages::getMainImage($model->property_id);
-                        if ($mainImage && $mainImage->image_type == 1) {
-                            $redBook = Html::img(Url::to(['img/so-hong2.webp']), [
-                                'class' => 'h-7 w-7 object-cover rounded-md',
-                                'alt' => 'Main Property Image',
-                            ]);
-                        }
-
-                        $imageHtml = Html::tag('div', $imageIcon . $redBook , [
-                            'class' => 'flex items-center space-x-1',
-                        ]);
-                    }
-                    if (!empty($model->ownerContacts)) {
-                        $iconPhone = Html::tag('i', '', ['class' => 'fas fa-phone text-red-500']);
-                    }
- 
-                    return $listingTypeHtml . $propertyTypeHtml . $imageHtml . $iconPhone . $iconInOut;
-                },
-            ],
-            [
-                'attribute' => 'title',
-                'label' => 'Số Nhà',
-                'contentOptions' => ['class' => 'px-6 py-4 text-sm text-gray-900 hidden md:table-cell'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
-                'format' => 'raw',
-                'value' => function ($model) {
-                    $processedTitle = !empty($model->title) ? trim(explode(',', $model->title)[0]) : '';
-            
-                    $houseNumber = !empty($model->house_number) ? Html::encode($model->house_number) : $processedTitle;
-                    $houseNumberHtml = $houseNumber ? Html::tag('div', $houseNumber) : '';
-            
-                    $plotNumberHtml = !empty($model->plot_number) ? Html::tag('div', 'Thửa: ' . Html::encode($model->plot_number)) : '';
-                    $sheetNumberHtml = !empty($model->sheet_number) ? Html::tag('div', 'Tờ: ' . Html::encode($model->sheet_number)) : '';
-            
-                    return $houseNumberHtml . $plotNumberHtml . $sheetNumberHtml;
-                },
-            ],
-            [
-                'attribute' => 'street_name',
-                'label' => 'Đường Phố',
-                'contentOptions' => ['class' => 'px-6 py-4 text-sm text-gray-900 hidden md:table-cell'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
-                'format' => 'raw',
-                'value' => function ($model) {
-
-                    $displayStreet = $model->street_name;
-                    if (empty($displayStreet)) {
-                        if ($model->title && strpos($model->title, ',') !== false) {
-                            $parts = explode(',', $model->title);
-                            if (isset($parts[1])) {
-                                $displayStreet = trim($parts[1]);
-                            }
-                        }
-                    }
-
-                    $localtionType = $model->locationType ? Html::tag('span', $model->locationType->type_name, [
-                        'class' => 'text-xs font-medium px-2.5 py-0.5 rounded-full bg-gray-100 text-gray-800',
-                    ]) : " ";
-
-                    $treet = Html::tag('div', $displayStreet, ['class' => 'font-semibold']);
-                    return $localtionType . $treet;
-                },
-            ],
-            [
-                'attribute' => 'district_county',
-                'label' => 'Quận/Huyện',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
-                'format' => 'raw',
-                'value' => function ($model) {
-                    $new_district = $model->new_district
-                    ? Html::tag('div', $model->new_district, ['class' => 'capitalize text-xs font-medium px-2.5 py-0.5 rounded-full bg-green-100 text-green-800 '])
-                    : '';
-                    $districtCounty = $model->district_county;
-                    if (!empty($districtCounty)) {
-                        $parts = explode(',', $districtCounty);
-                        if (isset($parts[1])) {
-                            return trim($parts[1]) . $new_district;
-                        }
-                        return trim($parts[0]) . $new_district;
-                    }
-
-                    $wardCommune = $model->ward_commune;
-                    if (!empty($wardCommune)) {
-                        $parts = explode(',', $wardCommune);
-
-                        if (isset($parts[1])) {
-                            return trim($parts[1]) .$new_district;
-                        }
-                    }
-
-                    return $new_district;
-                },
-            ],
-            [
-                'attribute' => 'price',
-                'label' => 'Giá',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
-                'format' => 'raw',
-                'value' => function ($model) {
-                    $price = number_format($model->price / 1e9, 2) . ' Tỷ ' . $model->currencies->code;
-                    $pricePerM2 = (!empty($model->area_total) && $model->area_total > 0) 
-                        ? number_format($model->price / $model->area_total / 1e6, 0) . ' Triệu/m2' 
-                        : '-';
-                    return Html::tag('div', $price, ['class' => 'font-semibold text-red-600']) .
-                        Html::tag('div', '-' . $pricePerM2, ['class' => 'text-xs text-gray-600']);
-                },
-            ],
-            [
-                'attribute' => 'area_total',
-                'label' => 'Diện Tích',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
-                'format' => 'raw',
-                'value' => function ($model) {
-                    $dimensions = ($model->area_width && $model->area_length) 
-                        ? "({$model->area_width}m × {$model->area_length}m)" 
-                        : '';
-                    return Html::tag('div', $model->area_total . ' m2', ['class' => 'font-semibold']) .
-                        Html::tag('div', $dimensions, ['class' => 'text-xs text-gray-600']);
-                },
-            ],
-            [
-                'label' => 'Kết Cấu',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
-                'value' => function ($model) { 
-                    if ($model->num_floors > 0) {
-                        return $model->num_floors . ' tầng'; 
-                    }
-                    return '';
-                },
-            ],
-            [
-                'label' => 'HĐ Thuê',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
-                'format' => 'raw',
-                'value' => function ($model) {
-                    if ($model->rentalContract) {
-                        $contract = $model->rentalContract;
-
-                        $priceText = number_format($contract->rent_price / 1e6) . ' Triệu';
-                        if ($contract->currency) {
-                            $priceText .= ' ' . $contract->currency->code;
-                        }
-
-                        $timeUnitText = '';
-                        if ($contract->price_time_unit === 'per_month') {
-                            $timeUnitText = '/Tháng';
-                        } elseif ($contract->price_time_unit === 'per_year') {
-                            $timeUnitText = '/Năm';
-                        }
-
-                        $priceHtml = Html::tag('div', $priceText, ['class' => 'font-semibold text-red-600']);
-                        $unitHtml = Html::tag('div', $timeUnitText, ['class' => 'text-xs text-gray-600']);
-
-                        return $priceHtml . $unitHtml;
-                    }
-
-                    return '';
-                },
-            ],
-            [
-                'label' => 'Lưu',
-                'contentOptions' => ['class' => 'px-6 py-4  text-sm text-gray-900'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
-                'format' => 'raw',
-                'value' => function ($model) {
-                    $propertyId = $model->property_id; 
-                    $isFavorited = FavoriteHelper::isPropertyFavorited($propertyId); 
-
-                    $iconClass = $isFavorited ? 'fas fa-heart text-red-500' : 'far fa-heart text-gray-400';
-                    $title = $isFavorited ? 'Bỏ lưu' : 'Lưu';
-                    $dataAttributes = [
-                        'data-property-id' => $propertyId,
-                        'data-favorited' => (int)$isFavorited,
-                        'data-url' => Url::to(['/property/toggle-favorite']),
-                    ];
-
-                    return Html::tag('span', Html::tag('i', '', ['class' => $iconClass]), [
-                        'class' => 'favorite-toggle cursor-pointer',
-                        'title' => $title,
-                    ] + $dataAttributes);
-                },
-            ],
-            [
-                'attribute' => 'transaction_status_id',
-                'label' => 'Cập nhật',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
-                'format' => 'raw',
-                'value' => function ($model) {
-                    if (!$model->transactionStatus || $model->transactionStatus->transaction_status_id === 0) {
-                        $statusBadge = '';
-                    } else {
-                        $statusBadge = $model->transactionStatus ? Html::tag('span', $model->transactionStatus->status_name, [
-                        'class' => 'text-xs font-medium px-2.5 py-0.5 rounded-full ' . $model->transactionStatus->class_css,
-                    ]) : " ";
-                    }
-                    $relativeTime = Yii::$app->formatter->asRelativeTime($model->updated_at);
-                    $updateTimeDiv = Html::tag('div', $relativeTime, ['class' => 'text-xs text-gray-500 mt-1']);
-                    $editButton = $model->is_new ?? false ? Html::a(
-                        '<i class="fas fa-pencil-alt mr-1"></i>Sản Phẩm Mới',
-                        ['update', 'property_id' => $model->property_id],
-                        ['class' => 'mt-2 text-blue-600 hover:text-blue-800 text-xs flex items-center']
-                    ) : '';
-                    return $statusBadge . $updateTimeDiv . $editButton;
-                },
-            ],
-            [
-                'class' => 'yii\grid\ActionColumn',
-                'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-                'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
-                'urlCreator' => function ($action, $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'property_id' => $model->property_id]);
-                },
-                'template' => '{view} {update} {delete}',
-                'buttons' => [
-                    'view' => function ($url, $model) {
-                        return Html::a('<i class="fas fa-eye"></i>', $url, [
-                            'class' => 'text-blue-600 hover:text-blue-800 mx-1',
-                            'title' => 'Xem',
-                        ]);
-                    },
-                    'update' => function ($url, $model) {
-                        return Html::a('<i class="fas fa-pencil-alt"></i>', $url, [
-                            'class' => 'text-blue-600 hover:text-blue-800 mx-1',
-                            'title' => 'Cập Nhật',
-                        ]);
-                    },
-                    'delete' => function ($url, $model) {
-                        if (Yii::$app->user->identity->jobTitle->role_code === 'manager' ||  Yii::$app->user->identity->jobTitle->role_code == 'super_admin') {
-                            return Html::a('<i class="fas fa-trash-alt"></i>', $url, [
-                                'class' => 'text-blue-600 hover:text-blue-800 mx-1',
-                                'title' => 'Xóa',
-                                'data' => [
-                                    'confirm' => 'Bạn có chắc chắn muốn xóa bài viết này?',
-                                    'method' => 'post',
-                                ],
-                        ]);
-                        }
-                        return '';
-                    },
-                ],
-            ],
-        ],
+        'columns' => $columns,
     ]); 
     ?>
 

@@ -127,8 +127,6 @@ class Properties extends \yii\db\ActiveRecord
         return;
     }
 
-
-
     public function callWebhookAfterUpdate($event)
     {
         UserActivities::logActivity(Yii::$app->user->id, 'update_property');
@@ -136,7 +134,7 @@ class Properties extends \yii\db\ActiveRecord
         $model = $event->sender;
 
         if (empty($model->area_total) || empty($model->area_length) || 
-            empty($model->area_width) || empty($model->price)) {
+            empty($model->area_width) || empty($model->price) || $model->status_review === 0) {
             Yii::warning('Webhook skipped: Missing required fields for property ID ' . $model->property_id, 'webhook');
             return;
         }
