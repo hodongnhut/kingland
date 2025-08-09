@@ -44,7 +44,7 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                         'title' => 'Duyệt bài',
                         'data' => [
                             'method' => 'post',
-                            'confirm' => 'Vui lòng Kiểm tra thông tin Nhập . Bạn có chắc chắn muốn duyệt tin này?',
+                            'confirm' => 'Vui lòng Kiểm tra thông tin nhập 1 lần nữa . Nếu bạn chắt chắn thì duyệt tin!',
                         ],
                     ]); ?>
             <?php }  ?>
