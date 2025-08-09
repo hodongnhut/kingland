@@ -84,6 +84,10 @@ class PropertiesSearch extends Properties
             ->where(['properties.is_active' => 1])
             ->with(['locationType', 'propertyType', 'transactionStatus', 'direction','assetType']);
 
+        if (!in_array(Yii::$app->user->identity->jobTitle->role_code ?? '', ['manager', 'super_admin'])) {
+            $query->where(['properties.status_review' => 1]);
+        }
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => ['pageSize' => 20],
