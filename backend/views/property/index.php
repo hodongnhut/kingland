@@ -439,30 +439,6 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
             },
         ],
         [
-            'attribute' => 'status_review',
-            'label' => 'Cập nhật',
-            'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
-            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
-            'format' => 'raw',
-            'value' => function ($model) {
-                if (!$model->transactionStatus || $model->transactionStatus->transaction_status_id === 0) {
-                    $statusBadge = '';
-                } else {
-                    $statusBadge = $model->transactionStatus ? Html::tag('span', $model->transactionStatus->status_name, [
-                    'class' => 'text-xs font-medium px-2.5 py-0.5 rounded-full ' . $model->transactionStatus->class_css,
-                ]) : " ";
-                }
-                $relativeTime = Yii::$app->formatter->asRelativeTime($model->updated_at);
-                $updateTimeDiv = Html::tag('div', $relativeTime, ['class' => 'text-xs text-gray-500 mt-1']);
-                $editButton = $model->is_new ?? false ? Html::a(
-                    '<i class="fas fa-pencil-alt mr-1"></i>Sản Phẩm Mới',
-                    ['update', 'property_id' => $model->property_id],
-                    ['class' => 'mt-2 text-blue-600 hover:text-blue-800 text-xs flex items-center']
-                ) : '';
-                return $statusBadge . $updateTimeDiv . $editButton;
-            },
-        ],
-        [
             'class' => 'yii\grid\ActionColumn',
             'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
             'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],

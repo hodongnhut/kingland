@@ -104,7 +104,6 @@ class PropertiesSearch extends Properties
             return $dataProvider;
         }
 
-
         if (!empty($this->listing_types_id)) {
             $query->andWhere(['properties.listing_types_id' => $this->listing_types_id]);
         }
@@ -115,7 +114,7 @@ class PropertiesSearch extends Properties
             $logicMap = [
                 'transaction_status_id' => [3, 4, 5, 6, 11],
                 'selling_price_status_id' => [9, 10], // Giả sử bạn có cột này
-                'auction_property' => 1, // ID 2 đã được tách ra cho logic riêng
+                'auction_property' => 1,
                 'new_product' => 2, // ID cho "Sản Phẩm Mới"
                 'east_four_trach' => 7, // ID cho "Đông Tư Trạch"
                 'west_four_trach' => 8, // ID cho "Tây Tứ Trạch" (Tẩy Trạch)
@@ -125,7 +124,6 @@ class PropertiesSearch extends Properties
             ];
 
             $selectedFrontendTransactionIds = array_intersect($selectedIds, $logicMap['transaction_status_id']);
-
             $sellingPriceIds = array_intersect($selectedIds, $logicMap['selling_price_status_id']);
             $isAuctionPropertySelected = in_array($logicMap['auction_property'], $selectedIds);
             $isNewProductSelected = in_array($logicMap['new_product'], $selectedIds);
