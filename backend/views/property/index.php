@@ -7,6 +7,7 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use common\models\PropertyImages;
 use common\helpers\FavoriteHelper;
+use common\helpers\HtmlLogHelper;
 
 $this->title = 'Dữ Liệu Nhà Đất';
 $this->params['breadcrumbs'][] = $this->title;
@@ -329,7 +330,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
             'format' => 'raw',
             'value' => function ($model) {
                 if ($model->listing_types_id == 2) {
-                    $price = Yii::$app->formatter->asCurrency($model->price, 'VND');
+                    $price = HtmlLogHelper::formatPriceUnit($model->price);
                     $pricePerM2 = (!empty($model->area_total) && $model->area_total > 0) 
                         ? number_format($model->price / $model->area_total / 1e6, 0) . ' Triệu/m2' 
                         : '-';
