@@ -210,7 +210,7 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                                             ])->dropDownList(
                                                 [1 => 'VND', 2 => 'USD'],
                                                 [
-                                                    'class' => 'h-full rounded-md border-transparent bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
+                                                    'class' => 'h-full rounded-md border-transparent bg-transparent py-0 pl-2 pr-2 text-gray-500 focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
                                                 ]
                                             ) ?>
                                         </div>
