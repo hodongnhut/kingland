@@ -40,7 +40,7 @@ $categories = \yii\helpers\ArrayHelper::map(Categories::find()->all(), 'category
     <div class="bg-white p-6 rounded-lg shadow-md mb-6">
         <p class="text-sm text-gray-500 mb-2">Màn hình chính / Xem Bản Tin Nội Bộ</p>
         <div class="flex flex-col sm:flex-row justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4 sm:mb-0">Nhóm Bản Tin</h2>
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 sm:mb-0"> Thông Báo</h2>
             <? if ($role_code === 'manager' ||  $role_code == 'super_admin'):  ?>
                 <?= Html::a('<i class="fas fa-plus mr-2"></i> Tạo Bài Viết Mới', ['create'], ['class' => 'bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md shadow-md flex items-center transition-colors duration-200']) ?>
             <?php endif; ?>    
