@@ -61,22 +61,12 @@ class PropertyController extends Controller
         foreach ($properties as $property) {
             $images = [];
             foreach ($property->propertyImages as $image) {
-                if ($image->status_external === 1) {
-                    $images[] = [
-                        'image_id' => $image->image_id,
-                        'image_path' => rtrim(Yii::$app->params['baseUrlDomain'], '/') . '/' . ltrim($image->image_path, '/'),
-                        'is_main' => $image->is_main,
-                        'sort_order' => $image->sort_order,
-                    ];
-                } else {
-                    $images[] = [
-                        'image_id' => $image->image_id,
-                        'image_path' => rtrim($imageDomain, '/') . '/' . ltrim($image->image_path, '/'),
-                        'is_main' => $image->is_main,
-                        'sort_order' => $image->sort_order,
-                    ];
-                }
-                
+                $images[] = [
+                    'image_id' => $image->image_id,
+                    'image_path' => rtrim($imageDomain, '/') . '/' . ltrim($image->image_path, '/'),
+                    'is_main' => $image->is_main,
+                    'sort_order' => $image->sort_order,
+                ];
             }
 
             $contacts = [];
@@ -267,21 +257,12 @@ class PropertyController extends Controller
             $images = [];
             if (!empty($property->propertyImages)) {
                 foreach ($property->propertyImages as $image) {
-                    if ($image->status_external === 1) {
-                        $images[] = [
-                            'image_id' => $image->image_id,
-                            'image_path' => rtrim(Yii::$app->params['baseUrlDomain'], '/') . '/' . ltrim($image->image_path, '/'),
-                            'is_main' => $image->is_main,
-                            'sort_order' => $image->sort_order,
-                        ];
-                    } else {
-                        $images[] = [
-                            'image_id' => $image->image_id,
-                            'image_path' => rtrim($imageDomain, '/') . '/' . ltrim($image->image_path, '/'),
-                            'is_main' => $image->is_main,
-                            'sort_order' => $image->sort_order,
-                        ];
-                    }
+                    $images[] = [
+                        'image_id' => $image->image_id,
+                        'image_path' => rtrim($imageDomain, '/') . '/' . ltrim($image->image_path, '/'),
+                        'is_main' => $image->is_main,
+                        'sort_order' => $image->sort_order,
+                    ];
                 }
             }
 
@@ -437,22 +418,12 @@ class PropertyController extends Controller
         $images = [];
         $imageDomain = Yii::$app->params['imageDomain'] ?? 'https://app.bdsdaily.com';
         foreach ($model->propertyImages as $image) {
-            if ($image->status_external  === 1) {
-                $imageDomain = Yii::$app->params['baseUrlDomain'];
-                $images[] = [
-                    'image_id' => $image->image_id,
-                    'image_path' => rtrim($imageDomain, '/') . '/' . ltrim($image->image_path, '/'),
-                    'is_main' => $image->is_main,
-                    'sort_order' => $image->sort_order,
-                ];
-            } else {
-                $images[] = [
-                    'image_id' => $image->image_id,
-                    'image_path' => rtrim($imageDomain, '/') . '/' . ltrim($image->image_path, '/'),
-                    'is_main' => $image->is_main,
-                    'sort_order' => $image->sort_order,
-                ];
-            }
+            $images[] = [
+                'image_id' => $image->image_id,
+                'image_path' => rtrim($imageDomain, '/') . '/' . ltrim($image->image_path, '/'),
+                'is_main' => $image->is_main,
+                'sort_order' => $image->sort_order,
+            ];
         }
 
         $contacts = [];
@@ -542,7 +513,6 @@ class PropertyController extends Controller
                 $imageModel->image_path = '/uploads/properties/' . time() . '_' . uniqid() . '.' . $file->extension;
                 $imageModel->image_type = ($type === 'legal') ? 1 : 0;
                 $imageModel->is_main = 0;
-                $imageModel->status_external = 1;
                 $imageModel->sort_order = $sortOrder++;
 
                 $filePath = Yii::getAlias('@webroot') . $imageModel->image_path;
