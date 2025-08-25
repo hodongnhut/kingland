@@ -53,14 +53,7 @@ class PostController extends Controller
             return ['success' => false, 'message' => 'A valid post_id is required.'];
         }
 
-        $context = stream_context_create([
-            'http' => [
-                'header' => "Referer: https://app.tapdoantoancau.com/\r\n"
-            ]
-        ]);
-
-        $imageData = @file_get_contents($imageUrl, false, $context);
-
+        $imageData = @file_get_contents($imageUrl);
         if ($imageData === false) {
             return ['success' => false, 'message' => 'Could not download the image from the provided URL.'];
         }
@@ -342,14 +335,8 @@ class PostController extends Controller
         if (empty($imageUrl) || !filter_var($imageUrl, FILTER_VALIDATE_URL)) {
             return false;
         }
-        
-        $context = stream_context_create([
-            'http' => [
-                'header' => "Referer: https://app.tapdoantoancau.com/\r\n"
-            ]
-        ]);
-        $imageData = @file_get_contents($imageUrl, false, $context);
 
+        $imageData = @file_get_contents($imageUrl);
         if ($imageData === false) {
             throw new \Exception("Could not download image from URL: $imageUrl");
         }
