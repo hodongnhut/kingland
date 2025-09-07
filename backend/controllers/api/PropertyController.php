@@ -52,7 +52,7 @@ class PropertyController extends Controller
 
         $noImage[] = [
             'image_id' => 1,
-            'image_path'=> 'https://app.bdsdaily.com/img/no-image.webp',
+            'image_path'=> 'https://kinglandgroup.vn/img/no-image.webp',
             'is_main' => 1,
             'sort_order' => 0
         ];
@@ -80,9 +80,29 @@ class PropertyController extends Controller
                 ];
             }
 
+            $parts = array_map('trim', explode(',', $property->title));
+            if (count($parts) >= 4) {
+                $street = $parts[0];
+
+                $ward = $parts[1];
+                if (!preg_match('/^(phường|xã)/i', $ward)) {
+                    $ward = 'Phường ' . $ward;
+                }
+
+                $district = $parts[2];
+                if (!preg_match('/^(quận|huyện|thị xã|tp)/i', $district)) {
+                    $district = 'Quận ' . $district;
+                }
+
+                $city = $parts[3];
+                $fullAddress = $street . ', ' . $ward . ', ' . $district . ', ' . $city;
+            } else {
+                $fullAddress = $property->title;
+            }
+
             $data[] = [
                 'property_id' => $property->property_id,
-                'title' => $property->title,
+                'title' => $fullAddress,
                 'listing' =>$property->listingType->name,
                 'property_type' => $property->propertyType ? $property->propertyType->type_name : null,
                 'location_type' => $property->locationType ? $property->locationType->type_name : null,
@@ -249,7 +269,7 @@ class PropertyController extends Controller
             $noImage = [
                 [
                     'image_id' => 1,
-                    'image_path' => 'https://app.bdsdaily.com/img/no-image.webp',
+                    'image_path' => 'https://kinglandgroup.vn//img/no-image.webp',
                     'is_main' => 1,
                     'sort_order' => 0
                 ]
@@ -279,9 +299,29 @@ class PropertyController extends Controller
                 }
             }
 
+            $parts = array_map('trim', explode(',', $property->title));
+            if (count($parts) >= 4) {
+                $street = $parts[0];
+
+                $ward = $parts[1];
+                if (!preg_match('/^(phường|xã)/i', $ward)) {
+                    $ward = 'Phường ' . $ward;
+                }
+
+                $district = $parts[2];
+                if (!preg_match('/^(quận|huyện|thị xã|tp)/i', $district)) {
+                    $district = 'Quận ' . $district;
+                }
+
+                $city = $parts[3];
+                $fullAddress = $street . ', ' . $ward . ', ' . $district . ', ' . $city;
+            } else {
+                $fullAddress = $property->title;
+            }
+
             return [
                 'property_id' => $property->property_id,
-                'title' => $property->title,
+                'title' => $fullAddress,
                 'listing' => $property->listingType->name,
                 'property_type' => $property->propertyType ? $property->propertyType->type_name : null,
                 'location_type' => $property->locationType ? $property->locationType->type_name : null,
