@@ -523,3 +523,7 @@
      color: #777;
      margin-top: 5px;
  }
+
+ .thead-fixed tr .first-width {
+     width: 48px;
+ }
