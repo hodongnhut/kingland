@@ -114,7 +114,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
             'class' => 'yii\grid\DataColumn',
             'label' => '#',
             'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'],
-            'headerOptions' => ['class' => 'first-width px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
             'format' => 'raw',
             'value' => function ($model, $key, $index, $column) use ($dataProvider) {
                 $pagination = $dataProvider->getPagination();
@@ -246,7 +246,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
             'attribute' => 'title',
             'label' => 'Số Nhà',
             'contentOptions' => ['class' => 'px-6 py-4 text-sm text-gray-900 hidden md:table-cell'],
-            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
+            'headerOptions' => ['class' => 'number-house px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
             'format' => 'raw',
             'value' => function ($model) {
                 $processedTitle = !empty($model->title) ? trim(explode(',', $model->title)[0]) : '';
@@ -525,7 +525,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
         ],
         'summary' => 'Hiển thị từ {begin} đến {end} trong tổng số {totalCount} mục',
         'tableOptions' => [
-            'class' => 'min-w-full divide-y divide-gray-200 table table-striped table-bordered',
+            'class' => 'min-w-full divide-y divide-gray-200 table table-striped table-bordered table-fixed w-full',
         ],
         'headerRowOptions' => [
             'class' => 'shadow-md text-white ',
