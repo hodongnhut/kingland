@@ -144,7 +144,7 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label for="price" class="block text-sm font-medium text-gray-700 mb-1 required">Giá</label>
+                        <label for="price" class="block text-sm font-medium text-gray-700 mb-1 required">Giá Chào</label>
                         <?= $form->field($model, 'price', [
                             'template' => '{input}{error}',
                         ])->textInput([
@@ -199,7 +199,7 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                                             'type' => 'number',
                                             'min' => 0,
                                             'class' => 'block w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm pr-24', // Thêm padding phải (pr-24)
-                                            'placeholder' => 'Ví dụ: 15000000',
+                                            'placeholder' => 'VD:15000000',
                                             'value' => $rentalContractModel->rent_price ? (float)$rentalContractModel->rent_price : null,
                                             'oninput' => "if(this.value < 0) this.value = 0;",
                                         ]) ?>
