@@ -352,7 +352,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                 $dimensions = ($model->area_width && $model->area_length) 
                     ? "({$width}m × {$length}m)" 
                     : '';
-                return Html::tag('div', $model->area_total . ' m2', ['class' => 'font-semibold']) .
+                return Html::tag('div', HtmlLogHelper::formatNumber($model->area_total) . ' m2', ['class' => 'font-semibold']) .
                     Html::tag('div', $dimensions, ['class' => 'text-xs text-gray-600']);
             },
         ],
