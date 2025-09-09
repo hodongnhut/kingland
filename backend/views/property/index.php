@@ -246,7 +246,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
             'attribute' => 'title',
             'label' => 'Số Nhà',
             'contentOptions' => ['class' => 'px-6 py-4 text-sm text-gray-900 hidden md:table-cell'],
-            'headerOptions' => ['class' => 'number-house px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
+            'headerOptions' => ['class' => 'number-house px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
             'format' => 'raw',
             'value' => function ($model) {
                 $processedTitle = !empty($model->title) ? trim(explode(',', $model->title)[0]) : '';
@@ -264,7 +264,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
             'attribute' => 'street_name',
             'label' => 'Đường Phố',
             'contentOptions' => ['class' => 'px-6 py-4 text-sm text-gray-900 hidden md:table-cell'],
-            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell  text-[10px]'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell  text-[13.5px]'],
             'format' => 'raw',
             'value' => function ($model) {
 
@@ -290,7 +290,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
             'attribute' => 'district_county',
             'label' => 'Quận/Huyện',
             'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
-            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell  text-[10px]'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell  text-[13.5px]'],
             'format' => 'raw',
             'value' => function ($model) {
                 $new_district = $model->new_district
@@ -321,7 +321,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
             'attribute' => 'price',
             'label' => 'Giá',
             'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
-            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell  text-[10px]'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell  text-[13.5px]'],
             'format' => 'raw',
             'value' => function ($model) {
                 if ($model->listing_types_id == 2) {
@@ -344,7 +344,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
             'attribute' => 'area_total',
             'label' => 'Diện Tích',
             'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
-            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell  text-[10px]'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell  text-[13.5px]'],
             'format' => 'raw',
             'value' => function ($model) {
                 $width  = HtmlLogHelper::formatNumber($model->area_width);
@@ -359,7 +359,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
         [
             'label' => 'Kết Cấu',
             'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
-            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell text-[10px]'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell text-[13.5px]'],
             'value' => function ($model) { 
                 if ($model->num_floors > 0) {
                     return $model->num_floors . ' tầng'; 
@@ -370,7 +370,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
         [
             'label' => 'HĐ Thuê',
             'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
-            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell  text-[10px]'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell  text-[13.5px]'],
             'format' => 'raw',
             'value' => function ($model) {
                 if ($model->rentalContract) {
@@ -400,7 +400,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
         [
             'label' => 'Lưu',
             'contentOptions' => ['class' => 'px-6 py-4  text-sm text-gray-900'],
-            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
             'format' => 'raw',
             'value' => function ($model) {
                 $propertyId = $model->property_id; 
@@ -424,7 +424,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
             'attribute' => 'transaction_status_id',
             'label' => 'Cập nhật',
             'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
-            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
             'format' => 'raw',
             'value' => function ($model) {
                 if (!$model->transactionStatus || $model->transactionStatus->transaction_status_id === 0) {
@@ -447,7 +447,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
         [
             'class' => 'yii\grid\ActionColumn',
             'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900'],
-            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
             'urlCreator' => function ($action, $model, $key, $index, $column) {
                 return Url::toRoute([$action, 'property_id' => $model->property_id]);
             },
