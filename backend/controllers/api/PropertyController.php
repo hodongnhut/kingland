@@ -269,7 +269,7 @@ class PropertyController extends Controller
             $noImage = [
                 [
                     'image_id' => 1,
-                    'image_path' => 'https://kinglandgroup.vn//img/no-image.webp',
+                    'image_path' => 'https://kinglandgroup.vn/img/no-image.webp',
                     'is_main' => 1,
                     'sort_order' => 0
                 ]
