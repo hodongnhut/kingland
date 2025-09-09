@@ -199,7 +199,6 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                                             'type' => 'number',
                                             'min' => 0,
                                             'class' => 'block w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm pr-24', // Thêm padding phải (pr-24)
-                                            'placeholder' => 'VD:15000000',
                                             'value' => $rentalContractModel->rent_price ? (float)$rentalContractModel->rent_price : null,
                                             'oninput' => "if(this.value < 0) this.value = 0;",
                                         ]) ?>
