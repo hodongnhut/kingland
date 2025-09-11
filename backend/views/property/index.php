@@ -245,8 +245,8 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
         [
             'attribute' => 'title',
             'label' => 'Số Nhà',
-            'contentOptions' => ['class' => 'px-6 py-4 text-sm text-gray-900 hidden md:table-cell'],
-            'headerOptions' => ['class' => 'number-house px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
+            'contentOptions' => ['class' => 'w-[93px] px-6 py-4 text-sm text-gray-900 hidden md:table-cell'],
+            'headerOptions' => ['class' => 'w-[93px] number-house px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
             'format' => 'raw',
             'value' => function ($model) {
                 $processedTitle = !empty($model->title) ? trim(explode(',', $model->title)[0]) : '';
@@ -263,8 +263,8 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
         [
             'attribute' => 'street_name',
             'label' => 'Đường Phố',
-            'contentOptions' => ['class' => 'px-6 py-4 text-sm text-gray-900 hidden md:table-cell'],
-            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell text-[10px]'],
+            'contentOptions' => ['class' => 'w-[160px] px-6 py-4 text-sm text-gray-900 hidden md:table-cell'],
+            'headerOptions' => ['class' => 'w-[160px] px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell text-[10px]'],
             'format' => 'raw',
             'value' => function ($model) {
 
