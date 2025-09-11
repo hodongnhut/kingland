@@ -158,8 +158,12 @@ class Properties extends \yii\db\ActiveRecord
         } else {
             $fullAddress = $model->title;
         }
+        $price = $model->price;
+        if ($model->final_price > 0  && $model->final_price < $model->price) {
+            $price = $model->final_price;
+        }
 
-        $price = 'Giá: ' . $this->formatPriceUnit($model->price);
+        $price = 'Giá: ' . $this->formatPriceUnit($price);
         $areaTotal = 'Diện Tích: '. $this->formatNumber($model->area_total) . 'm2 ('. $this->formatNumber($model->area_width) .'m × '. $this->formatNumber($model->area_length) .'m)';
 
         $message = $fullAddress . "\n" . $areaTotal . "\n" . $price;
