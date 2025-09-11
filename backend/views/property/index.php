@@ -5,9 +5,9 @@ use yii\grid\GridView;
 use yii\web\JqueryAsset;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
+use common\helpers\HtmlLogHelper;
 use common\models\PropertyImages;
 use common\helpers\FavoriteHelper;
-use common\helpers\HtmlLogHelper;
 
 $this->title = 'Dữ Liệu Nhà Đất';
 $this->params['breadcrumbs'][] = $this->title;
@@ -386,8 +386,8 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                     }
 
 
-                    $priceHtml = Html::tag('div', 'HĐT: '."\n". $priceText, ['class' => 'text-xs text-red-400']);
-                    $unitHtml = Html::tag('div', $timeUnitText, ['class' => 'text-xs text-gray-400 ']);
+                    $priceHtml = 'HĐT: </br>'. Html::tag('div', $priceText, ['class' => 'text-xs text-red-300']);
+                    $unitHtml = Html::tag('div', $timeUnitText, ['class' => 'text-xs text-gray-300 ']);
                     return $priceHtml . $unitHtml . $numFloors;
                 }
 
