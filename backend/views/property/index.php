@@ -191,8 +191,8 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
         [
             'attribute' => 'title',
             'label' => '#',
-            'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
-            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
+            'contentOptions' => ['class' => 'w-[102px] px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+            'headerOptions' => ['class' => 'w-[102px] px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
             'format' => 'raw',
             'value' => function ($model) {
                 // Process title for house number fallback
@@ -289,9 +289,9 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
         [
             'attribute' => 'district_county',
             'label' => 'Quận/H..',
-            'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+            'contentOptions' => ['class' => 'w-[147px] px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
             'headerOptions' => [
-                'class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell text-[10px]',
+                'class' => 'w-[147px] px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell text-[10px]',
                 'title' => 'Quận/Huyện'
             ],
             'format' => 'raw',
@@ -357,8 +357,8 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
         ],
         [
             'label' => 'Kết Cấu',
-            'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
-            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell text-[13.5px]'],
+            'contentOptions' => ['class' => 'w-[130px] py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+            'headerOptions' => ['class' => 'w-[130px] py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell text-[13.5px]'],
             'value' => function ($model) { 
                 if ($model->num_floors > 0) {
                     return $model->num_floors . ' tầng'; 
@@ -398,8 +398,8 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
         ],
         [
             'label' => 'Lưu',
-            'contentOptions' => ['class' => 'px-6 py-4  text-sm text-gray-900'],
-            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
+            'contentOptions' => ['class' => 'w-[60px] px-6 py-4  text-sm text-gray-900'],
+            'headerOptions' => ['class' => 'w-[60px] px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white'],
             'format' => 'raw',
             'value' => function ($model) {
                 $propertyId = $model->property_id; 
@@ -860,13 +860,21 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
         $(window).scroll(function () {
             var window_top = $(window).scrollTop() + 1;
             var $tableContainer = $('.table-container');
+            var $table = $tableContainer.find('table');
             var $thead = $tableContainer.find('thead');
             var headerHeight = $('header').outerHeight(); 
 
             if (window_top > headerHeight) {
+                $table.removeClass('table-fixed');
                 $thead.addClass('thead-fixed animated fadeInDown');
                 $tableContainer.find('tbody').css('margin-top', $thead.outerHeight() + 'px');
+
+                document.querySelectorAll("thead th").forEach((th, i) => {
+                    let td = document.querySelector("tbody tr:first-child td:nth-child("+(i+1)+")");
+                    if (td) th.style.width = td.offsetWidth + "px";
+                });
             } else {
+                $table.addClass('table-fixed');
                 $thead.removeClass('thead-fixed animated fadeInDown');
                 $tableContainer.find('tbody').css('margin-top', '0');
             }
