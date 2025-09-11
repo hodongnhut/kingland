@@ -368,8 +368,8 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
         ],
         [
             'label' => 'HĐ Thuê',
-            'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
-            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell text-[10px]'],
+            'contentOptions' => ['class' => 'w-[110px] px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+            'headerOptions' => ['class' => 'w-[110px] px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell text-[10px]'],
             'format' => 'raw',
             'value' => function ($model) {
                 if ($model->rentalContract) {
