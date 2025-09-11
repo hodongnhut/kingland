@@ -126,8 +126,8 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
         ],
         [
             'label' => 'Thông Tin',
-            'contentOptions' => ['class' => 'px-6 py-4 text-sm text-gray-900 md:hidden'],
-            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white md:hidden'],
+            'contentOptions' => ['class' => 'w-[164px] px-6 py-4 text-sm text-gray-900 md:hidden'],
+            'headerOptions' => ['class' => 'w-[170px] px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white md:hidden'],
             'format' => 'raw',
             'value' => function ($model) {
                 $price = HtmlLogHelper::formatPriceUnit($model->price);
@@ -245,8 +245,8 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
         [
             'attribute' => 'title',
             'label' => 'Số Nhà',
-            'contentOptions' => ['class' => 'w-[93px] px-6 py-4 text-sm text-gray-900 hidden md:table-cell'],
-            'headerOptions' => ['class' => 'w-[93px] number-house px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
+            'contentOptions' => ['class' => 'w-[120px] px-6 py-4 text-sm text-gray-900 hidden md:table-cell'],
+            'headerOptions' => ['class' => 'w-[120px] px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
             'format' => 'raw',
             'value' => function ($model) {
                 $processedTitle = !empty($model->title) ? trim(explode(',', $model->title)[0]) : '';
@@ -263,8 +263,8 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
         [
             'attribute' => 'street_name',
             'label' => 'Đường Phố',
-            'contentOptions' => ['class' => 'w-[160px] px-6 py-4 text-sm text-gray-900 hidden md:table-cell'],
-            'headerOptions' => ['class' => 'w-[160px] px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell text-[10px]'],
+            'contentOptions' => ['class' => 'w-[180px] px-6 py-4 text-sm text-gray-900 hidden md:table-cell'],
+            'headerOptions' => ['class' => 'w-[180px] px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell text-[10px]'],
             'format' => 'raw',
             'value' => function ($model) {
 
@@ -322,8 +322,8 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
         ],
         [
             'label' => 'Giá',
-            'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
-            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell text-[10px]'],
+            'contentOptions' => ['class' => 'w-[80px] px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+            'headerOptions' => ['class' => 'w-[80px] px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell text-[10px]'],
             'format' => 'raw',
             'value' => function ($model) {
                 $price = $model->price;
@@ -342,8 +342,8 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
         [
             'attribute' => 'area_total',
             'label' => 'Diện Tích',
-            'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
-            'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell text-[10px]'],
+            'contentOptions' => ['class' => 'w-[80px] px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+            'headerOptions' => ['class' => 'w-[80px] px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell text-[10px]'],
             'format' => 'raw',
             'value' => function ($model) {
                 $width  = HtmlLogHelper::formatNumber($model->area_width);
@@ -357,8 +357,8 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
         ],
         [
             'label' => 'Kết Cấu',
-            'contentOptions' => ['class' => 'w-[130px] py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
-            'headerOptions' => ['class' => 'w-[130px] py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell text-[13.5px]'],
+            'contentOptions' => ['class' => 'w-[90px] py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+            'headerOptions' => ['class' => 'w-[90px] py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell text-[13.5px]'],
             'value' => function ($model) { 
                 if ($model->num_floors > 0) {
                     return $model->num_floors . ' tầng'; 
@@ -484,7 +484,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
     if (in_array(Yii::$app->user->identity->jobTitle->role_code ?? '', ['manager', 'super_admin'])) {
         $columns[] = [
             'attribute' => 'status_review',
-            'label' => 'Duyệt Tin',
+            'label' => 'Duyệt',
             'contentOptions' => ['class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
             'headerOptions' => ['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white'],
             'format' => 'raw',
