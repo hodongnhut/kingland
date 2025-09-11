@@ -166,7 +166,7 @@ function formatNumber($number) {
                         ?>
 
                         <div>
-                            <p class="text-sm text-gray-500">Mức Chào</p>
+                            <p class="text-sm text-gray-500">Giá Chào</p>
                             <p class="text-lg font-bold text-gray-800">
                                 <?= formatPriceUnit($model->price) ?>
                             </p>
