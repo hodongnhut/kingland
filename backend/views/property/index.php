@@ -191,8 +191,8 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
         [
             'attribute' => 'title',
             'label' => '#',
-            'contentOptions' => ['class' => 'w-[102px] px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
-            'headerOptions' => ['class' => 'w-[102px] px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
+            'contentOptions' => ['class' => 'w-[90px] px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
+            'headerOptions' => ['class' => 'w-[90px] px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell'],
             'format' => 'raw',
             'value' => function ($model) {
                 // Process title for house number fallback
@@ -262,9 +262,12 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
         ],
         [
             'attribute' => 'street_name',
-            'label' => 'Đường Phố',
-            'contentOptions' => ['class' => 'w-[140px] px-6 py-4 text-sm text-gray-900 hidden md:table-cell'],
-            'headerOptions' => ['class' => 'w-[140px] px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell text-[10px]'],
+            'label' => 'Đường',
+            'contentOptions' => ['class' => 'w-[135px] px-6 py-4 text-sm text-gray-900 hidden md:table-cell'],
+            'headerOptions' => [
+                'class' => 'w-[135px] px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell text-[10px]',
+                'title' => 'Đường Phố'
+            ],
             'format' => 'raw',
             'value' => function ($model) {
 
@@ -369,7 +372,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
         [
             'label' => 'HĐ Thuê',
             'contentOptions' => ['class' => 'w-[90px] px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell'],
-            'headerOptions' => ['class' => 'w-[90px] px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell text-[10px]'],
+            'headerOptions' => ['class' => 'w-[90px] px-6 py-3 text-left text-sm font-medium text-gray-500 capitalize tracking-wider  bg-yellow-500 hover:bg-yellow-600 text-white hidden md:table-cell text-[10px]'],
             'format' => 'raw',
             'value' => function ($model) {
                 if ($model->rentalContract) {
@@ -387,7 +390,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                         $timeUnitText = '/Năm';
                     }
 
-                    $priceHtml = Html::tag('div', $priceText, ['class' => 'font-semibold text-red-600']);
+                    $priceHtml = Html::tag('div', $priceText, ['class' => 'font-semibold text-xs text-red-600']);
                     $unitHtml = Html::tag('div', $timeUnitText, ['class' => 'text-xs text-gray-600']);
 
                     return $priceHtml . $unitHtml;
