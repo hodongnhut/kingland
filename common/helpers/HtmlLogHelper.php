@@ -180,7 +180,7 @@ class HtmlLogHelper
 
     public static function formatPriceUnit($number) {
         if (!is_numeric($number) || $number <= 0) {
-            return 'Thỏa thuận';
+            return ' ';
         }
     
         $billion = 1000000000;

@@ -330,7 +330,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
             'format' => 'raw',
             'value' => function ($model) {
                 $price = $model->price;
-                if ($model->final_price > 0  && $model->final_price < $model->price) {
+                if ($model->final_price > 0  && $model->final_price != $model->price) {
                     $price = $model->final_price;
                 }
                 $priceDisplay = HtmlLogHelper::formatPriceUnit($price);

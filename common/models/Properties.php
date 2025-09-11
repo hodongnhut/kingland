@@ -159,7 +159,7 @@ class Properties extends \yii\db\ActiveRecord
             $fullAddress = $model->title;
         }
         $price = $model->price;
-        if ($model->final_price > 0  && $model->final_price < $model->price) {
+        if ($model->final_price > 0  && $model->final_price != $model->price) {
             $price = $model->final_price;
         }
 
