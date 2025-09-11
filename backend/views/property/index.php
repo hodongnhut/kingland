@@ -339,7 +339,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                     : '-';
 
                 return Html::tag('div', $priceDisplay, ['class' => 'font-semibold text-red-600']) .
-                    Html::tag('div', '-' . $pricePerM2, ['class' => 'text-xs text-gray-600']);
+                    Html::tag('div', '~' . $pricePerM2, ['class' => 'text-xs text-gray-600']);
             },
         ],
         [
