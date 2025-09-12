@@ -92,9 +92,36 @@ class PropertiesSearch extends Properties
             'query' => $query,
             'pagination' => ['pageSize' => 20],
             'sort' => [
-                'defaultOrder' => [
-                    'updated_at' => SORT_DESC
-                ]
+                'attributes' => [
+                    'house_number' => [
+                        'asc' => ['properties.house_number' => SORT_ASC],
+                        'desc' => ['properties.house_number' => SORT_DESC],
+                        'default' => SORT_ASC,
+                    ],
+                    'street_name' => [
+                        'asc' => ['properties.street_name' => SORT_ASC],
+                        'desc' => ['properties.street_name' => SORT_DESC],
+                        'default' => SORT_ASC,
+                    ],
+                   'region' => [
+                        'asc' => ['properties.region' => SORT_ASC],
+                        'desc' => ['properties.region' => SORT_DESC],
+                        'default' => SORT_ASC,
+                    ],
+                    'updated_at' => [
+                        'asc' => ['properties.updated_at' => SORT_ASC],
+                        'desc' => ['properties.updated_at' => SORT_DESC],
+                        'default' => SORT_DESC,
+                    ],
+                ],
+                'defaultOrder' => !empty($this->keyword) ? [
+                    'house_number' => SORT_ASC, // Ưu tiên house_number khi có keyword
+                    'street_name' => SORT_ASC,  // Sau đó là street_name
+                    'region' => SORT_ASC,  // Sau đó là region
+                    'updated_at' => SORT_DESC,  // Cuối cùng là updated_at
+                ] : [
+                    'updated_at' => SORT_DESC,  // Mặc định nếu không có keyword
+                ],
             ],
         ]);
 
