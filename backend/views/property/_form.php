@@ -197,11 +197,13 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                                             'template' => '{input}{error}'
                                         ])->textInput([
                                             'type' => 'number',
+                                            'id' => 'rent-price',
                                             'min' => 0,
                                             'class' => 'block w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-orange-500 focus:border-orange-500 sm:text-sm pr-24', // Thêm padding phải (pr-24)
                                             'value' => $rentalContractModel->rent_price ? (float)$rentalContractModel->rent_price : null,
                                             'oninput' => "if(this.value < 0) this.value = 0;",
                                         ]) ?>
+                                        
 
                                         <div class="absolute inset-y-0 right-0 flex items-center">
                                             <?= $form->field($rentalContractModel, 'currency_id', [
@@ -214,6 +216,7 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                                             ) ?>
                                         </div>
                                     </div>
+                                    <p id="rent-price-display" class="inline-block mt-2 px-4 py-2 text-sm font-medium rounded-full bg-gray-100 text-orange-700"></p>
                                 </div>
 
                                 <div>
@@ -813,6 +816,7 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
 
         const priceInput = document.getElementById('price');
         const priceDisplay = document.getElementById('price-display');
+        const rentPriceDisplay = document.getElementById('rent-price-display');
 
         function formatVNCurrency(number) {
             if (isNaN(number) || number <= 0) {
@@ -855,6 +859,7 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
 
         setupPriceFormatting('price', 'price-display');
         setupPriceFormatting('final_price', 'final-price-display');
+        setupPriceFormatting('rent-price', 'rent-price-display');
 
         if (rentalCheckbox && rentalDetailsContainer) {
             function toggleRentalDetails() {
