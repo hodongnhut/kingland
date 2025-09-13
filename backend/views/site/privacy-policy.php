@@ -80,9 +80,9 @@
       <h2>9. Thông tin liên hệ</h2>
       <p>Nếu bạn có câu hỏi hoặc muốn thực hiện quyền liên quan đến dữ liệu cá nhân, vui lòng liên hệ:</p>
       <ul>
-        <li><strong>Email:</strong> <a href="mailto:support@tencongty.com">support@tencongty.com</a></li>
-        <li><strong>Điện thoại:</strong> +84-123-456-789</li>
-        <li><strong>Địa chỉ:</strong> [Địa chỉ công ty bạn]</li>
+        <li><strong>Email:</strong> <a href="mailto:kinglandgroup2404@gmail.com">kinglandgroup2404@gmail.com</a></li>
+        <li><strong>Điện thoại:</strong> +84707717167</li>
+        <li><strong>Địa chỉ:</strong>  105/38/21 Nguyễn Tư Giản, Phường An Hội Tây, Tp. Hồ Chí Minh</li>
       </ul>
 
       <footer>

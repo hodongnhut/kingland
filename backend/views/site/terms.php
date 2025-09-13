@@ -57,8 +57,9 @@
 
   <h2>7. Liên hệ</h2>
   <p>Nếu bạn có câu hỏi về điều khoản này, vui lòng liên hệ: <br>
-  Email: support@[tencongty].com <br>
-  Địa chỉ: [Địa chỉ công ty]</p>
+  Email: kinglandgroup2404@gmail.com <br>
+  Điện thoại: 0707 717 167 <br>
+  Địa chỉ: 105/38/21 Nguyễn Tư Giản, Phường An Hội Tây, Tp. Hồ Chí Minh</p>
 
   <p><em>Cập nhật lần cuối: 19/09/2025</em></p>
 </body>
