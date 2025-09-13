@@ -102,6 +102,7 @@ return [
                 'ban-do-quy-hoach-ho-chi-minh' => 'site/map-ho-chi-minh',
                 'mobile-map' => 'site/mobile-map',
                 'privacy-policy' => 'site/privacy-policy',
+                'terms' => 'site/terms',
                 'property/<action:[\w-]+>' => 'property/<action>',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',

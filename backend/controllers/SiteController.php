@@ -5,19 +5,19 @@ namespace backend\controllers;
 use Yii;
 use yii\web\Response;
 use common\models\User;
-use common\models\UserLocations;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use common\models\LoginForm;
 use common\models\SignupForm;
 use common\models\UserSearch;
 use yii\filters\AccessControl;
+use common\models\UserLocations;
+use common\models\UserActivities;
 use yii\web\BadRequestHttpException;
 use common\models\ChangePasswordForm;
 use frontend\models\ResetPasswordForm;
 use yii\base\InvalidArgumentException;
 use frontend\models\PasswordResetRequestForm;
-use common\models\UserActivities;
 /**
  * Site controller
  */
@@ -39,7 +39,8 @@ class SiteController extends Controller
                             'reset-password', 
                             'request-password-reset', 
                             'mobile-map',
-                            'privacy-policy'
+                            'privacy-policy',
+                            'terms'
                         ],
                         'allow' => true,
                     ],
@@ -432,6 +433,16 @@ class SiteController extends Controller
     public function actionPrivacyPolicy() {
         $this->layout = 'map';
         return $this->render('privacy-policy');
+    }
+
+     /**
+     * Property user up.
+     *
+     * @return mixed
+     */
+    public function actionTerms() {
+        $this->layout = 'map';
+        return $this->render('terms');
     }
     
 

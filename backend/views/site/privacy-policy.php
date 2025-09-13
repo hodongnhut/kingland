@@ -25,7 +25,7 @@
   <div class="container">
     <div class="card">
       <h1>Chính Sách Bảo Mật</h1>
-      <div class="meta">Ngày hiệu lực: <strong>19/09/2019</strong> &nbsp;|&nbsp; Ứng dụng: <strong>KingLand</strong></div>
+      <div class="meta">Ngày hiệu lực: <strong>19/09/2025</strong> &nbsp;|&nbsp; Ứng dụng: <strong>KingLand</strong></div>
 
       <p>Ứng dụng <strong>KingLand</strong> ("Ứng dụng", "chúng tôi") cam kết bảo vệ quyền riêng tư và dữ liệu cá nhân của người dùng. Chính sách này mô tả cách chúng tôi thu thập, sử dụng, lưu trữ và chia sẻ thông tin khi bạn sử dụng Ứng dụng.</p>
 
