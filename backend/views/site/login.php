@@ -99,6 +99,13 @@ $this->title = 'Đăng Nhập';
             <?= Html::submitButton('Đăng Nhập', ['class' => 'btn btn-primary w-100 py-2', 'name' => 'login-button']) ?>
         </div>
 
+        <div class="flex justify-around mt-4 mb-3">
+            <a href="https://kinglandgroup.vn/terms" class="text-decoration-none text-primary text-sm">Điều khoản sử dụng</a>
+            <a href="https://kinglandgroup.vn/privacy-policy" class="text-decoration-none text-primary text-sm">Chính sách bảo mật</a>
+        </div>
+
+        
+
         <?php ActiveForm::end(); ?>
 
 </div>
