@@ -115,8 +115,8 @@ $this->registerCssFile(
                         <tr>
                             <th scope="col" class="w-[100px] py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mã nhân viên</th>
                             <th scope="col" class="w-[100px] py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Họ tên</th>
-                            <th scope="col" class="w-[100px] py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                            <th scope="col" class="w-[100px] py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Chức vụ</th>
+                            <th scope="col" class="w-[170px] py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                            <th scope="col" class="w-[170px] py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Chức vụ</th>
                             <th scope="col" class="w-[100px] py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trạng thái</th>
                             <th scope="col" class=" py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Thao tác</th>
                         </tr>
