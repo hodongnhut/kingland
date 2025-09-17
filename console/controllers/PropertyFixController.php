@@ -44,6 +44,29 @@ class PropertyFixController extends Controller
         echo "✅ Hoàn tất cập nhật địa chỉ\n";
     }
 
+    /**
+     * Fix city, district, ward, street_name from title.
+     * Run: php yii property-fix/fix-address
+     */
+    public function actionFixAddressTitle()
+    {
+        // Chỉ chọn những bản ghi cần cập nhật
+        $properties = Properties::find()
+        ->where(['title' => null])
+        ->andWhere(['!=', 'tmp_id', ''])
+        ->all();
+
+        foreach ($properties as $property) {
+            $title = null;
+            $title = "Số ". $property->house_number . " ". $property->street_name . ", Phường ". $property->ward_commune . ", ". $property->district_county . ", TP.HCM"; 
+            $property->title = $title;
+            $property->save(false);
+            echo "✔ Cập nhật thành công title: \"{$title}\"\n";
+        }
+
+      
+    }
+
     public function actionFixDistrictNames()
     {
         $properties = Properties::find()

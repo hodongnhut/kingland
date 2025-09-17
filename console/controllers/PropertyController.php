@@ -10,7 +10,10 @@ class PropertyController extends Controller
 {
     public function actionUpdateNewDistrict()
     {
-        $query = Properties::find()->where(['new_district' => null]);
+        $query = Properties::find()
+        ->where(condition: ['new_district' => null])
+        ->andWhere(['!=', 'tmp_id', '']);
+        
         $batchSize = 500;
         $total = $query->count();
         $updated = 0;
@@ -106,5 +109,5 @@ class PropertyController extends Controller
         
         return $district;
     }
-
+    }
 }

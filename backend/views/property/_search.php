@@ -50,8 +50,8 @@ foreach ($advancedFields as $field) {
         ],
     ]); ?>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-3">
-        <div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 mb-3">
+        <div class="flex items-center space-x-1">
             <?= Html::textInput(
                 'PropertiesSearch[keyword]',
                 $searchParams['keyword'] ?? null,
@@ -227,15 +227,15 @@ foreach ($advancedFields as $field) {
                 [
                     'prompt' => 'Chọn Tỉnh Thành',
                     'value' => 'Hồ Chí Minh',
-                    'class' => 'w-full form-input border border-gray-300 rounded-md py-1 px-2 w-1/2 focus:ring-blue-500 focus:border-blue-500 text-sm'
+                    'class' => 'w-[93px] form-input border border-gray-300 rounded-md py-1 px-2 w-1/2 focus:ring-blue-500 focus:border-blue-500 text-sm'
                 ]
             )->label('<span class="text-red-500">*</span> Tỉnh Thành', ['class' => 'text-sm font-medium text-gray-700']) ?>
             
             <?= $form->field($model, 'district_county')->dropDownList(
                     ArrayHelper::map($modelDistricts, 'Name', 'Name'),
                     [
-                        'prompt' => 'Chọn Quận Huyện...', 
-                        'class' => 'w-full form-input border border-gray-300 rounded-md py-1 px-2 w-1/2 focus:ring-blue-500 focus:border-blue-500 text-sm'
+                        'prompt' => 'Quận Huyện...', 
+                        'class' => 'w-[93px] form-input border border-gray-300 rounded-md py-1 px-2 w-1/2 focus:ring-blue-500 focus:border-blue-500 text-sm'
                     ]
                 )->label('<span class="text-red-500">*</span> Quận Huyện', ['class' => 'text-sm font-medium text-gray-700']) ?>
         </div>
@@ -243,8 +243,8 @@ foreach ($advancedFields as $field) {
             <?= $form->field($model, 'ward_commune')->dropDownList(
                 [],
                 [
-                    'prompt' => 'Chọn Phường / Xã',
-                    'class' => 'w-full form-input border border-gray-300 rounded-md py-1 px-2 w-1/2 focus:ring-blue-500 focus:border-blue-500 text-sm'
+                    'prompt' => 'Phường / Xã',
+                    'class' => 'w-[100px] form-input border border-gray-300 rounded-md py-1 px-2 w-1/2 focus:ring-blue-500 focus:border-blue-500 text-sm'
                 ]
             )->label('<span class="text-red-500">*</span> Phường / Xã', ['class' => 'text-sm font-medium text-gray-700']) ?>
            
@@ -252,7 +252,7 @@ foreach ($advancedFields as $field) {
                     [],
                     [
                         'prompt' => 'Chọn Đường',
-                        'class' => 'w-full form-input border border-gray-300 rounded-md py-1 px-2 w-1/2 focus:ring-blue-500 focus:border-blue-500 text-sm',
+                        'class' => 'w-[93px] form-input border border-gray-300 rounded-md py-1 px-2 w-1/2 focus:ring-blue-500 focus:border-blue-500 text-sm',
                         'aria-required' => 'true',
                     ]
                 )->label('<span class="text-red-500">*</span> Đường', ['class' => 'text-sm font-medium text-gray-700']) ?>
