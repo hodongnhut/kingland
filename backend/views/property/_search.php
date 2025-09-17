@@ -252,7 +252,7 @@ foreach ($advancedFields as $field) {
                     [],
                     [
                         'prompt' => 'Chọn Đường',
-                        'class' => 'w-[93px] form-input border border-gray-300 rounded-md py-1 px-2 w-1/2 focus:ring-blue-500 focus:border-blue-500 text-sm',
+                        'class' => 'form-input border border-gray-300 rounded-md py-1 px-2 w-1/2 focus:ring-blue-500 focus:border-blue-500 text-sm',
                         'aria-required' => 'true',
                     ]
                 )->label('<span class="text-red-500">*</span> Đường', ['class' => 'text-sm font-medium text-gray-700']) ?>
