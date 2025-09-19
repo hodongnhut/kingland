@@ -60,7 +60,9 @@ class PropertyFixController extends Controller
             $title = null;
             $title = "Số ". $property->house_number . " ". $property->street_name . ", Phường ". $property->ward_commune . ", ". $property->district_county . ", TP.HCM"; 
             $property->title = $title;
-            $property->save(false);
+            $property->updateAttributes([
+                'title' => $title,
+            ]);
             echo "✔ Cập nhật thành công title: \"{$title}\"\n";
         }
 
@@ -79,12 +81,10 @@ class PropertyFixController extends Controller
             if ($districtNumber >= 1 && $districtNumber <= 12) {
                 $newDistrictName = 'Quận ' . $districtNumber;
                 $property->district_county = $newDistrictName;
-
-                if ($property->save(false)) {
-                    echo "✔ ID {$property->property_id}: Đã cập nhật thành {$newDistrictName}\n";
-                } else {
-                    echo "✖ ID {$property->property_id}: Lỗi khi cập nhật\n";
-                }
+                $property->updateAttributes(attributes: [
+                    'district_county' => $newDistrictName,
+                ]);
+                echo "✔ ID {$property->property_id}: Đã cập nhật thành {$newDistrictName}\n";
             }
         }
 

@@ -31,13 +31,11 @@ class PropertyController extends Controller
                 $newDistrict = $this->findNewDistrict($province, $district, $ward);
 
                 if ($newDistrict) {
-                    $property->new_district = $newDistrict;
-                    if ($property->save(false)) {
-                        $updated++;
-                        echo "✅ Updated property ID {$property->property_id} => $newDistrict\n";
-                    } else {
-                        echo "❌ Failed to update property ID {$property->property_id}\n";
-                    }
+                    $property->updateAttributes(attributes: [
+                        'new_district' => $newDistrict,
+                    ]);
+                    $updated++;
+                    echo "✅ Updated property ID {$property->property_id} => $newDistrict\n";
                 }
             }
 
