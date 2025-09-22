@@ -45,6 +45,7 @@ class PropertyController extends Controller
         echo "🎉 Hoàn tất. Đã cập nhật $updated bất động sản.\n";
     }
 
+
     private function findNewDistrict($province, $district, $ward)
     {
         if (empty($district) || empty($ward)) {
