@@ -79,8 +79,7 @@ class PropertyFixController extends Controller
         $transaction = Properties::getDb()->beginTransaction();
         try {
             $properties = Properties::find()
-                ->where(['title' => null])
-                ->andWhere(['between', 'property_id', 390203, 499554])
+                ->where(['between', 'property_id', 390203, 499554])
                 ->all();
             foreach ($properties as $property) {
                 $duplicate = Properties::find()
@@ -88,8 +87,8 @@ class PropertyFixController extends Controller
                         'house_number' => $property->house_number,
                         'street_name' => $property->street_name,
                         'ward_commune' => $property->ward_commune,
-                        'tmp_id' => null,
                     ])
+                    ->andWhere(['not', ['between', 'property_id', 390203, 499554]])
                     ->one();
                 $duplicateId = $property->primaryKey;
                 echo "ID {$property->primaryKey}\n";
