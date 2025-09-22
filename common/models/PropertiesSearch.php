@@ -238,8 +238,6 @@ class PropertiesSearch extends Properties
             ->andWhere([
                 'or',
                 ['like', 'properties.title', $this->keyword],
-                ['=', 'properties.region', $this->keyword], //Khu Vực
-                ['=', 'properties.district_county', $this->keyword],
                 ['=', 'owner_contacts.phone_number', $this->keyword],
             ]);
         }

@@ -69,35 +69,40 @@ class PropertyFixController extends Controller
       
     }
 
+    /**
+     * Delete duplicate records with non-null tmp_id.
+     * Run: php yii property-fix/delete-duplicate
+     */
     public function actionDeleteDuplicate()
     {
         $transaction = Properties::getDb()->beginTransaction();
         try {
-            $properties = Properties::find()
-            ->where(['title' => null])
-            ->andWhere(['!=', 'tmp_id', ''])
-            ->all();
-
+            $properties = Properties::find()->where(['!=', 'tmp_id', ''])->all();
             foreach ($properties as $property) {
                 $duplicate = Properties::find()
                     ->where([
                         'house_number' => $property->house_number,
-                        'street_name' =>  $property->street_name,
-                        'ward_commune' =>  $property->ward_commune,
+                        'street_name' => $property->street_name,
+                        'ward_commune' => $property->ward_commune,
                         'tmp_id' => null,
                     ])
                     ->one();
+                $duplicateId = $property->primaryKey;
+                echo "ID {$property->primaryKey}\n";
                 if ($duplicate) {
-                    $duplicateId = $property->primaryKey;
                     if ($property->delete()) {
-                        echo "🗑 Đã xóa bản ghi duplicate ID {$duplicateId} (tmp_id IS NULL)\n";
+                        echo "🗑 Đã xóa bản ghi duplicate ID {$duplicateId}\n";
                     } else {
+                        Yii::error("Lỗi khi xóa ID: {$duplicateId}");
                         echo "❌ Lỗi khi xóa bản ghi duplicate ID {$duplicateId}\n";
                     }
                 }
             }
+            $transaction->commit();
+            echo "✅ Hoàn tất xóa bản ghi trùng lặp\n";
         } catch (\Exception $e) {
             $transaction->rollBack();
+            Yii::error("Lỗi xóa trùng lặp: " . $e->getMessage());
             echo "❌ Lỗi: " . $e->getMessage() . "\n";
         }
     }
