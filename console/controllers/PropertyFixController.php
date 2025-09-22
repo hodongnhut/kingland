@@ -78,7 +78,10 @@ class PropertyFixController extends Controller
     {
         $transaction = Properties::getDb()->beginTransaction();
         try {
-            $properties = Properties::find()->where(['!=', 'tmp_id', ''])->all();
+            $properties = Properties::find()
+                ->where(['title' => null])
+                ->andWhere(['between', 'property_id', 390203, 499554])
+                ->all();
             foreach ($properties as $property) {
                 $duplicate = Properties::find()
                     ->where([
