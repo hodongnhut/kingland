@@ -237,10 +237,7 @@ class PropertiesSearch extends Properties
             $query->leftJoin('owner_contacts', 'owner_contacts.property_id = properties.property_id')
             ->andWhere([
                 'or',
-                ['=', 'properties.title', $this->keyword],
-                ['=', 'properties.description', $this->keyword],
-                ['=', 'properties.house_number', $this->keyword], // số nhà
-                ['=', 'properties.street_name', $this->keyword], // Đường Phố
+                ['like', 'properties.title', $this->keyword],
                 ['=', 'properties.region', $this->keyword], //Khu Vực
                 ['=', 'properties.district_county', $this->keyword],
                 ['=', 'owner_contacts.phone_number', $this->keyword],
