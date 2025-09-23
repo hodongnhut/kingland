@@ -324,9 +324,8 @@ class PropertyController extends Controller
         if (Yii::$app->user->identity->jobTitle->role_code === 'manager' ||  Yii::$app->user->identity->jobTitle->role_code == 'super_admin') {
             $model = $this->findModel($property_id);
             $model->delete();
-            $url = Yii::$app->urlManager->createUrl(['property/index']);
-
-            return $this->redirect($url);
+            $redirectUrl = Yii::$app->urlManager->createAbsoluteUrl(['property/index'], 'https');
+            return $this->redirect($redirectUrl);
         }
         throw new \yii\web\ForbiddenHttpException('Bạn không có quyền xóa');
     }
