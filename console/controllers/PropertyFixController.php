@@ -71,18 +71,20 @@ class PropertyFixController extends Controller
     }
 
    /**
-     * Delete duplicate records based on house_number and normalized street_name.
+     * Delete duplicate records based on house_number, normalized street_name, ward_commune, and district_county.
      * Run: php yii property-fix/delete-duplicate
      */
     public function actionDeleteDuplicate()
     {
         $transaction = Properties::getDb()->beginTransaction();
         try {
-            // Step 1: Identify duplicates by grouping on house_number and normalized street_name (case-insensitive for "Số")
+            // Step 1: Identify duplicates by grouping on house_number, normalized street_name, ward_commune, and district_county
             $duplicates = Properties::find()
                 ->select([
                     'house_number',
                     'TRIM(REGEXP_REPLACE(LOWER(street_name), CONCAT(\'^số\s*\\d+\s*\', LOWER(house_number), \'\s*\'), \'\')) AS normalized_street_name',
+                    'ward_commune',
+                    'district_county',
                     'COUNT(*) as cnt',
                     'MIN(property_id) as min_property_id'
                 ])
@@ -90,7 +92,16 @@ class PropertyFixController extends Controller
                 ->andWhere(['not', ['house_number' => '']])
                 ->andWhere(['not', ['street_name' => null]])
                 ->andWhere(['not', ['street_name' => '']])
-                ->groupBy(['house_number', 'TRIM(REGEXP_REPLACE(LOWER(street_name), CONCAT(\'^số\s*\\d+\s*\', LOWER(house_number), \'\s*\'), \'\'))'])
+                ->andWhere(['not', ['ward_commune' => null]])
+                ->andWhere(['not', ['ward_commune' => '']])
+                ->andWhere(['not', ['district_county' => null]])
+                ->andWhere(['not', ['district_county' => '']])
+                ->groupBy([
+                    'house_number',
+                    'TRIM(REGEXP_REPLACE(LOWER(street_name), CONCAT(\'^số\s*\\d+\s*\', LOWER(house_number), \'\s*\'), \'\'))',
+                    'ward_commune',
+                    'district_county'
+                ])
                 ->having(['>', 'cnt', 1])
                 ->asArray()
                 ->all();
@@ -99,24 +110,28 @@ class PropertyFixController extends Controller
             foreach ($duplicates as $duplicate) {
                 $houseNumber = $duplicate['house_number'];
                 $normalizedStreetName = $duplicate['normalized_street_name'];
+                $wardCommune = $duplicate['ward_commune'];
+                $districtCounty = $duplicate['district_county'];
                 $minPropertyId = $duplicate['min_property_id'];
 
                 if (empty($normalizedStreetName)) {
-                    echo "⚠ Bỏ qua house_number: {$houseNumber}, normalized_street_name rỗng\n";
+                    echo "⚠ Bỏ qua house_number: {$houseNumber}, ward_commune: {$wardCommune}, district_county: {$districtCounty}, normalized_street_name rỗng\n";
                     continue;
                 }
 
-                // Find all records for this house_number and normalized street_name, excluding the one with min_property_id
+                // Find all records for this house_number, normalized street_name, ward_commune, and district_county, excluding the one with min_property_id
                 $duplicateRecords = Properties::find()
                     ->where(['house_number' => $houseNumber])
                     ->andWhere(['like', 'LOWER(street_name)', $normalizedStreetName])
+                    ->andWhere(['ward_commune' => $wardCommune])
+                    ->andWhere(['district_county' => $districtCounty])
                     ->andWhere(['not', ['property_id' => $minPropertyId]])
                     ->all();
 
                 foreach ($duplicateRecords as $record) {
                     $duplicateIds[] = $record->property_id;
-                    echo "🗑 Tìm thấy bản ghi trùng lặp ID {$record->property_id} (house_number: {$houseNumber}, street_name: {$record->street_name})\n";
-                    Yii::info("Tìm thấy trùng lặp ID {$record->property_id}: house_number={$houseNumber}, street_name={$record->street_name}", __METHOD__);
+                    echo "🗑 Tìm thấy bản ghi trùng lặp ID {$record->property_id} (house_number: {$houseNumber}, street_name: {$record->street_name}, ward_commune: {$wardCommune}, district_county: {$districtCounty})\n";
+                    Yii::info("Tìm thấy trùng lặp ID {$record->property_id}: house_number={$houseNumber}, street_name={$record->street_name}, ward_commune={$wardCommune}, district_county={$districtCounty}", __METHOD__);
                 }
             }
 
