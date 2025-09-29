@@ -70,37 +70,65 @@ class PropertyFixController extends Controller
       
     }
 
-    /**
-     * Delete duplicate records with non-null tmp_id.
+   /**
+     * Delete duplicate records based on house_number and normalized street_name.
      * Run: php yii property-fix/delete-duplicate
      */
     public function actionDeleteDuplicate()
     {
         $transaction = Properties::getDb()->beginTransaction();
         try {
-            $properties = Properties::find()
-                ->where(['between', 'property_id', 390203, 499554])
+            // Step 1: Identify duplicates by grouping on house_number and normalized street_name (case-insensitive for "Số")
+            $duplicates = Properties::find()
+                ->select([
+                    'house_number',
+                    'TRIM(REGEXP_REPLACE(LOWER(street_name), CONCAT(\'^số\s*\\d+\s*\', LOWER(house_number), \'\s*\'), \'\')) AS normalized_street_name',
+                    'COUNT(*) as cnt',
+                    'MIN(property_id) as min_property_id'
+                ])
+                ->where(['not', ['house_number' => null]])
+                ->andWhere(['not', ['house_number' => '']])
+                ->andWhere(['not', ['street_name' => null]])
+                ->andWhere(['not', ['street_name' => '']])
+                ->groupBy(['house_number', 'TRIM(REGEXP_REPLACE(LOWER(street_name), CONCAT(\'^số\s*\\d+\s*\', LOWER(house_number), \'\s*\'), \'\'))'])
+                ->having(['>', 'cnt', 1])
+                ->asArray()
                 ->all();
-            foreach ($properties as $property) {
-                $duplicate = Properties::find()
-                    ->where([
-                        'house_number' => $property->house_number,
-                        'street_name' => $property->street_name,
-                        'ward_commune' => $property->ward_commune,
-                    ])
-                    ->andWhere(['not', ['between', 'property_id', 390203, 499554]])
-                    ->one();
-                $duplicateId = $property->primaryKey;
-                echo "ID {$property->primaryKey}\n";
-                if ($duplicate) {
-                    if ($property->delete()) {
-                        echo "🗑 Đã xóa bản ghi duplicate ID {$duplicateId}\n";
-                    } else {
-                        Yii::error("Lỗi khi xóa ID: {$duplicateId}");
-                        echo "❌ Lỗi khi xóa bản ghi duplicate ID {$duplicateId}\n";
-                    }
+
+            $duplicateIds = [];
+            foreach ($duplicates as $duplicate) {
+                $houseNumber = $duplicate['house_number'];
+                $normalizedStreetName = $duplicate['normalized_street_name'];
+                $minPropertyId = $duplicate['min_property_id'];
+
+                if (empty($normalizedStreetName)) {
+                    echo "⚠ Bỏ qua house_number: {$houseNumber}, normalized_street_name rỗng\n";
+                    continue;
+                }
+
+                // Find all records for this house_number and normalized street_name, excluding the one with min_property_id
+                $duplicateRecords = Properties::find()
+                    ->where(['house_number' => $houseNumber])
+                    ->andWhere(['like', 'LOWER(street_name)', $normalizedStreetName])
+                    ->andWhere(['not', ['property_id' => $minPropertyId]])
+                    ->all();
+
+                foreach ($duplicateRecords as $record) {
+                    $duplicateIds[] = $record->property_id;
+                    echo "🗑 Tìm thấy bản ghi trùng lặp ID {$record->property_id} (house_number: {$houseNumber}, street_name: {$record->street_name})\n";
+                    Yii::info("Tìm thấy trùng lặp ID {$record->property_id}: house_number={$houseNumber}, street_name={$record->street_name}", __METHOD__);
                 }
             }
+
+            // Step 2: Delete duplicates in bulk
+            if (!empty($duplicateIds)) {
+                $deletedCount = Properties::deleteAll(['property_id' => $duplicateIds]);
+                echo "🗑 Đã xóa {$deletedCount} bản ghi trùng lặp\n";
+                Yii::info("Đã xóa {$deletedCount} bản ghi trùng lặp", __METHOD__);
+            } else {
+                echo "ℹ Không tìm thấy bản ghi trùng lặp\n";
+            }
+
             $transaction->commit();
             echo "✅ Hoàn tất xóa bản ghi trùng lặp\n";
         } catch (\Exception $e) {
