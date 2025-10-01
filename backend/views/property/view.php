@@ -367,10 +367,6 @@ function formatNumber($number) {
                 <?= $this->render('_history', ['modelLog' => $model->propertyUpdateLogs]) ?>
             <?php endif; ?>
             
-
-            <?php if (!empty($model->propertyLogs)): ?>
-                <?= $this->render('_history_extent', ['modelLog' => $model->propertyLogs]) ?>
-            <?php endif; ?>
         </div>
     </div>
 </main>
