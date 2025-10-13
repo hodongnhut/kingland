@@ -109,7 +109,7 @@ function formatNumber($number) {
                     <div class="flex items-center space-x-2">
                         <div>
                             <p class="text-sm text-gray-500">Người Nhập:</p>
-                            <p class="font-semibold text-gray-800"><?= Yii::$app->user->identity->username ?> <i class="fas fa-info-circle text-gray-400 text-xs"></i></p>
+                            <p class="font-semibold text-gray-800"><?= Yii::$app->user->identity?->username ?? 'Guest' ?> <i class="fas fa-info-circle text-gray-400 text-xs"></i></p>
                         </div>
                     </div>
                 </div>
