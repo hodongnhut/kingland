@@ -406,7 +406,7 @@ function formatNumber($number) {
                                                 Xem số điện thoại
                                             </button>
                                         <?php endif; ?>
-                                        <span class="text-gray-700"><?= $action->user->full_name ?>: <span class="text-red-600 font-medium"><?= HtmlLogHelper::maskPhoneNumber($action->phone_number)?></span></span>
+                                        <span class="text-gray-700"><?= $action->user?->full_name ?? 'No Name' ?>: <span class="text-red-600 font-medium"><?= HtmlLogHelper::maskPhoneNumber($action->phone_number)?></span></span>
                                     </div>
                                 </div>
                             </div>
