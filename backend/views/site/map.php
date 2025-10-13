@@ -2980,12 +2980,12 @@ hp_HeadCode([
                 
                 
                     const initializeMap = () => {
-                        const baseUrlMap = "https://files.rockervietnam.com/ZoningMapVer2";
+                        const baseUrlMap = "/map";
                 
                         const mapStyle = {
                             version: 8,
                             name: "HCM city parcel land",
-                            glyphs: baseUrlMap + "/fonts/{fontstack}/{range}.pbf",
+                            glyphs: "https://maps.ankapong.com/fonts/{fontstack}/{range}.pbf",
                             sources: {
                                 openmaptiles: {
                                     type: "vector",
