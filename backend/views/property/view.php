@@ -389,7 +389,7 @@ function formatNumber($number) {
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-center space-x-2">
                                         <span class="text-gray-500 text-xs"><?= $action->timestamp ?></span>
-                                        <span class="font-semibold text-gray-900"><?= $action->user->full_name ?></span>
+                                        <span class="font-semibold text-gray-900"><?= $action->user?->full_name ?? 'Guest' ?></span>
                                         <span class="px-2 py-0.5 bg-gray-800 text-white text-xs rounded-md font-medium"><?= $action->user?->username ?? 'Guest' ?></span>
                                     </div>
                                 </div>
