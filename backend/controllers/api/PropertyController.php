@@ -3,22 +3,22 @@
 namespace backend\controllers\api;
 
 use Yii;
-use yii\rest\Controller;
-use yii\filters\auth\HttpBearerAuth;
-use common\models\Properties;
-use common\models\PropertiesSearch;
-use common\models\PropertiesFrom;
-use common\models\PropertyFavorite;
-use common\models\Districts;
 use common\models\Wards;
-use common\models\Streets;
-use yii\web\NotFoundHttpException;
-use common\models\PropertyImages;
+use yii\rest\Controller;
 use yii\web\UploadedFile;
+use common\models\Streets;
+use common\models\Districts;
 use common\models\Advantages;
+use common\models\Properties;
 use common\models\Disadvantages;
+use common\models\PropertiesFrom;
+use common\models\PropertyImages;
 use common\models\RentalContracts;
+use yii\web\NotFoundHttpException;
+use common\models\PropertiesSearch;
+use common\models\PropertyFavorite;
 use common\models\PropertyInteriors;
+use yii\filters\auth\HttpBearerAuth;
 use common\models\PropertyAdvantages;
 use common\models\PropertyDisadvantages;
 
@@ -446,6 +446,31 @@ class PropertyController extends Controller
         return $this->response(false, 'Không có Danh sách');
     }
 
+
+    /**
+     * Deletes an existing Properties model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param int $propertyId Property ID
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionDelete($propertyId)
+    {
+        if (!in_array(Yii::$app->user->identity->jobTitle->role_code ?? '', ['manager', 'super_admin'])) {
+            return ['success' => false, 'message' => 'Bạn không có quyền xóa liên hệ.'];
+        }
+        
+        $model = $this->findModel($propertyId);
+        if (!$model) {
+            return ['success' => false, 'message' => 'Không tìm BDS.'];
+        }
+
+        if ($model->delete()) {
+            return  ['success' => true, 'message' => 'Xóa thành công'];
+        } else {
+            return ['success' => false, 'message' => 'Không thể xóa liên hệ.'];
+        }
+    }
     /**
      * Finds the Properties model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -456,7 +481,7 @@ class PropertyController extends Controller
     public function actionView($propertyId) {
         $model = $this->findModel($propertyId);
         $images = [];
-        $imageDomain = Yii::$app->params['imageDomain'] ?? 'https://app.bdsdaily.com';
+        $imageDomain = Yii::$app->params['imageDomain'];
         foreach ($model->propertyImages as $image) {
             $images[] = [
                 'image_id' => $image->image_id,
