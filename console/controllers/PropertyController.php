@@ -11,8 +11,7 @@ class PropertyController extends Controller
     public function actionUpdateNewDistrict()
     {
         $query = Properties::find()
-        ->where(condition: ['new_district' => null])
-        ->andWhere(['!=', 'tmp_id', '']);
+        ->where(['new_district' => null]);
         
         $batchSize = 500;
         $total = $query->count();

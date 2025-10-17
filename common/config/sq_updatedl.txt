@@ -1,0 +1,7 @@
+SELECT property_id FROM properties WHERE property_id > 499554;
+	
+	
+SELECT * FROM property_images WHERE property_id IN ( SELECT property_id FROM properties WHERE property_id > 499554)
+	
+	
+SELECT * FROM owner_contacts WHERE property_id in (SELECT property_id FROM properties WHERE property_id > 499554)
