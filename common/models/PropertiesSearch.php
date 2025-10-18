@@ -238,11 +238,21 @@ class PropertiesSearch extends Properties
             $condition = ['or'];
             if (is_numeric($this->keyword)) {
                 $condition[] = ['=', 'properties.house_number', $this->keyword];
-            } else {
-                $condition[] = ['like', 'properties.title', $this->keyword];
             }
+            $condition[] = ['like', 'properties.title', $this->keyword];
             $condition[] = ['=', 'owner_contacts.phone_number', $this->keyword];
             $query->andWhere($condition);
+
+            // Thêm sắp xếp ưu tiên kết quả khớp chính xác;
+            $keyword = Yii::$app->db->quoteValue($this->keyword);
+            $query->addOrderBy([
+                // Ưu tiên khớp chính xác
+                new \yii\db\Expression("properties.title = $keyword DESC"),
+                // Ưu tiên bắt đầu bằng keyword
+                new \yii\db\Expression("properties.title LIKE $keyword + '%' DESC"),
+                // Sau đó là chứa keyword
+                new \yii\db\Expression("properties.title LIKE '%' + $keyword + '%' DESC"),
+            ]);
         }
         
         if (!empty($this->date_from)) {
