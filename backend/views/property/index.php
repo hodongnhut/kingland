@@ -983,6 +983,7 @@ $('#propertiesfrom-districts').on('change', function() {
             streetDropdown.html(data);
             streetDropdown.select2({
                 placeholder: 'Chọn Đường',
+                tags: true,
                 allowClear: true,
                 width: '100%',
                 language: {
@@ -1081,6 +1082,7 @@ $('#propertiessearch-district_county').on('change', function() {
             streetDropdown.select2({
                 placeholder: 'Chọn Đường',
                 allowClear: true,
+                tags: true,
                 width: '100%',
                 language: {
                     noResults: function() {
