@@ -38,18 +38,6 @@ class PropertiesSearch extends Properties
     public $status_review;
 
     /**
-     * Normalize the title or keyword by removing common prefixes like "Đường", "Phố", etc.
-     * @param string $text
-     * @return string
-     */
-    public static function normalizeAddress($text)
-    {
-        $prefixes = ['Đường ', 'Phố ', 'Hẻm ', 'Ngõ '];
-        $normalized = str_ireplace($prefixes, '', trim($text));
-        return $normalized;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function rules()
@@ -248,12 +236,12 @@ class PropertiesSearch extends Properties
         if (!empty($this->keyword)) {
             $query->leftJoin('owner_contacts', 'owner_contacts.property_id = properties.property_id');
             $condition = ['or'];
-            // Normalize keyword and search both raw and normalized title
-            $normalizedKeyword = self::normalizeAddress($this->keyword);
-            $condition[] = ['like', 'properties.title', $this->keyword]; // Original title search
-            $condition[] = ['like', new \yii\db\Expression("REPLACE(properties.title, 'Đường ', '')"), $normalizedKeyword]; // Normalized title search
             if (is_numeric($this->keyword)) {
                 $condition[] = ['=', 'properties.house_number', $this->keyword];
+            } else {
+                $normalizedKeyword = self::normalizeAddress($this->keyword);
+                $condition[] = ['like', 'properties.title', $this->keyword]; 
+                $condition[] = ['like', new \yii\db\Expression("REPLACE(properties.title, 'Đường ', '')"), $normalizedKeyword]; // Normalized title search
             }
             $condition[] = ['=', 'owner_contacts.phone_number', $this->keyword];
             $query->andWhere($condition);
@@ -284,4 +272,17 @@ class PropertiesSearch extends Properties
 
         return $dataProvider;
     }
+
+    /**
+     * Normalize the title or keyword by removing common prefixes like "Đường", "Phố", etc.
+     * @param string $text
+     * @return string
+     */
+    public static function normalizeAddress($text)
+    {
+        $prefixes = ['Đường ', 'Phố ', 'Hẻm ', 'Ngõ '];
+        $normalized = str_ireplace($prefixes, '', trim($text));
+        return $normalized;
+    }
+
 }
