@@ -152,17 +152,14 @@ class Properties extends \yii\db\ActiveRecord
         $message = $fullAddress . "\n" . $areaTotal . "\n" . $price;
         
         $imageDomain = Yii::$app->params['imageDomain'] ?? 'https://kinglandgroup.vn';
-        $imageUrls = [];
+        $images = [];
 
         if (count($model->propertyImages) > 0) {
             foreach ($model->propertyImages as $image) {
                 $fullUrl = rtrim($imageDomain, '/') . '/' . ltrim($image->image_path, '/');
-                $imageUrls[] = $fullUrl;
+                $images[] = ['image' => $fullUrl];
             }
         }
-
-        $imageUrls = $this->convertWebpToJpg($imageUrls);
-        $images = array_map(fn($url) => ['image' => $url], $imageUrls);
         
         $payload = [
             'event_type' => 'property_updated',
@@ -186,72 +183,6 @@ class Properties extends \yii\db\ActiveRecord
         } catch (\Exception $e) {
             Yii::error('Exception during webhook call: ' . $e->getMessage(), 'webhook');
         }
-    }
-
-    /**
-     * Convert .webp images to .jpg and update URLs
-     * @param array $imageUrls List of image URLs
-     * @return array Updated list of image URLs with .webp converted to .jpg
-     */
-    public function convertWebpToJpg($imageUrls)
-    {
-        $convertedUrls = [];
-        
-        foreach ($imageUrls as $url) {
-            if (strtolower(pathinfo($url, PATHINFO_EXTENSION)) === 'webp') {
-                try {
-                    $localPath = $this->getLocalImagePath($url);
-                    if (!$localPath || !file_exists($localPath)) {
-                        Yii::error("Image file not found: $localPath", 'image_conversion');
-                        $convertedUrls[] = $url;
-                        continue;
-                    }
-
-                    $image = imagecreatefromwebp($localPath);
-                    if ($image === false) {
-                        Yii::error("Failed to load WebP image: $localPath", 'image_conversion');
-                        $convertedUrls[] = $url;
-                        continue;
-                    }
-
-                    $newLocalPath = str_replace('.webp', '.jpg', $localPath);
-                    $newUrl = str_replace('.webp', '.jpg', $url);
-
-                    if (imagejpeg($image, $newLocalPath, 90)) {
-                        $convertedUrls[] = $newUrl;
-                        Yii::info("Converted $url to $newUrl", 'image_conversion');
-                    } else {
-                        Yii::error("Failed to save JPG image: $newLocalPath", 'image_conversion');
-                        $convertedUrls[] = $url;
-                    }
-
-                    imagedestroy($image);
-                } catch (\Exception $e) {
-                    Yii::error("Exception during image conversion for $url: " . $e->getMessage(), 'image_conversion');
-                    $convertedUrls[] = $url; 
-                }
-            } else {
-                $convertedUrls[] = $url;
-            }
-        }
-
-        return $convertedUrls;
-    }
-
-
-    /**
-     * Get local file path from URL
-     * @param string $url Image URL
-     * @return string|null Local file path or null if invalid
-     */
-    private function getLocalImagePath($url)
-    {
-        $imageDomain = Yii::$app->params['imageDomain'] ?? 'https://kinglandgroup.vn';
-        $basePath = Yii::getAlias('@webroot');
-        $relativePath = str_replace(rtrim($imageDomain, '/'), '', $url);
-        $localPath = $basePath . $relativePath;
-
-        return file_exists($localPath) ? $localPath : null;
     }
 
     public function behaviors()
