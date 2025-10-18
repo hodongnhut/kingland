@@ -970,12 +970,15 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
     }
 
     document.getElementById('save-contact-button').addEventListener('click', function () {
+        const saveButton = this; // Store reference to the button
+        
         const role = document.getElementById('contact-role').value;
         const name = document.getElementById('contact-name').value;
         const phone = document.getElementById('contact-phone').value;
         const gender = document.getElementById('contact-gender').value;
         const propertyId = document.getElementById('properties-property_id').value;
-        const contactId = $("#save-contact-button").data("id");
+        // Assuming jQuery is available based on your use of $()
+        const contactId = $("#save-contact-button").data("id"); 
         
         let url = '/owner-contact/create-ajax';
         if (contactId != '') {
@@ -986,6 +989,15 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
             alert('Vui lòng điền đầy đủ thông tin.');
             return;
         }
+
+        // 1. DISABLE BUTTON AND CHANGE TEXT
+        saveButton.disabled = true;
+        saveButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang Lưu...'; // Optional: Add a loading spinner and text
+        
+        // Optional: Add a disabled styling class (Tailwind CSS)
+        saveButton.classList.add('opacity-50', 'cursor-not-allowed');
+        saveButton.classList.remove('hover:bg-orange-700', 'focus:ring-orange-500');
+
 
         const postData = {
             role: role,
@@ -1008,6 +1020,12 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
         })
         .then(response => response.json())
         .then(data => {
+            // 2. RE-ENABLE BUTTON on success
+            saveButton.disabled = false;
+            saveButton.innerHTML = 'Lưu'; // Reset button text
+            saveButton.classList.remove('opacity-50', 'cursor-not-allowed');
+            saveButton.classList.add('hover:bg-orange-700', 'focus:ring-orange-500');
+
             if (data.success) {
                 document.getElementById('contacts-table-wrapper').innerHTML = '';
                 document.getElementById('contacts-table-wrapper').innerHTML =  data.data;
@@ -1016,6 +1034,11 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
                 document.getElementById('contact-phone').value = '';
                 document.getElementById('contact-role').selectedIndex = 0;
                 document.getElementById('contact-gender').selectedIndex = 0;
+                
+                // Note: If you have a property form refresh/update logic,
+                // ensure any `data-id` on the button is cleared or reset here if necessary
+                // to revert from an 'update' context to a 'create' context.
+
             } else {
                 let errorMessages = [];
 
@@ -1035,6 +1058,12 @@ $selectedDisadvantages = array_column($model->disadvantages, 'disadvantage_id');
         .catch(error => {
             console.error('Lỗi:', error);
             alert('Lỗi kết nối máy chủ.');
+
+            // 3. RE-ENABLE BUTTON on error
+            saveButton.disabled = false;
+            saveButton.innerHTML = 'Lưu'; // Reset button text
+            saveButton.classList.remove('opacity-50', 'cursor-not-allowed');
+            saveButton.classList.add('hover:bg-orange-700', 'focus:ring-orange-500');
         });
     });
 </script>
