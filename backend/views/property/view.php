@@ -249,7 +249,7 @@ function formatNumber($number) {
                     <div id="vi-tri-mat-tien" class="tab-sub-content space-y-4">
                         <div class="flex items-start justify-between">
                             <p class="text-gray-700 copy-text" id="vi-tri-text">
-                                Nhà  <b><?= formatPriceUnit($model->price) ?> </b> có diện tích <?= formatNumber($model->area_width) ?>m × <?= formatNumber($model->area_length) ?>m 
+                                Nhà  <b><?= $model->final_price > 0  ? formatPriceUnit($model->final_price) : formatPriceUnit($model->price) ?> </b> có diện tích <?= formatNumber($model->area_width) ?>m × <?= formatNumber($model->area_length) ?>m -CN <?= formatNumber($model->area_total) ?>m2 
                                 <?php if (!empty($model->propertyAdvantages)): ?>
                                     <?php
                                         echo ', ';
